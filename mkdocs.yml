@@ -1,0 +1,15 @@
+site_name: My Docs
+nav:
+  - Home: index.md
+  - K8S:
+    - CKAD:
+      - 1.核心概念介绍: k8s/ckad/ckad-1.md
+      - 2.配置: k8s/ckad/ckad-2.md
+      - 3.多容器Pod: k8s/ckad/ckad-3.md
+      - 4.容器状态监测: k8s/ckad/ckad-4.md
+      - 5.Pod设计: k8s/ckad/ckad-5.md
+      - 6.服务与网络: k8s/ckad/ckad-6.md
+      - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
+      - 8.XX: k8s/ckad/ckad-8.md
+      - 其他: k8s/ckad/ckad-0.md
+theme: readthedocs
