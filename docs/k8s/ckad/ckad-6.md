@@ -1,3 +1,4 @@
+[TOC]
 
 # 1. 服务（Service）
 Kubernetes中的每个`Pod`都有它自己的IP地址，但`Pod`经常会因为各种原因而挂掉，如果我们用`Pod`的IP地址来访问该`Pod`，会常出现IP地址无效的情况，我们用 **服务（Service）**  解决这个问题。**服务**提供了稳定的IP地址，我们永远可以找到**服务**的IP地址，然后通过该**服务**访问到想要找的应用Pod。
@@ -22,7 +23,7 @@ Kubernetes中的每个`Pod`都有它自己的IP地址，但`Pod`经常会因为�
 >  有两种类型：**外部IP地址（external/public）**和**内部IP地址（internal/private）**。一般来说，每个设备都有自己的外部IP和内部IP，且一般两者不同。
 >  - 外部IP地址：由你的网络供应商提供，你访问一个网页时（比如百度），百度可以看到你的外部IP地址，知道你是从哪儿来的
 >  - 内部IP地址：是自动生成的。人如其名，只做内部使用。比如，用于在家庭网络中识别你的身份信息
->  <img src="https://img-blog.csdnimg.cn/28a6f7c5d63b4ccb836b22f3990464fb.png" width=500 title="source: https://www.avast.com/c-what-is-an-ip-address" />
+>  <img src="../ckad-6/28a6f7c5d63b4ccb836b22f3990464fb.png" width=500 title="source: https://www.avast.com/c-what-is-an-ip-address" />
 
 ## 服务类型：
 |Service类型  | 功能 |
@@ -48,7 +49,7 @@ Kubernetes中的每个`Pod`都有它自己的IP地址，但`Pod`经常会因为�
 |**服务不存在**  |**有了服务之后**  |
 |:--|:--|
 | 为了更好的理解，我们看一下如果 **服务不存在** ，用户可以怎么访问Pod中的应用：<br /> **方法一：** 如果用户本身在Cluster内部，可以直接通过`curl http:10.244.0.2`访问应用<br />  **方法二：** 如果在Cluster外部，可以通过 **ssh** 来访问`curl http:10.244.0.2` |  **有了服务之后**，Cluster外部对应用的访问会更方便。服务（Service）相当于一个虚拟服务器，有自己的IP地址（这里是`10.106.127.123`）。这里我们不再需要 **ssh** ，而是直接访问Node所在的ip地址`192.168.1.2`<small>（⚠️用户本身的电脑IP和Node的IP是在同一个网络里面的，即IP地址中的前三部分时相同的，所以我们才能直接访问到Node得IP）</small>，<br /> 入口则使用Service提供的端口（`30080`），比如使用`curl 192.168.1.2:30080`|
-|  <img src="https://img-blog.csdnimg.cn/76a2876bc5f44e90b058f67b1017e627.png" /> | <img src="https://img-blog.csdnimg.cn/3c7937f3bc754e5689a79e9f06fc360d.png"  /> |
+|  <img src="../ckad-6/76a2876bc5f44e90b058f67b1017e627.png" /> | <img src="../ckad-6/3c7937f3bc754e5689a79e9f06fc360d.png"  /> |
 
 ##### 举例
 ```yaml
@@ -91,14 +92,14 @@ myapp-service	NodePort	10.106.127.123	<None>			80:30008/TCP	30s
 curl http://192.168.1.2:30008
 curl http://192.168.1.3:30008
 ```
-<img src="https://img-blog.csdnimg.cn/a2d56d9a1dfa4a8a8e93316212828006.png" width=700 />
+<img src="../ckad-6/a2d56d9a1dfa4a8a8e93316212828006.png" width=700 />
 
 
 ### （2）ClusterIP类 服务
 假设现在有前端后端组成的程序，而前端和后端各有自己的`Replicas`（复制品，为了处理较大的用户访问而存在）。访问前端1的时候，前端1的API是发送给后端的哪一个`replica`的呢？
 
 Kubernetes的**ClusterIP服务**可以帮助我们将 Pod 分组在一起（所有的前端replicas为一组，后端replicas为另一组），并提供单个接口（即Service）来访问组中的 Pod。Pod会因为各种bug生生死死，每次重生之后拿到的IP地址还不一样，所以我们没有办法直接用Pod，因为我们不知道该去哪个IP地址找，而Service提供了稳定的IP地址。如图：
-<img src="https://img-blog.csdnimg.cn/6c0afcac50c4444a96129c530c4da11f.png"  />
+<img src="../ckad-6/6c0afcac50c4444a96129c530c4da11f.png"  />
 
 > 问：Service如何找到目标Pod? 
 > 答：Pod中的 `labels` == Service中的`selectors`
@@ -128,7 +129,7 @@ spec:
 **那么如何才能访问到指定的Pod呢？** 我们需要Pod的`IP地址`，有两种方法可以找到`IP地址`：
 - 方法一：用**k8s的API**列出所有的Pod以及它们的IP地址
 - 方法二：用**DNS查询**，该查询可以返回Cluster的IP或者Pod的IP。当我们定义Service时，将`.spec.clusterIP`设置为`None`，该Service的IP地址将会是
-<img src="https://img-blog.csdnimg.cn/62befedb86bd4122a9e5b98f16ea67a1.png" width=400 />
+<img src="../ckad-6/62befedb86bd4122a9e5b98f16ea67a1.png" width=400 />
 
 ### （4）LoadBalancer类 
 `LoadBalancer`类Service = `NodePort`类Service + 发送一个 **添加负载均衡器（Load Balancer）** 的请求
@@ -185,7 +186,7 @@ C -- http://www.my-shop.com --> D(Done!)
 --> `http://www.my-shop.com`
 
 > ⚠️**负载均衡器** 可嵌套，比如对一个主域名下的子域名进行配置：
-> ![请添加图片描述](https://img-blog.csdnimg.cn/946b9dbbe3d2414f95462e338985f943.png)
+> ![请添加图片描述](../ckad-6/946b9dbbe3d2414f95462e338985f943.png)
 
 这些步骤都完成以后，还需要配置`SSL`，使用户可以访问`https://www.my-shop.com` 而非 `http://www.my-shop.com`（用`https`！）。对`SSL`的配置可以在多个位置实现：
 - App本身层面
@@ -196,7 +197,7 @@ C -- http://www.my-shop.com --> D(Done!)
 ## 救星Ingress
 各种各样的配置，你的头现在多大了呢？Ingress就是用来帮忙解决这个令人头疼的问题的！它包括但不限于路由（包括引流到不同App，比如`/shopping` 和`/game`）和`SSL`配置。
 
-<img src="https://img-blog.csdnimg.cn/37c75713b9714222a1190665d0d83e57.png" width=799 />
+<img src="../ckad-6/37c75713b9714222a1190665d0d83e57.png" width=799 />
 
 
 ## Ingress是什么
@@ -346,7 +347,7 @@ kubectl create ingress ingress-rule \
 ```
 
 > ⚠️  `kubectl describe ingress/ingress-rule` 可以看到一个`Default backend`
-> ![请添加图片描述](https://img-blog.csdnimg.cn/d5c34e0f5b2444d8977839d2de1e2c0e.png)
+> ![请添加图片描述](../ckad-6/d5c34e0f5b2444d8977839d2de1e2c0e.png)
 > 这个名为`default-http-backend`的服务是当用户输入的DNS地址（即网址）和规则中任意一条都不相符的时候会被访问！所以可以手动建一个这个名字的服务，然后访问一个404页面
 
 #### Ingress规则举例：域名
@@ -372,13 +373,13 @@ spec:
 			servicePort: 80
 ```
 
-![请添加图片描述](https://img-blog.csdnimg.cn/1a71f7d2c32d462c8a9ae149a739bea6.png)
+![请添加图片描述](../ckad-6/1a71f7d2c32d462c8a9ae149a739bea6.png)
 
 # 3. Network Policies
 以图为例：用户通过80端口访问前端（Frontend），前端向服务器的5000端口发送请求，服务器则使用数据库的3306端口进行数据提取。
 |  |  |
 |:-|:-|
-| <img src="https://img-blog.csdnimg.cn/6ada1cda6fbf42439357ee2a4d31445b.png" width=200 /> | **概念：** ingress和egress都是 **相对** 的概念，收到的请求叫ingress，发出的叫egress <br/> **背景：** 理论上一个cluster上所有的Pod之间都能通过Service互相沟通，但如图，我们可能不需要也不想要Frontend和Database之间直接进行沟通，我们可以通过 **Network Policies** 对某个Pod的traffic设限<br/> **Network Policies**：通过label和selectors将 **Network Policies** 连接到Pod上去|
+| <img src="../ckad-6/6ada1cda6fbf42439357ee2a4d31445b.png" width=200 /> | **概念：** ingress和egress都是 **相对** 的概念，收到的请求叫ingress，发出的叫egress <br/> **背景：** 理论上一个cluster上所有的Pod之间都能通过Service互相沟通，但如图，我们可能不需要也不想要Frontend和Database之间直接进行沟通，我们可以通过 **Network Policies** 对某个Pod的traffic设限<br/> **Network Policies**：通过label和selectors将 **Network Policies** 连接到Pod上去|
 
 Network Policies举例：
 ```yaml
@@ -433,7 +434,7 @@ kubectl create -f policy-definition.yaml
 `from`中包含的内容是否作为数组的元素存在很重要！如下：
 | `namespaceSelector`并且`podSelector` | `namespaceSelector`或`podSelector` |
 |--|--|
-| <img src="https://img-blog.csdnimg.cn/c00298c19d8b4c8c992d5f4cc135859a.png" /> | <img src="https://img-blog.csdnimg.cn/8cae9a4ae09c4c919f8ae201159ee3be.png" /> |
+| <img src="../ckad-6/c00298c19d8b4c8c992d5f4cc135859a.png" /> | <img src="../ckad-6/8cae9a4ae09c4c919f8ae201159ee3be.png" /> |
 
 
 上面的例子中，`from`的第一个元素注明了`podSelector`和`namespaceSelector`，第二个元素注明了`ipBlock`。两者之间是“或”的关系

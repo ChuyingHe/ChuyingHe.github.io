@@ -1,4 +1,4 @@
-
+[TOC]
 
 # 1. 卷（Volume）
 Docker 容器本质上是 **瞬态（transient）**  的。 这意味着它们只能持续很短的时间。它们在App被创建时被调用，容器被销毁时，数据与容器一起被销毁。
@@ -32,10 +32,10 @@ spec:
       type: Directory
 ```
 卷的使用确保了**Pod**被删除后，该**Pod**所产生的数据还被保留在所在的**Node**上，如图：
-<img src="https://img-blog.csdnimg.cn/3330eeade9ca45219f426ff68c81cc50.png" width=1000 />
+<img src="../ckad-7/3330eeade9ca45219f426ff68c81cc50.png" width=1000 />
 
 上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，那么每个**Node**其实都是不同的服务器，它们都有的`/data`文件路径，分别存储了不同的内容。所以我们要另找解决方法。
-<img src="https://img-blog.csdnimg.cn/f2850a151fe24491912fdba66b189880.png" width=1200 />
+<img src="../ckad-7/f2850a151fe24491912fdba66b189880.png" width=1200 />
 
 > ⚠️ **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
 > ⚠️ **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
@@ -47,15 +47,15 @@ spec:
 |:-|:-|:-|
 |**级别**| Pod级别的volume| 比如`awsElasticBlockStore`，数据相对Node和App独立，分布在不同Node上的应用都统一访问云存储的空间|
 |**多Node应用**|不支持|支持|
-|**yaml<br />举例**|<img src="https://img-blog.csdnimg.cn/eb458cc117a449d39469c0ae5ebf212c.png" />|<img src="https://img-blog.csdnimg.cn/664c8abed12a4d8aafd66763d6e23d54.png" />|
-|||<img src="https://img-blog.csdnimg.cn/cc7ff739460d481588c53b3c6fd81fd7.png" width=1200 />|
+|**yaml<br />举例**|<img src="../ckad-7/eb458cc117a449d39469c0ae5ebf212c.png" />|<img src="../ckad-7/664c8abed12a4d8aafd66763d6e23d54.png" />|
+|||<img src="../ckad-7/cc7ff739460d481588c53b3c6fd81fd7.png" width=1200 />|
 
 # TODO：比较hostPath和emptyDir
 |Volume|`hostPath`|`emptyDir` |云储存|
 |:-|:-|:-|:-|
 |**级别**| Pod级别的volume| `emptyDir`在Pod被分配到一个Node上时自动生成，初始化后没有任何内容。是零时卷，是Pod级别的volume，与该volume相关联的Pod的所有Container都能访问到volume中的内容。当 Pod 因任何原因从节点中移除时，emptyDir 中的数据将被永久删除。| 比如`awsElasticBlockStore`，数据相对Node和App独立，分布在不同Node上的应用都统一访问云存储的空间|
 |**多Node应用**|不支持|不支持|支持|
-|**yaml举例**|<img src="https://img-blog.csdnimg.cn/eb458cc117a449d39469c0ae5ebf212c.png" />|<img src="https://img-blog.csdnimg.cn/605e97f2c9f94fe496b014ae7c7e7da3.png" />|<img src="https://img-blog.csdnimg.cn/664c8abed12a4d8aafd66763d6e23d54.png" />|
+|**yaml举例**|<img src="../ckad-7/eb458cc117a449d39469c0ae5ebf212c.png" />|<img src="../ckad-7/605e97f2c9f94fe496b014ae7c7e7da3.png" />|<img src="../ckad-7/664c8abed12a4d8aafd66763d6e23d54.png" />|
 **更多卷（`volume`）的类型见[这里](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore)。*
 -->
 

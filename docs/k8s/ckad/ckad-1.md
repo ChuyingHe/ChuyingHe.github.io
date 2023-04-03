@@ -1,21 +1,26 @@
+[TOC]
+
 # 1. 考试形式
 - 远程，详细要求可以在官网上找到
 - 考试时可用的资源：k8s官方文档
 
 # 2. 基本概念
 - **容器（container）**：包含了App，和运行App所需的所有配置与环境。比起虚拟机（VM）来更高效，更灵活
-- **Pod**：是k8s中的最小单位，Pod中的内容分享了**同样的网络（Network）和存储（Storage）**。Pod封装了一个或多个container（如果是多个container，那么大概率这些container包含了不同的App，比如一个前端App，一个数据库App）。
+- **Pod**：是k8s中的最小单位，Pod中的内容分享了**同样的网络（Network）和存储（Storage）**。Pod封装了一个或多个container（如果是多个container，那么大概率这些container包含了不同的App，比如一个前端App，一个数据库App）。<br />
+
 ⚠️ Pod常被用于扩大应用的规模，假设你的App访问人数在某个节假日激增，那我们就新建一个pod，然后把同样的App部署到新建的pod上；同样的，Pod也可以被用于降低App的规模
+
 - **节点（node）**：安装了k8s的机器，Pod就是在node上跑的。（节点出问题被自动关闭的时候，其上面的容器中的App自然也会被关闭，所以一般我们会***多节点运行***）
-	- **工作节点（worker node）**：真正存放容器，干活的节点
-	- **master节点（master node）**：监视集群中的worker nodes，并负责对worker nodes上的容器进行实际编排。一个cluster中可以有一个或者多个master nodes
+- **工作节点（worker node）**：真正存放容器，干活的节点
+- **master节点（master node）**：监视集群中的worker nodes，并负责对worker nodes上的容器进行实际编排。一个cluster中可以有一个或者多个master nodes
 - **集群（cluster）**：由一群nodes组成
 
-![请添加图片描述](https://img-blog.csdnimg.cn/844171d8f36a4d5c88e1c1883ada9aa6.png)
+<img src="../ckad-1//844171d8f36a4d5c88e1c1883ada9aa6.png">
+
 ## Master node VS Worker node
 ||Master node|Worker node||
 |:--|:--|:--|:--|
-|Server|带`kube-apiserver`服务|带`kubelet agent`代理|`kube-apiserver`与`kubelet agent`之间有相互的沟通，比如`kubelet`提供worker node是否健康的信息，`kube-apiserver`给`kubelet`发送任务信息等等。所有信息都存储在master node上的etcd数据库中|
+|Server|带`kube-apiserver`服务|带`kubelet agent`代理|`kube-apiserver`与`kubelet agent`之间有相互的沟通，<br /> 比如`kubelet`提供worker node是否健康的信息，<br /> `kube-apiserver`给`kubelet`发送任务信息等等。<br /> 所有信息都存储在master node上的etcd数据库中|
 |ETCD|✓|✗||
 |Controller|✓|✗||
 |Scheduler|✓|✗||
@@ -39,12 +44,14 @@
 
 # 4. k8s中的YAML
 `YAML`基本介绍见[3分钟看懂YAML](http://t.csdn.cn/ZRc2c)。k8s中，我们可以选择用`kubectl`命令行工具来部署应用，也可以用`YAML`文件定义”如何部署应用“，然后再一次性将`YAML`文件执行到k8s集群上。相比`kubectl`，使用`YAML`的优点有：
+
 - Devops as code：可以用git对`YAML`进行版本控制，像写软件代码一样写devops的部署，且多个程序猿可同时进行协作，不会出现信息不同步的问题
 - Single source of truth：所有和devops相关的信息都可以查看对应的`YAML`文件
 - 容易debug
 - 容易进行项目重建：假设你要把现有的部署挪到另一个云供应商平台上去，只需要在部署一遍`YAML`文件即可
 
 在k8s中的`YAML`文件都默认应该有**四个属性**：
+
 - `apiVersion`：版本，可以是v1或者apps/v1
 - `kind`：资源种类，可以是Pod，Service，ReplicaSet或Deployment等
 - `metadata` ：该资源的元数据，包括name，labels等字典类型数据，不允许其他键的存在
@@ -57,7 +64,7 @@ apiVersion: v1
 kind: Pod		
 metadata:		
 	name: myapp-pod
-	labels:		# ‼️在`lables`中，你可以定义任意到键值对，以帮助你之后快速地找到相关资源
+	labels:						# s在`lables`中，你可以定义任意到键值对，以帮助你之后快速地找到相关资源
 		app: myapp 	
 		type: frontend
 		author: chuuuing
@@ -80,10 +87,16 @@ kubectl create -f pod-definition.yml
 
 # 5. Replication Controller
 Replication Controller是Controller组件的一种。
+
 - 监控并确保自己负责的Pod数量符合要求（比如：Pod的数量多了那就杀掉几个，少了就自动生成几个）
 - 扮演一个load balancer的角色，跨Node平衡访问
-> **Replication Controller** vs **Replica Set**
-> 两者都有上述提到的功能。**Replica Set**是更新的概念，多一个`.spec.selector`的属性，背后的原因是，除了由自己拷贝的Pod副本，**Replica Set**也可以用于管理其他Pod；而**Replication Controller**默认只能管理自己生成的Pod副本。
+
+!!! note
+		**Replication Controller** vs **Replica Set** <br />
+		两者都有上述提到的功能。**Replica Set**是更新的概念，多一个`.spec.selector`的属性，背后的原因是： <br />
+		- 除了由自己拷贝的Pod副本，**Replica Set**也可以用于管理其他Pod； <br />
+		- 而**Replication Controller**默认只能管理自己生成的Pod副本。 <br />
+
 ```yaml
 apiVersion: app/v1
 kind: ReplicaSet
@@ -109,10 +122,11 @@ spec:
 		matchLabels:
 			type: frontend
 ```
+
 |不带`selector`|带`selector`|
 |:--|:--|
 |*监视器代表 **ReplicationController**<br/>只默认管理由自己创建的Pod|*监视器代表 **ReplicaSet**<br/>可以管理所有带`matchLabels`的Pod|
-|<img src="https://img-blog.csdnimg.cn/f4e1a8f0e24445cd97eb49d550f7a9f8.png" width=370 />|<img src="https://img-blog.csdnimg.cn/39cb34bbd5ee4a11b19724ce6ffc2db0.png" width=390 /><br/>|
+|<img src="../ckad-1/f4e1a8f0e24445cd97eb49d550f7a9f8.png" width=370 />|<img src="../ckad-1/39cb34bbd5ee4a11b19724ce6ffc2db0.png" width=390 /><br/>|
 
 <!--
 1）把当前`replicaset`的yaml保存起来`k get replicaset myapp-replicaset -o yaml` 
@@ -134,7 +148,7 @@ spec:
 > （2）然后 `kubectl delete pod -l name=busybox-pod` -> 因为ReplicaSet只检查数量，不检查Pod的内容，所以要把旧的Pod杀掉
 
 > **ReplicaSet** 的`apiVersion`的值是`apps/v1`，不是`v1`，不然你会看到一下错误：
-![请添加图片描述](https://img-blog.csdnimg.cn/123a2143752c4f6095b937ffc734a84b.png)
+![请添加图片描述](../ckad-1/123a2143752c4f6095b937ffc734a84b.png)
 
 # 6. Deployment
 迄今为止，我们知道Container跑在Pod上，而Pod由ReplicaSet监控，Deployment被看作在ReplicaSet外的另一层外套。Deployment提供更新，撤消更新回滚到旧版本（rolling），暂停和恢复更改等功能。
@@ -170,7 +184,7 @@ spec:
 - Pod
 
 🪆因为他们之间的关系是一层套一层：`Deployment`>`ReplicaSet`>`Pod`，像俄罗斯套娃一样：
-![请添加图片描述](https://img-blog.csdnimg.cn/0cb1cb71c50849c2aee56e0593098236.jpeg)
+![请添加图片描述](../ckad-1/0cb1cb71c50849c2aee56e0593098236.jpeg)
 
 
 >  **用kubectl新建deployment：**
@@ -227,7 +241,7 @@ mysql.connect("db-service.dev.svc.cluster.local")
 > -- -- 
 > ⚠️ **为什么可以这样访问到Service呢？** 
 > 答：当一个Service被创建的时候，k8s会自动添加对应的DNS： `cluster.local`是k8s集群的默认域名，`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
-![请添加图片描述](https://img-blog.csdnimg.cn/8b7e0f79b6e742969e7ad33fa497ec7e.png)
+![请添加图片描述](../ckad-1/8b7e0f79b6e742969e7ad33fa497ec7e.png)
 
 ## ResourceQuota
 ResourceQuota用于给Namespace设限。比如Pod的数量，CPU数量，内存大小等等。
@@ -329,6 +343,6 @@ dig www.baidu.com
 **Resolver**：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Laptop**，你要的IP地址是`103.235.46.40`
 **Laptop**：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🙏
 
-<img src="https://img-blog.csdnimg.cn/7fd8c9755eaf405cbf7ad062b99ed47c.png" width="600" />
+<img src="../ckad-1/7fd8c9755eaf405cbf7ad062b99ed47c.png" width="600" />
 
 

@@ -1,9 +1,10 @@
+[TOC]
 
 多Pod容器有多种**设计模式**，包括**Ambassador**，**Adapter**和**Sidecar**。我们会一一对他们进行学习。
 
 # 1. 为何需要多容器Pod
 将大型单体应用程序（monolith）解耦为称为**微服务**（microservices）的子组件的想法使我们能够开发和部署一组独立的小型可重用代码。 这种架构可以帮助我们根据需要扩大、缩小和修改每个服务，而不是修改整个应用程序。如下图：
-<img src="https://img-blog.csdnimg.cn/0cb1ca41162446ce8e7d2531568ec3bd.png" width=700 />
+<img src="../ckad-3/0cb1ca41162446ce8e7d2531568ec3bd.png" width=700 />
 *（图片[来源](https://martinfowler.com/articles/microservices.html)）*
 
 但是，有时您可能需要两个服务一起工作，例如 Web 服务器和日志服务。每个配对的 Web 服务器实例需要一个日志服务的实例。所以我们需要把这两个微服务放到同一个Pod中，以保证它们：
@@ -12,7 +13,7 @@
 - 访问同一个volume
 
 当用户访问量增多，我们需要扩大应用规模的时候，我们只需多见几个Pod就可以了：
-<img src="https://img-blog.csdnimg.cn/29a6046b28464ffc94bac7392589e8d0.png" width=800 />
+<img src="../ckad-3/29a6046b28464ffc94bac7392589e8d0.png" width=800 />
 
 举例：多容器Pod的定义文件
 
@@ -78,7 +79,7 @@ spec:
 
 # 4. Debug
 - `kubectl describe pod/xxx`是个非常强大的命令。比如能看到状态，原因，错误代码等。
-<img src="https://img-blog.csdnimg.cn/58a739a5ab3d4fdc96fd626f24355397.png" width=900 />
+<img src="../ckad-3/58a739a5ab3d4fdc96fd626f24355397.png" width=900 />
 - `kubectl logs pod/xxx` 打印该pod的日志
 - `kubectl debug pod/xxx` 和`kubectl exec`一样， 进到Pod里面去，执行它的bash。区别是，`kubectl debug`能在容器有错的情况下，强制启动并进行debug，而`kubectl exec`只能在Pod是处于运行状态下才能执行
 

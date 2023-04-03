@@ -1,3 +1,4 @@
+[TOC]
 
 # 1. 标签 & 选择器
 **标签（`labels`）** 帮助我们标记资源
@@ -67,7 +68,7 @@ metadata:
 # 3. Deployment, Rollout, Rollback
 当我们第一次创建`Deployment`时，会触发`Rollout`的动作，从而生成一个`Deployment Revision`（可以理解为Deployment的第一个版本）。假设现在开发者修改了github上的代码，该更新会触发新一个`Rollout`，从而生成新版本的`Deployment Revision`。
 
-<img src="https://img-blog.csdnimg.cn/c9b43c8d8e95490c9cf132fbb317300c.png" width=600 />
+<img src="../ckad-5/c9b43c8d8e95490c9cf132fbb317300c.png" width=600 />
 
 查看当前`Rollout`状态：
 ```bash
@@ -131,7 +132,7 @@ kubectl set image deployment/[DeploymentName] nginx=nginx:1.9.1
 
 ## ReplicaSet
 Deployment 为 Pod 和 ReplicaSet 提供声明式更新。三者关系如下：
-<img src="https://img-blog.csdnimg.cn/388788efd8b7456eabf80fcfa1935bb6.png" width=700 />
+<img src="../ckad-5/388788efd8b7456eabf80fcfa1935bb6.png" width=700 />
 
 查看`replicasets`：
 ```bash
@@ -176,7 +177,7 @@ spec:
 
 ## Job vs ReplicaSet
 然而，一般来说，一次性的任务不会是**计算2+3**那么简单，一般会是**大量数据的批处理**等复杂但只需执行一次的任务，这里我们引入`Job`这个概念。`Job`可与`ReplicaSet`进行类比，只不过`Job`中的Pod做的一次性任务，而`ReplicaSet`中的Pod运行的是持续性App。
-<img src="https://img-blog.csdnimg.cn/0760dafa7cc348739061a9033e83caaf.png" width=600 />
+<img src="../ckad-5/0760dafa7cc348739061a9033e83caaf.png" width=600 />
 
 
 ## Job的使用

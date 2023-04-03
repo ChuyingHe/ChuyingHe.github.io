@@ -1,3 +1,4 @@
+[TOC]
 
 # 1. Pod的生命周期
 被用来形容`Pod`的状态的有**Pod Status**和**Pod Condition**：
@@ -148,7 +149,7 @@ k8s没有提供自带的监测工具，但是有很多开源的第三方服务�
 
 ### 日志的生成
 每个`Node`上都有一个**kubelet**代理，负责接收Master的指令，并且管理该`Node`上的`Pod`。该代理拥有一个名为**cAdvisor**（container advisor）的子组件，专门负责收集Pod的日志。
-<img src="https://img-blog.csdnimg.cn/8276bcbcae7642d98ee1d119721bfcc9.png" width=500 />
+<img src="../ckad-4/8276bcbcae7642d98ee1d119721bfcc9.png" width=500 />
 
 ### MetricsServer的安装
 使用minikube安装： 

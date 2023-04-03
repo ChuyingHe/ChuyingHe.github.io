@@ -1,4 +1,4 @@
-
+[TOC]
 
 # 1. Dockerfile
 ## CMD
@@ -272,14 +272,14 @@ data:
 # 6. Docker的安全性（SecurityContext）
 ## Process isolation
 当某个**主机/电脑**运行Docker时，Docker是以一个单独的进程（process）的形式存在的。你可以通过命令`ps aux`或者进程监视器（如下图）看到该Docker进程。（`ps`意味着`process status`）
-<img src="https://img-blog.csdnimg.cn/6ea1d90d0779485ab8f3679229b2a8d6.png" width=600 />
+<img src="../ckad-2/6ea1d90d0779485ab8f3679229b2a8d6.png" width=600 />
 
 <!--
 TODO:
 不同于虚拟机，容器并**不是完全**与主机本身分离的。容器用了Linux中的**命名空间**（Namespace）进行分离，主机本身有一个命名空间，容器自己有它的命名空间。所有的容器其实还是在主机上，但是在自己的命名空间中跑。
 -->
 
-> <img src="https://img-blog.csdnimg.cn/a9fcca186e934554ae8e136711f0c0e2.png" width=500 />
+> <img src="../ckad-2/a9fcca186e934554ae8e136711f0c0e2.png" width=500 />
 > 
 > 如图：
 > - 主机（Host）可以看到的Process包括：1，2，3，3.1，3.2
@@ -413,7 +413,7 @@ TODO
 ```bash
 k describe pod <PodName>
 ```
-<img src="https://img-blog.csdnimg.cn/7a02817007cb40a694c3ee35cb5d5a96.png" width=500 />
+<img src="../ckad-2/7a02817007cb40a694c3ee35cb5d5a96.png" width=500 />
 
 
 ## 从集群外部使用ServiceAccount
@@ -423,17 +423,17 @@ k describe pod <PodName>
 curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer eyJhxxB..."
 ```
 注意：`eyJhxxB...`即令牌的内容。
- <img src="https://img-blog.csdnimg.cn/ee9e74e3bdf04f5bbf9cd0cbf07fe772.png" width=800 />
+ <img src="../ckad-2/ee9e74e3bdf04f5bbf9cd0cbf07fe772.png" width=800 />
  
 ## 从集群内部某个Pod使用ServiceAccount
 假如该应用程序运行于集群的某个Pod上，则自动生成的**令牌**会被写入该Pod的Volume中，无需“导出”。
- <img src="https://img-blog.csdnimg.cn/9337fed038654e6a870901735aa510a7.png" width=600 />
+ <img src="../ckad-2/9337fed038654e6a870901735aa510a7.png" width=600 />
 
 ## `default` ServiceAccount
 每个命名空间（Namespace）都有一个默认的名为`default`的ServiceAccount，当我们在某个命名空间中新建Pod的时候，`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该ServiceAccount。
 
 我们可以用`kubectl describe pod xxx`查看`Volumes` 。也可以去看Secret本身：
-<img src="https://img-blog.csdnimg.cn/7afa5468dbfb4aaa92f391cee3baff5a.png" width=600 />
+<img src="../ckad-2/7afa5468dbfb4aaa92f391cee3baff5a.png" width=600 />
 
 我们进到某个Pod的终端，`kubectl exec -it xxx ls /var/run/secrets/kubernetes.io/serviceaccount`能看到三个文件：ca.crt，namespace，token。token真正存了**令牌**的文件，用于访问 Kubernetes API。
 
@@ -527,7 +527,7 @@ spec:
 
 k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到Node里面：
 
-<img src="https://img-blog.csdnimg.cn/9dd19aa0c00f4c45bd59cea686547452.png" width=900 />
+<img src="../ckad-2/9dd19aa0c00f4c45bd59cea686547452.png" width=900 />
 
 ## 当Pod对资源的使用超出限制时
 当某个`Container`的资源使用超出限制时，k8s会这样处理：

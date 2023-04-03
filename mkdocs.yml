@@ -10,6 +10,13 @@ nav:
       - 5.Pod设计: k8s/ckad/ckad-5.md
       - 6.服务与网络: k8s/ckad/ckad-6.md
       - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
-      - 8.XX: k8s/ckad/ckad-8.md
+      - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
       - 其他: k8s/ckad/ckad-0.md
 theme: readthedocs
+markdown_extensions:
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - def_list
+  - admonition
