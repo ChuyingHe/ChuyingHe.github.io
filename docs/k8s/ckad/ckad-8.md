@@ -689,7 +689,7 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: flighttickets.flights.com
+  name: flighttickets.flights.com   # =spec.names.plural+"."+spec.group
 spec:
   scope: namespaced     # 可以是namespaced或者cluster
   group: flights.com    # API组，是Resource中apiVersion的值
@@ -701,7 +701,7 @@ spec:
       - ft
   versions:
     - name: v1
-      served: true      # apiserver用的版本，preferred version？
+      served: true      # apiserver用的版本，so that it’s being served via REST API. preferred version？
       storage: true     # storage version
   schema:               
     openAPIV3Schema:    # shema定义了新建该Resource中spec的值
@@ -720,7 +720,7 @@ spec:
               maximum: 10
 ```
 
-3.Controller
+3.自定义控制器（Controller）
 Controller负责监视资源`FlightTicket`的状态，更新及删除，并在`FlightTicket`被创建的时候调用订飞机票的API（比如`https:book-flight.com/api`）。理论上Controller可以用任何编程语言书写，但Go有一个 Kubernetes Go Client，里面有写Controller所需的包，比如缓存和队列机制，模版[在这里](https://github.com/kubernetes/sample-controller.git)。
 
 ```bash
@@ -752,14 +752,128 @@ k create -f flightticket-custom-definition.yaml
 k create -f flightticket.yaml
 k get flightticket
 ```
-# 自定义控制器（Controller）
 
-# Operator
+# Operator Framework
+在上面的两章中，我们需要分别自定义CRD和Controller，才能正常使用自定义的Resource。本章中有更简单高效的方法：`Operator Framework`。`Operator Framework`打包了CRD和Controller，以及其他所需的东西。
+
+在数据库[operatorhub.io](https://operatorhub.io/)中有许多可用的Operators
+
 
 # Deployment Strategies
+我们之前讨论过两个Deployment Strategies，然而还有更多的Strategies：
+1. Recreate：关闭所有旧Pod，然后在建立新Pod
+2. RollingUpdate：（默认的Strategy）关一个旧的Pod，新建一个新的Pod，以保证用户用永远可以访问到
+3. Blue/Green：旧Pod是Blue组，新Pod是Green组，现做测试，将用所有的traffic都导到Blue上去，当测试通过后，所有traffic都改到Green组上去。
+4. Canary：在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod
+
+## Blue/Green
+该Strategy可以通过Istio更轻松地实现，但我们先不用。分成两步：
+1.通过Service访问Blue组：
+```yaml
+# Service
+...
+spec:
+  selector:
+    version: v1
+
+# Deployment: Blue
+...
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        version: v1
+  selector:
+    matchLabels:
+      version: v1
+
+# Deployment: Green
+...
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        version: v2
+  selector:
+    matchLabels:
+      version: v2
+```
+2.修改Service标签，从而访问Green组：
+```yaml
+# Service
+...
+spec:
+  selector:
+    version: v2
+```
+
+## Canary
+在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod，这个过程相当于在做测试。当测试通过之后，再把旧的Pod都取代掉（比如用RollingUpdate）。
+1.测试：用同一个Service访问新，旧两个Deployment（用一个两个Deployment中都存在的label即可），但是新旧两个Deployments中的Pod数量不同，比如：
+- 旧Deployment有5个Pods
+- 新Deployment只有1个Pod
+
+!!! warning
+    通过减少Pod的数量减少traffic，是因为Service对每个Pod的访问都是随机的，并不是以Deployment为单位来进行traffic的分配！！
+
+!!! note
+    k8s中我们无法非常精确的控制traffic的百分比，但`Istio`可以，比如99%的traffic访问旧Pod，1%访问新Pod
 
 # Helm Chart
+k8s有太多Resource了，我们经常需要给每个Resource写一个Yaml文件，然后分别用`k create -f xxx.yaml`来创建这些Resource的对象。修改和删除更是需要手动完成，比如我要shopify网站就会非常复杂。Helm解决了这个难题，我们可以把它当作Kubernetes的package manager，它把所有Resource的对象都打包了，现在我们只需要告诉Helm，我要使用package `shopify`即可：
 
+```bash
+helm version
+helm install shopify
+helm upgrade shopify
+helm rollback shopify
+helm uninstall shopify
+```
+
+## 在Linux上安装
+
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+## 概念解释
+Helm将普通yaml文件结构成 模版文件+变量文件。
+
+```bash
+# 在默认的Chart的数据库https://artifacthub.io/中搜索
+helm search hub shopify   
+
+# 添加额外数据库
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo shopify   
+# 查看已添加的额外数据库
+helm repo list
+```
+
+使用Chart：
+
+```bash
+helm install <release-name> shopify # <release-name>即app名
+```
+
+更多命令：
+
+```bash
+helm list
+
+helm uninstall my-release
+
+# 下载，解压，但是不安装
+helm pull --untar shopify
+
+# 自定义/修改：
+ls shopify
+helm install new-shopify ./shopify
+```
 
 # 其他
 |命令|描述|
@@ -767,3 +881,4 @@ k get flightticket
 |`k get clusterrole --no-headers | wc -l` | 数结果有几个（没有表头）|
 |`k api-resources` | 查看资源的全称，缩写，api版本，是否namespaced，以及Kind的值|
 |`ls /etc/kubernetes/manifests`|输出结果：<br/> etcd.yaml  <br/> kube-apiserver.yaml  <br/> kube-controller-manager.yaml  <br/> kube-scheduler.yaml|
+|`cat /etc/os-release`|查看当前OS系统|
