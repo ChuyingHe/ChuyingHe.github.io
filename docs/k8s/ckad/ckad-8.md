@@ -512,6 +512,7 @@ kubernetes中有分Namespace和不分Namespace的资源：
 |pods，replicasets，jobs，deployments，<br/> services，secrets，roles，rolebindings，<br/> configmaps，PVC|nodes，PV，clusterroles，<br/> clusterrolebindings，certificatesigningrequests，<br/> namespaces|
 |`kubectl api-resources --namespaced=true`|`kubectl api-resources --namespaced=false`|
 
+用`k explain <resource>`查看是否有`scope`值即可，如有，则说明该资源既可以是namespaced，也可以是cluster
 # API Groups
 Kubernetes的 Endpoints 根据其目的不同，被分到不同的API组中。常用的API组有：
 
@@ -521,6 +522,11 @@ Kubernetes的 Endpoints 根据其目的不同，被分到不同的API组中。�
 - `/healthz`
 - `/version`
 - `/logs`
+
+查看 API组 的Version：
+```bash
+k api-versions
+```
 
 其中与**集群作用**相关的是**core组**和**named组**，结构分别为：
 
@@ -552,14 +558,15 @@ curl https://kube-master:6443 -k \
 	--cacert ca.crt
 ```
 
-2.使用Kube Control Proxy程序
+2.使用Kube Control Proxy程序查看 **API组**
 
 ```bash
-# Kube控制代理命令启动了一个代理服务，并使用凭证和证书，端口为8001
-kubectl proxy
+# Kube控制代理命令启动了一个代理服务，并使用凭证和证书，端口为8001，效果等同于k proxy 8001&
+k proxy
 
-# 现在可以直接访问端口8001了，不需要certificates，对该端口的访问会被redirect到6443上去
-curl https://kube-master:8001 -k 
+# proxy建立成功后，你会看到这条信息：Starting to serve on 127.0.0.1:8001
+# 现在可以直接访问端口8001了，不需要certificates
+curl localhost:8001 -k 
 ```
 !!! warning
 		`kubectl proxy`和`kube proxy`是两个不同的东西！TODO
@@ -572,12 +579,13 @@ curl https://kube-master:8001/apis/batch
 ```
 
 
-我们可以用以下命令查看 资源的**推荐版本**：
+我们可以用以下命令查看 资源的**推荐版本/preferred version**：
 
 ```bash
 k explain deployment
+# 或者：
+k api-versions | grep Deployments
 ```
-
 
 除了资源的**推荐版本**，也可能存在一个**存储版本/storage version**。是指最终存储到etcd数据库中的版本，假设该**存储版本**存在，则资源再存储时，都会先被转换成**存储版本**。
 
@@ -597,16 +605,160 @@ ETCDCTL_API=3 etcdctl
 ## 启用/禁用API版本
 需要修改apiserver的配置，比如添加`--runtime-config=batch/v2alpha1,v2,v2beta1`，别忘了然后重启`apiserver`
 
+## API更新准则
+1.API 元素只能通过增加 API 组的版本来删除 <br/>
+```bash
+	v1alpha1(有"test"资源)=> v1alpha2(无"test"资源)
+```
+2.API 对象必须能够在不同的 API 版本之间转换而不会丢失信息，（排除某版本中某资源不存在的情况）<br/>
+```bash
+	v1alpha1 <==> v1alpha2之间可以无缝转换
+```
+
 ## API弃用准则
-1.API 元素只能通过增加 API 组的版本来删除
-	`v1alpha1`(有`test`资源)=> `v1alpha2`(无`test`资源)
-2.API 对象必须能够在不同的 API 版本之间转换而不会丢失信息，（排除某版本中某资源不存在的情况）
-	`v1alpha1` <==> `v1alpha2`之间可以无缝转换
+1.除了最新 API 版本之外，较旧的 API 版本在宣布弃用一段时间后必须得到支持。
 
+- GA：不少于 12 个月或 3 次release
+- beta（测试版）：不少于 9 个月或 3 次release
+- alpha：0 release -> 弃用之后不需要额外支持，所以当kubernetes版本升级，且不再包含某个资源的`v1alpha1`版本后，我们需要把该资源的版本都升级到`v1alpha2`
+2.在发布新的 **推荐版本** 和 **存储版本** 之前，要至少存在过一个release，旧的和新的两个版本都被支持。换句话说，第一次发布的版本，不能成为 **推荐版本** 或 **存储版本** 
+3. 在新的 API 版本发布之前，给定轨道中的 API 版本可能不会被弃用，至少发布稳定版本。
 
+## API版本发展
 版本的发展历史大概是这样的：
 	`v1alpha1` => `v1alpha2` => `v1beta1` => `v1`  GA版本（General Availability）
+
 当产品达到 GA 时，它可以通过公司的一般销售渠道获得，而不是用于测试和用户反馈的 *有限版本* 或 *测试版*。
+
+我们可以用以下命令更新资源的版本：
+```bash
+kubectl convert -f <old-yaml-file> --output-version <new-api>
+
+# 举例：把一个名为 nginx 的Deployment资源从版本 `apps/v1beta1` 更新到 `apps/v1`
+# 该命令会输出一个新的yaml格式的定义
+kubectl convert -f nginx.yaml --output-version apps/v1
+```
+
+!!! warning
+    `kubectl convert`可能并不是默认可用的，它是一个额外的插件，需要自己安装，教程[在这里](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) <br />
+    1.下载binary文件`curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert"` <br />
+    2.给binary文件可执行的权限：`chmod +x kubectl-convert` <br />
+    3.将binary文件移动到bin文件夹下`mv kubectl-convert /usr/local/bin` <br/>
+    4.现在可用使用：`kubectl-convert --help`
+
+
+!!! note
+    **Kubernetes API versions** 是Kubernetes本身的版本，大概长这样：1.22.2，数字分别代表： <br />
+    :   1: 主版本 / major version <br />
+    :   22: 次要版本 / minor version <br />
+    :   2: 补丁版本 / patch version <br />
+
+## 修改某node上 某个 API组 的版本
+```bash
+# 万一修改出错，cluster会崩坏，以防万一，先放一个备份
+cp /etc/kubernetes/manifests/kube-apiserver.yaml /root/kube-apiserver.yaml.backup
+
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+# 在yaml文件的.spec.containers.command中添加：
+# 为 API组 “rbac.authorization.k8s.io” 添加版本 “v1alpha1”
+    - --runtime--config=rbac.authorization.k8s.io/v1alpha1
+```
+
+# 自定义资源
+我们都知道新建一个Deployment会自动生成对应的Pod，这个过程由k8s自带的的Controller控制，拥有类似的Controller的还有ReplicaSet，Deployment，Job，Cronjob，Statefulset，Namespace。
+
+如果我们想要自定义一个资源，那么我们可能要建立两样东西：
+1.Resource, 举例：
+
+```yaml
+# flightticket.yaml
+apiVersion: flights.com/v1
+kind: FlightTicket
+metadata:
+  name: my-flight-ticket
+spec:
+  from: Mumbai
+  to: London
+  number: 2
+```
+2.CRD = Custom Resource Definition
+
+```yaml
+# flightticket-custom-definition.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: flighttickets.flights.com
+spec:
+  scope: namespaced     # 可以是namespaced或者cluster
+  group: flights.com    # API组，是Resource中apiVersion的值
+  names:
+    kind: FlightTicket  # Resource 名，是Resource中kind的值
+    singular: flightticket
+    plural: flighttickets
+    shortNames:
+      - ft
+  versions:
+    - name: v1
+      served: true      # apiserver用的版本，preferred version？
+      storage: true     # storage version
+  schema:               
+    openAPIV3Schema:    # shema定义了新建该Resource中spec的值
+      type: object
+      properties:
+        spec:
+          type: object
+          properties:
+            from:
+              type: string
+            to:
+              type: string
+            numer:
+              type: integer
+              minimum: 1
+              maximum: 10
+```
+
+3.Controller
+Controller负责监视资源`FlightTicket`的状态，更新及删除，并在`FlightTicket`被创建的时候调用订飞机票的API（比如`https:book-flight.com/api`）。理论上Controller可以用任何编程语言书写，但Go有一个 Kubernetes Go Client，里面有写Controller所需的包，比如缓存和队列机制，模版[在这里](https://github.com/kubernetes/sample-controller.git)。
+
+```bash
+git clone https://github.com/kubernetes/sample-controller.git
+cd sample-controller
+
+vi controller.go                # 修改文件
+
+go build -o sample-controller . # 编译文件
+
+./sample-controller -kubeconfig=$HOME/.kube/config # 运行文件，将`$HOME/.kube/config`做为参数穿进去
+```
+
+`controller.go`文件举例：
+
+```go
+package flightticket
+
+var controllerKind = apps.SchemeGroupVersion.WithKind("FlightTicket") ...
+func (dc *FlightTicketController) callBookFlightAPI( ...
+```
+
+我们一般把Controller打包到Docker镜像中，并在一个Pod中运行。
+
+4.用`kubectl`创建自定义资源
+```bash
+k create -f flightticket-custom-definition.yaml
+
+k create -f flightticket.yaml
+k get flightticket
+```
+# 自定义控制器（Controller）
+
+# Operator
+
+# Deployment Strategies
+
+# Helm Chart
 
 
 # 其他
