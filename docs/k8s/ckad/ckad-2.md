@@ -5,9 +5,11 @@
 假设我们用`Dockerfile`创建了自己的镜像`myImg`。
 
 `CMD` 是容器跑起来之后默认会跑的命令，如果`docker run`中重新定义了命令，那么`CMD`中的内容会被**完全重写**，比如：
+
 ```shell 
 docker run myImg sleep 10
 ```
+
 ```python
 # 用于创建镜像`myImg`的Dockerfile：
 FROM ubuntu
@@ -16,20 +18,24 @@ CMD ["sleep", "5"]
 结果： `sleep 10` 会覆盖`CMD sleep 5`。最终，容器会睡10秒钟。
 
 ## ENTRYPOINT
+
 ```python
 # 用于创建镜像`myImg`的Dockerfile：
 FROM ubuntu
 ENTRYPOINT ["sleep"]
 ```
 `ENTRYPOINT`会把`docker run`中的命令，添加到`ENTRYPOINT`命令的后面。比如：
+
 ```shell
 docker run myImg 10
 ```
 结果：`sleep`这个命令来自`ENTRYPOINT`，而秒数来自`docker run`中给的参数。最终执行的命令是：
+
 ```bash
 sleep 10
 ```
 容器会睡10秒钟。
+
 > ⚠️ 如果`docker run`中没有给参数，那就会报错
 > 
 > ⚠️ Dockerfile中定义的命令，可以是`shell`格式，或者`json`格式：
@@ -39,6 +45,7 @@ sleep 10
 > 以上两者效果是一样的
 ## ENTRYPOINT + CMD
 `ENTRYPOINT`的使用感觉更合理，但是当没有给参数时，会报错，要是有个默认值就好了。这时候我们可以同时使用`ENTRYPOINT`和`CMD`：
+
 ```python
 # 用于创建镜像`myImg`的Dockerfile：
 FROM ubuntu
@@ -46,6 +53,7 @@ ENTRYPOINT ["sleep"]
 CMD ["5"]
 ```
 ⚠️ 注意：这里一定要用`json`格式
+
 
 ```shell
 docker run myImg 							# 使用默认值参数 5
@@ -57,12 +65,14 @@ docker run --entrypoint sleep2.0 myImg 10	# 或者自定义命令和参数：假
 
 ## 使用Dockerfile
 用最后那个同时用了`ENTRYPOINT`和`CMD`的`Dockerfile`建的镜像来创建Pod：
+
 ```shell
 cd myFolder
 ls							# 这里应该能看到你写的Dockerfile
 docker build -t myImg .  	# 用当前路径下的Dockerfile建镜像，名字叫`myImg`
 ```
 接下来新建一个YAML文件，在文件中使用新建的镜像`myImg`：
+
 ```yaml
 # pod.yaml
 apiVersion: v1
@@ -88,12 +98,14 @@ spec:
 # 2. Pod和Deployment
 ## Pod
 Pod在建成之后，除了以下这些属性，其他的内容是无法修改的：
+
 - `spec.containers[*].image`
 - `spec.initContainers[*].image`
 - `spec.activeDeadlineSeconds`
 - `spec.tolerations`
 
 如果想要修改已存在的Pod的话，可以这样：
+
 ```bash
 kubectl get pod xxx -o yaml > new-pod.yml
 vi new-pod.yml			# 然后按照你的要求修改new-pod.yaml
@@ -106,6 +118,7 @@ kubectl create -f new-pod.yml
 和`Pod`不同，`Deployment`可以简单的通过`kubectl edit deployment my-deployment`修改。
 # 3. 环境变量（env）
 举例：
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -127,6 +140,7 @@ spec:
 3. 从`Secret`取值
 
 第一种方法 **纯键值对** 使用方法如下：（其他两种方法下面会讲到）
+
 ```yaml
 env:
    - name: APP_COLOR
@@ -135,12 +149,14 @@ env:
 # 4. ConfigMap
 ## ConfigMap的使用
 使用`ConfigMap`中所有的键值对：
+
 ```yaml
 envFrom:
 	- configMapRef:
 		name: app-config	# ConfigMap的名字
 ```
 只使用`ConfigMap`中的一个或几个值：
+
 ```yaml
 env:
 	- name: APP_COLOR			# 环境变量的名字
@@ -150,6 +166,7 @@ env:
 	  		key: APP_COLOR		# ConfigMap中对应的环境变量的名字
 ```
 将`ConfigMap`作为一个文件写入容器的`Volumne`里面。这个操作会在`Volumne`里面为每一个键值对建一个文件，以“键”为文件名，“值”为文件内容。（比如有两个文件，`APP_COLOR`文件内容是APP_MODE的值，`APP_MODE`文件内容是`prod`）
+
 ```yaml
 volumnes:
 	- name: app-config-volumne		# volumne的名字
@@ -159,6 +176,7 @@ volumnes:
 ## ConfigMap的创建
 以下是创建`ConfigMap`（缩写为`cm`）的方法：
 ### 用`kubectl`命令创建
+
 ```bash
 # 从纯键值对取值：
 kubectl create configmap <configMapName> \
@@ -171,6 +189,7 @@ kubectl create configmap <configMapName> \
 	--from-file=<pathToFile2>
 ```
 ### 用`*.yaml`定义
+
 ```yaml
 # configmap.yml
 apiVersion: v1
@@ -184,6 +203,7 @@ data:
 *⚠️ 之前我们看到的yaml文件都有4个根属性（`apiVersion`, `kind`, `metadata`, `spec`），这次没有`spec`了，换成了`data`！*
 
 然后创建所定义的`configmap.yml`
+
 ```shell
 kubectl create -f configmap.yml
 ```
@@ -192,13 +212,18 @@ kubectl create -f configmap.yml
 ## Secret的使用
 `Secrets`用来存储不应该被暴露的数据，和`ConfigMap`的唯一区别就是`Secrets`是加密的。
 使用`Secret`中所有的键值对：
-> ⚠️ 记忆点：`...From` + `...Ref`
+
+!!! note
+		⚠️ 记忆点：`...From` + `...Ref`
+
+
 ```yaml
 envFrom:
 	- secretRef:
 		name: app-secret	# 创建的Secret的名字
 ```
 只使用`Secret`中的一个或几个值：
+
 ```yaml
 env:
 	- name: DB_Host		# 环境变量的名字
@@ -208,6 +233,7 @@ env:
 	  		key: DB_Host		# Secret中对应的环境变量的名字
 ```
 将`Secret`作为一个文件写入容器的`Volumne`里面：
+
 ```yaml
 volumnes:
 	- name: app-secret-volumne		# volumne的名字
@@ -218,6 +244,7 @@ volumnes:
 
 ## Secret的创建
 ### 用`kubectl`命令创建
+
 ```bash
 # 从纯键值对取值：
 # ⚠️ 这里的“generic”是secret的类型，是必须给的值，不然会报错！！我们之后会讲到
@@ -228,6 +255,7 @@ kubectl create secret generic <SecretName> --from-file=<pathToFile>
 ```
 ### 用`*.yaml`定义
 **纯文本版本（不推荐）：**
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -240,10 +268,12 @@ data:
 ```
 **加密版本：**
 先用`base64`对信息进行加密：
+
 ```shell
 echo -n 'mysql' | base64
 ```
 然后再将加密后的文字放到yaml文件中。可能长这样：
+
 ```yaml
 ...
 data:
@@ -254,20 +284,26 @@ data:
 
 ## Secret的加密
 之前我们将`Secret`以 **base64** 格式对数据进行编码。 任何拥有 **base64** 编码密码的人都可以轻松解码，因此并不是很安全。那为什么说`Secret`比`ConfigMap`更安全呢？因为k8s对`Secret`的处理形式。
+
 - `Secret`文件不上传到版本控制系统（比如git）
 - 仅当`Pod`需要时，才会将`Secret`发送到该`Pod`所在的节点
 - Kubelet 将`Secret`存储到 tmpfs 中，这样`Secret`就不会写入磁盘存储
 - 一旦依赖于 `Secret` 的 `Pod` 被删除，Kubelet 也会删除其本地的  `Secret`  数据副本
+
 > **`tmpfs` = Temporary File System**
 > 是类Unix系统上的暂存档存储空间。所有在`tmpfs`上存储的资料在理论上都是暂时借放的，那也表示说，文件不会创建在硬盘上面。一旦重启，所有在`tmpfs`里面的资料都会消失不见。
 > 和`RAM disk`的概念近似，但后者会呈现出 *具有完整文件系统* 的虚拟磁盘。
+
+
 ## Secret的类型
 |类型|描述|举例|
 |:-|:-|:--------|
 |docker-registry|给Docker registry用的`Secret`|`kubectl create secret docker-registry my-secret \` <br/> `--docker-email=tiger@acme.example \` <br/> `--docker-username=tiger \` <br/> `--docker-password=pass1234 \` <br/> `--docker-server=my-registry.example:5000` <br/> |
 |generic|从本地文件，路径或者直接输入生成`Secret`|`kubectl create secret generic my-secret \`<br/>`--from-literal=username=prod_user` <br/> `--from-literal=password=top_secret`|
 |tls|tls的`Secret`|`kubectl create secret tls my-tls-secret \` <br />`--cert=path/to/cert/file \` <br />`--key=path/to/key/file` <br />|
-> ⚠️ TLS (Transport Layer Security) 是一种加密协议，用于保护 Internet 上的通信。 它是 SSL（安全套接字层）的继承者，为两台计算机提供了一种安全地相互通信的方式。
+
+!!! note
+		⚠️ TLS (Transport Layer Security) 是一种加密协议，用于保护 Internet 上的通信。 它是 SSL（安全套接字层）的继承者，为两台计算机提供了一种安全地相互通信的方式。
 
 # 6. Docker的安全性（SecurityContext）
 ## Process isolation
@@ -291,6 +327,7 @@ TODO:
 
 ## 安全角度的Users
 用`docker run ubuntu sleep 3600` 运行一个容器，当我们用`ps aux`查看进程时，你会得到如下结果：
+
 ```shell
 # ps aux
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -327,24 +364,29 @@ root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 如果我们想要使用**非root用户**运行（因为这样更安全），可以通过以下方式修改：
 
 **方法一：创建容器时加上参数`--user`**
+
 ```bash
 docker run --user=1000 ubuntu sleep 3600
 ```
 **方法二：在使用镜像之前，在定义镜像的Dockerfile中修改用户**
 用ubuntu作为基础镜像，创建一个给自定义镜像的Dockerfile：
+
 ```python
 FROM ubuntu
 USER 1000
 ```
 基于该Dockerfile创建镜像`my-ubuntu`：
+
 ```shell
 docker build -t my-ubuntu .
 ```
 创建容器
+
 ```shell
 docker run my-ubuntu sleep 3600
 ```
 再次用`ps aux`查看进程时，你会得到如下结果：
+
 ```shell
 # ps aux
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
@@ -353,15 +395,18 @@ USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 
 # 7. k8s的安全性（SecurityContext）
 上一章我们讨论了Docker的安全性。同样的设置在k8s中也有，而且可以选择范畴：
+
 - `Pod`级别的安全配置
 - `Container`级别的安全配置
 
 使用规则和优先级如下：
+
 - `Pod`的配置会自动应用到在该`Pod`上的所有`Container`中
 - `Container`的安全配置 会覆写所在的 `Pod`上的 的安全配置： `Container` > `Pod`
 - 只有`Container`级别的安全配置才可以添加`capabilities`（权限）属性
 
 增加某个`capabilities`：
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -383,6 +428,7 @@ spec:
 ```
 删除某个`capabilities`：
 
+
 ```yaml
 ...
 			securityContext:
@@ -392,8 +438,10 @@ spec:
 > ⚠️ 如果要用root用户，则直接删除`runAsUser: xxxx`即可！
 # 8. ServiceAccount
 在k8s中，有两类账号：
+
 - 用户账号（User Account）：给人的，包括但不限于Admin，Developer等
 - 服务账号（Service Account）：给App的，用于App与k8s的交互。
+
 
 ```bash
 # 为serviceaccount生成token
@@ -401,6 +449,7 @@ kubectl create token  <ServiceAccountName>
 ```
 
 创建`ServiceAccount`的时候，也会自动创建一个相对应的**令牌（token）**。该令牌会被放在一个自动生成的`Secret`对象中。用以下命令可以看到生成的令牌的名字：
+
 ```bash
 kubectl describe serviceaccount <ServiceAccountName>
 ```
@@ -410,6 +459,7 @@ TODO
 -->
 
 查看Pod的`ServiceAccount`放在哪里：
+
 ```bash
 k describe pod <PodName>
 ```
@@ -419,6 +469,7 @@ k describe pod <PodName>
 ## 从集群外部使用ServiceAccount
 
 **令牌**被导出到外部应用程序，在向 Kubernetes API 发送请求的时候用该令牌进行身份验证。比如：
+
 ```shell
 curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer eyJhxxB..."
 ```
@@ -439,6 +490,7 @@ curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer ey
 
 ## 叫停默认`default` ServiceAccount的挂载
 我们也可以叫停`default`ServiceAccount的自动挂载：
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -453,6 +505,7 @@ spec:
 ```
 ## 给Pod添加额外的ServiceAccount
 ⚠️`default`ServiceAccount只提供了最基础的 Kubernetes API访问权限，我们可以给Pod添加自定义的ServiceAccount以提供更多其他权限： 删掉旧的Pod，用new-pod.yml新建一个Pod（或者直接修改包含该Pod的Deployment）
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -471,6 +524,7 @@ spec:
 ## Container的资源配置
 ### 资源的默认值
 k8s默认一个新`Container`初始化时至少**0.5 CPU**和**256 Mi**的内存（memory）。这些默认值可以用 `LimitRange` 设置， `LimitRange` 应用于整个命名空间（`Namespace`）。举例：
+
 ```yaml
 # 默认内存：
 apiVersion: v1
@@ -485,6 +539,7 @@ spec:
       memory: 256Mi
     type: Container
 ```
+
 
 ```yaml
 # 默认CPU：
@@ -502,6 +557,7 @@ spec:
 ```
 ### Pod资源配置
 如果你的`Container`需要更多的资源，你可以在`Pod`/`Deployment`的定义文件中修改`Container`的资源属性 -->  会覆写 `LimitRange` 中的默认值。
+
 
 ```yaml
 apiVersion: v1
@@ -560,6 +616,7 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 
 <!--TODO：这句话我没看懂-->
 ### 1. 给`Node`加上`Taint`：
+
 ```shell
 # taint本身其实就是一个键值对，所以 “<key>=<value>” 就够了
 kubectl taint nodes <NodeName> <key>=<value>:<TaintEffect>
@@ -574,6 +631,7 @@ kubectl taint nodes node1 app=blue:NoSchedule
  3. `NoExecute`：不再接受新的`Pod`，驱逐有已存但并没有`Toleration`的`Pod`
 
 ### 2. 给所属的`Pod`加上`Toleration`
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -602,6 +660,7 @@ spec:
 
 ## 节点选择器和节点关联性（Node Selectors & Node Affinity）
 我们已知Taint和Toleration没有办法保证某个`Pod`放到有特定资源的`Node`上去。为了确保某`Pod`托管在特定`Node`上。作为准备工作我们先给`Node`加`label`：
+
 ```bash
 kubectl label nodes <NodeName> <labelKey>=<labelValue>
 # 举例：
@@ -614,6 +673,7 @@ k8s提供了两种方法，让`Pod`对 `Node`进行筛选：
 2. Node Affinity
 ### 方法一：Node Selector
 然后给`Pod`加上节点选择器：
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -634,6 +694,7 @@ spec:
 
 ### 方法二： Node Affinity
 Node Selector没有办法提供`not`或者`or`等复杂判断，Node Affinity可以！
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -661,6 +722,7 @@ spec:
 `operator`可以是其他的比如
 - `NotIn`：与`In`相反，不在`values`中的值
 - `Exists`：只要存在某个`key`即满足条件，无论`values`中包含什么值。比如：
+	
 	```yaml
 	# 比如：当Node的label是`size=`的时候，
 	# 这个时候只有key，没有value，就可以用`Exists`
@@ -760,7 +822,8 @@ spec:
 > -- -- 
 > **帮助**
 > `kubectl explain pods --recursive | grep envFrom -A3` ⚠️⚠️⚠️ 有用！！！查找envFrom的使用方法。
-> ```yaml
+> 
+```yaml
 >  envFrom <[]Object> 				# 方括号代表接下来的内容是一个Object的数组
 >  	configMapRef <Object>			# Object：
 >  		name <string>					# 字符串类型
