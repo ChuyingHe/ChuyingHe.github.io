@@ -24,3 +24,8 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
+
+# To print the whole notebook
+Start notebook with `mkdocs serve`, then navigate to `/print_page/`
+
+In the browser, File > Print > Save as PDF (see export to PDF)
