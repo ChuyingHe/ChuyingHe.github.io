@@ -226,6 +226,7 @@ Openshift的`Route`诞生于k8s的`Ingress`之前，红帽作为k8s的主要贡�
 - 代理服务器层面
 
 上述三种配置方法，均可实现同样的功能。
+
 ## 救星Ingress
 各种各样的配置，你的头现在多大了呢？Ingress就是用来帮忙解决这个令人头疼的问题的！它包括但不限于路由（包括引流到不同App，比如`/shopping` 和`/game`）和`SSL`配置。
 
@@ -239,90 +240,90 @@ Openshift的`Route`诞生于k8s的`Ingress`之前，红帽作为k8s的主要贡�
 ### (1) Ingress Controller
 Ingress控制器由四个资源组成：负载均衡器，ConfigMap，NodePort类的服务 和ServiceAccount
 
-1. 一个**负载均衡器**: 以一个单独软件的形式deploy到当前的cluster上。较为流行的有`GCE HTTPS
-    LoadBalancer（谷歌）`，`Nginx`，`Contour`，`HaProxy`，`taefik`和`Istio`。其中`GCE
-    HTTPS LoadBalancer（谷歌的）`和`Nginx`由Kubernetes管理。
+1. 一个**负载均衡器**: 以一个单独软件的形式deploy到当前的cluster上。较为流行的有`GCE HTTPS LoadBalancer（谷歌）`，`Nginx`，`Contour`，`HaProxy`，`taefik`和`Istio`。其中`GCE HTTPS LoadBalancer（谷歌的）`和`Nginx`由Kubernetes管理。
 
-    我们这里以`Nginx`为例：命名该Deployment为`nginx-ingree-controller`
-    ```yaml
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-    	name: nginx-ingree-controller
-    spec:
-    	replicas: 1
-    	selector:
-    		matchLabels:
-    			name: nginx-ingress
-    	template:
-    		metadata:
-    			labels:
-    				name: nginx-ingress
-    		spec:
-    			containers:
-    				- name: nginx-ingress-controller
-    				  image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
-    			args:
-    				# nginx程序存储在nginx-ingress-controller文件夹下，所以要在运行时进入文件夹
-    				- /nginx-ingress-controller
-    				# 使用configmap存nginx设置，而不是直接写在当前的Deployment里面
-    				- --configmap=${POD_NAMESPACE}/nginx-configuration
-    			env:
-    				- name: POD_NAME
-    				  valueFrom:
-    				  	fieldRef: 
-    				  		fieldPath: metadata.name
-    				- name: POD_NAMESPACE
-    				  valueFrom:
-    				  	fieldRef: 
-    				  		fieldPath: metadata.namespace
-    			ports:
-    				- name: http
-    				  containerPort: 80
-    				- name: https
-    				  containerPort: 443
-    ```
-    ⚠️ 所使用的镜像是一个专门用来做Ingress的nginx镜像，可以在[这里](https://quay.io/repository/kubernetes-ingress-controller/nginx-ingress-controller)找到。
+我们这里以`Nginx`为例：命名该Deployment为`nginx-ingree-controller`
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name: nginx-ingree-controller
+spec:
+	replicas: 1
+	selector:
+		matchLabels:
+			name: nginx-ingress
+	template:
+		metadata:
+			labels:
+				name: nginx-ingress
+		spec:
+			containers:
+				- name: nginx-ingress-controller
+				  image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.21.0
+			args:
+				# nginx程序存储在nginx-ingress-controller文件夹下，所以要在运行时进入文件夹
+				- /nginx-ingress-controller
+				# 使用configmap存nginx设置，而不是直接写在当前的Deployment里面
+				- --configmap=${POD_NAMESPACE}/nginx-configuration
+			env:
+				- name: POD_NAME
+				  valueFrom:
+				  	fieldRef: 
+				  		fieldPath: metadata.name
+				- name: POD_NAMESPACE
+				  valueFrom:
+				  	fieldRef: 
+				  		fieldPath: metadata.namespace
+			ports:
+				- name: http
+				  containerPort: 80
+				- name: https
+				  containerPort: 443
+```
+
+!!! note
+	所使用的镜像是一个专门用来做Ingress的nginx镜像，可以在[这里](https://quay.io/repository/kubernetes-ingress-controller/nginx-ingress-controller)找到。
 
 2. 一个ConfigMap：这里命名为`nginx-configuration`，该ConfigMap被1中的Deployment使用，用来存储和修改`nginx`配置，比如存储日志的路径，SSL 设置，最长等待时间等。
-	```yaml
-	apiVersion: v1
-	kind: ConfigMap
-	metadata: 
-		name: nginx-configuration
-	...
-	```
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+	name: nginx-configuration
+...
+```
 
 3. 一个NodePort类型的Service：使Deployment `nginx-ingree-controller`可供外部访问
-	```yaml
-	apiVersion: v1
-	kind:  Service
-	metadata: 
-		name: nginx-ingress-service
-	spec:
-		type: NodePort
-		ports:
-			- port: 80
-			  targetPort: 80
-			  protocol: TCP
-			  name: http
-			- port: 443
-			  targetPort: 443
-			  protocol: TCP
-			  name: https
-		selectors:
-			# 对应Deployment的Label
-			name: nginx-ingress
-	```
+```yaml
+apiVersion: v1
+kind:  Service
+metadata: 
+	name: nginx-ingress-service
+spec:
+	type: NodePort
+	ports:
+		- port: 80
+		  targetPort: 80
+		  protocol: TCP
+		  name: http
+		- port: 443
+		  targetPort: 443
+		  protocol: TCP
+		  name: https
+	selectors:
+		# 对应Deployment的Label
+		name: nginx-ingress
+```
 
 4. 一个ServiceAccount：`nginx` Ingress还提供了额外的功能，比如监控从集群外部来的访问，并实时修改nginx配置。该操作需要正确的权限，所以我们需要一个ServiceAccount：
-	```yaml
-	apiVersion: v1
-	kind:  ServiceAccount
-	metadata: 
-		name: nginx-ingress-serviceaccount
-	# Roles, ClusterRoles, RoleBindings...
-	```
+```yaml
+apiVersion: v1
+kind:  ServiceAccount
+metadata: 
+	name: nginx-ingress-serviceaccount
+# Roles, ClusterRoles, RoleBindings...
+```
 
 ### (2) Ingress Resource
 Ingress Resource是应用于Ingress Controller的**一组规则和配置**。比如：
@@ -435,6 +436,7 @@ spec:
 ```
 
 <!-- ![请添加图片描述](../ckad-6/1a71f7d2c32d462c8a9ae149a739bea6.png) -->
+
 !!! warning "rewrite-target" 
 	Assume we have the ingress url "www.homepage.com/cv". With annotation 
 
@@ -508,7 +510,8 @@ kubectl create -f policy-definition.yaml
 |--|--|
 | <img src="../ckad-6/c00298c19d8b4c8c992d5f4cc135859a.png" /> | <img src="../ckad-6/8cae9a4ae09c4c919f8ae201159ee3be.png" /> |
 
-⚠️ 上面的例子中，`from`的第一个元素注明了`podSelector`和`namespaceSelector`，第二个元素注明了`ipBlock`。两者之间是“或”的关系
+!!! note
+	上面的例子中，`from`的第一个元素注明了`podSelector`和`namespaceSelector`，第二个元素注明了`ipBlock`。两者之间是“或”的关系
 
 #  >>>  本章kubectl命令整理
 **IP**
@@ -544,7 +547,7 @@ kubectl create -f policy-definition.yaml
 
 
 # 课后小笔记
-**❓ Service vs ServiceAccount** 
+**Service vs ServiceAccount** 
 |Service|ServiceAccount|
 |:--|:--|
 |a network service, to expose applications running on Pod|an identity used by Pods to authenticate with Kubernetes API and other cluster services. <br/> Each pod has a default `ServiceAccount`|

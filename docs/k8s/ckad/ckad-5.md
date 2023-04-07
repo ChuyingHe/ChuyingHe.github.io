@@ -1,8 +1,8 @@
 [TOC]
 
 # 1. 标签 & 选择器
-**标签（`labels`）** 帮助我们标记资源
-**选择器（`selector`）** 用于删选过滤带某些 **标签** 的资源
+- **标签（`labels`）** 帮助我们标记资源
+- **选择器（`selector`）** 用于删选过滤带某些 **标签** 的资源
 
 假设某个Pod带有两个标签：`app=App1`和`function=frontend`，YAML定义文件如下：
 ```yaml
@@ -17,10 +17,14 @@ spec:
 	...
 ```
 我们用选择器过滤。
-⚠️ 如有多个`selector`，使用逗号隔开，中间没有空格！！
-```shell
+
+!!! note
+		如有多个`selector`，使用逗号隔开，中间没有空格！！
+
+```bash
 kubectl get pods --selector app=App1,env=dev
 ```
+
 ## 举例：ReplicaSet对标签的使用
 注意在ReplicaSet的定义中， 有两个`labels`：（1）给ReplicaSet，（2）才是Pod的。
 ```yaml
@@ -49,7 +53,9 @@ spec:
         - name: simple-webapp
           image: simple-webapp
 ```
-⚠️ 选择器`selector`用于删选带有特定`label`的`Pod`
+
+!!! note
+		选择器`selector`用于删选带有特定`label`的`Pod`
 
 # 2. 注释
 **注释（`annotations`）**用于记录其他详细信息。 例如：名称，版本及其他
@@ -76,8 +82,7 @@ kubectl rollout status deployment/[DeploymentName]
 ```
 查看历史`Rollout`：
 ```bash
-kubectl rollout history deployment/[DeploymentName]
-# ⚠️ 可用 `--revision=1` 指定查看 Deployment 的某个特定版本
+kubectl rollout history deployment/[DeploymentName]		# ⚠️ 可用 `--revision=1` 指定查看 Deployment 的某个特定版本
 ```
 假设你发现新的软件版本有bug，想要**回滚**到上一个版本：
 
@@ -88,7 +93,7 @@ kubectl rollout undo deployment/[DeploymentName]
 ## 部署政策（Deployment Strategy）
 假设我们部署了一个网站在集群上，因为访问量大，我们将App复制了5份（`replicas`）。现在开发者修改了源代码，想要更新网站。有以下两种更新/部署方式可供选择：
 
-（1）**Recreate政策**：删除旧的5份App，再重新部署新的5份App。不推荐，删除旧的之后，新的部署完成之前，用户无法访问网站
+1. **Recreate政策**：删除旧的5份App，再重新部署新的5份App。不推荐，删除旧的之后，新的部署完成之前，用户无法访问网站
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -99,7 +104,7 @@ spec:
   	# 部署政策
   	type: Recreate
 ```
-（2）**Rolling Update政策（默认政策）**：删除一个旧的App，重新部署一个新的App，逐个进行更新
+2. **Rolling Update政策（默认政策）**：删除一个旧的App，重新部署一个新的App，逐个进行更新
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -115,7 +120,7 @@ spec:
       maxUnavailable: 25%
 ```
 
-⚠️ 部署政策可以用 `k describe deployment/[DeploymentName]` 查看
+部署政策可以用 `k describe deployment/[DeploymentName]` 查看
 
 ## 触发新部署
 更新github源码会自动触发新部署，当然我们也可以修改镜像版本，标签（`labels`）等。我们可以：
@@ -126,8 +131,7 @@ kubectl apply -f deployment-definition.yaml
 ```
 （2）用`kubectl`的命令直接修改特定资源，比如镜像
 ```bash
-kubectl set image deployment/[DeploymentName] nginx=nginx:1.9.1
-# ⚠️ 可用 `--record` 将当前的命令记录下来，写到Deployment文件中，相当于git commit做的事
+kubectl set image deployment/[DeploymentName] nginx=nginx:1.9.1 	# ⚠可用 `--record` 将当前的命令记录下来，写到Deployment文件中，相当于git commit做的事
 ```
 
 ## ReplicaSet
@@ -169,14 +173,16 @@ spec:
 	restartPolicy: Always	# 默认重启策略，还可以是Never或者OnFailure
 	# --- 定义容器 ---
 ```
-⚠️ 这个操作的结果是：**Kubernetes**不断的想要重建容器，以保证容器的数量为1，而被新建的容器则每次都在执行完计算任务后自杀。以此往复，直到达到阈值。**Kubernetes** 希望App永远存在。
-`Pod` 的默认行为是尝试重新启动容器以保持其运行。该行为由 Pod 上的重启策略（`restartPolicy`）定义，默认情况下设置为 `always`。 
+!!! note 
+		这个操作的结果是：**Kubernetes**不断的想要重建容器，以保证容器的数量为1，而被新建的容器则每次都在执行完计算任务后自杀。以此往复，直到达到阈值。**Kubernetes** 希望App永远存在。
+		
+		`Pod` 的默认行为是尝试重新启动容器以保持其运行。该行为由 Pod 上的重启策略（`restartPolicy`）定义，默认情况下设置为 `always`。 
 
-⚠️ 解决方法：我们可以将它修改成`Never`或者`OnFailure`，以阻止容器的重建。
-*--> 这个解决方法，不是特别的优雅。我们现在来看看更 **优雅** 的解决方法：*
+⚠️ 解决方法：我们可以将它修改成`Never`或者`OnFailure`，以阻止容器的重建 --> 这个解决方法，不是特别的优雅。我们现在来看看更 **优雅** 的解决方法：
 
 ## Job vs ReplicaSet
 然而，一般来说，一次性的任务不会是**计算2+3**那么简单，一般会是**大量数据的批处理**等复杂但只需执行一次的任务，这里我们引入`Job`这个概念。`Job`可与`ReplicaSet`进行类比，只不过`Job`中的Pod做的一次性任务，而`ReplicaSet`中的Pod运行的是持续性App。
+
 <img src="../ckad-5/0760dafa7cc348739061a9033e83caaf.png" width=600 />
 
 
@@ -201,11 +207,12 @@ spec:
 			  command: ['expr', '3', '+', '2']
 			restartPolicy: Never
 ```
-> ⚠️ 注意
-> - `job.yaml`定义文件中有两个`.spec`
-> - `.spec.completions: 3`：定义了Job要新建的Pod的数量。Pod按序创建，第二个 Pod 仅在第一个 Pod 完成后创建。如有Pod创建失败，Job会持续新建Pod直到有指定数量的`completed`的Pod为止
-> - `.spec.parallelism: 3`：默认情况下，Pod按序创建，我们也可以自定义其为同时建立，在`.spec`中添加`.parallelism: 3`即可定义同时创建的Pod的数量
-> - `.spec.backoffLimit: 15`：如果没有一次Pod执行成功，最多执行Pod15次。所以Pod停止执行的情况有两种：要么有一次成功了，要么次数超过15了
+!!! note
+		- `job.yaml`定义文件中有两个`.spec`
+		- `.spec.completions: 3`：定义了Job要新建的Pod的数量。Pod按序创建，第二个 Pod 仅在第一个 Pod 完成后创建。如有Pod创建失败，Job会持续新建Pod直到有指定数量的`completed`的Pod为止
+		- `.spec.parallelism: 3`：默认情况下，Pod按序创建，我们也可以自定义其为同时建立，在`.spec`中添加`.parallelism: 3`即可定义同时创建的Pod的数量
+		- `.spec.backoffLimit: 15`：如果没有一次Pod执行成功，最多执行Pod15次。所以Pod停止执行的情况有两种：要么有一次成功了，要么次数超过15了
+
 
 用`k create -f job.yaml`新建Job。可以通过以下命令查看：
 ```bash
@@ -265,9 +272,9 @@ spec:
 					restartPolicy: Never
 					# --- 定义容器 ---
 ```
-> - `.spec.schedule`时间格式如下：
-> `"[minute (0-59)] [hour (0-23)] [day of the month (1-31)] [month (1-12)] [weekday (0-6)]"`
-> - ⚠️现在`cronjob.yaml`定义中有三个`spec`
+
+- `.spec.schedule`时间格式如下：`"[minute (0-59)] [hour (0-23)] [day of the month (1-31)] [month (1-12)] [weekday (0-6)]"`
+- ⚠️现在`cronjob.yaml`定义中有三个`spec`
 
 用`k create -f crobjob.yaml`新建Job。可以通过以下命令查看：
 ```bash
@@ -279,24 +286,44 @@ NAME				SCHEUDLE		SUSPEND			ACTIVE
 reporting-cron-job	*/1 * * * *		False			0
 ```
 #  >>>  本章kubectl命令整理
-> **标签&选择器**
-> `kubectl get pods --selector app=App1,env=dev`其中`--selector`和 `-l` 效果一样，都是用标签对资源进行选择
-> -- --
-> **Rollout相关**
-> `kubectl rollout status deployment/[DeploymentName]` 查看状态
-> `kubectl rollout history deployment/[DeploymentName]` 查看历史Rollout，可用`--revision=1`指定版本
-> `kubectl rollout undo deployment/[DeploymentName]` 回滚到上一个版本
-> -- --
-> **Deployment相关**
-> `kubectl set image deployment/[DeploymentName] nginx=nginx:1.9.1` 修改镜像资源
-> -- --
-> **ReplicaSet相关**
-> `kubectl get replicasets`列出所有replicasets
-> -- --
-> **Job相关**
-> `kubectl create job [JobName] --image=[ImageName] --dry-run=client -o yaml > [JobName].yaml` 生成Job定义文件
-> `kubectl get jobs`列出所有jobs
-> `kubectl delete job [JobName]`删除某job
-> -- --
-> **CronJob相关**
-> `kubectl get cronjob`
+**标签&选择器**
+
+`kubectl get pods --selector app=App1,env=dev`其中`--selector`和 `-l` 效果一样，都是用标签对资源进行选择
+
+-- --
+
+**Rollout相关**
+
+`kubectl rollout status deployment/[DeploymentName]` 查看状态
+
+`kubectl rollout history deployment/[DeploymentName]` 查看历史Rollout，可用`--revision=1`指定版本
+
+`kubectl rollout undo deployment/[DeploymentName]` 回滚到上一个版本
+
+-- --
+
+**Deployment相关**
+
+`kubectl set image deployment/[DeploymentName] nginx=nginx:1.9.1` 修改镜像资源
+
+-- --
+
+**ReplicaSet相关**
+
+`kubectl get replicasets`列出所有replicasets
+
+-- --
+
+**Job相关**
+
+`kubectl create job [JobName] --image=[ImageName] --dry-run=client -o yaml > [JobName].yaml` 生成Job定义文件
+
+`kubectl get jobs`列出所有jobs
+
+`kubectl delete job [JobName]`删除某job
+
+-- --
+
+**CronJob相关**
+
+`kubectl get cronjob`

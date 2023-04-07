@@ -6,8 +6,10 @@ Docker 容器本质上是 **瞬态（transient）**  的。 这意味着它们�
 为了使容器的数据**持久化**，我们将**容器**所在的 **Pod** 连接到**卷**。 容器中的数据放在该**卷**中，即使容器被删除，数据会仍然存在。
 
 下面的yaml文件为**Pod**创建并连接**卷**：
- - **Container**：其中的App随机生成一个0-100之间的数，并存到文件夹 `/opt` 中
- - **Volume**：该**卷**名为`data-volume`，实际上是当前Node上的一个文件夹`/data`。所有用卷`data-volume`存储的信息，最后都会被放在Node的`/data`文件夹下
+
+- **Container**：其中的App随机生成一个0-100之间的数，并存到文件夹 `/opt` 中
+- **Volume**：该**卷**名为`data-volume`，实际上是当前Node上的一个文件夹`/data`。所有用卷`data-volume`存储的信息，最后都会被放在Node的`/data`文件夹下
+
 ```yaml
 # pod.yaml
 apiVersion: v1
@@ -35,11 +37,12 @@ spec:
 <img src="../ckad-7/3330eeade9ca45219f426ff68c81cc50.png" width=1000 />
 
 上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，那么每个**Node**其实都是不同的服务器，它们都有的`/data`文件路径，分别存储了不同的内容。所以我们要另找解决方法。
+
 <img src="../ckad-7/f2850a151fe24491912fdba66b189880.png" width=1200 />
 
-> ⚠️ **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
-> ⚠️ **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
-> 卷的这两个特性导致管理困难，而且也不利于扩大应用规模，因为无法支持多Node的应用，而**持久卷**能解决该问题
+- **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
+- **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
+- 卷的这两个特性导致管理困难，而且也不利于扩大应用规模，因为无法支持多Node的应用，而**持久卷**能解决该问题
 
 <!--
 ## 常见的 volume 的类型
@@ -64,7 +67,8 @@ spec:
 我们想要一个更中心化的解决方法，如有某个**多Node的应用**需要修改存储空间，管理员（Administrator）可以统一对其进行管理。**持久卷池**可以帮我们解决这个问题。
 
 持久卷是**Cluster**层级的，放满 **存储卷** 的池子（Pool），由集群的管理员进行管理和配置。然后由Pod根据自己的需求发送 **存储卷请求（PersistentVolumeClaim / PVC）**。
-> ⚠️ 一个PV本身是不可分割的单位，而管理员管理的是一堆存储容量大小各异的PV
+
+⚠️ 一个PV本身是不可分割的单位，而管理员管理的是一堆存储容量大小各异的PV
 ```yaml
 # 持久卷（PersistentVolume）的定义
 # my-pv.yaml
@@ -104,6 +108,7 @@ volumes:
   	fsType: ext4
 ```
 还有其他更多**持久卷**的类型：
+
 - `awsElasticBlockStore`：AWS Elastic Block Store (EBS)
 - `azureDisk`：Azure Disk
 - `azureFile`：Azure File
@@ -123,9 +128,10 @@ volumes:
 
 # 3. 持久卷申领（PersistentVolumeClaim，PVC）
 在定义了Cluster上的**PersistentVolume**之后。**Pod**需要发送PVC请求，以拿到试用PV的许可
-> 概念整理
-> - **PV**：由 **管理者（Administrator）** 配置的存储空间
-> - **PVC**：由Pod的 **用户（User of Pod）** 发出的“想要使用一部分存储空间“的请求
+
+!!! note "概念整理""
+    - **PV**：由 **管理者（Administrator）** 配置的存储空间
+    - **PVC**：由Pod的 **用户（User of Pod）** 发出的“想要使用一部分存储空间“的请求
 
 ```yaml
 # my-pvc.yaml
@@ -167,7 +173,7 @@ spec:
       persistentVolumeClaim:
         claimName: myclaim
 ```
-> ⚠️ 在Pod中添加PVC之后，ReplicaSets 和 Deployments中也会自动添加相对应的PVC定义！
+⚠️ 在Pod中添加PVC之后，ReplicaSets 和 Deployments中也会自动添加相对应的PVC定义！
 
 
 
@@ -194,14 +200,14 @@ labels:
 ### 3. 特例
 最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。**--> 这可能导致PV的浪费！**
 比如，我们上面用YAML文件定义的名为`my-claim`的PVC和名为`pv-volume`的PV。PVC要求的存储空间是`500Mi`，假设现在只剩下`pv-volume`这一个PV，那么`my-claim`这个PVC会绑定到`pv-volume`。用`k get pvc`可用看到：
-```shell
+```bash
 NAME     STATUS    VOLUME   	CAPACITY   ACCESS MODES   STORAGECLASS    AGE
 my-claim Bound     my-volume    1Gi        RWO            aws-xxx		  40m
 ```
 
 ### 4. 没有可用的PV时，PVC的行为
 如果当前的Cluster中，没有可用的PV，那么发出的PVC会一直处于`Pending`的状态。这时用`k get pvc`查看会得到类似下面的结果：
-```shell
+```bash
 NAME     STATUS    VOLUME   CAPACITY    ACCESS MODES   STORAGECLASS           AGE
 my-claim Pending                                       vpc-block-1iops-tier   35h
 ```
@@ -215,9 +221,9 @@ k delete pvc/my-claim
 ```
 当PVC被删除时，**与之绑定的PV** 可能的行为有以下几种：
 
- 1. `Retain`: 被绑定的PV会依旧存在，没有被删除，除非Administrator手动删除。但该PV也无法被其他PVC使用。此时PV的Status会是`“Released”`，而不是`“Available”`。
- 2. `Delete`: 被绑定的PV也会自动被删除，由此，Cluster的整体**存储池**总体容量会变小
- 3. `Recycle`: 被绑定的PV被回收利用，PV上的数据会被删除，且可供其他PVC使用，Cluster的整体**存储池**总体容量会不变
+1. `Retain`: 被绑定的PV会依旧存在，没有被删除，除非Administrator手动删除。但该PV也无法被其他PVC使用。此时PV的Status会是`“Released”`，而不是`“Available”`。
+2. `Delete`: 被绑定的PV也会自动被删除，由此，Cluster的整体**存储池**总体容量会变小
+3. `Recycle`: 被绑定的PV被回收利用，PV上的数据会被删除，且可供其他PVC使用，Cluster的整体**存储池**总体容量会不变
 
 你可以在YAML中定义：
 
@@ -237,20 +243,22 @@ spec:
   # 对PV的行为进行规定："Retain", "Recycle", 或 "Delete"
   persistentVolumeReclaimPolicy: Recycle
 ```
-> ⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
+⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
 
 # 5. 存储类 / Storage Classes
 假设我现在想使用GCE的存储空间，那么需要3个步骤：
+
 1. 在GCE中新建存储空间
 2. 创建一个使用GCE空间的PV
 3. 创建一个PVC
 4. 在Pod中使用该PVC
 
 
-这个过程被称作 **“Static Provisioning”**。我们可以通过创建**存储类 / Storage Classes**来简化这个过程，实现**“Dynamic Provisioning”**：
- 1. 创建一个**存储类 / StorageClass**
- 2. 创建一个PVC
- 3. 在Pod中使用该PVC
+这个过程被称作 **“Static Provisioning”**。我们可以通过创建**存储类 / Storage Classes**来简化这个过程，实现**“Dynamic Provisioning”** 
+
+1. 创建一个**存储类 / StorageClass**
+2. 创建一个PVC
+3. 在Pod中使用该PVC
 
 创建StorageClass：
 ```yaml
@@ -267,9 +275,10 @@ parameters:
 	type: pd-standard
 	replication-type: none
 ```
-> 绑定模式 `VolumeBindingMode`：
-> - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应PVC 的 Pod。
-> - `Immediate`
+
+!!! note "绑定模式 `VolumeBindingMode`""
+    - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应PVC 的 Pod。
+    - `Immediate`
 
 PVC使用StorageClass：
 ```yaml
@@ -287,7 +296,8 @@ spec:
       storage: 500Mi
 ```
 **工作原理：**
- PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
+
+PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
 
 # 6. Stateful Set
 **Stateful Set** 类似于 **Deployment Sets**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：
@@ -322,10 +332,11 @@ spec:
 kubectl create -f my-ss.yaml
 ```
 
-> ⚠️ StatefulSet被删除时从后往前删
+⚠️ StatefulSet被删除时从后往前删
 
 # Headless Service
 不做loading balance，只提供DNS的服务。与StatefulSet一起使用时，为每一个Pod都提供一个DNS，格式为：`<pod-name>.<headless-service-name>.<namespace>.<cluster-domain>`比如：
+
 - `mysql-0.mysql-headless.default.svc.cluster.local`
 - `mysql-1.mysql-headless.default.svc.cluster.local`
 - `mysql-2.mysql-headless.default.svc.cluster.local`
@@ -344,6 +355,7 @@ spec:
 	clusterIP: None
 ```
 现在我们有两条路：
+
 1. 手动创建Pod
 2. 通过StatefulSet创建Pod
 
@@ -366,6 +378,7 @@ spec:
 
 ## 2. 通过StatefulSet创建Pod
 如之前的例子所示，需要加一个`serviceName`即可
+
 #  >>>  本章kubectl命令整理
 
 # 参考文献
@@ -373,10 +386,6 @@ spec:
 # 图片来源
 <a href="https://www.flaticon.com/free-icons/database" title="database icons">Database icons created by phatplus - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/folder" title="folder icons">Folder icons created by Good Ware - Flaticon</a>
-
-
-
-
 
 <!--
 TODO:

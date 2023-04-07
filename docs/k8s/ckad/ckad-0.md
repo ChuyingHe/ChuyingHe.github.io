@@ -1,6 +1,6 @@
 [TOC]
 
-```shell
+```bash
 kubectl get pods <pod-name> -o custom-columns=NAME:.metadata.name,RSRC:.metadata.resourceVersion
 ```
 
@@ -20,7 +20,7 @@ kubectl get pods --field-selector=status.phase!=Running,spec.restartPolicy=Alway
 | `spec` |  |该资源类型中spec下的所有属性，如果你想看当前资源（比如Pod）有哪些属性，可用通过`k get pod/xxx -o yaml` |
 
 
-```shell
+```bash
 oc get route --field-selector spec.to.name=${version}-frontend -o custom-columns=URL:.spec.host --no-headers
 ```
 

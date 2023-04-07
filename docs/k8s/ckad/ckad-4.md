@@ -4,14 +4,17 @@
 被用来形容`Pod`的状态的有**Pod Status**和**Pod Condition**：
 ## Pod Status 
 `Pod Status`告诉我们当前的`Pod`在生命周期的哪一个阶段：
+
 |Pod Status|解释|
 |:--|:--|
 |`Pending`|`Pod`刚刚建成， **k8s的Scheduler** 正在考虑把`Pod`放在哪一个`Node`上。如果Scheduler没有办法决定把`Pod`放哪里那么就会一直处于`Pending`状态<br/><br/>可用 `k describe pod/xxx` 查看原因（比如是资源不足导致的）|
 |`ContainerCreating`|这是`Pod`已经被Scheduler顺利分配到`Node`中了。接下来会下载镜像并创建容器|
 |`Waiting`|Pod被排到了某个`Node`上，但出于某种原因，`Pod`没有办法跑。原因多种多样，比如镜像没有办法下载等|
 |`Running`|容器顺利地创建好了，App在跑了|
+
 ## Pod Condition
 **Pod Status**告诉我们`Pod`在生命周期的哪一个阶段，而**Pod Condition**提供了更具体的信息。k8s提供了四个Conditions，可以用`k describe pod/xxx`查看`Condition`属性：
+
 |Pod Status|解释|
 |:--|:--|
 |`PodScheduled`|当`Pod`被Scheduler顺利分配到`Node`中时，为`TRUE`|
@@ -47,10 +50,13 @@ exec:
    	- cat
    	- /app/is_ready
 ```
-> **Probe的配置**
-> `initialDelaySeconds: 10`：第一次用Probe之前先等10秒（单位：Seconds）
-> `periodSeconds: 5`：每5秒用一次Probe（单位：Seconds）
-> `failureThreshold: 8`：最多尝试8次，如果第八次还是失败，那就停止尝试并设`Ready`为FALSE
+
+**Probe的配置**
+
+- `initialDelaySeconds: 10`：第一次用Probe之前先等10秒（单位：Seconds）
+- `periodSeconds: 5`：每5秒用一次Probe（单位：Seconds）
+- `failureThreshold: 8`：最多尝试8次，如果第八次还是失败，那就停止尝试并设`Ready`为FALSE
+
 ## Probe的使用
 ### ReadinessProbe
 **ReadinessProbe**给Pod Condition的`Ready`加了一个门槛：只有当ReadinessProbe中的测试得到正确结果后才能给Pod一个`Ready`的Condition。举例：
@@ -79,10 +85,10 @@ spec:
         port: 8080
 ```
 **Probe**保证了标记为`Ready`的容器是正常运行的。保证了软件更新时用户总是能成功访问到我们的软件。没有`Ready`之前，所有的traffic都会被导到旧的`Pod`上去，等新的`Pod`确定`Ready`了之后，才会对它进行使用。
+
 ### LivenessProbe
-> **Docker VS Kubernetes**
-> 当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，死了，那需要开发者手动删除出问题的`Container`，再重新建一个。
-> 而Kubernetes会自动尝试删除旧的`Container`，建一个新的
+!!! note "Docker VS Kubernetes"
+    当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，死了，那需要开发者手动删除出问题的`Container`，再重新建一个。而Kubernetes会自动尝试删除旧的`Container`，建一个新的
 
 有时会我们会遇到`Container`本身没有问题，但是`Container`中的App因为某个bug而出错的情况（比如，刚刚push到git上的js代码中某个依赖无法找到）。这种情况下`Pod`没有办法监测到内部App的问题，我们就需要用到**LivenessProbe** ，它可以定期测试容器内的应用程序是否真的健康。如果测试失败，则该`Container`被认为不健康，会被销毁并重建。举例：
 ```yaml
@@ -107,6 +113,7 @@ spec:
 
 # 3. 容器日志（Logging）
 **Docker**中，我们可以用 **非分离** 的模式创建容器xxx：
+
 ```bash
 docker run [ImageName] --name [ContainerName]
 ```
@@ -118,12 +125,11 @@ docker run -d [ImageName] --name [ContainerName]
 ```bash
 docker logs -f [ContainerName] 
 ```
-<br/>
+
 
 同样的，在**k8s**中，我们也可打印实时日志:
 ```bash
-kubectl logs -f [PodName]
-# ⚠️ 在[PodName]前面不加 `pod`
+kubectl logs -f [PodName]   # ⚠️ 在[PodName]前面不加 `pod`
 ```
 
 当一个`Pod`中包含 **多个** `Container`时，我们需要写明打印哪一个`Container`的日志：`-c`代表`container`
@@ -133,6 +139,7 @@ kubectl logs -f [PodName] -c [ContainerName]
 
 # 4. 监测和Debug
 根据应用场景，我们可能会想要监测`Node`层面和`Pod`层面的指标：
+
 - `Node`层面：
 	- 集群上`Node`的总数
 	- 健康的`Node`数量
@@ -144,6 +151,7 @@ kubectl logs -f [PodName] -c [ContainerName]
 	- 每个`Pod`的CPU，内存消耗
 
 k8s没有提供自带的监测工具，但是有很多开源的第三方服务，比如`MetricsServer`，`Prometheus`， `Elastic Stack`，`DataDog`，`Dynatrace`等。在CKAD的考试中，我们只需了解如何使用`MetricsServer`即可，其他的工具会在CKA中讲到。
+
 ## MetricsServer
 `MetricsServer`的前身是`Heapster`（已弃用）。每个k8s集群有一个`MetricsServer`。`MetricsServer`收集Node和Pod的日志，并保存到 **内存** 中（不在磁盘上！），所以没有办法查看历史日志。
 
@@ -169,6 +177,7 @@ kubectl top pod
 ```
 
 # 5. 常见k8s错误
+
 |错误码| 解释 |
 |:-|:-|
 |`OOMKilled`| 当容器**内存不足**并且内核被迫终止进程时，会发生此错误。 OOM（内存不足）是 Linux 内核的一项功能，可以终止进程以释放内存。|
@@ -184,25 +193,25 @@ kubectl top pod
 
 
 #  >>>  本章kubectl命令整理
-> **生命周期**
-> `k describe pod/xxx`和`k get pod/xxx`都可查看Pod状态
-> -- --
-> **docker**
-> `docker run [ImageName] --name [ContainerName]`
-> `docker run -d [ImageName]] --name [ContainerName]` detached 模式
-> `docker logs -f [ContainerName]` 打印日志
-> -- --
-> **k8s日志**
-> `kubectl logs -f [PodName]`
-> `kubectl logs -f [PodName] -c [ContainerName]`
-> -- --
-> **MetricsServer安装**
-> 用minikube安装：`minikube addons enable metrics-server`
-> 其他环境安装（直接下源码）：
-> ```bash
-> git clone https://github.com:kubernetes-sigs/metrics-server.git
-> cd metrics-server
-> kubectl create -f .
-> kubectl top node
-> kubectl top pod
-> ```
+**生命周期**
+`k describe pod/xxx`和`k get pod/xxx`都可查看Pod状态
+-- --
+**docker**
+`docker run [ImageName] --name [ContainerName]`
+`docker run -d [ImageName]] --name [ContainerName]` detached 模式
+`docker logs -f [ContainerName]` 打印日志
+-- --
+**k8s日志**
+`kubectl logs -f [PodName]`
+`kubectl logs -f [PodName] -c [ContainerName]`
+-- --
+**MetricsServer安装**
+用minikube安装：`minikube addons enable metrics-server`
+其他环境安装（直接下源码）：
+```bash
+git clone https://github.com:kubernetes-sigs/metrics-server.git
+cd metrics-server
+kubectl create -f .
+kubectl top node
+kubectl top pod
+```
