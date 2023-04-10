@@ -43,7 +43,7 @@ sleep 10
 		Dockerfile中定义的命令，可以是`shell`格式，或者`json`格式：
 
 		- SHELL格式：`CMD sleep 5` 
-		- JSON格式：`CMD ["sleep", "5"]`：注意第一个元素要是可执行的命令，接下来才是参数
+		- JSON格式：`CMD ["sleep", "5"]`
 
 以上两者效果是一样的
 ## ENTRYPOINT + CMD
@@ -55,14 +55,11 @@ FROM ubuntu
 ENTRYPOINT ["sleep"]
 CMD ["5"]
 ```
-⚠️ 注意：这里一定要用`json`格式
 
 
 ```bash
 docker run myImg 							# 使用默认值参数 5
-docker run myImg 10							# 或者自定义参数为 10
-
-docker run --entrypoint sleep2.0 myImg 10	# 或者自定义命令和参数：假设我们想用新版本的命令`sleep2.0`
+docker run myImg 10						# 或者自定义参数为 10
 ```
 
 
@@ -71,11 +68,10 @@ docker run --entrypoint sleep2.0 myImg 10	# 或者自定义命令和参数：假
 
 ```bash
 cd myFolder
-ls							# 这里应该能看到你写的Dockerfile
+ls												# 这里应该能看到你写的Dockerfile
 docker build -t myImg .  	# 用当前路径下的Dockerfile建镜像，名字叫`myImg`
 ```
-接下来新建一个YAML文件，在文件中使用新建的镜像`myImg`：
-
+现在镜像有了，可以直接用`docker run myImg --name myPod --entrypoint sleep2.0 myImg 10`来创建容器，或者用下面这个YAML文件：（这里我们用了命令的新版本`sleep2.0`）
 ```yaml
 # pod.yaml
 apiVersion: v1
@@ -92,8 +88,8 @@ spec:
 
 |命令/参数|Dockerfile|yaml|`docker run myPod`<br/>`--image=myImg`|`kubectl run myPod`<br/>`--image=myImg`|
 |:--|:--|:--|:--|:--|
-|sleep2.0|`ENTRYPOINT`|`.spec`<br/>`.containers`<br/>`.command`|`--entrypoint`<br/> `sleep2.0`|`k run myPod --image=myImg --command sleep2.0 `|
-|`10`|`CMD`|`.spec`<br/>`.containers`<br/>`.args`|`10`|`k run myPod --image=myImg -- 10`<br/>或者<br/>`k run myPod --image=myImg -- --position bed`|
+|sleep2.0|`ENTRYPOINT ['sleep2.0']`|`.spec`<br/>`.containers`<br/>`.command: ['sleep2.0']`<br/>命令`command`是单数|`--entrypoint`<br/> `sleep2.0`|`--command sleep2.0 `|
+|`10`|`CMD ['10']`|`.spec`<br/>`.containers`<br/>`.args: ['10']`<br/>命令`args`是复数|`10`|`-- 10`|
 
 ⚠️ 注意，附加到 `docker run`的任何内容都应该以`json`数组的格式写到YAML文件里。
 
@@ -173,13 +169,14 @@ env:
 !!! note
 		⚠️ 记忆点：`...From` + `...Ref`
 
-将`ConfigMap`作为一个文件写入容器的`Volumne`里面。这个操作会在`Volumne`里面为每一个键值对建一个文件，以“键”为文件名，“值”为文件内容。（比如有两个文件，`APP_COLOR`文件内容是APP_MODE的值，`APP_MODE`文件内容是`prod`）
+将`ConfigMap`作为一个文件写入容器的`volume`里面。这个操作会在`volume`里面为每一个键值对建一个文件，以“键”为文件名，“值”为文件内容。（比如有两个文件，`APP_COLOR`文件内容是APP_COLOR的值，比如"green"，`APP_MODE`文件内容是"prod"）
 
 ```yaml
-volumnes:
-	- name: app-config-volumne		# volumne的名字
-	  configMap: 
-	  	name: app-config	# ConfigMap的名字
+spec:
+	volumes:
+		- name: app-config-volume		# volume 的名字
+		  configMap: 
+		  	name: app-config					# ConfigMap的名字
 ```
 ## ConfigMap的创建
 以下是创建`ConfigMap`（缩写为`cm`）的方法：
@@ -241,13 +238,14 @@ env:
 !!! note
 		⚠️ 记忆点：`...From` + `...Ref`
 
-将`Secret`作为一个文件写入容器的`Volumne`里面：
+将`Secret`作为一个文件写入容器的`volume`里面：
 
 ```yaml
-volumnes:
-	- name: app-secret-volumne		# volumne的名字
-	  configMap: 
-	  	name: app-secret	# Secret的名字
+spec:
+	volumes:
+		- name: app-secret-volume		# volume的名字
+		  secret:
+		  	secretName: app-secret	# secret的名字
 ```
 
 
@@ -256,7 +254,7 @@ volumnes:
 
 ```bash
 # 从纯键值对取值：
-# ⚠️ 这里的“generic”是secret的类型，是必须给的值，不然会报错！！我们之后会讲到
+# 这里的“generic”是secret的类型，是必须给的值，不然会报错！！我们之后会讲到
 kubectl create secret generic <SecretName> --from-literal=<key>=<value>
 
 # 或者，从文件取值：
@@ -297,7 +295,6 @@ data:
 - `Secret`文件不上传到版本控制系统（比如git）
 - 仅当`Pod`需要时，才会将`Secret`发送到该`Pod`所在的节点
 - Kubelet 将`Secret`存储到 tmpfs 中，这样`Secret`就不会写入磁盘存储
-- 一旦依赖于 `Secret` 的 `Pod` 被删除，Kubelet 也会删除其本地的  `Secret`  数据副本
 
 !!! note "`tmpfs` "
 		**Temporary File System**是类Unix系统上的暂存档存储空间。所有在`tmpfs`上存储的资料在理论上都是暂时借放的，那也表示说，文件不会创建在硬盘上面。一旦重启，所有在`tmpfs`里面的资料都会消失不见。
@@ -309,8 +306,8 @@ data:
 |类型|描述|举例|
 |:-|:-|:--------|
 |docker-registry|给Docker registry用的`Secret`|`k create secret docker-registry my-secret \` <br/> `--docker-email=tiger@acme.example \` <br/> `--docker-username=tiger \` <br/> `--docker-password=pass1234 \` <br/> `--docker-server=my-registry.example:5000` <br/> |
-|generic|从本地文件或者<br/>直接输入生成`Secret`|`k create secret generic my-secret \`<br/>`--from-literal=username=prod_user` <br/> `--from-literal=password=top_secret`|
-|tls|tls的`Secret`|`k create secret tls my-tls-secret \` <br />`--cert=path/to/cert/file \` <br />`--key=path/to/key/file` <br />|
+|generic|从本地文件或者<br/>直接输入生成`Secret`<br/>（即默认的Opaque类型）|`k create secret generic my-secret \`<br/>`--from-literal=username=prod_user` <br/> `--from-literal=password=top_secret`|
+|tls|tls的`Secret`<br/>用于存储certificate以及与之相关联的key|`k create secret tls my-tls-secret \` <br />`--cert=path/to/cert/file \` <br />`--key=path/to/key/file` <br />|
 
 !!! note
 		⚠️ TLS (Transport Layer Security) 是一种加密协议，用于保护 Internet 上的通信。 它是 SSL（安全套接字层）的继承者，为两台计算机提供了一种安全地相互通信的方式。
@@ -368,7 +365,7 @@ root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 |`audit_write`||✓|✓|
 |其他||✓|❌|
 
-以上列出的是默认的权限，当然，你也可以手动地给**容器root用户**添加或者删减权限：
+以上列出的是默认的权限，当然，你也可以手动地给**容器的用户**添加或者删减权限：
 
 - 增加
 	- 为容器`ubuntu`增加一个`MAC_ADMIN`的权限： `docker run --cap-add MAC_ADMIN ubuntu`
@@ -383,6 +380,9 @@ root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 ```bash
 docker run --user=1000 ubuntu sleep 3600
 ```
+
+<!-- TODO: linux 用户数字代表什么 -->
+
 **方法二：在使用镜像之前，在定义镜像的Dockerfile中修改用户**
 用ubuntu作为基础镜像，创建一个给自定义镜像的Dockerfile：
 
@@ -456,12 +456,16 @@ spec:
 		如果要用root用户，则直接删除`runAsUser: xxxx`即可！
 
 # 8. ServiceAccount
-<!-- TODO: SA这部分没看懂 -->
 
 在k8s中，有两类账号：
 
 - 用户账号（User Account）：给人的，包括但不限于Admin，Developer等
-- 服务账号（Service Account）：给App的，用于App与k8s的交互。
+- 服务账号（Service Account）：给App的，用于App与k8s的交互。服务账号提供了身份信息，常见的使用案例有：
+		
+		- 与APIServer的交流
+		- 与外部服务的交流
+		- 取得私有的镜像数据库（private image registry）认证
+		- 第三方软件使用SA来识别Pods
 
 
 ```bash
@@ -469,11 +473,13 @@ spec:
 kubectl create token  <ServiceAccountName>
 ```
 
-创建`ServiceAccount`的时候，也会自动创建一个相对应的**令牌（token）**。该令牌会被放在一个自动生成的`Secret`对象中。用以下命令可以看到生成的令牌的名字：
+创建`ServiceAccount`的时候，也会自动创建一个相对应的**令牌（token）**。该令牌会被放在一个 **自动生成的`Secret`对象** 中。用以下命令可以看到生成的令牌的名字：
 
 ```bash
 kubectl describe serviceaccount <ServiceAccountName>
 ```
+<!-- TODO： 没有办法看到令牌 为什么 -->
+
 <!--
 TODO
 这里放一个截屏
@@ -496,6 +502,8 @@ k describe pod <PodName>
 ```
 <img src="../ckad-2/7a02817007cb40a694c3ee35cb5d5a96.png" width=500 />
 
+!!! note "系统自动生成的default SA"
+		k8s系统自动为每一个Namespace生成一个名为“default”的SA，该SA拥有特定的API权限。Namespace上新建的每一个Pod都会默认分配给“default”的SA
 
 ## 从集群外部使用ServiceAccount
 
@@ -527,7 +535,7 @@ curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer ey
 - token: token真正存了**令牌**的文件，用于访问 Kubernetes API。
 
 ## 叫停默认`default` ServiceAccount的挂载
-我们也可以叫停`default`ServiceAccount的自动挂载：
+我们也可以叫停`default`ServiceAccount的自动挂载（在 Pod 或者 Deployment 的定义文件中）：
 
 ```yaml
 # ---------------Pod--------------
@@ -571,7 +579,7 @@ spec:
 # 9. 资源需求（Resource Requirements）
 ## Container的资源配置
 ### 资源的默认值
-k8s默认一个新`Container`初始化时至少**0.5 CPU**和**256 Mi**的内存（memory）。这些默认值可以用 `LimitRange` 设置， `LimitRange` 应用于整个命名空间（`Namespace`）。举例：
+默认情况下，k8s cluster上资源的使用是没有限制的。但我们可以通过`LimitRange`设置默认值，比如默认一个新`Container`初始化时至少**0.5 CPU**和**256 Mi**的内存（memory）。`LimitRange` 应用于整个命名空间（`Namespace`）。举例：
 
 ```yaml
 # 默认内存：
@@ -588,6 +596,9 @@ spec:
     type: Container
 ```
 
+!!! warning
+		- `ResourceQuotas` 对一个NS中的总资源设限
+		- `LimitRange` 对NS上单个Container使用的资源设限
 
 ```yaml
 # 默认CPU：
@@ -614,21 +625,22 @@ metadata:
 	name: web-pod
 spec:
 	containers:
-	  - name: ubuntu	# ⚠️ 资源都是相对Container来说的，不是整一个Pod
+	  - name: ubuntu	# 资源都是相对Container来说的，不是整一个Pod
 		image: ubuntu
-			resources:
-				# 修改所需资源的大小
-				requests:
-					memory: "1Gi"
-					cpu: 1
-				# 可用资源上限
-				limits:
-					memory: "2Gi"
-					cpu: 2
+		resources:
+			requests:			# 自定义所需资源的大小
+				memory: "1Gi"
+				cpu: 1
+			limits:				# 自定义可用资源上限
+				memory: "2Gi"
+				cpu: 2
 ```
 
 - `requests`：保证的最少资源数量
 - `limits`：最大资源数量，`Container`不可以使用超出该范围的资源！
+
+
+⚠️ 如果给某个Container自定义`requests`了，最好也自定义它的`limits`：否则可能报错, 因为:<br/> 自定义`requests` > `LimitRange`中默认的`limits`
 
 k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到Node里面：
 
@@ -642,7 +654,7 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 
 **CPU单位**
 
-- 浮点数，0.1CPU=100m（m=milli），最小的CPU可以是1m
+- 浮点数，1CPU=1000m（m=millicpu），最小的CPU可以是1m
 - 1 CPU = 1 vCPU，可以是：AWS的1 vCPU；GCP的1Core；Azure的1Core；1 Hyperthred
 
 **Memory单位**
@@ -662,12 +674,12 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 1. 我喷的`Taint`
 2. 虫子的`Toleration`
 
-假设我（人）是个`Node`，虫子是`Pod`。`Taints` 和 `Toleration`两个概念与安全无关，完全只是限制什么`Pod`放在什么`Node`中的一个规则。当完全没有规则定义的时候，k8s的`Scheduler`对`Pod`进行平均分配。假设某个`Node 1`上有用于特定应用程序的专属资源。
+假设我（人）是个`Node`，虫子是`Pod`。`Taints` 和 `Toleration`两个概念与安全无关，完全只是限制什么`Pod`放在什么`Node`中的一个规则。当完全没有规则定义的时候，k8s的`Scheduler`对`Pod`进行平均分配。
 
 !!! warning
 		`Taint` 和`Toleration`只是为了将某些`Pod`排除在某个`Node`之外，它无法保证特殊的`Pod`一定会放在适合它们的`Node`上（这个由**Node Affinity**实现）。因为其他`Node`可能没有设`Taint`。
 		
-		相反，`Taint` 和`Toleration`告诉`Node`只接受具有某些 `Toleration` 的  `pod` 
+		相反，`Taint` 和`Toleration`告诉`Node`只接受具有某些 `Toleration` 的  `pod` --> 只保证Node的纯净度
 
 <!--TODO：这句话我没看懂-->
 
@@ -675,16 +687,16 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 
 ```bash
 # taint本身其实就是一个键值对，所以 “<key>=<value>” 就够了
-kubectl taint nodes <NodeName> <key>=<value>:<TaintEffect>
+kubectl taint nodes <NodeName> <key><operator><value>:<TaintEffect>
 # 举例：
 kubectl taint nodes node1 app=blue:NoSchedule
 ```
 
-其中的`TaintEffect` 属性决定了如果 `Pod` 没有对应的 `Toleration` 会发生什么，共有3个值：
+其中的`TaintEffect` 属性决定了如果 `Pod` 没有对应的 `Toleration` 会发生什么，从严格到宽松共有3个Effect：
 
- 1. `NoSchedule`：没有`Toleration`的`Pod`不会放在有`Taint`的`Node`上
- 2. `PreferNoSchedule`：尽量避免，但是不保证
- 3. `NoExecute`：不再接受新的`Pod`，驱逐有已存但并没有`Toleration`的`Pod`
+ 1. `NoExecute`：不再接受新的`Pod`，驱逐有已存但并没有`Toleration`的`Pod`
+ 2. `NoSchedule`：没有`Toleration`的`Pod`不会放在有`Taint`的`Node`上
+ 3. `PreferNoSchedule`：尽量避免，但是不保证
 
 ### 2. 给所属的`Pod`加上`Toleration`
 
@@ -697,8 +709,8 @@ spec:
 	containers:
 		- name: ubuntu
 		  image: ubuntu
-	# 四个属性，分别对应taint中的 “app=blue:NoSchedule”
-	tolerations:
+	
+	tolerations:	# 四个属性，分别对应taint中的 “app=blue:NoSchedule”
 		- key: app
 		  operator: Equal
 		  value: blue

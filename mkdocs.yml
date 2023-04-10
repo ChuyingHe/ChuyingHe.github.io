@@ -13,7 +13,6 @@ nav:
       - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
       - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
       - 其他: k8s/ckad/ckad-0.md
-theme: readthedocs
 markdown_extensions:
   - toc:
       permalink: true
@@ -23,6 +22,7 @@ markdown_extensions:
   - admonition
   # - pymdownx.details
   # - pymdownx.superfences
+theme: readthedocs
 # plugins:
 #   - search
-  # - print-site
+#   - print-site

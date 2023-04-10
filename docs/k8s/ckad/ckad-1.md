@@ -6,19 +6,21 @@
 
 # 2. 基本概念
 - **容器（container）**：包含了App，和运行App所需的所有配置与环境。比起虚拟机（VM）来更高效，更灵活
-- **Pod**：是k8s中的最小单位，Pod中的内容分享了**同样的网络（Network）和存储（Storage）**。Pod封装了一个或多个container（如果是多个container，那么大概率这些container包含了不同的App，比如一个前端App，一个数据库App）。<br />
+- **Pod**：是k8s中的最小单位，Pod中的内容分享了**同样的网络（Network）和存储（Storage）**。Pod封装了一个或多个container（如果是多个container，那么大概率这些container包含了不同的App，比如一个前端App，一个数据库App）。豆荚也可翻译成pod，所以可以联想到图片如下：<br />
+
+<img src="../ckad-1/pod.jpeg" width=300 />
 
 ⚠️ Pod常被用于扩大应用的规模，假设你的App访问人数在某个节假日激增，那我们就新建一个pod，然后把同样的App部署到新建的pod上；同样的，Pod也可以被用于降低App的规模
 
 - **节点（node）**：安装了k8s的机器，Pod就是在node上跑的。（节点出问题被自动关闭的时候，其上面的容器中的App自然也会被关闭，所以一般我们会***多节点运行***）
 - **工作节点（worker node）**：真正存放容器，干活的节点
-- **master节点（master node）**：监视集群中的worker nodes，并负责对worker nodes上的容器进行实际编排。一个cluster中可以有一个或者多个master nodes
+- **master节点（master node）**：也被叫做 **控制面板/Control plane**，监视集群中的worker nodes，并负责对worker nodes上的容器进行实际编排。一个cluster中可以有一个或者多个master nodes
 - **集群（cluster）**：由一群nodes组成
 
 <img src="../ckad-1//844171d8f36a4d5c88e1c1883ada9aa6.png">
 
 ## Master node VS Worker node
-||Master node|Worker node||
+||Master node<br/>/Control plane|Worker node||
 |:--|:--|:--|:--|
 |Server|带`kube-apiserver`服务|带`kubelet agent`代理|`kube-apiserver`与`kubelet agent`之间有相互的沟通，<br /> 比如`kubelet`提供worker node是否健康的信息，<br /> `kube-apiserver`给`kubelet`发送任务信息等等。<br /> 所有信息都存储在master node上的etcd数据库中|
 |ETCD|✓|✗||
@@ -26,6 +28,7 @@
 |Scheduler|✓|✗||
 
 # 3. k8s的六大组件
+<img src="../ckad-1/components-of-kubernetes.svg">
 当你安装k8s时，你实际上安装了以下组件：
 ## (1) API Server
 相当于k8s的前端，所有的users，devices，CLIs都通过API Server与k8s集群进行沟通。
@@ -109,17 +112,16 @@ spec:
 	template:
 		metadata:
 	  		name: myapp-pod
-			  labels:
-			    app: myapp
-			    type: frontend
+		  	labels:
+		    	app: myapp
+		    	type: frontend
 		spec:
 			containers:
-	    			- name: nginx-container
-	      		  	  image: nginx
+				- name: nginx-container
+	  		  	  image: nginx
 	replicas: 3
 
-	# ReplicaSet独有的，ReplicationController没有的！
-	selector:
+	selector:			# ReplicaSet独有的，ReplicationController没有的！
 		matchLabels:
 			type: frontend
 ```
@@ -183,10 +185,10 @@ spec:
 			labels:
 				app: myapp
 				type: frontend
-			spec:
-				containers:
-				- name: nginx-container
-				  image: nginx
+		spec:
+			containers:
+			- name: nginx-container
+			  image: nginx
 	replicas: 3
 	selector:
 		matchLabels:
@@ -201,7 +203,7 @@ spec:
 		- ReplicaSet
 		- Pod
 
-🪆因为他们之间的关系是一层套一层：`Deployment`>`ReplicaSet`>`Pod`，像俄罗斯套娃一样：
+🪆因为他们之间的关系是一层套一层：`Pod` < `ReplicaSet` < `Deployment`，像俄罗斯套娃一样：
 ![请添加图片描述](../ckad-1/0cb1cb71c50849c2aee56e0593098236.jpeg)
 
 
@@ -248,14 +250,14 @@ metadata:
   name: dev
 ```
 
-或者，用`kubectl`新建：`kubectl create namespace dev`
+或者，用`kubectl`新建：`k create namespace dev`
 
 **其他相关的`kubectl`的命令**
 
-- `k config current-context` 查看当前namespace
-- `kubectl get pods --namespace=xxx` 指定看Namespace `xxx` 下的Pod
-- `kubectl get pods --all-namespaces` 或者`kubectl get pods -A`  查看所有Namespace下的Pod
-- `kubectl config set-context $(kubectl config current-context) --namespace=xxx` 把默认namespace设置成`xxx`
+- `k config current-context` 查看当前context: `<用户名>:<cluster名>`
+- `k get pods --namespace=xxx` 指定看Namespace `xxx` 下的Pod
+- `k get pods --all-namespaces` 或者`kubectl get pods -A`  查看所有Namespace下的Pod
+- `k config set-context --current --namespace=xxx` 把默认namespace设置成`xxx`
 
 ## Namespace内部访问 vs 跨Namespaces之间的访问
 ![请添加图片描述](../ckad-1/8b7e0f79b6e742969e7ad33fa497ec7e.png)
@@ -272,15 +274,15 @@ mysql.connect("db-service.dev.svc.cluster.local")
 ```
 
 !!! note "跨 Namespace 的服务访问"
-	命名格式是`[ServiceName].[Namespace].svc.cluster.local` （从小到大？）
+	命名格式是`[ServiceName].[Namespace].svc.cluster.local`
 	-- -- 
 	**为什么可以这样访问到Service呢？** 
 
-	当一个Service被创建的时候，k8s会自动添加对应的DNS: <br/> `cluster.local`是k8s集群的默认域名，`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
+	当一个Service被创建的时候，k8s会自动添加对应的DNS: <br/> `cluster.local`是k8s集群的默认域名（cluster domain），`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
 
 
 ## ResourceQuota
-`ResourceQuota`用于给`Namespace`设限。比如`Pod`的数量，`CPU`数量，内存大小等等。
+`ResourceQuota`用于给 **整个`Namespace`的总资源** 设限。比如`Pod`的数量，`CPU`数量，内存大小等等。
 用YAML新建ResourceQuota：
 
 ```yaml
@@ -297,6 +299,11 @@ spec:
     limits.cpu: "10"
     limits.memory: 10Gi
 ```
+
+举例：`limits.cpu: "10"` 表示当前 Namespace 中所有non-terminal状态的 Pod 的`.limits.cpu`资源的总和没有超过10
+
+!!! note "terminal / 终止状态 的 Pod"
+	Pod which has .status == Failed or .status=succeeded
 
 #  >>>  本章kubectl命令整理
 **新建容器：**
@@ -327,7 +334,7 @@ spec:
 
 **Pod相关：**
 
-`kubectl run yyy --image=xxx` 用镜像`xxx`创建名为`yyy`的容器
+`kubectl run yyy --image=xxx` 用镜像`xxx`创建名为`yyy`的容器，放进Pod中，因为k8s中最小单位是Pod！！没有办法把Container单独拿出来
 
 `kubectl get pods` 列举当前集群中所有的pods
 
@@ -350,9 +357,6 @@ spec:
 **修改ReplicaSet中Pod的数量：**
 
 - 先修改`xxx.yml`文件中的relicas的数量，再用`kubectl replace -f xxx.yml` 将更新部署到集群上
-
-- `kubectl scale --replicas=6 -f xxx.yml` 一条命令从外部修改YAML文件，并更新部署
-
 - `kubectl scale replicaset --replicas=6  [ReplicaSetName]` 或  `kubectl scale deployment --replicas=3 [DeploymentName]` 只更新部署，毋需YAML文件
 
 -- --
@@ -382,21 +386,21 @@ spec:
 
 `k config current-context` 查看当前namespace
 
-`kubectl get namespaces ` 或`kubectl get ns `
+`k get namespaces ` 或`kubectl get ns `
 
-`kubectl create namespace xxx`用`kubectl`新建Namespace
+`k create namespace xxx`用`kubectl`新建Namespace
 
-`kubectl get pods --namespace=xxx` 指定看`xxx`Namespace下的Pod
+`k get pods --namespace=xxx` 指定看`xxx`Namespace下的Pod
 
-`kubectl get pods --all-namespaces` 查看所有Namespace下的Pod
+`k get pods --all-namespaces` 查看所有Namespace下的Pod
 
-`kubectl config set-context $(kubectl config current-context) --namespace=xxx` 把默认namespace设置成`xxx`
+`k config set-context --current --namespace=xxx` 把默认namespace设置成`xxx`
 
 -- --
 
 **Service相关**
 
-`kubectl expose pod redis --port=6379 --name redis-service`  为Pod `redis` 新建一个名为`redis-service`的ClusterIP服务，该服务将使用`6379`端口，该服务会用Pod `redis` 的标签进行资源筛选
+`kubectl expose pod redis --port=6379 --name redis-service`  为Pod `redis` 新建一个名为`redis-service`的ClusterIP服务（`--type=ClusterIP`是默认值），该服务本身的端口是`6379`，该服务会用Pod `redis` 的标签进行资源筛选
 
 `kubectl create service clusterip redis-service --tcp=6379:6379` 新建一个名为`redis-service`的ClusterIP服务，该服务将使用`6379`端口。该服务默认用`app=redis-service`标签进行资源筛选
 
@@ -406,7 +410,7 @@ spec:
 
 `k run XXX --image=XXX --port=80` 只会定义port，不会真正的expose Pod，也不会生成对应的Service
 
-`k run XXX --image=XXX --port=80 --expose=true` 会同时生成Pod和对应的Service 
+`k run XXX --image=XXX --port=80 --expose=true` 会同时生成Pod和对应的Service (默认为ClusterIP)
 
 
 
@@ -438,5 +442,9 @@ dig www.baidu.com
 	- **Laptop**：🙏
 
 
+	(TLD = Top Level Domain) <br/>
+	(SLD = Second Level Domain)
+
+<!-- TODO: relationship between TLD, SLD and Root server -->
 
 
