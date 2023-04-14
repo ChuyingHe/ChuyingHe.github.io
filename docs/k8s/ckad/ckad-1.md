@@ -46,7 +46,7 @@
 
 
 # 4. k8s中的YAML
-`YAML`基本介绍见[3分钟看懂YAML](http://t.csdn.cn/ZRc2c)。k8s中，我们可以选择用`kubectl`命令行工具来部署应用，也可以用`YAML`文件定义”如何部署应用“，然后再一次性将`YAML`文件执行到k8s集群上。相比`kubectl`，使用`YAML`的优点有：
+`YAML`基本介绍见[3分钟看懂YAML](http://t.csdn.cn/ZRc2c)。k8s中，我们可以选择用`k`命令行工具来部署应用，也可以用`YAML`文件定义”如何部署应用“，然后再一次性将`YAML`文件执行到k8s集群上。相比`k`，使用`YAML`的优点有：
 
 - Devops as code：可以用git对`YAML`进行版本控制，像写软件代码一样写devops的部署，且多个程序猿可同时进行协作，不会出现信息不同步的问题
 - Single source of truth：所有和devops相关的信息都可以查看对应的`YAML`文件
@@ -144,19 +144,19 @@ spec:
 <!--
 1）把当前`replicaset`的yaml保存起来`k get replicaset myapp-replicaset -o yaml` 
 2）修改该`yml`文件中的relicas的数量
-3）再用强制取代旧的`replicaset`：`kubectl replace -f xxx.yml` （`-f`代表`force`）
- **方法二**：假设当前`replicaset`也是用yaml文件建立起来的，`kubectl scale --replicas=6 -f xxx.yml` 命令会同时修改YAML文件，并更新部署-->
+3）再用强制取代旧的`replicaset`：`k replace -f xxx.yml` （`-f`代表`force`）
+ **方法二**：假设当前`replicaset`也是用yaml文件建立起来的，`k scale --replicas=6 -f xxx.yml` 命令会同时修改YAML文件，并更新部署-->
 
 **如何scale up/down集群中`Pod`的数量？**
 
-- **方法一**：`kubectl edit replicaset`直接修改yaml格式
-- **方法二**： `kubectl scale --replicas=6 replicaset myapp-replicaset` 只更新部署，YAML文件不会被自动修改
+- **方法一**：`k edit replicaset`直接修改yaml格式
+- **方法二**： `k scale --replicas=6 replicaset myapp-replicaset` 只更新部署，YAML文件不会被自动修改
 - **其他**： 根据用户流量自动scale，我们之后会讲到
 
 **如果`ReplicaSet`中的container template有错，比如image的名字错了，如何修改？**
 
 - **方法一**：删除并重建`ReplicaSet`（删除`ReplicaSet`会自动删除它所监控的Pod）
-- **方法二**：先更新`ReplicaSet`，删除旧的Pod `kubectl edit replicaset xxx` ；然后 `kubectl delete pod -l name=busybox-pod` 
+- **方法二**：先更新`ReplicaSet`，删除旧的Pod `k edit replicaset xxx` ；然后 `k delete pod -l name=busybox-pod` 
 
 !!! note
 		因为`ReplicaSet`只检查数量，不检查Pod的内容，所以要把旧的Pod杀掉
@@ -197,7 +197,7 @@ spec:
 
 !!! note "Deployment vs ReplicaSet"
 		注意到了吗，除了`kind`，其他内容和`ReplicaSet`中没有区别！
-		这时候我们用`kubectl create -f deployment.yml`创建 `Deployment`，你可以看到集群中会自动新建以下资源：
+		这时候我们用`k create -f deployment.yml`创建 `Deployment`，你可以看到集群中会自动新建以下资源：
 
 		- Deployment
 		- ReplicaSet
@@ -250,13 +250,13 @@ metadata:
   name: dev
 ```
 
-或者，用`kubectl`新建：`k create namespace dev`
+或者，用`k`新建：`k create namespace dev`
 
-**其他相关的`kubectl`的命令**
+**其他相关的`k`的命令**
 
 - `k config current-context` 查看当前context: `<用户名>:<cluster名>`
 - `k get pods --namespace=xxx` 指定看Namespace `xxx` 下的Pod
-- `k get pods --all-namespaces` 或者`kubectl get pods -A`  查看所有Namespace下的Pod
+- `k get pods --all-namespaces` 或者`k get pods -A`  查看所有Namespace下的Pod
 - `k config set-context --current --namespace=xxx` 把默认namespace设置成`xxx`
 
 ## Namespace内部访问 vs 跨Namespaces之间的访问
@@ -308,7 +308,7 @@ spec:
 #  >>>  本章kubectl命令整理
 **新建容器：**
 
-`kubectl run my-new-pod --image nginx` 
+`k run my-new-pod --image nginx` 
 
 用镜像nginx部署一个容器到kubernetes集群上。因为k8s中最小单位是Pod，所以同一时间，一个Pod也被生成
 
@@ -316,7 +316,7 @@ spec:
 
 **彩排，输出yaml文件：**
 
-`kubectl run my-new-pod --image nginx --dry-run=client -o yaml > pod.yaml`
+`k run my-new-pod --image nginx --dry-run=client -o yaml > pod.yaml`
 
 该命令不会马上执行“新建容器”的操作，`--dry-run=client`的意思是：我彩排一下，不真跑，只是看看是否可以创建资源，以及所用的命令是否正确。然后再用`-o yaml > pod.yaml`将彩排得到的内容以`yaml`文件的形式输出
 
@@ -324,56 +324,56 @@ spec:
 
 **信息**
 
-`kubectl get all` 查看当前集群中所有
+`k get all` 查看当前集群中所有
 
-`kubectl cluster-info` 查看当前集群信息
+`k cluster-info` 查看当前集群信息
 
-`kubectl get nodes`  列举当前集群中所有的nodes
+`k get nodes`  列举当前集群中所有的nodes
 
 -- --
 
 **Pod相关：**
 
-`kubectl run yyy --image=xxx` 用镜像`xxx`创建名为`yyy`的容器，放进Pod中，因为k8s中最小单位是Pod！！没有办法把Container单独拿出来
+`k run yyy --image=xxx` 用镜像`xxx`创建名为`yyy`的容器，放进Pod中，因为k8s中最小单位是Pod！！没有办法把Container单独拿出来
 
-`kubectl get pods` 列举当前集群中所有的pods
+`k get pods` 列举当前集群中所有的pods
 
-`kubectl describe pod xxx` 打印名为`xxx`的pod的具体信息
+`k describe pod xxx` 打印名为`xxx`的pod的具体信息
 
-`kubectl edit pod xxx` 对已存在的pod进行修改
+`k edit pod xxx` 对已存在的pod进行修改
 
-`kubectl delete pod -l name=busybox-pod` 删除所有标签为`name=busybox-pod`的Pod
+`k delete pod -l name=busybox-pod` 删除所有标签为`name=busybox-pod`的Pod
 
 -- -- 
 
 **ReplicaSet相关：**
 
-`kubectl get replicaset` 查看当前集群的replicaset
+`k get replicaset` 查看当前集群的replicaset
 
-`kubectll delete replicaset xxx` 删除名为`xxx`的replicaset
+`kl delete replicaset xxx` 删除名为`xxx`的replicaset
 
-`kubectl edit replicaset xxx` 修改名为`xxx`的replicaset
+`k edit replicaset xxx` 修改名为`xxx`的replicaset
 
 **修改ReplicaSet中Pod的数量：**
 
-- 先修改`xxx.yml`文件中的relicas的数量，再用`kubectl replace -f xxx.yml` 将更新部署到集群上
-- `kubectl scale replicaset --replicas=6  [ReplicaSetName]` 或  `kubectl scale deployment --replicas=3 [DeploymentName]` 只更新部署，毋需YAML文件
+- 先修改`xxx.yml`文件中的relicas的数量，再用`k replace -f xxx.yml` 将更新部署到集群上
+- `k scale replicaset --replicas=6  [ReplicaSetName]` 或  `k scale deployment --replicas=3 [DeploymentName]` 只更新部署，毋需YAML文件
 
 -- --
 
 **Deployment相关**
 
-`kubectl create deployment [DeploymentName] --image=[ImageName] --replicas=4` 
+`k create deployment [DeploymentName] --image=[ImageName] --replicas=4` 
 
 -- --
 
-`kubectl create -f xxx.yml` 将定义好的yaml文件部署到当前集群上
+`k create -f xxx.yml` 将定义好的yaml文件部署到当前集群上
 
 -- --
 
 **kubectl输出格式**
 
-`kubectl [command] [TYPE] [NAME] -o <output_format>`
+`k [command] [TYPE] [NAME] -o <output_format>`
     
 - `-o json` 输出一个 JSON 格式的 API 对象。
 - `-o name` 仅打印资源名称，不打印其他内容。
@@ -386,9 +386,9 @@ spec:
 
 `k config current-context` 查看当前namespace
 
-`k get namespaces ` 或`kubectl get ns `
+`k get namespaces ` 或`k get ns `
 
-`k create namespace xxx`用`kubectl`新建Namespace
+`k create namespace xxx`用`k`新建Namespace
 
 `k get pods --namespace=xxx` 指定看`xxx`Namespace下的Pod
 
@@ -400,9 +400,9 @@ spec:
 
 **Service相关**
 
-`kubectl expose pod redis --port=6379 --name redis-service`  为Pod `redis` 新建一个名为`redis-service`的ClusterIP服务（`--type=ClusterIP`是默认值），该服务本身的端口是`6379`，该服务会用Pod `redis` 的标签进行资源筛选
+`k expose pod redis --port=6379 --name redis-service`  为Pod `redis` 新建一个名为`redis-service`的ClusterIP服务（`--type=ClusterIP`是默认值），该服务本身的端口是`6379`，该服务会用Pod `redis` 的标签进行资源筛选
 
-`kubectl create service clusterip redis-service --tcp=6379:6379` 新建一个名为`redis-service`的ClusterIP服务，该服务将使用`6379`端口。该服务默认用`app=redis-service`标签进行资源筛选
+`k create service clusterip redis-service --tcp=6379:6379` 新建一个名为`redis-service`的ClusterIP服务，该服务将使用`6379`端口。该服务默认用`app=redis-service`标签进行资源筛选
 
 -- --
 

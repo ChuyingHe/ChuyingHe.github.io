@@ -4,29 +4,26 @@
 当我们在镜像库（比如[Dockerhub](https://hub.docker.com/)）中找不到所需的镜像时，我们可以选择自己创建镜像：
 `Dockerfile`文件本质上是一个Docker能够理解的 txt文件。
 
-每行命令都有两个部分组成：`<INSTRUCTION> <argument>`。
-:   - 我们习惯把命令（`INSTRUCTION`）全都大写：比如 `FROM`或`RUN`
-:   - `<argument>`小写。
+每行命令都有两个部分组成：`<INSTRUCTION> <argument>`：
+
+- 我们习惯把命令（`INSTRUCTION`）全都大写：比如 `FROM`或`RUN`
+- `<argument>`小写。
 
 每一行命令的运行结果都是一个层（`layer`），每一层的都以上一层的结果为基础，执行命令。假设中途第N层出错，重新创建该镜像时，我们可直接使用N-1层的结果。
-```{ Dockerfile }
-// 以“镜像”或“操作系统”为基础
-FROM ubuntu	
+```yaml
+FROM ubuntu	            # 以某个镜像为基础（常见的是“操作系统”镜像）
 
-// 安装依赖包
-RUN app-get update
+RUN app-get update      # 安装依赖包
 RUN apt-get install python
 
 RUN pip install flask
 RUN pip install flask-mysql
 
-// 复制代码到镜像中
-COPY . /opt/source-code
+COPY . /opt/source-code # 复制代码到镜像中
 
-// 镜像入口/程序启动命令
-ENTRYPOINT FLASP_APP=/opt/source-code/app.py flask run
+ENTRYPOINT FLASP_APP=/opt/source-code/app.py flask run  # 镜像入口/程序启动命令
 ```
-在`Dockerfile`所在的文件夹中，用该`Dockerfile`创建镜像：
+在`Dockerfile`所在的文件夹中，用该`Dockerfile`创建镜像：（`-t`==`--tag`给镜像加标签）
 ```bash
 docker build -t test/my-custom-image .
 ```
@@ -35,12 +32,13 @@ docker build -t test/my-custom-image .
 ```bash
 docker push test/my-custom-image
 ```
-基于镜像库可定制的特性，我们可以说“万物皆可镜像化”
+⚠️ 基于镜像库可定制的特性，我们可以说“万物皆可镜像化”
 
 
-!!! note
-		运行图像 webapp-color 的实例，并将容器上的端口 8080 发布到主机上的 8282 <br/>
-		`docker run webapp-color -p 8282:8080`
+运行图像 webapp-color 的实例，并将容器上的端口 8080 发布到主机上的 8282：
+```bash
+docker run webapp-color -p 8282:8080
+```
 
 # k8s 安全性
 我们知道k8s的集群上有两种Node： Master Node何Worker Node，其中Master Node是一个`kube-apiserver`服务器。通过对该服务器的访问，我们可以做任何事。那么要如何管理`kube-apiserver`服务器的 **访问权限** 呢：
@@ -60,7 +58,7 @@ docker push test/my-custom-image
         <th>帐号由谁管理</th>
     </tr>
     <tr>
-        <td>管理者 / Admins</td>
+        <td>管理者 / Admin</td>
         <td>管理集群资源</td>
         <td>人类</td>
         <td>用户帐号 / `User`</td>
@@ -76,13 +74,13 @@ docker push test/my-custom-image
     <tr>
         <td>机器人 / Bots</td>
         <td>即用于integration的第三方应用</td>
-        <td>机器人（第三方进程或服务）</td>
+        <td>机器人<br/>（第三方进程或服务）</td>
         <td>服务帐号 / `ServiceAcount`</td>
-        <td>帐号的管理比较简单，由`Kubernetes`自己管理。<br/><br/>  比如: <br/> - `kubectl create sa my-sa`新建一个`ServiceAcount` <br/> - `kubectl get sa`获取当前集群上所有的`ServiceAcount`</td>
+        <td>帐号的管理比较简单，由`Kubernetes`自己管理。<br/><br/>  比如: <br/> - `k create sa my-sa`新建一个`ServiceAcount` <br/> - `k get sa`获取当前集群上所有的`ServiceAcount`</td>
     </tr>
     <tr>
         <td>终端用户 / End users</td>
-        <td>由App自己管理，比如百度云要用户登陆之后才能访问其存储的内容，<br />所以不在kubernetes的管辖范围中，因此这里不做讨论</td>
+        <td>由App自己管理，比如百度云要用户登陆之后才能访问，<br />不在kubernetes的管辖范围中，因此不做讨论</td>
         <td>-</td>
         <td>-</td>
         <td>-</td>
@@ -94,24 +92,23 @@ docker push test/my-custom-image
 
 1. 通过`kubectl`工具
 2. 通过API：`curl https://kube-server-ip:6443`
-两种类型的请求都汇集到`kube-apiserver`服务器。该服务器在处理请求之前对其进行身份验证（Authentication）。
 
-我们可以使用不同的 **认证机制 / Authentication mechanism** 来获得访问权限，比如：
+两种类型的请求都汇集到`kube-apiserver`服务器。该服务器在处理请求之前对其进行身份验证（Authentication）。我们可以使用不同的 **认证机制 / Authentication mechanism** 来获得访问权限，比如：
 
- 1. 用户名 + 密码 / Static Password File
- 2. 用户名 + Token / Static Token File
- 3. 证书 / Certificates
- 4. 第三方认证服务 / Identity Services：如`LDAP`或者`Kerberos`
+ 1. 用户名 + 密码（Static Password File）
+ 2. 用户名 + Token（Static Token File）
+ 3. 证书（Certificates）
+ 4. 第三方认证服务（Identity Services）：如`LDAP`或者`Kerberos`
 
 #### 认证机制 1：用户名 + 密码 
-1. 创建`user-details.csv`：包含`password`，`username`，`userid`，`group`（可选），如下：
+1.创建`user-details.csv`：包含`password`，`username`，`userid`，`group`（可选），如下：
 
 ```csv
 password123, user1, u0001, group1
 password123, user2, u0002, group1
 password123, user3, u0003, group2
 ```
-2. 然后将文件位置添加到`kube-apiserver`服务器的Pod的`.spec.containers.command`中的`--basic-auth-file`去，记得确保 **重启** `kube-apiserver`服务器
+2.然后将文件位置添加到`kube-apiserver`服务器的Pod的`.spec.containers.command`中的`--basic-auth-file`去，记得确保 **重启** `kube-apiserver`服务器
 
 ```yaml
 apiVersion: v1
@@ -124,8 +121,7 @@ spec:
   - command:
     - kube-apiserver
     - --authorization-mode=Node,RBAC
-    # 在此添加用于basic-auth的csv文件：
-    - --basic-auth-file=user-details.csv
+    - --basic-auth-file=user-details.csv    # 添加用于basic-auth的csv文件
       ...
     image: k8s.gcr.io/kube-apiserver-amd64:v1.11.3
     name: kube-apiserver
@@ -140,11 +136,13 @@ spec:
     name: usr-details
 ```
 ⚠️ 查看该pod中`authorization`的内容有几种不同的方法：
-:	- `kubectl describe pod kube-apiserver --namespace kube-system`
-:	- `cat /etc/kubernetes/manifests/kube-apiserver.yaml`
-:	- `ps aux | grep authorization`
 
-3. 创建相应的`Role`和`RoleBinding`，如下：
+- `k describe pod kube-apiserver --namespace kube-system`
+- `cat /etc/kubernetes/manifests/kube-apiserver.yaml`
+- `ps aux | grep authorization`
+
+
+3.创建相应的`Role`和`RoleBinding`，如下：
 
 ```yaml
 ---
@@ -155,28 +153,30 @@ metadata:
   namespace: default
   name: pod-reader
 rules:
-- apiGroups: [""] # 注意 "" indicates the core API group，也可以是"apps"
+- apiGroups: [""]     # 注意 "" indicates the core API group，也可以是"apps"
   resources: ["pods"]
   verbs: ["get", "watch", "list"]
 
 ---
-# 创建RoleBinding允许user1访问"default"的namespace中所有的Pod
+# 创建RoleBinding：允许user1访问"default"的namespace中所有的Pod
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: read-pods
   namespace: default
-subjects:
+subjects:           # subjects：实现了 RoleBinding 和 User 之间的绑定
 - kind: User
-  name: user1 			# 想要绑定的 User 名，区分大小写！
+  name: user1
   apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: Role 				# 可以是 Role 或 ClusterRole
-  name: pod-reader 	# 想要绑定的 Role 名
+roleRef:            # roleRef：实现了 RoleBinding 和 Role 之间的绑定
+  kind: Role 				 # 也可以是ClusterRole
+  name: pod-reader
   apiGroup: rbac.authorization.k8s.io
 ```
 
-4. 然后我们就通过 用户+密码 对集群进行访问了，比如通过API请求：
+⚠️ User名字区分大小写！
+
+4.然后我们就通过 用户+密码 对集群进行访问了，比如通过API请求：
 
 ```bash
 curl -v -k https://master-node-ip:6443/api/vi/pods -u "user1:password123"
@@ -203,7 +203,7 @@ curl -v -k https://master-node-ip:6443/api/vi/pods -u "Bearer KfhuSDbdFafJrenu73
 		- 认证机制1和2已在Kubernetes 1.19版本中已被废弃，在以后的版本中也不再适用！
 
 #### 认证机制 3：证书 / Certificates
-**证书 / Certificates**的生成不在CKAD，而是在CKA的考试范围中，因此省略。这里假设证书已生成。可以通过`API`或者`kubectl`工具进行使用：
+**证书 / Certificates**的生成不在CKAD，而是在CKA的考试范围中，因此省略。这里假设证书已生成。可以通过`API`或者`k`工具进行使用：
 ```bash
 # 用`API`：
 curl https://my-kube-playground:6443/api/v1/pods \
@@ -212,8 +212,8 @@ curl https://my-kube-playground:6443/api/v1/pods \
 	--cacert ca.crt
 ```
 !!!	note
-		- `--key`: (TLS) your private key for SSH <br/>
-		- `--cert`: (TLS) specified client certificate file  <br/>
+		- `--key`: (TLS) your private key for SSH
+		- `--cert`: (TLS) specified client certificate file
 		- `--cacert`: (TLS) to use the specified certificate file to verify the peer. CA = certificate authority
 
 ```bash
@@ -227,44 +227,44 @@ kubectl get pods \
 
 我们可以简化`kubectl`的使用，因为每次输入这么长的命令有点麻烦。这时候就要用到`KubeConfig`文件了，我们可以生成一个`KubeConfig`文件，然后再用`kubectl`+`KubeConfig`访问Pod：
 ```bash
-kubectl get pods \
-	--kubeconfig config
+kubectl get pods --kubeconfig config
 ```
-默认情况下，系统会去找这个路径下的`KubeConfig`文件：`$HOME/.kube/config`，如果我们也把我们的`KubeConfig`文件放在了这个默认路径中，那么我们只需要跑 `kubectl get pods`
+默认情况下，系统会去找这个路径下的`KubeConfig`文件：`$HOME/.kube/config`，如果我们也把我们的`KubeConfig`文件放在了这个默认路径中，那么我们只需要跑 `k get pods`
 即可！
 
-那么`KubeConfig`文件长啥样呢？它由三个 **列表** 组成：`Users`，`Clusters`和`Contexts`，简单的来说他们之间的关系是`Clusters x Users = Contexts`如图：
+那么`KubeConfig`文件长啥样呢？它由三个 **列表** 组成：
+
+- `Users`
+- `Clusters`
+- `Contexts`
+
+他们之间的关系是`Clusters x Users = Contexts`如图：
 
 <img src="../ckad-8/kubeconfig.png" width=800>
 
 举例：
 
 ```yaml
-# 这里只在每个列表（`Users`，`Clusters`和`Contexts`）一个item
+# 举例：每个列表（`Users`，`Clusters`和`Contexts`）中包含一个item
 apiVersion: v1
 kind: Config
 
-# 当前使用的context，可通过kubectl修改
-current-context: my-kube-admin@my-kube-playground
+current-context: my-kube-admin@my-kube-playground   # 当前使用的context，可通过kubectl修改
 
-# 只包含一个cluster的clusters列表
-clusters:
+clusters:                                           # clusters列表
 - name: my-kube-playground
   cluster: 
     certificate-authority: etc/kubernetes/pki/ca.crt
     server: https://my-kube-playground:6443
 
-# 只包含一个context的contexts列表
-contexts:
+contexts:                                           # contexts列表
 - name: my-kube-admin@my-kube-playground
   context:
   	cluster: my-kube-playground
   	user: my-kube-admin
-  	namespace: default 	# 可选！不一定要有这个
-  	#❓TODO：只在default中有权限还是他只是默认进入的namespace？
+  	namespace: default 	# 可选
 
-# 只包含一个user的users列表
-users:
+users:                                              # users列表
 - name: my-kube-admin
   user:
   	client-certificate: etc/kubernetes/pki/admin.crt
@@ -272,21 +272,17 @@ users:
 ```
 !!! warning
 		- 该文件没有生成任何额外的k8s资源，只是负责把已有的资源利用和链接起来了 <br/>
-		- 该文件 **写完+保存** 即可，**不需要** `kubectl create -f .....yaml`来生成！！
+		- 该文件 **写完+保存** 即可，**不需要** `k create -f .....yaml`来生成！！
 
 查看正在使用的`KubeConfig`文件：
 ```bash
-# 默认文件路径下的KubeConfig
-kubectl config view
-# 指定文件路径下的KubeConfig
-kubectl config view --kubeconfig=my-customized-config
+kubectl config view   # 查看默认文件路径下的KubeConfig
+kubectl config view --kubeconfig=my-customized-config   # 查看某个特定的KubeConfig
 ```
 修改当前正在使用的`Context`，该命令会自动更新`KubeConfig`文件中的`.current-context`
 ```bash
-# 使用默认文件路径下的KubeConfig
-kubectl config use-context prod-user@production
-# 使用指定文件路径下的KubeConfig
-kubectl config use-context prod-user@production --kubeconfig=my-customized-config
+kubectl config use-context prod-user@production   # 使用默认文件路径下的KubeConfig
+kubectl config use-context prod-user@production --kubeconfig=my-customized-config   # 使用某个特定的KubeConfig
 ```
 修改默认的`KubeConfig`文件：
 ```bash
@@ -294,12 +290,11 @@ kubectl config use-context prod-user@production --kubeconfig=my-customized-confi
 mv /directory/to/my/config $HOME/.kube/config
 ```
 
-!!! note
+!!! note "Config的YAML文件"
 		- `.clusters.cluster.certificate-authority: 文件路径` <br />
 		- `.clusters.cluster.certificate-authority-data: 加密后的文件内容`
-		两者能达到一样的目的！
 
-		比如我们先对`ca.crt`文件进行加密：`cat ca.crt | base64` ，再把加密后的内容加到 `.clusters.cluster.certificate-authority-data: `里去
+		两者能达到一样的目的！比如我们先对`ca.crt`文件进行加密：`cat ca.crt | base64` ，再把加密后的内容加到 `.clusters.cluster.certificate-authority-data: `里去
 
 ## 2. Authorization：访问者可以做什么？
 访问者可以做什么由 **授权机制 / Authorization mechanism** 决定。比如给管理者/Admin和开发者/Developer的权限肯定是不一样的。常见的 **授权机制** 有：
@@ -310,7 +305,6 @@ mv /directory/to/my/config $HOME/.kube/config
 4. Webhook Mode
 	- `AlwaysAllow`
 	- `AlwaysDeny`
-
 
 使用哪一种授权机制由`kube-apiserver`的Pod文件上配置`--authorization-mode=`决定。多种机制可同时使用，只需用逗号隔开即可。多个机制之间是”或“的关系，只要有一个机制认可即可，用户请求会被所有授权机制按 **从左到右的顺序** 检查。比如：
 ```yaml
@@ -326,9 +320,10 @@ mv /directory/to/my/config $HOME/.kube/config
 ### 授权机制 2：ABAC
 比如`dev`用户需要查看、创建和删除pod的权限。我们通过一个`Policy`文件来做到这一点，并将文件传输给`kube-apiserver`服务器。**ABAC**管理困难，因为需要手动修改`Policy`文件，并且每修改一次就要重启一次`kube-apiserver`服务器。
 ### 授权机制 3：RBAC
-<img src="../ckad-8/role_binding.png" width=500>
+<img src="../ckad-8/rolebinding.png" width=500>
 
 通过创建不同的`Role`（比如Developer，Admin能做的事情不一样），并将`User`关联到所需的`Role`上
+
 1. 新建`Role`： `.rules.verbs`表示该apiGroup可以执行的动作 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -392,7 +387,7 @@ kubectl auth can-i create deployments —-as dev-user
 kubectl auth can-i delete nodes —-as dev-user —-namespace test
 ```
 
-!!! note
+!!! note "Role vs ClusterRole"
 		Kubernetes中有`Role`和`ClusterRole`，`ClusterRole`是跨Namespace的存在，`ClusterRole`和`ClusterRoleBinding`的创建方法与`Role`类似。使用`Role`还是`ClusterRole`由使用场景决定
 
 ### 授权机制 4：Webhook
@@ -432,8 +427,10 @@ kubectl run nginx --image nginx --namespace blue
 - Validating Admission Webhook
 
 通过下面两个步骤实现：
+
 1. 建立服务器 `Admission Webhook Server`
 2. 用`ValidatingAdmissionConfiguration`或者`MutatingAdmissionConfiguration`进行配置。举例：
+
 ```yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
@@ -441,15 +438,12 @@ metadata:
   name: "pod-policy.example.com"
 webhooks:
 	- name: "pod-policy.example.com"
-	# 服务器
-	  clientConfig:
-	    service:
+	  clientConfig:   
+	    service:                             # 服务器
 	      namespace: "example-namespace"
 	      name: "example-service"
-	    # certificate bundle for TLS
-	    caBundle: <CA_BUNDLE>  
-	# 什么时候使用自定义AC：
-	  rules:
+	    caBundle: <CA_BUNDLE>                # certificate bundle for TLS
+	  rules:                                 # 规定什么时候使用自定义AC
 		  - apiGroups:   [""]
 		    apiVersions: ["v1"]
 		    operations:  ["CREATE"]
@@ -510,7 +504,7 @@ kubernetes中有分Namespace和不分Namespace的资源：
 |分Namespace|不分Namespace|
 |:--|:--|
 |pods，replicasets，jobs，deployments，<br/> services，secrets，roles，rolebindings，<br/> configmaps，PVC|nodes，PV，clusterroles，<br/> clusterrolebindings，certificatesigningrequests，<br/> namespaces|
-|`kubectl api-resources --namespaced=true`|`kubectl api-resources --namespaced=false`|
+|`k api-resources --namespaced=true`|`k api-resources --namespaced=false`|
 
 用`k explain <resource>`查看是否有`scope`值即可，如有，则说明该资源既可以是namespaced，也可以是cluster
 # API Groups
@@ -569,7 +563,7 @@ k proxy
 curl localhost:8001 -k 
 ```
 !!! warning
-		`kubectl proxy`和`kube proxy`是两个不同的东西！TODO
+		`k proxy`和`kube proxy`是两个不同的东西！TODO
 
 
 ## API的版本
@@ -590,7 +584,7 @@ k api-versions | grep Deployments
 除了资源的**推荐版本**，也可能存在一个**存储版本/storage version**。是指最终存储到etcd数据库中的版本，假设该**存储版本**存在，则资源再存储时，都会先被转换成**存储版本**。
 
 
-**存储版本**没有办法通过`kubectl`查看，我们可以直接查询etcd数据库，比如：
+**存储版本**没有办法通过`k`查看，我们可以直接查询etcd数据库，比如：
 ```bash
 ETCDCTL_API=3 etcdctl
 	--endpoints=https://[127.0.0.1]:2379
@@ -640,11 +634,11 @@ kubectl convert -f nginx.yaml --output-version apps/v1
 ```
 
 !!! warning
-    `kubectl convert`可能并不是默认可用的，它是一个额外的插件，需要自己安装，教程[在这里](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) <br />
+    `k convert`可能并不是默认可用的，它是一个额外的插件，需要自己安装，教程[在这里](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) <br />
     1.下载binary文件`curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl-convert"` <br />
     2.给binary文件可执行的权限：`chmod +x kubectl-convert` <br />
     3.将binary文件移动到bin文件夹下`mv kubectl-convert /usr/local/bin` <br/>
-    4.现在可用使用：`kubectl-convert --help`
+    4.现在可用使用：`k-convert --help`
 
 
 !!! note
@@ -745,7 +739,7 @@ func (dc *FlightTicketController) callBookFlightAPI( ...
 
 我们一般把Controller打包到Docker镜像中，并在一个Pod中运行。
 
-4.用`kubectl`创建自定义资源
+4.用`k`创建自定义资源
 ```bash
 k create -f flightticket-custom-definition.yaml
 
@@ -761,24 +755,23 @@ k get flightticket
 
 # Deployment Strategies
 我们之前讨论过两个Deployment Strategies，然而还有更多的Strategies：
-1. Recreate：关闭所有旧Pod，然后在建立新Pod
-2. RollingUpdate：（默认的Strategy）关一个旧的Pod，新建一个新的Pod，以保证用户用永远可以访问到
-3. Blue/Green：旧Pod是Blue组，新Pod是Green组，现做测试，将用所有的traffic都导到Blue上去，当测试通过后，所有traffic都改到Green组上去。
-4. Canary：在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod
+
+1. `RollingUpdate`：（默认的Strategy）关一个旧的Pod，新建一个新的Pod，以保证用户用永远可以访问到
+2. `Recreate`：关闭所有旧Pod，然后在建立新Pod
+3. `Blue/Green`：旧Pod是Blue组，新Pod是Green组，现做测试，将用所有的traffic都导到Blue上去，当测试通过后，所有traffic都改到Green组上去。
+4. `Canary`：在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod
 
 ## Blue/Green
 该Strategy可以通过Istio更轻松地实现，但我们先不用。分成两步：
+
 1.通过Service访问Blue组：
 ```yaml
-# Service
-...
+...             # Service: svc.yaml
 spec:
   selector:
     version: v1
-
-# Deployment: Blue
 ...
-spec:
+spec:           # Deployment: blue.yaml
   template:
     metadata:
       name: myapp-pod
@@ -787,10 +780,8 @@ spec:
   selector:
     matchLabels:
       version: v1
-
-# Deployment: Green
 ...
-spec:
+spec:           # Deployment: green.yaml
   template:
     metadata:
       name: myapp-pod
@@ -802,8 +793,7 @@ spec:
 ```
 2.修改Service标签，从而访问Green组：
 ```yaml
-# Service
-...
+...             # Service: svc.yaml
 spec:
   selector:
     version: v2
@@ -811,7 +801,9 @@ spec:
 
 ## Canary
 在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod，这个过程相当于在做测试。当测试通过之后，再把旧的Pod都取代掉（比如用RollingUpdate）。
-1.测试：用同一个Service访问新，旧两个Deployment（用一个两个Deployment中都存在的label即可），但是新旧两个Deployments中的Pod数量不同，比如：
+
+1.测试：用同一个Service访问新旧两个Deployment（用一个两个Deployment中都存在的label即可），但是新旧两个Deployments中的Pod数量不同，比如：
+
 - 旧Deployment有5个Pods
 - 新Deployment只有1个Pod
 
@@ -822,7 +814,9 @@ spec:
     k8s中我们无法非常精确的控制traffic的百分比，但`Istio`可以，比如99%的traffic访问旧Pod，1%访问新Pod
 
 # Helm Chart
-k8s有太多Resource了，我们经常需要给每个Resource写一个Yaml文件，然后分别用`k create -f xxx.yaml`来创建这些Resource的对象。修改和删除更是需要手动完成，比如我要shopify网站就会非常复杂。Helm解决了这个难题，我们可以把它当作Kubernetes的package manager，它把所有Resource的对象都打包了，现在我们只需要告诉Helm，我要使用package `shopify`即可：
+k8s有太多Resource了，我们经常需要给每个Resource写一个Yaml文件，然后分别用`k create -f xxx.yaml`来创建这些Resource的对象。修改和删除更是需要手动完成，比如我要shopify网站就会非常复杂。
+
+Helm解决了这个难题，我们可以把它当作Kubernetes的package manager，它把所有Resource的对象都打包了，现在我们只需要告诉Helm，我要使用package `shopify`即可：
 
 ```bash
 helm version

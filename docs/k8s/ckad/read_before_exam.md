@@ -6,3 +6,4 @@
 ⚠️ SHIFT = ⇧
 3. [Resource allowd in exam](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed#certified-kubernetes-administrator-cka-and-certified-kubernetes-application-developer-ckad)
 
+4. [Curriculum](https://github.com/cncf/curriculum/blob/master/CKAD_Curriculum_v1.26.pdf)

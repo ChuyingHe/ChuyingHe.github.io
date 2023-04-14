@@ -86,12 +86,10 @@ spec:
 	      args: ["10"]					# 可变参数
 ```
 
-|命令/参数|Dockerfile|yaml|`docker run myPod`<br/>`--image=myImg`|`kubectl run myPod`<br/>`--image=myImg`|
+|命令/参数|Dockerfile|yaml|`docker run myPod`<br/>`--image=myImg`|`k run myPod`<br/>`--image=myImg`|
 |:--|:--|:--|:--|:--|
-|sleep2.0|`ENTRYPOINT ['sleep2.0']`|`.spec`<br/>`.containers`<br/>`.command: ['sleep2.0']`<br/>命令`command`是单数|`--entrypoint`<br/> `sleep2.0`|`--command sleep2.0 `|
-|`10`|`CMD ['10']`|`.spec`<br/>`.containers`<br/>`.args: ['10']`<br/>命令`args`是复数|`10`|`-- 10`|
-
-⚠️ 注意，附加到 `docker run`的任何内容都应该以`json`数组的格式写到YAML文件里。
+|`sleep2.0`|`ENTRYPOINT ['sleep2.0']`|`.spec`<br/>`.containers`<br/>`.command: ['sleep2.0']`<br/><br/> * 命令 command 是单数|`--entrypoint`<br/> `sleep2.0`|`--command sleep2.0 `|
+|`10`|`CMD ['10']`|`.spec`<br/>`.containers`<br/>`.args: ['10']`<br/><br/> * 命令 args 是复数|`10`|`-- 10`|
 
 
 # 2. Pod和Deployment
@@ -114,7 +112,7 @@ kubectl create -f new-pod.yml
 ⚠️ 注意：该设计是合理的，因为`Pod`是`Deployment`生成的产物。如果想要修改`Pod`的某个参数，那么 **更合理的方法** 是修改`Deployment`，然后让`Deployment`生成新的`Pod`，而不是直接删除`Pod`！
 
 ## Deployment
-和`Pod`不同，`Deployment`可以简单的通过`kubectl edit deployment my-deployment`修改。
+和`Pod`不同，`Deployment`可以简单的通过`k edit deployment my-deployment`修改。
 # 3. 环境变量（env）
 举例：
 
@@ -153,7 +151,7 @@ env:
 ```yaml
 envFrom:
 	- configMapRef:
-		name: app-config	# ConfigMap的名字
+			name: app-config	# ConfigMap的名字
 ```
 只使用`ConfigMap`中的一个或几个值：
 
@@ -174,13 +172,13 @@ env:
 ```yaml
 spec:
 	volumes:
-		- name: app-config-volume		# volume 的名字
+		- name: app-config-volume			# volume 的名字
 		  configMap: 
-		  	name: app-config					# ConfigMap的名字
+		  	name: app-config					# ConfigMap 的名字
 ```
 ## ConfigMap的创建
 以下是创建`ConfigMap`（缩写为`cm`）的方法：
-### 用`kubectl`命令创建
+### 用`k`命令创建
 
 ```bash
 # 从纯键值对取值：
@@ -245,12 +243,12 @@ spec:
 	volumes:
 		- name: app-secret-volume		# volume的名字
 		  secret:
-		  	secretName: app-secret	# secret的名字
+		  	secretName: app-secret	# secret的名字 --> 注意是 secretName 不是 name
 ```
 
 
 ## Secret的创建
-### 用`kubectl`命令创建
+### 用`k`命令创建
 
 ```bash
 # 从纯键值对取值：
@@ -344,7 +342,15 @@ root         1  0.0  0.0   2788  1116 ?        Ss   07:55   0:00 sleep 3600
 root         7  0.1  0.0   2888   984 pts/0    Ss   08:39   0:00 /bin/sh
 root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 ```
-⚠️ 在容器中，默认所有的进程都是用**root用户**来跑。但 **容器root用户** 和 **主机root用户** 有所不同。主机的root用户是Linux系统中最强大的用户，基本什么都能干（具体能干什么的列表在`usr/include/linux/capability.h`）。而 **容器root用户** 是设限的，这里列举一些:
+⚠️ 在容器中，默认所有的进程都是用**root用户**来跑。但 **容器root用户** 和 **主机root用户** 
+
+!!! note "Linux用户"
+		我们可以将Linux中的用户分为两类：
+
+		1. **root用户**：也叫 superuser 或者 administrator
+		2. **非root用户**：通常，在 Linux 系统上创建的第一个非root用户的 UID 为 1000，第二个用户帐户分配的 UID 为 1001，依此类推。即 `UID >= 1000` 的用户都是非root用户
+
+有所不同。主机的root用户是Linux系统中最强大的用户，基本什么都能干（具体能干什么的列表在`usr/include/linux/capability.h`）。而 **容器root用户** 是设限的，这里列举一些:
 
 |命令|用途|**主机root用户**|**容器root用户**|
 |:--|:--|:--|:--|
@@ -462,10 +468,10 @@ spec:
 - 用户账号（User Account）：给人的，包括但不限于Admin，Developer等
 - 服务账号（Service Account）：给App的，用于App与k8s的交互。服务账号提供了身份信息，常见的使用案例有：
 		
-		- 与APIServer的交流
-		- 与外部服务的交流
-		- 取得私有的镜像数据库（private image registry）认证
-		- 第三方软件使用SA来识别Pods
+	- 与APIServer的交流
+	- 与外部服务的交流
+	- 取得私有的镜像数据库（private image registry）认证
+	- 第三方软件使用SA来识别Pods
 
 
 ```bash
@@ -502,9 +508,6 @@ k describe pod <PodName>
 ```
 <img src="../ckad-2/7a02817007cb40a694c3ee35cb5d5a96.png" width=500 />
 
-!!! note "系统自动生成的default SA"
-		k8s系统自动为每一个Namespace生成一个名为“default”的SA，该SA拥有特定的API权限。Namespace上新建的每一个Pod都会默认分配给“default”的SA
-
 ## 从集群外部使用ServiceAccount
 
 **令牌**被导出到外部应用程序，在向 Kubernetes API 发送请求的时候用该令牌进行身份验证。比如：
@@ -523,19 +526,19 @@ curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer ey
 
 ## `default` ServiceAccount
 
-每个命名空间（Namespace）都有一个默认的名为`default`的ServiceAccount，当我们在某个命名空间中新建Pod的时候，`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该ServiceAccount。
+k8s系统自动为每一个`Namespace`生成一个名为“default”的SA，该SA拥有特定的API权限。该`Namespace`上新建的每一个Pod都会默认分配给“default”的SA。`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该SA。
 
-我们可以用`kubectl describe pod xxx`查看`Volumes` 。也可以去看Secret本身：
+我们可以用`k describe pod xxx`查看`Volumes` 。也可以去看Secret本身：
 <img src="../ckad-2/7afa5468dbfb4aaa92f391cee3baff5a.png" width=600 />
 
-我们用`kubectl exec -it xxx ls /var/run/secrets/kubernetes.io/serviceaccount`进到某个Pod的终端，能看到三个文件：
+我们用`k exec -it xxx ls /var/run/secrets/kubernetes.io/serviceaccount`进到某个Pod的终端，能看到三个文件：
 
 - ca.crt
 - namespace
 - token: token真正存了**令牌**的文件，用于访问 Kubernetes API。
 
 ## 叫停默认`default` ServiceAccount的挂载
-我们也可以叫停`default`ServiceAccount的自动挂载（在 Pod 或者 Deployment 的定义文件中）：
+我们也可以叫停`default`ServiceAccount的自动挂载（可以在 Pod 或者 Deployment 的定义文件中进行修改）：
 
 ```yaml
 # ---------------Pod--------------
@@ -640,7 +643,8 @@ spec:
 - `limits`：最大资源数量，`Container`不可以使用超出该范围的资源！
 
 
-⚠️ 如果给某个Container自定义`requests`了，最好也自定义它的`limits`：否则可能报错, 因为:<br/> 自定义`requests` > `LimitRange`中默认的`limits`
+!!! warning
+		如果给某个Container自定义了`requests`，最好也自定义它的`limits`，否则可能报错:<br/> `自定义requests > LimitRange 中默认的limits`
 
 k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到Node里面：
 
@@ -719,30 +723,43 @@ spec:
 !!! warning
 		`tolerations`中包含的是一个数组，别忘了`-`
 
-⚠️  一般我们先用`--dry-run=client`生成`*.yaml`文件，再在文件中加上`tolerations`！
+⚠️ 一般我们先用`--dry-run=client`生成`*.yaml`文件，再在文件中加上`tolerations`！
+
+!!! note "Namespace 和 Node"
+		- Namespace是一种将集群逻辑分区为虚拟子集群的方法。--> logical partition, only for conveniency
+		- Node则是可分可数的物理机或虚拟机。--> physical partition, it REALLY exists
 
 **Master Node**
+
 还记得k8s的Node有两种类型吗？ Master node其实就比Worker node多了一些管理功能。但是我们发现，Kubernetes的`Scheduler`从来不往Master Node上面放`Pod`。
 这是因为当k8s的集群被初始化时，Master node上自动加了`Taint`，用来排除所有`Pod`（这个设定是可以修改的，但我们一般不修改）。
 
 这个Taint可以这样查看：
-`kubectl describe node kubemaster | grep Taint`
+```bash
+k get nodes
+k describe node <MasterNodeName> | grep Taint
+```
+
+!!! note 
+		**Master Node**即名为 "control-plane"的Node，叫法不同而已
 
 ## 节点选择器和节点关联性（Node Selectors & Node Affinity）
-我们已知Taint和Toleration没有办法保证某个`Pod`放到有特定资源的`Node`上去。为了确保某`Pod`托管在特定`Node`上。作为准备工作我们先给`Node`加`label`：
-
-```bash
-kubectl label nodes <NodeName> <labelKey>=<labelValue>
-# 举例：
-kubectl label nodes node01 size=Large
-```
-!!! warning
-		k8s中的 `labels` 是区分大小写的！
-
-k8s提供了两种方法，让`Pod`对 `Node`进行筛选：
+我们已知Taint和Toleration没有办法保证某个`Pod`放到有特定资源的`Node`上去。为了确保某`Pod`托管在特定`Node`上，k8s提供了两种机制，让`Pod`对 `Node`进行筛选：
 
 1. Node Selector
 2. Node Affinity
+
+两者都以`Node`的`label`为基础，在Pod的定义文件中添加删选条件。
+
+```bash
+kubectl label nodes <NodeName> <labelKey>=<labelValue> 	# 给Node添加一个标签
+
+kubectl label nodes node01 size=Large		# 举例
+```
+
+!!! warning
+		k8s中的 `labels` 是区分大小写的！
+
 
 ### 方法一：Node Selector
 然后给`Pod`加上节点选择器：
@@ -761,7 +778,7 @@ spec:
 ```
 
 - **优点：** 简单
-- **缺点：** 只支持非常简单的逻辑。更复杂的逻辑比如 “将`Pod`放在Large或者Medium的`Node`上”，是无法通过`nodeSelector`实现的
+- **缺点：** 只支持非常简单的逻辑。更复杂的逻辑比如 “`size=Large` or `size=Medium`” 是无法通过`nodeSelector`实现的
 
 
 ### 方法二： Node Affinity
@@ -790,10 +807,10 @@ spec:
 !!! info
 		如果是一个`Deployment`，`affinity`应该放在`.spec.template.spec.affinity`中！
 
-其他`operator`:
+**其他可用的 operator**:
 
 - `NotIn`：与`In`相反，不在`values`中的值
-- `Exists`：只要存在某个`key`即满足条件，无论`values`中包含什么值。比如：
+- `Exists`：只要存在某个`key`即满足条件，无论`values`中包含什么值：
 ```yaml
 # 比如：当Node的label是`size=`的时候，这个时候只有key，没有value，就可以用`Exists`
 - matchExpressions:
@@ -805,7 +822,7 @@ spec:
 - `Lt` = less than
 
 **Affinity类型**
-定义了Scheduler在Node Affinity的行为以及 Pod 生命周期中的阶段。
+定义了`Scheduler`在Node Affinity的行为以及 Pod 生命周期中的阶段。
 
 - `requiredDuringSchedulingIgnoredDuringExecution`
 - `preferredDuringSchedulingIgnoredDuringExecution`
@@ -821,16 +838,16 @@ Pod有两个生命周期
 |`requiredDuringScheduling`<br/>&nbsp;&nbsp;`RequiredDuringExecution`|**Required.**|**Required.** <br/>驱逐/终止Node上不符合规则的Pod。|
 
 ## 组合拳：Taints Toleration 和 Node Affinity
-- **Taints Toleration：** 特殊的`Node`上只有特殊的`Pod`，但不保证特殊的`Pod`一定能放到特殊的`Node`上
-- **Node Affiniity：** 特殊的`Pod`一定在特殊的`Node`上，但不保证特殊的`Node`上**只有**特殊的`Pod`
-- **Taints Toleration + Node Affiniity组合拳：** 特殊的`Node`上**有且只有**特殊的`Node`
+- **Taints Toleration：** 特殊的`Node`上只有特殊的`Pod`，但不保证特殊的`Pod`一定能放到特殊的`Node`上 <br/> -> 优先满足Node需求
+- **Node Affiniity：** 特殊的`Pod`一定在特殊的`Node`上，但不保证特殊的`Node`上**只有**特殊的`Pod` <br/> -> 优先满足Pod需求
+- **Taints Toleration + Node Affiniity组合拳：** 特殊的`Node`上**有且只有**特殊的`Node` <br/> -> 两者需求都满足
 
 ## 小结
 |  |`Node`|`Pod`|
 |--|--|--|
 | Taint & Toleration | 动词 **taint** <br />`k taint node my-node color=green:NoSchedule` | 在Pod的定义文件中添加`.spec.tolerations`|
 |  Node Selector  | 动词 **label** <br />`k label node my-node color=green` | 在Pod的定义文件中添加`.spec.nodeSelector`|
-| Node Affinity  | 动词 **label** <br />`k label node my-node  color=green` | 在Pod的定义文件中添加`.spec.nodeAffinity`|
+| Node Affinity  | 动词 **label** <br />`k label node my-node color=green` | 在Pod的定义文件中添加`.spec.affinity.nodeAffinity`|
 
 # >>>  本章kubectl命令整理
 **Docker命令**
@@ -849,81 +866,83 @@ Pod有两个生命周期
 -- --
 **Pod相关**
 
-`kubectl get pod xxx -o yaml > xxx.yml` 查看Pod的更多信息，包括volumes（其中有ServiceAccount），可以导出到yml文件里
+`k get pod xxx -o yaml > xxx.yml` 查看Pod的更多信息，包括volumes（其中有ServiceAccount），可以导出到yml文件里
 
-- 大多数的Pod属性是不能通过`kubectl edit pod xxx`来修改的，如果需要修改，那可以把旧的Pod定义导出成yml文件，删掉旧的Pod，重建新的Pod
+- 大多数的Pod属性是不能通过`k edit pod xxx`来修改的，如果需要修改，那可以把旧的Pod定义导出成yml文件，删掉旧的Pod，重建新的Pod
 - 很多需要改的属性可以去改Deployment
 
-`kubectl get pod -o wide`可以看到Pod跑在哪个`Node`上，用了哪个IP地址
+`k get pod -o wide`可以看到Pod跑在哪个`Node`上，用了哪个IP地址
 
-`kubectl describe pod xxx` 获取Pod更详细的信息
+`k describe pod xxx` 获取Pod更详细的信息
 -- --
 **Node相关**
 
-`kubectl describe node xxx` 关于Node的信息，比如上面跑了什么Pod
+`k get nodes` 
+
+`k describe node xxx` 关于Node的信息，比如上面跑了什么Pod
 -- --
 **Deployment相关**
 
-`kubectl edit deployment xxx` 修改Deployment
+`k edit deployment xxx` 修改Deployment
 -- -- 
 **ConfigMap相关**
 
-`kubectl get configmaps` 列出所有的configmaps
+`k get configmaps` 列出所有的configmaps
 
-`kubectl describe configmaps/xxx` 获取某configmap更详细的信息
+`k describe configmaps/xxx` 获取某configmap更详细的信息
 
-`kubectl create configmap <configMapName> --from-literal=<key1>=<value1>` 用键值对新建configmap（⚠️ 多个键值对使用多个`--from-literal=`）
+`k create configmap <configMapName> --from-literal=<key1>=<value1>` 用键值对新建configmap（⚠️ 多个键值对使用多个`--from-literal=`）
 
-`kubectl create configmap <configMapName> --from-file=<pathToFile1>`用文件新建configmap
+`k create configmap <configMapName> --from-file=<pathToFile1>`用文件新建configmap
 -- -- 
 **Secret相关**
 
-`kubectl get secrets`列出所有的secrets
+`k get secrets`列出所有的secrets
 
-`kubectl describe secret/xxx -o yaml`获取某secret更详细的信息
+`k describe secret/xxx -o yaml`获取某secret更详细的信息
 
-`kubectl create secret generic <SecretName> --from-literal=<key>=<value>` 用键值对新建secret（⚠️ `generic`是Secret类型，这个类型属性一定不能少，不然会报错）
+`k create secret generic <SecretName> --from-literal=<key>=<value>` 用键值对新建secret（⚠️ `generic`是Secret类型，这个类型属性一定不能少，不然会报错）
 
-`kubectl create secret generic <SecretName> --from-file=<pathToFile>`用文件新建secret
+`k create secret generic <SecretName> --from-file=<pathToFile>`用文件新建secret
 -- --
 **安全（user）相关**
 
-`kubectl exec <PodName> -- whoami`查看Pod中使用的用户是什么类型（root还是非root）
+`k exec <PodName> -- whoami`查看Pod中使用的用户是什么类型（root还是非root）
 -- --
 **ServiceAccount相关**
 
-`kubectl get serviceaccount`列出所有的serviceaccount
+`k get serviceaccount`列出所有的serviceaccount
 
-`kubectl create serviceaccount <ServiceAccountName>`新建serviceaccount
+`k create serviceaccount <ServiceAccountName>`新建serviceaccount
 
-`kubectl describe serviceaccount <ServiceAccountName>` 获取某serviceaccount更详细的信息
+`k describe serviceaccount <ServiceAccountName>` 获取某serviceaccount更详细的信息
 
-`kubectl create token  <ServiceAccountName>`为serviceaccount生成token
+`k create token  <ServiceAccountName>`为serviceaccount生成token
 -- --
 **Taint相关**
 
-`kubectl taint nodes <NodeName> <key>=<value>:<TaintEffect>` 添加Taint
+`k taint nodes <NodeName> <key><operator><value>:<TaintEffect>` 添加Taint
 
-`kubectl taint nodes <NodeName> <key>=<value>:<TaintEffect>-` 删除Taint
+`k taint nodes <NodeName> <key><operator><value>:<TaintEffect>-` 删除Taint
 
 - ⚠️ 注意：最后有个➖号，意味着“remove”
 - ⚠️ 注意：减号前面没有空格！
 
-`kubectl describe node <NodeName> | grep -i Taint` 查看Node的Taint
+`k describe node <NodeName> | grep -i Taint` 查看Node的Taint
 
-	`kubectl describe node kubemaster | grep -i Taint` 查看Master Node的Taint
+`k describe node kubemaster | grep -i Taint` 查看Master Node的Taint
 -- --
 **Node的Label**
 
-`kubectl label nodes <NodeName> <labelKey>=<labelValue>`给Node加Selector --> 更高级的Node Affinity只能通过改node.yml来添加 
+`k label nodes <NodeName> <labelKey>=<labelValue>`给Node加Selector --> 更高级的Node Affinity只能通过改node.yml来添加 
 -- --
 **DRY RUN**
 
-`kubectl run xxx --image=yyy --restart=Never --dry-run=client -o yaml > pod.yaml`
+`k run xxx --image=yyy --restart=Never --dry-run=client -o yaml > pod.yaml`
 -- -- 
 **帮助**
 
-`kubectl explain pods --recursive | grep envFrom -A3` ⚠️⚠️⚠️ 有用！！！查找envFrom的使用方法。
+`k explain pods --recursive | grep envFrom -A3` ⚠️⚠️⚠️ 有用！！！查找envFrom的使用方法。
 
 ```yaml
  envFrom <[]Object> 				# 方括号代表接下来的内容是一个Object的数组
@@ -935,5 +954,7 @@ Pod有两个生命周期
 **Bash**
 
 `ps aux` 查看进程
+
 `echo -n 'user' | base64` 加密
+
 `echo -n 'user' | base64 --decode` 解密 

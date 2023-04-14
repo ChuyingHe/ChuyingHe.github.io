@@ -5,6 +5,7 @@
 # 1. 为何需要多容器Pod
 将大型单体应用程序（monolith）解耦为称为**微服务**（microservices）的子组件的想法使我们能够开发和部署一组独立的小型可重用代码。 这种架构可以帮助我们根据需要扩大、缩小和修改每个服务，而不是修改整个应用程序。如下图：
 <img src="../ckad-3/0cb1ca41162446ce8e7d2531568ec3bd.png" width=700 />
+
 *（图片[来源](https://martinfowler.com/articles/microservices.html)）*
 
 但是，有时您可能需要两个服务一起工作，例如 Web 服务器和日志服务。每个配对的 Web 服务器实例需要一个日志服务的实例。所以我们需要把这两个微服务放到同一个Pod中，以保证它们：
@@ -26,22 +27,31 @@ metadata:
 spec:
 	# containers是一个数组，数组中的每个元素是一个container
 	containers:
-		- name: simple-webapp
-			image: simple-webapp
-			ports:
-				- containerPort: 8080
-		- name: log-agent
-			image: log-agent
+    - name: simple-webapp
+      image: simple-webapp
+      ports:
+        - containerPort: 8080
+    - name: log-agent
+      image: log-agent
 ```
 #	2. 多容器Pod的设计模式
+<!-- TODO: draw pictures -->
+
 ## Sidecar
 在同一个`Pod`中，给每个配对的 Web 服务器配一个日志服务的实例。然后将不同Pod中日志服务记录下来的日志发送到一个**中央服务器**。
+
+<img src="../ckad-3/pod_pattern_sidecar.png" width=400 />
 
 ## Adapter
 是基于**Sidecar**设计模式的变种。唯一的区别是在发送日志到**中央服务器**之前，先对日志格式进行处理，以便**中央服务器**可以收到数据格式相同的对日志。
 
+<img src="../ckad-3/pod_pattern_adapter.png" width=400 />
+
+
 ## Ambassador
-假设你有`dev`，`prod`，`test`三个数据库，分别对应开发，生产和测试三个应用场景。如何判断当前环境，并选择正确的数据库呢？我们可以选择将此类逻辑外包给 `Pod` 中的**某一个特定容器**，该容器就扮演了一个**大使（Ambassador）**的角色。
+假设你有`dev`，`prod`两个个数据库，分别对应开发和生产两个应用场景。如何判断当前环境，并选择正确的数据库呢？我们可以选择将此类逻辑外包给 `Pod` 中的**某一个特定容器**，该容器就扮演了一个**大使（Ambassador）**的角色。
+
+<img src="../ckad-3/pod_pattern_ambassador.png" width=400 />
 
 
 !!! note
@@ -65,30 +75,28 @@ spec:
   - name: myapp-container
     image: busybox:1.28
     command: ['sh', '-c', 'echo Hello Word! && sleep 3600']
-  # initContainers也放在一个数组里
-  initContainers:
+  
+  initContainers:   # 和containers一样，initContainers也放在一个数组里
   - name: init-myservice
     image: busybox
     command: ['sh', '-c', 'git clone <my-repository> ;']
 ```
 
-`initContainer`运行方式：
+**initContainer 运行规则：**
 
-- POD首次创建时，会运行 `initContainer`，并且 `initContainer` 中的进程必须在普通`Container`启动之前运行完成！
-- 如有多个`initContainer`，则会按序一个一个运行
-- 如果有一个 `initContainer` 未能运行完成，则Kubernetes 会反复重启 Pod，直到`initContainer` 运行成功为止
-- 如果`initContainer`和`Container`同时存在，`Container`要在所有的`initContainer`跑完之后才跑！
+1. 如果有一个 `initContainer` 未能运行完成，则Kubernetes 会反复重启 Pod，直到`initContainer` 运行成功为止
+2. 如有多个`initContainer`，则会按序一个一个运行
+3. POD首次创建时，会运行 `initContainer`，如果`initContainer`和`Container`同时存在，`Container`要在所有的`initContainer`跑完之后才跑！
 
 
 # 4. Debug
 
-- `kubectl describe pod/xxx`是个非常强大的命令。比如能看到状态，原因，错误代码等。
+- `k describe pod/xxx`是个非常强大的命令。比如能看到状态，原因，错误代码等。
 <img src="../ckad-3/58a739a5ab3d4fdc96fd626f24355397.png" width=900 />
-- `kubectl logs pod/xxx` 打印该pod的日志
-- `kubectl debug pod/xxx` 和`kubectl exec`一样， 进到Pod里面去，执行它的bash。区别是，`kubectl debug`能在容器有错的情况下，强制启动并进行debug，而`kubectl exec`只能在Pod是处于运行状态下才能执行
+- `k logs pod/xxx` 打印该pod的日志
+- `k debug pod/xxx` 和`k exec`一样， 进到Pod里面去，执行它的bash。区别是，`k debug`能在容器有错的情况下，强制启动并进行debug，而`k exec`只能在Pod是处于运行状态下才能执行
 
 #  >>>  本章kubectl命令整理
-⚠️`k`可以作为`kubectl`的缩写使用
 -- -- 
 **YAML语法**
 
@@ -107,5 +115,7 @@ command: ["sleep", "20"]
 **修改Pod**
 
 除了 “（1）输出yaml（2）删除旧Pod（3）从yaml文件新建Pod” 的方法之外，还有一种更简单的方法：
+
 - `k edit pod/xxx`这里你会得到提示信息说Pod无法被直接修改，你的改变被暂时存到了`/tmp/kubectl-edit-xxxx.yaml`文件中
+<!-- TODO: screenshot -->
 - `k replace --force -f /tmp/kubectl-edit-xxxx.yaml`强制用新的YAML文件代替旧的Pod

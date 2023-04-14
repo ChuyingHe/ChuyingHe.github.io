@@ -13,25 +13,27 @@
 |`Running`|容器顺利地创建好了，App在跑了|
 
 ## Pod Condition
-**Pod Status**告诉我们`Pod`在生命周期的哪一个阶段，而**Pod Condition**提供了更具体的信息。k8s提供了四个Conditions，可以用`k describe pod/xxx`查看`Condition`属性：
+总而言之，**Pod Status** 提供有关 Pod 整体状态的信息，而 **Pod Condition** 提供有关 **Pod 及其 Container** 特定方面的健康和状态的更详细信息。k8s提供了四个Conditions，可以用`k describe pod/xxx`查看`Condition`属性：
 
 |Pod Status|解释|
 |:--|:--|
-|`PodScheduled`|当`Pod`被Scheduler顺利分配到`Node`中时，为`TRUE`|
-|`Initialized`|当`Pod`被成功初始化时为`TRUE`|
-|`ContainersReady`|当`Pod`上一个或多个容器都运行正常，并可以接受用户访问时为`TRUE`|
-|`Ready`|当Pod本身一切正常时为`TRUE` --> 这个属性也能在`k get pods`中的表格中国呢看到|
+|`PodScheduled`|`Pod`被Scheduler顺利分配到`Node`中|
+|`Initialized`|所有 InitContainer 都成功执行完毕|
+|`ContainersReady`|`Pod`上所有容器都运行正常|
+|`Ready`|`Pod`上所有容器可以通过Service被用户访问到 --> 这个属性也能在`k get pods`中的表格中看到，例子如下：|
 
-⚠️ 从`kubectl get pods`可以看到类似下面的结果。这里表格中`READY`的这一列代表了：`Pod中READY的Container的数量` / `Pod中Container的总数`，比如`1/1`
 ```bash
 NAME       READY   STATUS      RESTARTS      AGE
 elephant   0/1     OOMKilled   3 (33s ago)   54s
 monkey     1/1     READY   	   3 (33s ago)   54s
 ```
+⚠️ 结果中`READY`列代表：`Pod中READY的Container的数量` / `Pod中Container的总数`，比如`1/1`
+
 
 # 2. Readiness和Liveness监测
 ## Probe的三种写法
-Pod Condition中的`Ready`是容器层面上的，它不能保证Container中的App已经可以接受用户访问了。比如Jenkins服务器刚刚开始跑的时候需要大改10-15秒时间，所以在这10-15秒中内。`Pod`会告诉我们Condition是`Ready`了，但其实App本身并没有起来。我们用**Probes**来测试App是否成功运行。**Probes**有三种写法：
+Pod Condition中的`Ready`不能保证Container中的App已经可以接受用户访问了。比如Jenkins服务器刚刚开始跑的时候需要大改10-15秒时间，所以在这10-15秒中内。`Pod`会告诉我们Condition是`Ready`了，但其实App本身并没有起来。我们给Container添加 Probes，用 Probes 来测试App是否成功运行。**Probes**有三种写法：
+
 1. **HTTP测试** （如果App是一个API server）
 ```yaml
 httpGet: 
@@ -73,14 +75,12 @@ spec:
     image: simple-webapp
     ports:
       - containerPort: 8080
-    # 预备测试
-    readinessProbe:
-      # 更多复杂设置
-      initialDelaySeconds: 10
+
+    readinessProbe:           # 预备测试
+      initialDelaySeconds: 10 # 更多复杂设置
       periodSeconds: 5
       failureThreshold: 8
-      # 测试类型
-      httpGet: 
+      httpGet:                # httpGet测试
         path: /api/ready
         port: 8080
 ```
@@ -88,9 +88,9 @@ spec:
 
 ### LivenessProbe
 !!! note "Docker VS Kubernetes"
-    当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，死了，那需要开发者手动删除出问题的`Container`，再重新建一个。而Kubernetes会自动尝试删除旧的`Container`，建一个新的
+    当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，其中的App无法被使用了，那需要开发者手动删除出问题的`Container`，再重新建一个。而Kubernetes会自动尝试删除旧的`Container`，建一个新的
 
-有时会我们会遇到`Container`本身没有问题，但是`Container`中的App因为某个bug而出错的情况（比如，刚刚push到git上的js代码中某个依赖无法找到）。这种情况下`Pod`没有办法监测到内部App的问题，我们就需要用到**LivenessProbe** ，它可以定期测试容器内的应用程序是否真的健康。如果测试失败，则该`Container`被认为不健康，会被销毁并重建。举例：
+有时会我们会遇到`Container`本身没有问题，但是`Container`中的App因为某个bug而出错的情况（比如，python代码中某个依赖包无法找到）。这种情况下`Pod`没有办法监测到内部App的问题，我们就需要用到**LivenessProbe** ，它可以定期测试容器内的应用程序是否真的健康。如果测试失败，则该`Container`被认为不健康，会被销毁并重建。举例：
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -104,8 +104,8 @@ spec:
     image: simple-webapp
     ports:
       - containerPort: 8080
-    # livenessProbe
-    livenessProbe:
+
+    livenessProbe:        # livenessProbe
       httpGet: 
         path: /api/ready
         port: 8080
@@ -157,6 +157,7 @@ k8s没有提供自带的监测工具，但是有很多开源的第三方服务�
 
 ### 日志的生成
 每个`Node`上都有一个**kubelet**代理，负责接收Master的指令，并且管理该`Node`上的`Pod`。该代理拥有一个名为**cAdvisor**（container advisor）的子组件，专门负责收集Pod的日志。
+
 <img src="../ckad-4/8276bcbcae7642d98ee1d119721bfcc9.png" width=500 />
 
 ### MetricsServer的安装
@@ -166,13 +167,12 @@ minikube addons enable metrics-server
 ```
 其他环境下的安装：
 ```bash
-# clone the Metric-Server from git: 会从git下载一堆YAML文件
-git clone https://github.com:kubernetes-sigs/metrics-server.git
-# deploy the required component：⚠️ 会生成一堆MetricsServer所需的Pod，Service和Roles
-cd metrics-server
-kubectl create -f .
-# 等待deploy完成后，我们可以查看Node或Pod的日志：
-kubectl top node
+git clone https://github.com:kubernetes-sigs/metrics-server.git   # 从git下载Metric-Server的YAML文件
+
+cd metrics-server     # 会生成一堆MetricsServer所需的资源：Pod，Service和Roles
+kubectl create -f .   
+
+kubectl top node      # 等待deploy完成后，我们可以查看Node或Pod的日志
 kubectl top pod
 ```
 
@@ -180,7 +180,7 @@ kubectl top pod
 
 |错误码| 解释 |
 |:-|:-|
-|`OOMKilled`| 当容器**内存不足**并且内核被迫终止进程时，会发生此错误。 OOM（内存不足）是 Linux 内核的一项功能，可以终止进程以释放内存。|
+|`OOMKilled`| 当容器**内存不足**并且内核被迫终止进程时，会发生此错误。 OOM（Out Of Memory/内存不足）是 Linux 内核的一项功能，可以终止进程以释放内存。|
 |`ImagePullBackOff`| 当 Kubernetes 无法从指定的 registry 中拉取容器镜像时会出现此错误。 这可能是由于多种原因造成的，例如**登录信息不正确**、**网络问题**或**图像名称错误**等。|
 |`CrashLoopBackOff`| 当容器不断崩溃且 Kubernetes 无法成功重启时，会出现此错误。 这可能是由于**配置不正确**、**资源不足**或**应用程序代码错误**等各种原因造成的。|
 |`ErrImagePull`| 当 Kubernetes 由于**身份验证问题**无法从指定的注册表中拉取容器镜像时，会出现此错误。|
@@ -194,19 +194,31 @@ kubectl top pod
 
 #  >>>  本章kubectl命令整理
 **生命周期**
+
 `k describe pod/xxx`和`k get pod/xxx`都可查看Pod状态
+
 -- --
 **docker**
+
 `docker run [ImageName] --name [ContainerName]`
+
 `docker run -d [ImageName]] --name [ContainerName]` detached 模式
+
 `docker logs -f [ContainerName]` 打印日志
+
 -- --
+
 **k8s日志**
-`kubectl logs -f [PodName]`
-`kubectl logs -f [PodName] -c [ContainerName]`
+
+`k logs -f [PodName]`
+
+`k logs -f [PodName] -c [ContainerName]`
+
 -- --
 **MetricsServer安装**
+
 用minikube安装：`minikube addons enable metrics-server`
+
 其他环境安装（直接下源码）：
 ```bash
 git clone https://github.com:kubernetes-sigs/metrics-server.git

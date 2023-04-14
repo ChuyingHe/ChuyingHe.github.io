@@ -22,13 +22,13 @@ spec:
     image: simple-webapp
     command: ["/bin/sh", "-c"]
     args: ["shuf -i 0-100 -n 1 >> /opt/number.out;"]
-    # (1) 将容器文件夹`/opt`挂载到名为data-volume的卷上
-    volumeMounts:
-    - mountPath: /opt
-      name: data-volume
-  # (2) 创建卷：这里申明了一个在Node上的文件夹(Directory)，也可以使用其他存储方式，比如引用（PersistentVolumeClaim）
-  volumes:
-  - name: data-volume
+    
+    volumeMounts:       # (1) 将容器文件夹`/opt`挂载到名为data-volume的卷上
+    - mountPath: /opt     # Container内部文件系统中的文件夹名
+      name: data-volume   # Volume的名字
+  
+  volumes:              # (2) 创建卷：这里申明了一个在Node上的文件夹，也可以使用其他存储方式，比如引用（PVC）
+  - name: data-volume     # Volume的名字
     hostPath:
       path: /data
       type: Directory
@@ -129,7 +129,7 @@ volumes:
 # 3. 持久卷申领（PersistentVolumeClaim，PVC）
 在定义了Cluster上的**PersistentVolume**之后。**Pod**需要发送PVC请求，以拿到试用PV的许可
 
-!!! note "概念整理""
+!!! note "概念整理"
     - **PV**：由 **管理者（Administrator）** 配置的存储空间
     - **PVC**：由Pod的 **用户（User of Pod）** 发出的“想要使用一部分存储空间“的请求
 
@@ -142,8 +142,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  # 所需资源
-  resources:
+  resources:        # 所需资源
     requests:
       storage: 500Mi
 ```
@@ -170,7 +169,7 @@ spec:
         name: mypd
   volumes:
     - name: mypd
-      persistentVolumeClaim:
+      persistentVolumeClaim:  # 使用PVC
         claimName: myclaim
 ```
 ⚠️ 在Pod中添加PVC之后，ReplicaSets 和 Deployments中也会自动添加相对应的PVC定义！
@@ -182,7 +181,7 @@ spec:
 Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（sufficient capacity），访问模式（access modes）、卷模式（volume modes）、存储类（storage class）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
 
 ### 2. 根据selectors和labels选择
-当然，如果想要绑定到特定的PV，可以利用`labels`和`selectors`来定位到正确的PV。比如：
+当然，如果想要绑定到特定的PV，也可以利用`labels`和`selectors`来定位到正确的PV。比如：
 1. Pod中添加`selectors`属性
 ```yaml
 # pod.yaml
@@ -193,20 +192,23 @@ selector:
 2. 在PV中添加`labels`属性
 
 ```yaml
+# pv.yaml
 labels:
 	name: my-pv
 ```
 
 ### 3. 特例
-最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。**--> 这可能导致PV的浪费！**
-比如，我们上面用YAML文件定义的名为`my-claim`的PVC和名为`pv-volume`的PV。PVC要求的存储空间是`500Mi`，假设现在只剩下`pv-volume`这一个PV，那么`my-claim`这个PVC会绑定到`pv-volume`。用`k get pvc`可用看到：
+最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。<br/>
+**--> 这可能导致PV的浪费！**
+
+假设我们有一个PVC和一个PV。PVC要求的存储空间是`500Mi`，而现在可用的PV只有一个，那么PVC只能绑定到剩下的PV。用`k get pvc`可用看到：
 ```bash
 NAME     STATUS    VOLUME   	CAPACITY   ACCESS MODES   STORAGECLASS    AGE
 my-claim Bound     my-volume    1Gi        RWO            aws-xxx		  40m
 ```
 
 ### 4. 没有可用的PV时，PVC的行为
-如果当前的Cluster中，没有可用的PV，那么发出的PVC会一直处于`Pending`的状态。这时用`k get pvc`查看会得到类似下面的结果：
+如果当前的Cluster中，没有可用的PV，那么发出的PVC会一直处于`Pending`的状态。这时用`k get pvc`会看到：
 ```bash
 NAME     STATUS    VOLUME   CAPACITY    ACCESS MODES   STORAGECLASS           AGE
 my-claim Pending                                       vpc-block-1iops-tier   35h
@@ -240,13 +242,12 @@ spec:
   awsElasticBlockStore:
     volumeID: xxx
     fsType: ext4
-  # 对PV的行为进行规定："Retain", "Recycle", 或 "Delete"
-  persistentVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Recycle  # 对PV的行为进行规定："Retain", "Recycle", 或 "Delete"
 ```
 ⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
 
 # 5. 存储类 / Storage Classes
-假设我现在想使用GCE的存储空间，那么需要3个步骤：
+假设我现在想使用GCE的存储空间，那么需要4个步骤：
 
 1. 在GCE中新建存储空间
 2. 创建一个使用GCE空间的PV
@@ -256,31 +257,25 @@ spec:
 
 这个过程被称作 **“Static Provisioning”**。我们可以通过创建**存储类 / Storage Classes**来简化这个过程，实现**“Dynamic Provisioning”** 
 
-1. 创建一个**存储类 / StorageClass**
-2. 创建一个PVC
-3. 在Pod中使用该PVC
-
-创建StorageClass：
+**1.创建一个存储类 / StorageClass**
 ```yaml
 # my-sc.yaml
 apiVerson: storage.k8s.io/v1
 kind: StorageClass
 metadata:
 	name: google-storage
-# 配置器：不同供应商提供不同的配置器
-provisioner: kubernetes.io/gce-pd
+provisioner: kubernetes.io/gce-pd   # 配置器：不同供应商提供不同的配置器
 VolumeBindingMode: WaitForFirstConsumer
-# 配置额外的参数
-parameters:
+parameters:             # 配置额外的参数
 	type: pd-standard
 	replication-type: none
 ```
 
-!!! note "绑定模式 `VolumeBindingMode`""
-    - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应PVC 的 Pod。
+!!! note "绑定模式 `VolumeBindingMode`"
+    - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod。
     - `Immediate`
 
-PVC使用StorageClass：
+**2.创建一个PVC, 使用StorageClass**
 ```yaml
 # my-pvc.yaml
 apiVersion: v1
@@ -296,11 +291,12 @@ spec:
       storage: 500Mi
 ```
 **工作原理：**
-
 PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
 
+**3.在Pod中使用该PVC**
+
 # 6. Stateful Set
-**Stateful Set** 类似于 **Deployment Sets**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：
+**Stateful Set** 类似于 **Deployment**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：
 **Stateful Set** 中 **Pod** 是按顺序创建的。 部署第一个 **Pod** 后，它必须处于运行和就绪状态，才能继续部署下一个 **Pod** 。 **Stateful Set**给每一个创建的**Pod**都按照生成顺序编号，并根据编号生成独一无二的名字，比如：`sql-1`，`sql-2`
 
 ```yaml
@@ -323,8 +319,7 @@ spec:
     matchLabels:
       app: mysql
   
-  # 声明要使用的 Headless服务
-  serviceName: mysql
+  serviceName: mysql  # 声明要使用的 Headless服务
 ```
 生成StatefulSet：
 
@@ -351,8 +346,7 @@ spec:
 		- port: 3306
 	selector:
 		app: mysql
-	# Headless服务与其他服务区分开来的地方：
-	clusterIP: None
+	clusterIP: None  # Headless服务与其他服务区分开来的地方
 ```
 现在我们有两条路：
 
@@ -370,24 +364,26 @@ spec:
   - name: mysql
     image: mysql
 
-  # 1. subdomain = 服务名字
-  subdomain: mysql-headless
-  # 2. hostname 确保每个Pod都有各自的DNS
-  hostname: mysql-pod
+  subdomain: mysql-headless   # 1. subdomain = 服务名字
+  hostname: mysql-pod         # 2. hostname 确保每个Pod都有各自的DNS
 ```
 
 ## 2. 通过StatefulSet创建Pod
 如之前的例子所示，需要加一个`serviceName`即可
 
 #  >>>  本章kubectl命令整理
+**PersistentVolume相关**
 
-# 参考文献
+`k get pv`
+
+-- --
+
+**PersistentVolumeClaim相关**
+
+`k get pvc`
+
+`k delete pvc/my-claim` 删除pvc
 
 # 图片来源
 <a href="https://www.flaticon.com/free-icons/database" title="database icons">Database icons created by phatplus - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/folder" title="folder icons">Folder icons created by Good Ware - Flaticon</a>
-
-<!--
-TODO:
-⚠️ 如果PV和PVC都存在，且相互绑定，但没有Pod使用PVC，则该PVC会一直是`Pending`的状态
--->
