@@ -23,6 +23,9 @@ COPY . /opt/source-code # 复制代码到镜像中
 
 ENTRYPOINT FLASP_APP=/opt/source-code/app.py flask run  # 镜像入口/程序启动命令
 ```
+
+<!-- TODO:加上其他命令：ENV， USER，CMD等 -->
+
 在`Dockerfile`所在的文件夹中，用该`Dockerfile`创建镜像：（`-t`==`--tag`给镜像加标签）
 ```bash
 docker build -t test/my-custom-image .
@@ -39,7 +42,32 @@ docker push test/my-custom-image
 ```bash
 docker run webapp-color -p 8282:8080
 ```
+!!! note
+    `-p <Host-Port>:<Container-Port>`其中，Host（主机）是 Docker 所在的操作系统，即可通过 ssh 进入的系统。 Container-Port 是容器的端口。 
 
+检查某个镜像基于的操作系统，可以使用该镜像跑一个容器：
+```bash
+docker run -it --rm <ImageName> /bin/bash
+
+# 进入容器命令行工具之后：
+cat /etc/*-release
+
+# 退出容器
+exit
+```
+结果如下：
+
+<img src="../ckad-8/cat_etc.png" width=400>
+
+!!! note "--rm"
+    退出容器之后自动将该容器删除
+
+查看当前环境下，镜像python的所有版本
+```bash
+docker images python
+```
+
+<img src="../ckad-8/image-version.png" width=500>
 # k8s 安全性
 我们知道k8s的集群上有两种Node： Master Node何Worker Node，其中Master Node是一个`kube-apiserver`服务器。通过对该服务器的访问，我们可以做任何事。那么要如何管理`kube-apiserver`服务器的 **访问权限** 呢：
 
@@ -168,7 +196,7 @@ subjects:           # subjects：实现了 RoleBinding 和 User 之间的绑定
 - kind: User
   name: user1
   apiGroup: rbac.authorization.k8s.io
-roleRef:            # roleRef：实现了 RoleBinding 和 Role 之间的绑定
+roleRef:            # roleRef（也叫Account）：实现了 RoleBinding 和 Role 之间的绑定
   kind: Role 				 # 也可以是ClusterRole
   name: pod-reader
   apiGroup: rbac.authorization.k8s.io
@@ -229,8 +257,10 @@ kubectl get pods \
 ```bash
 kubectl get pods --kubeconfig config
 ```
-默认情况下，系统会去找这个路径下的`KubeConfig`文件：`$HOME/.kube/config`，如果我们也把我们的`KubeConfig`文件放在了这个默认路径中，那么我们只需要跑 `k get pods`
-即可！
+默认情况下，系统会去找这个路径下的`KubeConfig`文件：`$HOME/.kube/config`，如果我们也把我们的`KubeConfig`文件放在了这个默认路径中，那么我们只需要跑 `k get pods`即可！
+
+!!! note
+    `$HOME`是一个变量，其值可以通过`echo $HOME`查看
 
 那么`KubeConfig`文件长啥样呢？它由三个 **列表** 组成：
 
@@ -279,16 +309,22 @@ users:                                              # users列表
 kubectl config view   # 查看默认文件路径下的KubeConfig
 kubectl config view --kubeconfig=my-customized-config   # 查看某个特定的KubeConfig
 ```
-修改当前正在使用的`Context`，该命令会自动更新`KubeConfig`文件中的`.current-context`
-```bash
-kubectl config use-context prod-user@production   # 使用默认文件路径下的KubeConfig
-kubectl config use-context prod-user@production --kubeconfig=my-customized-config   # 使用某个特定的KubeConfig
-```
-修改默认的`KubeConfig`文件：
+
+用自定义的`KubeConfig`文件代替默认的：
 ```bash
 # 直接用customized的`KubeConfig`文件内容 取代默认的路径下的：
 mv /directory/to/my/config $HOME/.kube/config
 ```
+
+修改当前正在使用的`Context`，该命令会自动更新`KubeConfig`文件中的`.current-context`
+```bash
+# 使用默认路径下的KubeConfig文件
+kubectl config use-context <Context-Name>   
+
+# 使用自定义的KubeConfig文件
+kubectl config use-context <Context-Name> --kubeconfig=<New-KubeConfig-File>   
+```
+
 
 !!! note "Config的YAML文件"
 		- `.clusters.cluster.certificate-authority: 文件路径` <br />
@@ -332,10 +368,14 @@ metadata:
   namespace: default	# 可选
   name: developer
 rules:
+
+  # rule nr.1:
 - apiGroups: [""]			# "" indicates the core API group
   resources: ["pods"]	# 针对pod资源
   verbs: ["list", "get", "create", "update", "delete"]
   resourceNames: ["blue", "red"]	# 可选，用pod的名称进行筛选
+
+  # rule nr.2:
 - apiGroups: [""]
   resources: ["ConfigMap"]	# 针对ConfigMap资源
   verbs: ["create"]
@@ -405,7 +445,47 @@ kubectl auth can-i delete nodes —-as dev-user —-namespace test
 
 <img src="../ckad-8/admission_controller.png" width=700>
 
-### 默认Admission Controller的分类和举例
+查看当前启用的Admission Controller：进入容器 `kube-apiserver-controlplane`中并用`kube-apiserver`命令查看
+```bash
+k exec kube-apiserver-controlplane -n kube-system -- \
+    kube-apiserver -h | grep enable-admission-plugins
+```
+<!-- # 或者：ps -ef | grep kube-apiserver | grep admission-plugins -->
+
+!!! warning
+    `kube-apiserver-controlplane` 是一个在 Namespace `kube-system`中的Pod，而进入该Pod中的容器之后，我们才可以使用 `kube-apiserver` 命令工具～
+
+
+修改Admission Controller：
+```bash
+vi /etc/kubernetes/manifests/kube-apiserver.yaml 
+```
+
+<!--
+修改 Admission Controller:
+kubectl edit pod kube-apiserver --namespace kube-system
+（1）添加：
+ 在yaml的.spec.containers.command中：
+使用 flag（--enable-admission-plugins）:
+- --enable-admission-plugins=NamespaceAutoProvision
+(2）删除
+使用 flag（--disable-admission-plugins）
+- --disable-admission-plugins=NamespaceAutoProvision
+💡小贴士
+根据[kube doc](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) 可以这修改：
+添加：`kube-apiserver --enable-admission-plugins=NamespaceLifecycle,LimitRanger ...`
+删除：`kube-apiserver --disable-admission-plugins=PodNodeSelector,AlwaysDeny ...`
+-->
+
+!!! note
+    `NamespaceExists`和`NamespaceAutoProvision`已经被弃用，用`NamespaceLifecycle`代替：
+    
+    - Namespace不存在时拒绝执行命令 <br />
+    - 确保默认的Namespace无法被删除： `default`, `kube-system` 和 `kube-public`
+
+
+
+### k8s提供的Admission Controller的分类和举例
 **1） `Validating Admission Controller`（验证类AC）：NamespaceExists 和 NamespaceAutoProvision**
 kubernetes提供了一些`Admission Controller`，以下面命令为例：
 ```bash
@@ -460,42 +540,6 @@ webhooks:
   	uri: "https://my-server.com"
 ```
 
-### 常用命令
-查看当前启用的Admission Controller
-```bash
-k exec -it kube-apiserver-controlplane -n kube-system -- \
-	kube-apiserver -h | grep enable-admission-plugins
-
-# 或者：
-ps -ef | grep kube-apiserver | grep admission-plugins
-```
-
-修改Admission Controller：
-```bash
-vi /etc/kubernetes/manifests/kube-apiserver.yaml 
-```
-
-<!--
-修改 Admission Controller:
-kubectl edit pod kube-apiserver --namespace kube-system
-（1）添加：
- 在yaml的.spec.containers.command中：
-使用 flag（--enable-admission-plugins）:
-- --enable-admission-plugins=NamespaceAutoProvision
-(2）删除
-使用 flag（--disable-admission-plugins）
-- --disable-admission-plugins=NamespaceAutoProvision
-💡小贴士
-根据[kube doc](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) 可以这修改：
-添加：`kube-apiserver --enable-admission-plugins=NamespaceLifecycle,LimitRanger ...`
-删除：`kube-apiserver --disable-admission-plugins=PodNodeSelector,AlwaysDeny ...`
--->
-
-!!! note
-		`NamespaceExists`和`NamespaceAutoProvision`已经被弃用，用`NamespaceLifecycle`代替：
-		
-		- Namespace不存在时拒绝执行命令 <br />
-		- 确保默认的Namespace无法被删除： `default`, `kube-system` 和 `kube-public`
 
 
 # Namespaces
@@ -506,7 +550,10 @@ kubernetes中有分Namespace和不分Namespace的资源：
 |pods，replicasets，jobs，deployments，<br/> services，secrets，roles，rolebindings，<br/> configmaps，PVC|nodes，PV，clusterroles，<br/> clusterrolebindings，certificatesigningrequests，<br/> namespaces|
 |`k api-resources --namespaced=true`|`k api-resources --namespaced=false`|
 
-用`k explain <resource>`查看是否有`scope`值即可，如有，则说明该资源既可以是namespaced，也可以是cluster
+可用`kubectl api-resources`结果中的NAMESPACED列查看，如下：
+
+<img src="../ckad-8/nsed.png" width=700>
+
 # API Groups
 Kubernetes的 Endpoints 根据其目的不同，被分到不同的API组中。常用的API组有：
 
