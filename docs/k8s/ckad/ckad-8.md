@@ -459,18 +459,20 @@ k exec kube-apiserver-controlplane -n kube-system -- \
 修改Admission Controller：
 ```bash
 vi /etc/kubernetes/manifests/kube-apiserver.yaml 
+
+# 在yaml的.spec.containers.command中:
+
+# 1）添加
+- --enable-admission-plugins=NamespaceAutoProvision
+
+# 2）删除
+- --disable-admission-plugins=NamespaceAutoProvision
 ```
 
 <!--
 修改 Admission Controller:
 kubectl edit pod kube-apiserver --namespace kube-system
-（1）添加：
- 在yaml的.spec.containers.command中：
-使用 flag（--enable-admission-plugins）:
-- --enable-admission-plugins=NamespaceAutoProvision
-(2）删除
-使用 flag（--disable-admission-plugins）
-- --disable-admission-plugins=NamespaceAutoProvision
+
 💡小贴士
 根据[kube doc](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) 可以这修改：
 添加：`kube-apiserver --enable-admission-plugins=NamespaceLifecycle,LimitRanger ...`
@@ -485,19 +487,22 @@ kubectl edit pod kube-apiserver --namespace kube-system
 
 
 
-### k8s提供的Admission Controller的分类和举例
-**1） `Validating Admission Controller`（验证类AC）：NamespaceExists 和 NamespaceAutoProvision**
-kubernetes提供了一些`Admission Controller`，以下面命令为例：
+### k8s提供的Admission Controller类型
+**1） `Validating Admission Controller`（验证类AC）**
+
+比如NamespaceExists 和 NamespaceAutoProvision，以下面命令为例：
 ```bash
 kubectl run nginx --image nginx --namespace blue
 ```
-!!! note
-		- AC `NamespaceExists`默认为启用状态，并且会检查命令中提到的Namespace `blue`是否存在，如果不存在，该命令会报错。
-		- AC `NamespaceAutoProvision`默认为关闭状态，若启用，则在Namespace `blue`不存在的情况下会自动生成一个
 
-**2）`Mutating Admission Controller`（修改类AC）：DefaultStorageClass**
-这个Admission Controller 会观察 **_对存储类没有特定要求_**  `PersistentVolumeClaim` 的创建，并自动向它们添加默认存储类。
+- AC `NamespaceExists`默认为启用状态，并且会检查命令中提到的Namespace `blue`是否存在，如果不存在，该命令会报错。
+- AC `NamespaceAutoProvision`默认为关闭状态，若启用，则在Namespace `blue`不存在的情况下会自动生成一个
+
+**2）`Mutating Admission Controller`（修改类AC）**
+DefaultStorageClass 这个AC会观察 **对存储类没有特定要求** 的 `PersistentVolumeClaim` 的创建，并自动向它们添加默认存储类。
 当我们查看创建的PVC时，我们可以看到该PVC的属性`StorageClass: default`
+
+⚠️顺序：k8s先使用`Mutating`再使用`Validating`的AC
 
 ### 自定义Admission Controller
 
@@ -509,7 +514,14 @@ kubectl run nginx --image nginx --namespace blue
 通过下面两个步骤实现：
 
 1. 建立服务器 `Admission Webhook Server`
-2. 用`ValidatingAdmissionConfiguration`或者`MutatingAdmissionConfiguration`进行配置。举例：
+
+<img src='../ckad-8/ac-webhook-deploy.png'>
+
+2. 建立服务
+
+<img src='../ckad-8/ac-webhook-svc.png'>
+
+3. 用`ValidatingAdmissionConfiguration`或者`MutatingAdmissionConfiguration`进行配置。举例：
 
 ```yaml
 apiVersion: admissionregistration.k8s.io/v1
@@ -555,16 +567,23 @@ kubernetes中有分Namespace和不分Namespace的资源：
 <img src="../ckad-8/nsed.png" width=700>
 
 # API Groups
-Kubernetes的 Endpoints 根据其目的不同，被分到不同的API组中。常用的API组有：
+Kubernetes的 Endpoints 根据其目的不同，被分到不同的**API组**中。**API组**在两个地方用到：
+1. REST路径：`/apis/$GROUP_NAME/$VERSION`
+2. yaml文件中apiVersion的值：`apiVersion: $GROUP_NAME/$VERSIO`，比如`apiVersion: batch/v1`
+
+!!! warning
+    `/api` 组做为最早，最核心的组，组名总是被省略，比如Pod的`apiVersion: v1`而不是`apiVersion: api/v1`
+
+常用的API组有：
 
 - `/apis`
-- `/api` 
+- `/api` 也叫core组，或者legacy组
 - `/metrics`
 - `/healthz`
 - `/version`
 - `/logs`
 
-查看 API组 的Version：
+查看 API组及其版本：
 ```bash
 k api-versions
 ```
@@ -602,8 +621,8 @@ curl https://kube-master:6443 -k \
 2.使用Kube Control Proxy程序查看 **API组**
 
 ```bash
-# Kube控制代理命令启动了一个代理服务，并使用凭证和证书，端口为8001，效果等同于k proxy 8001&
-k proxy
+# Kube控制代理命令启动了一个代理服务，并使用凭证和证书，端口为8001，效果等同于k proxy
+k proxy 8001&
 
 # proxy建立成功后，你会看到这条信息：Starting to serve on 127.0.0.1:8001
 # 现在可以直接访问端口8001了，不需要certificates
@@ -613,23 +632,26 @@ curl localhost:8001 -k
 		`k proxy`和`kube proxy`是两个不同的东西！TODO
 
 
-## API的版本
-有些API资源有多个版本，比如`v1`，`v1alpha1`。查看所有版本：
+## **API组**的版本
+有些API组有多个版本，比如`v1`，`v1alpha1`。我们可以通过proxy然后用REST访问查看
 ```bash
+k proxy 8001&
+curl https://localhost:8001/apis/<API-Group>
+
+# 比如，查看`batch`组的所有版本：
 curl https://kube-master:8001/apis/batch
 ```
+结果如下：其中`preferredVersion`（推荐版本）是默认使用的版本
 
+<img src="../ckad-8/version-of-api-group.png" width=300>
 
-我们可以用以下命令查看 资源的**推荐版本/preferred version**：
+或者用更简单的：
 
 ```bash
-k explain deployment
-# 或者：
-k api-versions | grep Deployments
+k api-versions | grep batch
 ```
 
 除了资源的**推荐版本**，也可能存在一个**存储版本/storage version**。是指最终存储到etcd数据库中的版本，假设该**存储版本**存在，则资源再存储时，都会先被转换成**存储版本**。
-
 
 **存储版本**没有办法通过`k`查看，我们可以直接查询etcd数据库，比如：
 ```bash
@@ -641,10 +663,27 @@ ETCDCTL_API=3 etcdctl
 	get "/registry/deployments/default/blue" --print-value-only
 ```
 
-**推荐版本** 和 **存储版本** 都各自存有一个值，这个值可能是相同的，也有可能是不同的
+!!! note
+    **推荐版本** 和 **存储版本** 都各自存有一个值，这个值可能是相同的，也有可能是不同的
 
 ## 启用/禁用API版本
-需要修改apiserver的配置，比如添加`--runtime-config=batch/v2alpha1,v2,v2beta1`，别忘了然后重启`apiserver`
+需要修改Pod `kube-apiserver-controlplane`的配置，最直接的方法是修改`/etc/kubernetes/manifest/api-server.yaml`文件：
+
+```yaml
+# 万一修改出错，cluster会崩坏，以防万一，先放一个备份
+cp /etc/kubernetes/manifests/kube-apiserver.yaml /root/kube-apiserver.yaml.backup
+
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+# 在spec.containers[0].command中
+# 添加版本：
+--runtime-config=batch/v2alpha1,v2,v2beta1
+
+# 删除某版本:
+--runtime-config=batch/v1=false
+```
+
+接下来要等该Pod被重启，确定Pod处于运行状态，修改才真正被实现！
 
 ## API更新准则
 1.API 元素只能通过增加 API 组的版本来删除 <br/>
@@ -671,13 +710,13 @@ ETCDCTL_API=3 etcdctl
 
 当产品达到 GA 时，它可以通过公司的一般销售渠道获得，而不是用于测试和用户反馈的 *有限版本* 或 *测试版*。
 
-我们可以用以下命令更新资源的版本：
+我们可以用以下命令更新资源使用的版本：
 ```bash
 kubectl convert -f <old-yaml-file> --output-version <new-api>
 
 # 举例：把一个名为 nginx 的Deployment资源从版本 `apps/v1beta1` 更新到 `apps/v1`
 # 该命令会输出一个新的yaml格式的定义
-kubectl convert -f nginx.yaml --output-version apps/v1
+kubectl convert -f nginx-old.yaml --output-version apps/v1 > nginx-new.yaml
 ```
 
 !!! warning
@@ -689,22 +728,10 @@ kubectl convert -f nginx.yaml --output-version apps/v1
 
 
 !!! note
-    **Kubernetes API versions** 是Kubernetes本身的版本，大概长这样：1.22.2，数字分别代表： <br />
-    :   1: 主版本 / major version <br />
-    :   22: 次要版本 / minor version <br />
-    :   2: 补丁版本 / patch version <br />
-
-## 修改某node上 某个 API组 的版本
-```bash
-# 万一修改出错，cluster会崩坏，以防万一，先放一个备份
-cp /etc/kubernetes/manifests/kube-apiserver.yaml /root/kube-apiserver.yaml.backup
-
-vi /etc/kubernetes/manifests/kube-apiserver.yaml
-
-# 在yaml文件的.spec.containers.command中添加：
-# 为 API组 “rbac.authorization.k8s.io” 添加版本 “v1alpha1”
-    - --runtime--config=rbac.authorization.k8s.io/v1alpha1
-```
+    **Kubernetes API versions** 是Kubernetes本身的版本，大概长这样：`1.22.2`，数字分别代表： <br />
+    - `1`: 主版本 / major version <br />
+    - `22`: 次要版本 / minor version <br />
+    - `2`: 补丁版本 / patch version <br />
 
 # 自定义资源
 我们都知道新建一个Deployment会自动生成对应的Pod，这个过程由k8s自带的的Controller控制，拥有类似的Controller的还有ReplicaSet，Deployment，Job，Cronjob，Statefulset，Namespace。
