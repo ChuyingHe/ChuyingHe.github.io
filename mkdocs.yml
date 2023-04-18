@@ -1,6 +1,7 @@
 site_name: Chuying's notebook
 nav:
   - Home: index.md
+  - Helm: helm/helm-1.md
   - K8S:
     - CKAD:
       - Read before exam: k8s/ckad/read_before_exam.md

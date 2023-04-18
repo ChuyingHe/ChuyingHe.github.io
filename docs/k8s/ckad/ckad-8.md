@@ -488,7 +488,7 @@ kubectl edit pod kube-apiserver --namespace kube-system
 
 
 ### k8s提供的Admission Controller类型
-**1） `Validating Admission Controller`（验证类AC）**
+**1） Validating Admission Controller（验证类AC）**
 
 比如NamespaceExists 和 NamespaceAutoProvision，以下面命令为例：
 ```bash
@@ -498,11 +498,13 @@ kubectl run nginx --image nginx --namespace blue
 - AC `NamespaceExists`默认为启用状态，并且会检查命令中提到的Namespace `blue`是否存在，如果不存在，该命令会报错。
 - AC `NamespaceAutoProvision`默认为关闭状态，若启用，则在Namespace `blue`不存在的情况下会自动生成一个
 
-**2）`Mutating Admission Controller`（修改类AC）**
+**2）Mutating Admission Controller（修改类AC）**
+
 DefaultStorageClass 这个AC会观察 **对存储类没有特定要求** 的 `PersistentVolumeClaim` 的创建，并自动向它们添加默认存储类。
 当我们查看创建的PVC时，我们可以看到该PVC的属性`StorageClass: default`
 
-⚠️顺序：k8s先使用`Mutating`再使用`Validating`的AC
+!!! warning "AC执行顺序"
+    k8s先使用`Mutating`再使用`Validating`的AC
 
 ### 自定义Admission Controller
 
@@ -513,13 +515,13 @@ DefaultStorageClass 这个AC会观察 **对存储类没有特定要求** 的 `Pe
 
 通过下面两个步骤实现：
 
-1. 建立服务器 `Admission Webhook Server`
+1. 建立服务器 `Admission Webhook Server`（以`Deployment`的形式）
 
-<img src='../ckad-8/ac-webhook-deploy.png'>
+<img src='../ckad-8/ac-webhook-deploy.png' width=600>
 
 2. 建立服务
 
-<img src='../ckad-8/ac-webhook-svc.png'>
+<img src='../ckad-8/ac-webhook-svc.png' width=400>
 
 3. 用`ValidatingAdmissionConfiguration`或者`MutatingAdmissionConfiguration`进行配置。举例：
 
@@ -531,7 +533,7 @@ metadata:
 webhooks:
 	- name: "pod-policy.example.com"
 	  clientConfig:   
-	    service:                             # 服务器
+	    service:                             # 服务器：通过服务访问
 	      namespace: "example-namespace"
 	      name: "example-service"
 	    caBundle: <CA_BUNDLE>                # certificate bundle for TLS
@@ -568,6 +570,7 @@ kubernetes中有分Namespace和不分Namespace的资源：
 
 # API Groups
 Kubernetes的 Endpoints 根据其目的不同，被分到不同的**API组**中。**API组**在两个地方用到：
+
 1. REST路径：`/apis/$GROUP_NAME/$VERSION`
 2. yaml文件中apiVersion的值：`apiVersion: $GROUP_NAME/$VERSIO`，比如`apiVersion: batch/v1`
 
@@ -576,8 +579,8 @@ Kubernetes的 Endpoints 根据其目的不同，被分到不同的**API组**中�
 
 常用的API组有：
 
-- `/apis`
 - `/api` 也叫core组，或者legacy组
+- `/apis` 也叫named组
 - `/metrics`
 - `/healthz`
 - `/version`
@@ -737,7 +740,8 @@ kubectl convert -f nginx-old.yaml --output-version apps/v1 > nginx-new.yaml
 我们都知道新建一个Deployment会自动生成对应的Pod，这个过程由k8s自带的的Controller控制，拥有类似的Controller的还有ReplicaSet，Deployment，Job，Cronjob，Statefulset，Namespace。
 
 如果我们想要自定义一个资源，那么我们可能要建立两样东西：
-1.Resource, 举例：
+
+**1.Resource, 这里yaml文件要包含apiVersion，kind，metadata和spec，但kind值可以自定义。举例：**
 
 ```yaml
 # flightticket.yaml
@@ -750,7 +754,7 @@ spec:
   to: London
   number: 2
 ```
-2.CRD = Custom Resource Definition
+**2.CRD = Custom Resource Definition。kind值为 `CustomResourceDefinition`**
 
 ```yaml
 # flightticket-custom-definition.yaml
@@ -788,7 +792,8 @@ spec:
               maximum: 10
 ```
 
-3.自定义控制器（Controller）
+**3.自定义控制器（Controller）**
+
 Controller负责监视资源`FlightTicket`的状态，更新及删除，并在`FlightTicket`被创建的时候调用订飞机票的API（比如`https:book-flight.com/api`）。理论上Controller可以用任何编程语言书写，但Go有一个 Kubernetes Go Client，里面有写Controller所需的包，比如缓存和队列机制，模版[在这里](https://github.com/kubernetes/sample-controller.git)。
 
 ```bash
@@ -802,7 +807,7 @@ go build -o sample-controller . # 编译文件
 ./sample-controller -kubeconfig=$HOME/.kube/config # 运行文件，将`$HOME/.kube/config`做为参数穿进去
 ```
 
-`controller.go`文件举例：
+`controller.go`源码大概长这样：
 
 ```go
 package flightticket
@@ -813,7 +818,7 @@ func (dc *FlightTicketController) callBookFlightAPI( ...
 
 我们一般把Controller打包到Docker镜像中，并在一个Pod中运行。
 
-4.用`k`创建自定义资源
+**4.用`kubectl create -f`创建 CRD文件 和 Resource文件**
 ```bash
 k create -f flightticket-custom-definition.yaml
 
@@ -832,11 +837,11 @@ k get flightticket
 
 1. `RollingUpdate`：（默认的Strategy）关一个旧的Pod，新建一个新的Pod，以保证用户用永远可以访问到
 2. `Recreate`：关闭所有旧Pod，然后在建立新Pod
-3. `Blue/Green`：旧Pod是Blue组，新Pod是Green组，现做测试，将用所有的traffic都导到Blue上去，当测试通过后，所有traffic都改到Green组上去。
+3. `Blue/Green`：旧Pod是Blue组，新Pod是Green组，先做测试，将用所有的traffic都导到Blue上去，当测试通过后，所有traffic都改到Green组上去。
 4. `Canary`：在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod
 
 ## Blue/Green
-该Strategy可以通过Istio更轻松地实现，但我们先不用。分成两步：
+该Strategy其实可以通过Istio更轻松地实现，但我们这里先不使用Istio这个额外的工具。k8s自己可以实现Blue/Green，分成两步：
 
 1.通过Service访问Blue组：
 ```yaml
@@ -876,7 +881,7 @@ spec:
 ## Canary
 在该Strategies中，新旧Pod也同时存在，然而，大部分traffic还是访问旧Pod，只有一小部分traffic访问新Pod，这个过程相当于在做测试。当测试通过之后，再把旧的Pod都取代掉（比如用RollingUpdate）。
 
-1.测试：用同一个Service访问新旧两个Deployment（用一个两个Deployment中都存在的label即可），但是新旧两个Deployments中的Pod数量不同，比如：
+实现方法：用同一个Service访问新旧两个Deployment（用一个两个Deployment中都存在的label即可），但是新旧两个Deployments中的Pod数量不同：
 
 - 旧Deployment有5个Pods
 - 新Deployment只有1个Pod
@@ -892,12 +897,44 @@ k8s有太多Resource了，我们经常需要给每个Resource写一个Yaml文件
 
 Helm解决了这个难题，我们可以把它当作Kubernetes的package manager，它把所有Resource的对象都打包了，现在我们只需要告诉Helm，我要使用package `shopify`即可：
 
+Helm将普通yaml文件结构成 模版文件+变量文件。
+
+## 常用命令：
+
 ```bash
 helm version
-helm install shopify
+helm list
+
+# 下载但是不安装
+helm pull shopify
+helm pull --untar shopify # 解压
+
+# 自定义/修改：
+ls shopify
+helm install new-shopify ./shopify
+
+# 下载Chart并使用
+helm install <AppName> <RepoName>/<ChartName>
+helm install my-shop bitnami/shopify
+
+
+# 更新
 helm upgrade shopify
+
 helm rollback shopify
-helm uninstall shopify
+
+helm uninstall my-shop
+
+# 在默认的Chart数据库（hub）中搜索：https://artifacthub.io/
+helm search hub shopify   
+
+# 添加额外数据库
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# 在额外的Chart数据库（repo）中搜索
+helm search repo shopify   
+# 查看已添加的额外数据库
+helm repo list
 ```
 
 ## 在Linux上安装
@@ -908,40 +945,10 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-## 概念解释
-Helm将普通yaml文件结构成 模版文件+变量文件。
 
-```bash
-# 在默认的Chart的数据库https://artifacthub.io/中搜索
-helm search hub shopify   
 
-# 添加额外数据库
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm search repo shopify   
-# 查看已添加的额外数据库
-helm repo list
-```
 
-使用Chart：
 
-```bash
-helm install <release-name> shopify # <release-name>即app名
-```
-
-更多命令：
-
-```bash
-helm list
-
-helm uninstall my-release
-
-# 下载，解压，但是不安装
-helm pull --untar shopify
-
-# 自定义/修改：
-ls shopify
-helm install new-shopify ./shopify
-```
 
 # 其他
 |命令|描述|
