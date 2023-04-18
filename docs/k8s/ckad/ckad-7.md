@@ -247,15 +247,18 @@ spec:
 ⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
 
 # 5. 存储类 / Storage Classes
+<!-- TODO: PV - StorageClass - PVC -->
 假设我现在想使用GCE的存储空间，那么需要4个步骤：
 
 1. 在GCE中新建存储空间
 2. 创建一个使用GCE空间的PV
-3. 创建一个PVC
-4. 在Pod中使用该PVC
+3. 创建一个PVC，对PV进行时使用
+4. 在Pod中使用引用PVC
 
+这个过程被称作 **Static Provisioning**。我们可以通过创建**存储类 / Storage Classes**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。Static和Dynamic Provisioning的区别如图：
 
-这个过程被称作 **“Static Provisioning”**。我们可以通过创建**存储类 / Storage Classes**来简化这个过程，实现**“Dynamic Provisioning”** 
+<img src="../ckad-7/provisioning.png" width=500>
+
 
 **1.创建一个存储类 / StorageClass**
 ```yaml
@@ -264,7 +267,9 @@ apiVerson: storage.k8s.io/v1
 kind: StorageClass
 metadata:
 	name: google-storage
+
 provisioner: kubernetes.io/gce-pd   # 配置器：不同供应商提供不同的配置器
+                                    # 如果是`kubernetes.io/no-provisioner`那么意味着该StorageClass不支持 dynamic provisioning
 VolumeBindingMode: WaitForFirstConsumer
 parameters:             # 配置额外的参数
 	type: pd-standard
