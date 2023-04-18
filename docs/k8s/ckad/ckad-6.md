@@ -227,7 +227,8 @@ Openshift的`Route`诞生于k8s的`Ingress`之前，红帽作为k8s的主要贡�
 
 
 ## Ingress是什么
-把Ingress分为两个组件：**Ingress Controller**和**Ingress Resource**
+把Ingress分为两个组件：**Ingress Controller**和**Ingress Resource**。一般两者分别在不同的namespace中，特别是**Ingress Controller**，做为与应用无关的资源，应该被放到单独的Namespace中！
+<!-- TODO： draw this pic better: ingress-controller-space & app-space -->
 <img src="../ckad-6/ingress.png" width=500 />
 
 ### (1) Ingress Controller
@@ -354,12 +355,12 @@ kind: Ingress
 metadata:
   name: ingress-resource-backend
 spec:
-  defaultBackend:	# default backend
+  defaultBackend:	# 默认服务
     resource:
       apiGroup: k8s.example.com
       kind: StorageBucket
       name: static-assets
-  rules:
+  rules:					# 规则
     ...
 ```
 
@@ -368,9 +369,18 @@ Assume we have the ingress url "www.homepage.com/cv" with annotation
 
 ```yaml
 annotations:
-	nginx.ingress.kubernetes.io/rewrite-target: /	# thing we use to replace the original subdirectory in the url!
+	# thing we use to replace the original subdirectory in the url!
+	nginx.ingress.kubernetes.io/rewrite-target: /
 ```
 "www.homepage.com/cv" will be redirect to "www.homepage.com/"
+
+!!! note "适用场景"
+		当某个Ingress提供对多个应用的访问，比如：
+
+		- `/frontend` -> `frontend-service` -> `frontend-react-app`
+		- `/dashboard` -> `dashboard-service` -> `dashboard-power-bi-app`
+
+		而`frontend-react-app`软件本身提供的页面是没有子域名的，也就是说，如果我在本地跑react软件，能访问到的页面是`localhost:3000`而不是`localhost:3000/frontend`，所以需要“rewrite”
 
 
 #### Ingress规则例子 1：网址子路径
@@ -461,6 +471,59 @@ spec:
 ```
 
 <!-- ![请添加图片描述](../ckad-6/1a71f7d2c32d462c8a9ae149a739bea6.png) -->
+
+!!! warning
+		Ingress默认只访问当前Namespace中的服务，但也可以有例外：
+
+		Alternatively there is way to achieve ingress in one namespace and service in another namespace via externalName.Checkout Kubernetes Cross Namespace Ingress Network：
+		```yaml
+		kind: Service
+		apiVersion: v1
+		metadata:
+		  name: test-service-1
+		  namespace: namespace-a
+		spec:
+		  type: ExternalName
+		  externalName: test-service-2.namespace-b.svc.cluster.local
+		  ports:
+		  - port: 80
+		```
+
+#### Bug & Debug
+很多时候Ingress出问题是因为它的annotations中缺少了一些东西。我们可以通过查看它所指向的Pod的log，或者ingress controller的log查看具体问题出在哪儿：
+```bash
+# 查看Ingress所指向的某个App 的 log
+k logs webapp-wear-658fc8dbb4-4m6gs -n app-space 
+
+# 查看Ingress controller 的 log
+k logs ingress-nginx-controller-ffc6b494b-b7vms -n ingress-nginx 
+```
+
+!!! warning "503 Service Temporarily Unavailable"
+		`pathType: Exact` which should be `pathType: Prefix`
+
+!!! warning "301 too many redirect"
+		missing this:
+
+		```yaml
+		metadata:
+			annotations:
+		    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+		```
+
+		By default the controller redirects (301) to HTTPS if TLS is enabled for that Ingress. If you want to disable that behavior, you can use the nginx.ingress.kubernetes.io/ssl-redirect: "false" annotation.
+
+		And in the lab, we manage the HTTPS from our side, not from the ingress. So, you should add annotation nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+!!! warning "svc didnt reach the correct one"
+		missing this
+		```yaml
+		metadata:
+			annotations:
+				nginx.ingress.kubernetes.io/rewrite-target: /
+		```
+
+
 
 
 

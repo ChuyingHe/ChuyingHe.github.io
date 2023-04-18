@@ -34,11 +34,11 @@ spec:
       type: Directory
 ```
 卷的使用确保了**Pod**被删除后，该**Pod**所产生的数据还被保留在所在的**Node**上，如图：
-<img src="../ckad-7/3330eeade9ca45219f426ff68c81cc50.png" width=1000 />
+<img src="../ckad-7/volume.png" width=1000 />
 
 上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，那么每个**Node**其实都是不同的服务器，它们都有的`/data`文件路径，分别存储了不同的内容。所以我们要另找解决方法。
 
-<img src="../ckad-7/f2850a151fe24491912fdba66b189880.png" width=1200 />
+<img src="../ckad-7/multi_node.png" width=1200 />
 
 - **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
 - **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
@@ -77,14 +77,11 @@ kind: PersistentVolume
 metadata:
   name: pv-volume
 spec:
-  # 可能的mode： ReadOnlyMany, ReadWriteOnce 和 ReadWriteMany
-  accessModes:
+  accessModes:    # 可能的mode： ReadOnlyMany, ReadWriteOnce 和 ReadWriteMany
     - ReadWriteOnce
-  # 所需的存储空间的大小
-  capacity:
+  capacity:       # 所需的存储空间的大小
     storage: 1Gi
-  # 卷的类型：Node（主机）上的文件夹 - 不推荐
-  hostPath:
+  hostPath:       # 卷的类型：Node（主机）上的文件夹 - 不推荐
     path: /tmp/data
 ```
 生成持久卷：
@@ -247,7 +244,7 @@ spec:
 ⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
 
 # 5. 存储类 / Storage Classes
-<!-- TODO: PV - StorageClass - PVC -->
+
 假设我现在想使用GCE的存储空间，那么需要4个步骤：
 
 1. 在GCE中新建存储空间
@@ -257,7 +254,7 @@ spec:
 
 这个过程被称作 **Static Provisioning**。我们可以通过创建**存储类 / Storage Classes**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。Static和Dynamic Provisioning的区别如图：
 
-<img src="../ckad-7/provisioning.png" width=500>
+<img src="../ckad-7/provisioning.png" width=600>
 
 
 **1.创建一个存储类 / StorageClass**
@@ -269,15 +266,20 @@ metadata:
 	name: google-storage
 
 provisioner: kubernetes.io/gce-pd   # 配置器：不同供应商提供不同的配置器
-                                    # 如果是`kubernetes.io/no-provisioner`那么意味着该StorageClass不支持 dynamic provisioning
 VolumeBindingMode: WaitForFirstConsumer
 parameters:             # 配置额外的参数
 	type: pd-standard
 	replication-type: none
 ```
 
-!!! note "绑定模式 `VolumeBindingMode`"
-    - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod。
+!!! note "provisioner"
+    注意，kubernetes提供了多个provisioner，为每个云供应商都提供了provisioner，`kubernetes.io/gce-pd`是给 GoogleCloudEngine 的provisioner
+
+    是如果provisioner是`kubernetes.io/no-provisioner`，那么意味着该StorageClass不支持 dynamic provisioning
+
+!!! note "绑定模式/VolumeBindingMode"
+    可能的值：<br/>
+    - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/>
     - `Immediate`
 
 **2.创建一个PVC, 使用StorageClass**

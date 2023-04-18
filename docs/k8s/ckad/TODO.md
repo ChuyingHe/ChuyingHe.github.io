@@ -31,3 +31,13 @@ k replace --force -f=/tmp/xxx.yaml
 
 
  Docker recommends to always explicily specify your port mappings as strings because of the way YAML parses numbers.
+
+Practise these again:
+https://kodekloud.com/topic/network-policies-4/
+Network Policies
+Ingress-1: last task => due to rewrite annotation
+Ingress-2: last task => didnt work, 503??
+
+https://kodekloud.com/topic/persistent-volumes-5/
+Storage Class: 4
+
