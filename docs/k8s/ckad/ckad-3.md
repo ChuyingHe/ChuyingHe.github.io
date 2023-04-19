@@ -104,8 +104,11 @@ spec:
 command:
     - sh
     - -c
-    - sleep 20
+    - sleep 
+    - "20"
 ```
+⚠️ 纯数字要加双引号
+
 **JSON语法**：
 
 ```yaml
