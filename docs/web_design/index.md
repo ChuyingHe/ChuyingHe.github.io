@@ -4,16 +4,16 @@
 ### Typography
 1. Use font size 15-25 pixels for main content
 2. Use (really) big font size for headlines - no limitations
-- either big size or heavy weight, dont do both
+	- either big size or heavy weight, dont do both
 3. Use line spacing betwwen 120-150%
 5. 45-90 characters per line
 6. Use general "good" fonts & only use ONE typeface e.g.:
-- sans-serif:
-	- more neutral, clean, simple, modern
-	- example: Open Sans, Lato, Raleway, Monsterratm, PT Sans - all available on Google Fonts
-- serif: 
-	- traditional purposes, Storytelling, long reading
-	- examples: Cardo, Merriweather, PT Serif
+	- sans-serif:
+		- more neutral, clean, simple, modern
+		- example: Open Sans, Lato, Raleway, Monsterratm, PT Sans - all available on Google Fonts
+	- serif: 
+		- traditional purposes, Storytelling, long reading
+		- examples: Cardo, Merriweather, PT Serif
 
 ### Color
 1. Use only one "base color" other than gray, black and white, starting with [flatcolor](https://flatuicolors.com), after choose one Base-Color, you can choose some variants, and make it to a Color-Palette:
@@ -27,14 +27,14 @@
 4. Never use black in your design
 
 5. Choose colors wisely
-- color: passion
-- orange: creativity, confidence, draw attention but not too much as Red
-- yello: pleasent
-- green: health, money, nature
-- blue: truth, most beloved
-- purple: wealth, loyalty
-- pink: romance
-- brown: confidence, comfort
+	- color: passion
+	- orange: creativity, confidence, draw attention but not too much as Red
+	- yello: pleasent
+	- green: health, money, nature
+	- blue: truth, most beloved
+	- purple: wealth, loyalty
+	- pink: romance
+	- brown: confidence, comfort
 
 
 ### Image
@@ -68,23 +68,23 @@
 ### Icons
 1. to list Features/Steps
 2. for Actions and Links:
-- should be clear
-- still use labels besides the icon
+	- should be clear
+	- still use labels besides the icon
 3. Icons should NOT take a center stage
 4. Use Icon Fonts:
-- Static Image will get blur when you scale 300x
-- Vector icon font will never get blur
+	- Static Image will get blur when you scale 300x
+	- Vector icon font will never get blur
 
 
 ### Spacing & Layout
 1. Use but NOT exaggrate whitespace between:
-- elements
-- groups of elements
-- sections
+	- elements
+	- groups of elements
+	- sections
 2. Define hierarchy:
-- Decide where you want your audience to look first
-- establish a flow that corresponds to your content's msg
-- use whitespace to build that flow
+	- Decide where you want your audience to look first
+	- establish a flow that corresponds to your content's msg
+	- use whitespace to build that flow
 
 ### Inspiration
 1. Collect designs you like
@@ -93,9 +93,6 @@
 4. How were they built in HTML & CSS? (use google chrome)
 
 First make you website alike your favorite web.
-
-Where to find inperation
-
 
 ### Conversion rate
 1. offer free gift first (e-book)
@@ -106,3 +103,5 @@ Where to find inperation
 6. use social references: customer comments
 7. use urgency: "limited time remaining" or "over 320 bought", "only 1 left in stock"
 
+
+Where to find inperation? [codingheroes](https://codingheroes.io/resources/)

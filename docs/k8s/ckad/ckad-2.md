@@ -420,6 +420,11 @@ USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 - `Pod`级别的安全配置
 - `Container`级别的安全配置
 
+我们可以查看当前容器的用户类型：
+```bash
+kubectl exec ubuntu-sleeper -- whoami
+```
+
 使用规则和优先级如下：
 
 - `Pod`的配置会自动应用到在该`Pod`上的所有`Container`中
