@@ -14,6 +14,7 @@ nav:
           - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
           - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
           - 其他: k8s/ckad/ckad-0.md
+  - React: react/hooks.md
   - Web Design: web_design/index.md
 markdown_extensions:
   - toc:
