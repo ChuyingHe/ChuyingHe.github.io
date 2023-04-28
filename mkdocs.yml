@@ -3,17 +3,17 @@ nav:
   - Home: index.md
   - Helm: helm/helm-1.md
   - K8S:
-    - CKAD:
-      - Read before exam: k8s/ckad/read_before_exam.md
-      - 1.核心概念介绍: k8s/ckad/ckad-1.md
-      - 2.配置: k8s/ckad/ckad-2.md
-      - 3.多容器Pod: k8s/ckad/ckad-3.md
-      - 4.容器状态监测: k8s/ckad/ckad-4.md
-      - 5.Pod设计: k8s/ckad/ckad-5.md
-      - 6.服务与网络: k8s/ckad/ckad-6.md
-      - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
-      - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
-      - 其他: k8s/ckad/ckad-0.md
+      - CKAD:
+          - Read before exam: k8s/ckad/read_before_exam.md
+          - 1.核心概念介绍: k8s/ckad/ckad-1.md
+          - 2.配置: k8s/ckad/ckad-2.md
+          - 3.多容器Pod: k8s/ckad/ckad-3.md
+          - 4.容器状态监测: k8s/ckad/ckad-4.md
+          - 5.Pod设计: k8s/ckad/ckad-5.md
+          - 6.服务与网络: k8s/ckad/ckad-6.md
+          - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
+          - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
+          - 其他: k8s/ckad/ckad-0.md
   - Web Design: web_design/index.md
 markdown_extensions:
   - toc:
