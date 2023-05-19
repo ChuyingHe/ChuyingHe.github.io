@@ -25,8 +25,11 @@ markdown_extensions:
   - md_in_html
   - def_list
   - admonition
-  # - pymdownx.details
-  # - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: false 
+  - pymdownx.superfences
+
 theme: readthedocs
 # plugins:
 #   - search
