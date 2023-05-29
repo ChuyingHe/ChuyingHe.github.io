@@ -28,4 +28,6 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 # To print the whole notebook
 Start notebook with `mkdocs serve`, then navigate to `/print_page/`
 
+`mkdocs serve --dev-addr=0.0.0.0:80` to start the notebooks in a specified port. 
+
 In the browser, File > Print > Save as PDF (see export to PDF)
