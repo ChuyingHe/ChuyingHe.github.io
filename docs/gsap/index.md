@@ -36,11 +36,11 @@ In the background, the `gsap` tool changes the CSS style of the html element `.l
 
 Callback functions can also be used as part of the configuration, the available callbacks are:
 
--`onComplete`: invoked when the animation has completed.
--`onStart`: invoked when the animation begins
--`onUpdate`: invoked every time the animation updates (on every frame while the animation is active).
--`onRepeat`: invoked each time the animation repeats.
--`onReverseComplete`: invoked when the animation has reached its beginning again when reversed.
+- `onComplete`: invoked when the animation has completed.
+- `onStart`: invoked when the animation begins
+- `onUpdate`: invoked every time the animation updates (on every frame while the animation is active).
+- `onRepeat`: invoked each time the animation repeats.
+- `onReverseComplete`: invoked when the animation has reached its beginning again when reversed.
 
 Except the `gsap.to()`, there are various other [GSAP Attributes & Methods](https://greensock.com/docs/v3/GSAP).
 

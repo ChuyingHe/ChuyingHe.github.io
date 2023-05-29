@@ -19,6 +19,8 @@ nav:
   - Web Design: web_design/index.md
   - Procreate: procreate/index.md
 markdown_extensions:
+  - pymdownx.tabbed
+  - pymdownx.superfences
   - toc:
       permalink: true
   - attr_list
@@ -26,11 +28,13 @@ markdown_extensions:
   - def_list
   - admonition
   - pymdownx.details
-  - pymdownx.tabbed:
-      alternate_style: false 
-  - pymdownx.superfences
 
-theme: readthedocs
+
+
+theme: 
+  name: readthedocs
+  features:
+    - content.tabs.link
 # plugins:
 #   - search
 #   - print-site
