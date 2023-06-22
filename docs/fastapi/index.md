@@ -31,3 +31,15 @@ class NLPResponse(BaseModel):
 
 --> doesnt work
 
+
+# How to load local file in source code using relative path?
+```python
+# file location:            project/src/app/asset/location_search.csv
+# current code location:    project/src/app/core/services/watson_nlp_service.py
+import os
+
+script_path = os.path.abspath(__file__)
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(script_path)))
+
+file_path = os.path.join(project_root, "asset/location_search.csv")
+```
