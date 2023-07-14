@@ -1,6 +1,8 @@
 site_name: Chuying's notebook
 nav:
   - Home: index.md
+  
+  - GSAP: gsap/index.md
   - Helm: helm/helm-1.md
   - K8S:
       - CKAD:
@@ -14,10 +16,11 @@ nav:
           - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
           - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
           - 其他: k8s/ckad/ckad-0.md
-  - React: react/hooks.md
-  - GSAP: gsap/index.md
-  - Web Design: web_design/index.md
   - Procreate: procreate/index.md
+  - React: react/hooks.md
+  - Web Design: web_design/index.md
+  - Wordpress: wordpress/index.md
+
 markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.superfences
