@@ -1,7 +1,7 @@
 site_name: Chuying's notebook
 nav:
   - Home: index.md
-  
+  - Agile: agile/index.md
   - GSAP: gsap/index.md
   - Helm: helm/helm-1.md
   - K8S:
@@ -32,9 +32,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
 
-
-
-theme: 
+theme:
   name: readthedocs
   features:
     - content.tabs.link
