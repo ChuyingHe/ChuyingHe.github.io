@@ -17,6 +17,11 @@ nav:
           - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
           - 其他: k8s/ckad/ckad-0.md
   - Procreate: procreate/index.md
+  - Project Management: project_mgmt/index.md
+  - Python:
+      - FastAPI: python/fastapi/index.md
+      - Dependency: python/dependency.md
+      - Virtual environment: python/virtual_env.md
   - React: react/hooks.md
   - Web Design: web_design/index.md
   - Wordpress: wordpress/index.md
