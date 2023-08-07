@@ -1,22 +1,21 @@
-[TOC]
-
 <!-- Reference: 
 	https://ibm-learning.udemy.com/course/react-the-complete-guide-incl-redux
 	Section 28 -->
+# Hooks in React
 
 **React hook** is a complementary function for React Functional Component. In the functionality perspective, we could understand as:
 ```bash
 Hook + Functional Component = Class Component
 ```
 
-**React Hooks** are special functions that can only be used in Functional Component. They are have the format of `useXXX()`. In React@18.20.0, there are 6 types of built-in hooks, plus your own hook - the customized hook.
+**React Hooks** are special functions that can only be used in Functional Component. They are have the format of `useXXX()`. In **React@18.20.0**, there are 6 types of built-in hooks, plus your own hook - the customized hook.
 
 <img src='../hook-1.svg' width=600>
 
 !!! note "Data type in hook"
 	the data that saved in hook is an **object**! Means it can be everything
-# 1. State Hooks
-## useState(initialState)
+## 1. State Hooks
+### useState(initialState)
 `useState(initialState)`declares a state variable in component that you can update directly. `initialState` is the initial value of the state, it can be:
 
 - a variable in any type
@@ -24,7 +23,7 @@ Hook + Functional Component = Class Component
 
 
 Example:
-```jsx
+```js
 import { useState } from 'react';
 
 function MyComponent() {
@@ -45,14 +44,14 @@ function handleClick() {
 
 !!! warning
 	if a variable depends on its previous value, to make sure the value is updated. We pass an **updater function** instead of a **value** to the `setXXX()`:
-```jsx
+```js
 // by convention, we use `a` or `prevAge` to represent the previous/old/pending state
-setAge(age + 1); // wrong
-setAge(age => age + 1);	// correct: pass a updater function as parameter!
+setAge(age + 1);		// wrong
+setAge(age => age + 1);		// correct: pass a updater function as parameter!
 ```
 
 
-## useReducer(reducer, initialArg, init?)
+### useReducer(reducer, initialArg, init?)
 `useReducer()` sources out multiple `useState()` to keep the code cleaner. `useReducer()` has 3 input parameters:
 
 1. `reducer`: the `function reducer(state, action)` returns the next state. State and action can be any types.
@@ -60,7 +59,7 @@ setAge(age => age + 1);	// correct: pass a updater function as parameter!
 3. `[OPTIONAL]init`: The initializer function that should return the initial state. If exists, then `init(initialArg)` will replace the `initialArg`.
 
 Example:
-```jsx
+```js
 import { useReducer } from 'react';
 
 // define a `reducer`
@@ -74,9 +73,9 @@ function reducer(state, action) {
 }
 
 export default function Counter() {
-	/* define:
-	* 1. variable `state`
-	* 2. function `dispatch()`
+	/*
+	* [variable, function] = 
+	* 
 	*/
 	const [state, dispatch] = useReducer(reducer, { age: 42 });
 
@@ -103,7 +102,7 @@ export default function Counter() {
 
 
 === "ThemeContext.jsx"
-	```jsx
+	```js
 	import { createContext } from 'react';
 
 	export const ThemeContext = React.createContext<>();
@@ -121,7 +120,7 @@ export default function Counter() {
 	```
 
 2.Create a **Context Provider** as a "wrapper": all the childeren elements that want to use the Context is wrapped in this **Provider**
-```jsx
+```js
 // App.tsx
 import ThemeContext from './ThemeContext';
 
@@ -154,7 +153,7 @@ export default App;
 <!-- TODO: content tabs not working: https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#ordered-list -->
 
 3.Use the Context
-```jsx
+```js
 import { useContext } from 'react';
 import { ThemeContext } from './App';
 
@@ -186,7 +185,7 @@ export default ComponentFunctional;
 ## useRef(initialValue)
 `useRef()` is a React Hook that lets you reference a value that’s **not needed for rendering**. --> The ref value is independent from render times!
 
-```jsx
+```js
 import { useRef } from 'react';
 
 const MyComponent = () => {
@@ -210,12 +209,12 @@ const MyComponent = () => {
 
 
 To change the value in ref, you can assign new value:
-```jsx
+```js
 count_ref.current = 5;
 ```
 
 ⚠️ Do NOT write/read your Ref during the **component rendering**:
-```jsx
+```js
 function MyComponent() {
   // ...
   // 🚩 Don't write a ref during rendering
@@ -226,7 +225,7 @@ function MyComponent() {
 }
 ```
 Instead, ONLY read or write refs from **event handlers or effects** instead.
-```jsx
+```js
 ```
 
 ## useImperativeHandle
@@ -255,7 +254,7 @@ The second parameter `dependencies` has 3 possibilities:
 ## useMemo()
 `useMemo(calculateValue, dependencies)` is a React Hook that lets you cache the **result of a calculation** between re-renders.
 
-```jsx
+```js
 import { useMemo } from 'react';
 
 function TodoList({ todos, tab }) {
@@ -269,7 +268,7 @@ function TodoList({ todos, tab }) {
 ## useCallback()
 `useCallback(fn, dependencies)` is a React Hook that lets you cache a **function definition** between re-renders.
 
-```jsx
+```js
 import { useCallback } from 'react';
 
 export default function ProductPage({ productId, referrer, theme }) {

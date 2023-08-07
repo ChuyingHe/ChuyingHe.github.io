@@ -1,31 +1,44 @@
 site_name: Chuying's notebook
 nav:
   - Home: index.md
-  - Agile: agile/index.md
-  - GSAP: gsap/index.md
-  - Helm: helm/helm-1.md
-  - K8S:
-      - CKAD:
-          - Read before exam: k8s/ckad/read_before_exam.md
-          - 1.核心概念介绍: k8s/ckad/ckad-1.md
-          - 2.配置: k8s/ckad/ckad-2.md
-          - 3.多容器Pod: k8s/ckad/ckad-3.md
-          - 4.容器状态监测: k8s/ckad/ckad-4.md
-          - 5.Pod设计: k8s/ckad/ckad-5.md
-          - 6.服务与网络: k8s/ckad/ckad-6.md
-          - 7.容器数据的可持久化: k8s/ckad/ckad-7.md
-          - 8.2021更新的考试内容: k8s/ckad/ckad-8.md
-          - 其他: k8s/ckad/ckad-0.md
-  - Procreate: procreate/index.md
-  - Project Management: project_mgmt/index.md
+  - Architect:
+      - BPMN: architect/bpmn/index.md
+  - Cloud:
+      - Docker: cloud/docker/index.md
+      - Helm: cloud/helm/helm-1.md
+      - Kubernetes:
+          - CKAD: 
+              - Read before exam: cloud/k8s/ckad/read_before_exam.md
+              - 1.核心概念介绍: cloud/k8s/ckad/ckad-1.md
+              - 2.配置: cloud/k8s/ckad/ckad-2.md
+              - 3.多容器Pod: cloud/k8s/ckad/ckad-3.md
+              - 4.容器状态监测: cloud/k8s/ckad/ckad-4.md
+              - 5.Pod设计: cloud/k8s/ckad/ckad-5.md
+              - 6.服务与网络: cloud/k8s/ckad/ckad-6.md
+              - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
+              - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
+              - 其他: cloud/k8s/ckad/ckad-0.md
+      - OpenShift: cloud/openshift/index.md
+  - Ecommerce:
+      - Wordpress: ecommerce/wordpress/index.md
+  - Frontend:
+      - CRA: frontend/cra.md
+      - GSAP: frontend/gsap/index.md
+      - Nginx: frontend/nginx/index.md
+      - React: frontend/react/hooks.md
+      - Web Design: frontend/web_design/index.md
+  - IDEs:
+      - VSCode: ide/vscode/index.md
+  - Project Mgmt: 
+      - Agile: project_mgmt/agile/index.md
+      - Git: project_mgmt/git/index.md
+      - IBM PM: project_mgmt/ibm_internal/index.md
   - Python:
       - FastAPI: python/fastapi/index.md
       - Dependency: python/dependency.md
       - Virtual environment: python/virtual_env.md
-  - React: react/hooks.md
-  - Web Design: web_design/index.md
-  - Wordpress: wordpress/index.md
-
+  - Sketch:
+      - Procreate: sketch/procreate/index.md
 markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.superfences
@@ -38,9 +51,5 @@ markdown_extensions:
   - pymdownx.details
 
 theme:
-  name: readthedocs
-  features:
-    - content.tabs.link
-# plugins:
-#   - search
-#   - print-site
+  name: material
+
