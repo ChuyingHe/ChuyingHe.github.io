@@ -27,6 +27,10 @@ Example for python fastapi runtime:
 ```
 
 ## Great plugins
+- [EditorConfig for VSCode](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag)
+- [Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag)
+- [Guides](https://marketplace.visualstudio.com/items?itemName=spywhere.guides)
 
 
 ## Preferences: Open User Settings (JSON)
@@ -36,4 +40,15 @@ Example for python fastapi runtime:
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": true
 	},
+```
+
+
+## Languages
+### TypeScript
+```json
+{
+    "tslint.configFile": "./tslint.json",
+    "tslint.autoFixOnSave": true,
+    "editor.formatOnSave": true
+}
 ```

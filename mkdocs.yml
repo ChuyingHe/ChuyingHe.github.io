@@ -1,4 +1,5 @@
 site_name: Chuying's notebook
+dev_addr: 127.0.0.1:3333
 nav:
   - Home: index.md
   - Architect:
@@ -7,7 +8,7 @@ nav:
       - Docker: cloud/docker/index.md
       - Helm: cloud/helm/helm-1.md
       - Kubernetes:
-          - CKAD: 
+          - CKAD:
               - Read before exam: cloud/k8s/ckad/read_before_exam.md
               - 1.核心概念介绍: cloud/k8s/ckad/ckad-1.md
               - 2.配置: cloud/k8s/ckad/ckad-2.md
@@ -22,6 +23,7 @@ nav:
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:
+      - CSS: frontend/css/index.md
       - CRA: frontend/cra.md
       - GSAP: frontend/gsap/index.md
       - Nginx: frontend/nginx/index.md
@@ -29,13 +31,14 @@ nav:
       - Web Design: frontend/web_design/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
-  - Project Mgmt: 
+  - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
       - Git: project_mgmt/git/index.md
       - IBM PM: project_mgmt/ibm_internal/index.md
   - Python:
       - FastAPI: python/fastapi/index.md
-      - Dependency: python/dependency.md
+      - Bug Recording: python/bug_recording.md
+      - Build Dependency: python/build_dependency.md
       - Virtual environment: python/virtual_env.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
@@ -52,4 +55,3 @@ markdown_extensions:
 
 theme:
   name: material
-
