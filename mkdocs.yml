@@ -19,7 +19,16 @@ nav:
               - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
               - 其他: cloud/k8s/ckad/ckad-0.md
-      - OpenShift: 
+      - OpenShift:
+          - EX288:
+              - 1: cloud/openshift/ex288/01.md
+              - 2: cloud/openshift/ex288/02.md
+              - 3: cloud/openshift/ex288/03.md
+              - 4: cloud/openshift/ex288/04.md
+              - 5: cloud/openshift/ex288/05.md
+              - 6: cloud/openshift/ex288/06.md
+              - 7: cloud/openshift/ex288/07.md
+              - 8: cloud/openshift/ex288/08.md
           - Operator: cloud/openshift/operator.md
           - Internal Registry: cloud/openshift/internal_registry.md
   - Ecommerce:
