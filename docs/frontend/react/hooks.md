@@ -37,12 +37,30 @@ export default MyComponent;
 
 ## 1. State Hooks
 
-### useState(initialState)
+### `useState`
+
 
 `useState(initialState)`declares a state variable in component that you can update directly. `initialState` is the initial value of the state, it can be:
 
 - a variable in any type (could also be an `object`)
 - a pure function, which takes 0 arguments, and returns a value in any type
+
+
+!!! warning "State"
+    The State that created by `useState` decides when the Component (re)renders! Every time the State changes, the Component will rerender!
+
+!!! note "State Batching"
+    The `setXXX()` functions in the same synchronous execution cycle (scope) will be batched together, and cause ONLY one re-render.
+    ```js
+    setName("Max");
+    setAge("5")
+    ```
+    The updates in both `name` and `age` will be applied **simultaneously**! That's why the following code will NOT work:
+    ```js
+    console.log(name); // prints name state, e.g. 'Manu'
+    setName('Max');
+    console.log(name); // ??? what gets printed? Still 'Manu'?
+    ```
 
 Example:
 
@@ -104,9 +122,9 @@ function handleClick() {
     setAge((age) => age + 1); // ✅ pass a updater function as parameter!
     ```
 
-### useReducer(reducer, initialArg, init?)
+### `useReducer`
 
-`useReducer()` sources out multiple `useState()` to keep the code cleaner. `useReducer()` has 3 input parameters:
+`useReducer(reducer, initialArg, init?)` sources out multiple `useState()` to keep the code cleaner. Ususally we use it when there are several actions on one State. The defined `reducer` is outside of the Component. `useReducer()` has 3 input parameters:
 
 1. `reducer`: the `function reducer(state, action)` returns the next state. State and action can be any types.
 2. `initialArg`: initial state, can be any type.
@@ -119,64 +137,67 @@ import { useReducer } from "react";
 
 // define a `reducer`
 function reducer(state, action) {
-  if (action.type === "incremented_age") {
-    return {
-      age: state.age + 1,
-    };
+  switch (action.type) {
+    case 'incremented_age':
+      return {
+        age: state.age + state.amount,
+      };
+    case 'decreased_age':
+      return {
+        age: state.age - state.amount,
+      };
   }
+
   throw Error("Unknown action.");
 }
 
 export default function Counter() {
   /*
    * [variable, function] =
-   *
    */
   const [state, dispatch] = useReducer(reducer, { age: 42 });
 
   return (
     <>
-      {/* 👉 use function `dispatch()` with input parameter */}
       <button
         onClick={() => {
-          dispatch({ type: "incremented_age" });
+          dispatch({ type: "incremented_age", amount: 2 });  {/* 👉 `dispatch()` with input parameter */}
         }}
       >
-        Increment age
+        Increase
       </button>
-      {/* 👉 use variable `state` */}
-      <p>Hello! You are {state.age}.</p>
+      <p>Hello! You are {state.age}.</p>    {/* 👉 `state` */}
     </>
   );
 }
 ```
 
-# 2. Context Hooks
+## 2. Context Hooks
 
-## useContext(SomeContext)
+### `useContext`
 
-`useContext()` lets a component receive information from distant parents without passing the props through the tree in 3 steps:
+`useContext(SomeContext)` lets a component receive information from distant parents without passing the props through the tree in 3 steps:
 
 1.Create Context
 
-=== "ThemeContext.jsx"
-
-````js
-import { createContext } from 'react';
+=== "ThemeContext.jsx:"
+    ```js
+    import { createContext } from 'react';
 
     export const ThemeContext = React.createContext<>();
     ```
 
-=== "ThemeContext.tsx"
-```tsx
-import { createContext } from 'react';
+=== "ThemeContext.tsx:"
 
-    interface ThemeContextProps {
-    	darkTheme: boolean;
-    	setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    ```tsx
+    import { createContext } from 'react';
 
-    export const ThemeContext = React.createContext<ThemeContextProps>({} as ThemeContextProps);
+        interface ThemeContextProps {
+        	darkTheme: boolean;
+        	setDarkTheme: React.Dispatch<React.SetStateAction<boolean>>;
+        }
+
+        export const ThemeContext = React.createContext<ThemeContextProps>({} as ThemeContextProps);
     ```
 
 2.Create a **Context Provider** as a "wrapper": all the childeren elements that want to use the Context is wrapped in this **Provider**
@@ -242,11 +263,11 @@ export default ComponentFunctional;
 !!! warning
     `useContext()` call in a component is not affected by providers returned from the same component. The corresponding `<Context.Provider>` needs to be above the component doing the `useContext()` call.
 
-# 3. Ref Hooks
+## 3. Ref Hooks
 
-## useRef(initialValue)
+### `useRef`
 
-`useRef()` is a React Hook that lets you reference a value that’s **not needed for rendering**. --> The ref value is independent from render times!
+`useRef(initialValue)` is a React Hook that lets you reference a value that’s **not needed for rendering**. --> The ref value is independent from render times!
 
 ```js
 import { useRef } from "react";
@@ -261,6 +282,18 @@ const MyComponent = () => {
 
   return <button onClick={handleClick}>Click me!</button>;
 };
+```
+
+Another example:
+```jsx
+const input_ref = useRef()
+
+return <>
+  <input 
+  type="text"
+  ref={input_ref}
+  />
+</>
 ```
 
 !!! note
@@ -291,33 +324,50 @@ Instead, ONLY read or write refs from **event handlers or effects** instead.
 
 ```
 
-## useImperativeHandle
+### `useImperativeHandle`
 
 `useImperativeHandle`
 
-# Effect Hooks
+## 4. Effect Hooks
 
-## useEffect()
+### `useEffect`
 
 `useEffect(setup, dependencies?)`
 
 The second parameter `dependencies` has 3 possibilities:
 
 1. `[a, b]`: a dependency array --> runs after the **component initial render** and after re-renders of variable a AND b
-2. `[]`: an empty array --> only run after the **component initial render**
-3. ` `: empty --> runs after EVERY single render (and re-render)
+2. `[]`: an empty array --> only run after the **component initial render** --> similar to `componentDidMount()`
+3. ` `: empty --> runs after EVERY single render (and re-render when State changes)
 
-## useLayoutEffect()
+#### Clean up
+Sometimes we need to **clean up** the content in `useEffect`, we do so by returning a function in the end, this function will be executed before the next round executes:
+```js
+useEffect(()=>{
+  // do sth...
+  const timer = setTimeout(()=>{
+    //...
+  }, 500)
+
+  // clean up
+  return () => {
+    clearTimeout(timer)
+  };
+},[name])
+```
+* if `dependencies` is `[]`, then the **clean up** happens when the Component gets unmounted!
+
+### `useLayoutEffect`
 
 `useLayoutEffect(setup, dependencies?)` is a version of `useEffect(setup, dependencies?)` that fires before the browser repaints the screen.
 
-## useInsertionEffect()
+### `useInsertionEffect`
 
 `useInsertionEffect(setup, dependencies?)` is a version of `useEffect(setup, dependencies?)` that fires before any DOM mutations.
 
-# Performance Hooks
+## 5. Performance Hooks
 
-## useMemo()
+### `useMemo`
 
 `useMemo(calculateValue, dependencies)` is a React Hook that lets you cache the **result of a calculation** between re-renders.
 
@@ -329,14 +379,20 @@ function TodoList({ todos, tab }) {
 }
 ```
 
-## useCallback()
+### `useCallback`
 
-`useCallback(fn, dependencies)` is a React Hook that lets you cache a **function definition** between re-renders.
+`useCallback(fn, dependencies)` is a React Hook that lets you **cache** a function definition between re-renders. This could avoid unnecessary re-render
 
 ```js
-import { useCallback } from 'react';
+  // original function:
+  const handleSubmit = (orderDetails) => {
+    post('/product/' + productId + '/buy', {
+      referrer,
+      orderDetails,
+    });
+  }
 
-export default function ProductPage({ productId, referrer, theme }) {
+  // function in useCallback:
   const handleSubmit = useCallback((orderDetails) => {
     post('/product/' + productId + '/buy', {
       referrer,
@@ -345,18 +401,18 @@ export default function ProductPage({ productId, referrer, theme }) {
   }, [productId, referrer]);
 ```
 
-## useTransition()
+### `useTransition`
 
 `useTransition()` is a React Hook that lets you update the state without blocking the UI, it does NOT take any parameters.
 
-## useDeferredValue()
+### `useDeferredValue`
 
-# Other Hooks
+## 6. Other Hooks
 
-## useDebugValue()
+### `useDebugValue`
 
-## useId()
+### `useId`
 
-## useSyncExternalStore()
+### `useSyncExternalStore`
 
-# Customized Hook
+## 7. Customized Hook

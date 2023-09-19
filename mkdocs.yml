@@ -37,8 +37,13 @@ nav:
       - CSS: frontend/css/index.md
       - CRA: frontend/cra.md
       - GSAP: frontend/gsap/index.md
+      - JavaScript: frontend/js/index.md
       - Nginx: frontend/nginx/index.md
-      - React: frontend/react/hooks.md
+      - React: 
+          - Hooks: frontend/react/hooks.md
+          - Intro: frontend/react/ms_1_intro.md
+          - Refresh: frontend/react/ms_30_summary.md
+          - Resources: frontend/react/resources.md
       - Web Design: frontend/web_design/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
@@ -66,3 +71,5 @@ markdown_extensions:
 
 theme:
   name: material
+  features:
+    - content.tabs.link
