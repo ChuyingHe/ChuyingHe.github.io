@@ -37,7 +37,7 @@ export default MyComponent;
 
 ## 1. State Hooks
 
-### `useState`
+### 🪝`useState`
 
 
 `useState(initialState)`declares a state variable in component that you can update directly. `initialState` is the initial value of the state, it can be:
@@ -122,7 +122,7 @@ function handleClick() {
     setAge((age) => age + 1); // ✅ pass a updater function as parameter!
     ```
 
-### `useReducer`
+### 🪝`useReducer`
 
 `useReducer(reducer, initialArg, init?)` sources out multiple `useState()` to keep the code cleaner. Ususally we use it when there are several actions on one State. The defined `reducer` is outside of the Component. `useReducer()` has 3 input parameters:
 
@@ -174,20 +174,43 @@ export default function Counter() {
 
 ## 2. Context Hooks
 
-### `useContext`
+### 🪝`useContext`
 
-`useContext(SomeContext)` lets a component receive information from distant parents without passing the props through the tree in 3 steps:
+`useContext(SomeContext)` is used to manage global variable in the App, such as theme, authentication. It lets a component receive information from distant parents without passing the props through the tree in three steps:
 
-1.Create Context
+1. Define Context and ContextProvider
+For convention we put the Context in a separate folder `/context`. The `createContext()` function includes initial values.
 
-=== "ThemeContext.jsx:"
-    ```js
-    import { createContext } from 'react';
+```js
+// ./context/theme-context.jsx
+import { createContext } from 'react';
 
-    export const ThemeContext = React.createContext<>();
-    ```
+// create Context
+export const ThemeContext = React.createContext({
+  darkTheme: false;
+  setDarkTheme: () => {}
+});
 
-=== "ThemeContext.tsx:"
+// create ContextProvider, and wrap all the given Children
+export const ThemeContextProvider = props => {
+  const [darkTheme, setDarkTheme] = useState(true);
+
+  const darkThemeHandler = () => {
+    setDarkTheme(true)
+  }
+
+  return (
+    {/*⚠️ value中有两个花括号，里面那个花括号表示Object */}
+    <ThemeContext.Provider value={{ darkTheme: darkTheme, setDarkTheme: darkThemeHandler }}>
+      {props.children}
+    </ThemeContext.Provider>
+  )
+}
+
+
+```
+
+<!-- === "./context/ThemeContext.tsx:"
 
     ```tsx
     import { createContext } from 'react';
@@ -198,48 +221,40 @@ export default function Counter() {
         }
 
         export const ThemeContext = React.createContext<ThemeContextProps>({} as ThemeContextProps);
-    ```
+    ``` -->
 
-2.Create a **Context Provider** as a "wrapper": all the childeren elements that want to use the Context is wrapped in this **Provider**
+2.Create a **Context Provider** as a "wrapper": The `Provider` has the `value` which is the implementation and overwrites the initial values. All the childeren elements that want to use the Context are wrapped in this `Provider`.
 
-```js
-// App.tsx
-import ThemeContext from "./ThemeContext";
+```jsx
+// index.jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const App = () => {
-  const [darkTheme, setDarkTheme] = useState(true);
+import './index.css';
+import App from './App';
+import { ThemeContextProvider } from "./context/theme-context";
 
-  const toggleTheme = () => {
-    setDarkTheme((prevDarkTheme) => !prevDarkTheme);
-  };
 
-  return (
-    <>
-      {/*⚠️ value中有两个花括号，里面那个花括号表示Object */}
-      <ThemeContext.Provider value={{ darkTheme, setDarkTheme }}>
-        <button onClick={toggleTheme}>Toggle Theme</button>
+ReactDOM.render(
+  <ThemeContextProvider>
+    <App />
+  </ThemeContextProvider>, 
+  document.getElementById('root')
+);
 
-        <ComponentClass />
-        <ComponentFunctional />
-      </ThemeContext.Provider>
-    </>
-  );
-};
+```
 
-export default App;
-````
+该例子中，`<ThemeContextProvider>`被用于于最顶层的 `index.js` 中，包裹着`<App/>`。这意味着，所有 App 组件的子组件都能访问到该 Context 的值。
 
-该例子中，`<ThemeContext.Provider>`存在于最顶层的 App 组件中，这意味着，所有 App 组件的子组件都能访问到该 Context 的值。
 
-<!-- TODO: content tabs not working: https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#ordered-list -->
-
-3.Use the Context
+3.Use/Change the Context
+Here with the `useContext` you can actually apply the change: in this case, change the theme type.
 
 ```js
 import { useContext } from 'react';
-import { ThemeContext } from './App';
+import { ThemeContext } from './context/ThemeContext';
 
-const ComponentFunctional = () => {
+const ThemeChanger = () => {
 	// Now we have the Context available!
 	const themeContext = useContext(ThemeContext);
 
@@ -255,17 +270,15 @@ const ComponentFunctional = () => {
 
 };
 
-export default ComponentFunctional;
+export default ThemeChanger;
 ```
-
-<!-- TODO: Example: use the Context in Class Component -->
 
 !!! warning
     `useContext()` call in a component is not affected by providers returned from the same component. The corresponding `<Context.Provider>` needs to be above the component doing the `useContext()` call.
 
 ## 3. Ref Hooks
 
-### `useRef`
+### 🪝`useRef`
 
 `useRef(initialValue)` is a React Hook that lets you reference a value that’s **not needed for rendering**. --> The ref value is independent from render times!
 
@@ -324,13 +337,13 @@ Instead, ONLY read or write refs from **event handlers or effects** instead.
 
 ```
 
-### `useImperativeHandle`
+### 🪝`useImperativeHandle`
 
 `useImperativeHandle`
 
 ## 4. Effect Hooks
 
-### `useEffect`
+### 🪝`useEffect`
 
 `useEffect(setup, dependencies?)`
 
@@ -357,31 +370,63 @@ useEffect(()=>{
 ```
 * if `dependencies` is `[]`, then the **clean up** happens when the Component gets unmounted!
 
-### `useLayoutEffect`
+### 🪝`useLayoutEffect`
 
 `useLayoutEffect(setup, dependencies?)` is a version of `useEffect(setup, dependencies?)` that fires before the browser repaints the screen.
 
-### `useInsertionEffect`
+### 🪝`useInsertionEffect`
 
 `useInsertionEffect(setup, dependencies?)` is a version of `useEffect(setup, dependencies?)` that fires before any DOM mutations.
 
 ## 5. Performance Hooks
 
-### `useMemo`
+### 🪝`useMemo`
 
-`useMemo(calculateValue, dependencies)` is a React Hook that lets you cache the **result of a calculation** between re-renders.
+`useMemo(calculateValue, dependencies)` is a React Hook that lets you **cache a value/component** between re-renders.
 
+Example - cache a value:
 ```js
 import { useMemo } from "react";
 
 function TodoList({ todos, tab }) {
+  // the function filterTodos returns a value - and this value is to be cached
   const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
 }
 ```
 
-### `useCallback`
+Example - cache a component:
+```js
+// Ingredients.jsx
+import { useMemo } from "react";
+const Ingredients = () => {
 
-`useCallback(fn, dependencies)` is a React Hook that lets you **cache** a function definition between re-renders. This could avoid unnecessary re-render
+  // cache the component <IngredientList />
+  const ingredientList = useMemo(() => {
+    return (
+      <IngredientList
+        ingredients={userIngredients}
+        onRemoveItem={removeIngredientHandler}
+      />
+    );
+  }, [userIngredients, removeIngredientHandler]);
+
+
+  return (
+    <section>
+      <Search onLoadIngredients={filteredIngredientsHandler} />
+      {ingredientList}
+    </section>
+  )
+}
+```
+
+!!! note "`useMemo` vs `useCallback`"
+    - `useMemo` cache a value/component
+    - `useCallback` cache a function
+
+### 🪝`useCallback`
+
+`useCallback(fn, dependencies)` is a React Hook that lets you **cache a function** between re-renders. This could avoid unnecessary re-render. The dependency array indicates that when the function ONLY re-renders when the dependency changes, if the array is empty, then it means this function should NEVER be re-rendered.
 
 ```js
   // original function:
@@ -401,18 +446,21 @@ function TodoList({ todos, tab }) {
   }, [productId, referrer]);
 ```
 
-### `useTransition`
+### 🪝`useTransition`
 
 `useTransition()` is a React Hook that lets you update the state without blocking the UI, it does NOT take any parameters.
 
-### `useDeferredValue`
+### 🪝`useDeferredValue`
 
 ## 6. Other Hooks
 
-### `useDebugValue`
+### 🪝`useDebugValue`
 
-### `useId`
+### 🪝`useId`
 
-### `useSyncExternalStore`
+### 🪝`useSyncExternalStore`
 
 ## 7. Customized Hook
+Name convention is `useSOMETHING`, and its actually just a function. Whenever this customized hook is called, a new snapshot of this hook will be created. So the logic of this hook can be shared between different component, but not the data of this hook.
+
+TODO: https://ibm-learning.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/25599852#overview
