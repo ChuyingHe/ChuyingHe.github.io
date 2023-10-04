@@ -57,6 +57,7 @@ nav:
       - Bug Recording: python/bug_recording.md
       - Build Dependency: python/build_dependency.md
       - Virtual environment: python/virtual_env.md
+  - Regex: regex/index.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
 markdown_extensions:

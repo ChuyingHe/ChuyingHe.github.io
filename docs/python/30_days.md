@@ -37,3 +37,25 @@
 |`<`| If the value of left operand is less than the value of right operand, then condition becomes true.| (a < b) is true.
 |`>=`| If the value of left operand is greater than or equal to the value of right operand, then condition becomes true.| (a >= b) is not true. |
 |`<=`| If the value of left operand is less than or equal to |the value of right operand, then condition becomes true.| (a <= b) is true.
+
+## Loop
+### `for` loop
+Using an array:
+```py
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+  print(x)
+```
+
+Using a string:
+```py
+for x in "banana":
+  print(x)
+```
+
+Using a number as range:
+```py
+for x in range(2, 30, 3):
+  print(x)
+```
+### `while` loop
