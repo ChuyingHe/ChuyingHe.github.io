@@ -1,5 +1,5 @@
 # Routes
-```jsx
+```js
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 ...
@@ -15,7 +15,7 @@ return (
 ```
 
 For the detailPage we use `useParameter` to get the id of the page:
-```jsx
+```js
 import { useParams } from 'react-router-dom';
 
 const DetailPage = () => {

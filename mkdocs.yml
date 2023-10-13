@@ -71,6 +71,7 @@ markdown_extensions:
   - def_list
   - admonition
   - pymdownx.details
+  - pymdownx.emoji
 
 theme:
   name: material

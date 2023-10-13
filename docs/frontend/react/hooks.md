@@ -78,11 +78,11 @@ function MyComponent() {
 ```
 
 !!! note "Array Destruction"
-The way we write the LEFT-HAND side `[name, setName]` is called "Array Destruction"
+    The way we write the LEFT-HAND side `[name, setName]` is called "Array Destruction"
 
 A classic use case for useState as "Controlled Component":
 
-```jsx
+```html
 <form>
   <div>
     <label htmlFor="title">Name</label>
@@ -91,20 +91,21 @@ A classic use case for useState as "Controlled Component":
       id="title"
       value={name}
       //   onChange={(event) => setName(event.target.value)}
+
       onChange={(event) => {
-        // ⚠️ This new variable `newName` solve the "wrong object" error caused by how React handles the state
-        const newName = event.target.value;
+        const newName = event.target.value;         // ! This new variable `newName` solve the "wrong object" error caused by how React handles the state
         setName((prevState) => ({
           name: newName,
           age: prevState.age,
         }));
       }}
+
     ></input>
   </div>
 </form>
 ```
 
-`setXXX()` only affects what useState will return starting from the next render. Therefore this will not work:
+`setXXX()` ONLY affects what `useState` returns in the beginning of the next render. Therefore this will not work:
 
 ```js
 function handleClick() {
@@ -176,9 +177,15 @@ export default function Counter() {
 
 ### 🪝`useContext`
 
-`useContext(SomeContext)` is used to manage global variable in the App, such as theme, authentication. It lets a component receive information from distant parents without passing the props through the tree in three steps:
+`useContext(SomeContext)` is used to manage global variable in the App, such as:
 
-1. Define Context and ContextProvider
+- theme
+- authentication. 
+
+It lets a component receive information from distant parents without passing the props through the tree! Implement it in three steps:
+
+**1.Define Context and ContextProvider(as a wrapper)**
+
 For convention we put the Context in a separate folder `/context`. The `createContext()` function includes initial values.
 
 ```js
@@ -206,8 +213,6 @@ export const ThemeContextProvider = props => {
     </ThemeContext.Provider>
   )
 }
-
-
 ```
 
 <!-- === "./context/ThemeContext.tsx:"
@@ -223,9 +228,11 @@ export const ThemeContextProvider = props => {
         export const ThemeContext = React.createContext<ThemeContextProps>({} as ThemeContextProps);
     ``` -->
 
-2.Create a **Context Provider** as a "wrapper": The `Provider` has the `value` which is the implementation and overwrites the initial values. All the childeren elements that want to use the Context are wrapped in this `Provider`.
+**2.Use ContextProvider**
 
-```jsx
+The `Provider` has the `value` which is the implementation and overwrites the initial values. All the childeren elements that want to use the Context are wrapped in this `Provider`.
+
+```js
 // index.jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -298,7 +305,7 @@ const MyComponent = () => {
 ```
 
 Another example:
-```jsx
+```js
 const input_ref = useRef()
 
 return <>
