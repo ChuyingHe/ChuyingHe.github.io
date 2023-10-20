@@ -34,6 +34,8 @@ const MyComponent = () => {
 };
 export default MyComponent;
 ```
+!!! warning "Workaround"
+    If you want to use `useState` in a condition or a loop, extract a new component and put it there.
 
 ## 1. State Hooks
 
