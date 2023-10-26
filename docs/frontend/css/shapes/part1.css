@@ -1,0 +1,32 @@
+body {
+  position: relative;
+  height: 100vh;
+  margin: 0;
+  background-color: #fcf8db;
+
+  --black: #00202a;
+  --white: #f8f8f8;
+  --blue: #2348cd;
+  --skin: #f77676;
+  --dark-skin: #cc3c40;
+  --light-skin: #f3af9f;
+  --yellow: #f6d359;
+  --dark-yellow: #e9a964;
+}
+
+.person,
+.person::before,
+.person::after,
+.person *,
+.person *::after,
+.person *::before {
+  position: absolute;
+  content: "";
+}
+.person {
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 100px;
+  border-radius: 50%;
+}

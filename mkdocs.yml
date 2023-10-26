@@ -34,7 +34,9 @@ nav:
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:
-      - CSS: frontend/css/index.md
+      - CSS: 
+          - CSS In Depth: frontend/css/css-in-depth.md
+          - Shape: frontend/css/shapes.md
       - CRA: frontend/cra.md
       - GSAP: frontend/gsap/index.md
       - JavaScript: frontend/js/index.md
@@ -45,6 +47,7 @@ nav:
           - Oblivion: frontend/react/oblivion.md
           - Resources: frontend/react/resources.md
       - Web Design: frontend/web_design/index.md
+  - ffmpeg: ffmpeg/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
   - Project Mgmt:
