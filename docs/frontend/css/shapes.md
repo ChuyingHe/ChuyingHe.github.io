@@ -1,5 +1,6 @@
 ## Resource
 - [Julia Miocene's Youtube channel](https://www.youtube.com/watch?v=LKwbGLv1Re4&ab_channel=JuliaMiocene)
+- Artist: [Mark Rise](https://markrise.art/)
 
 ## Useful CSS attributes
 Here we collect some important CSS attributes for drawing in CSS: 

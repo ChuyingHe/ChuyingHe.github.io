@@ -14,18 +14,18 @@ body {
   --dark-yellow: #e9a964;
 }
 
-.person,
-.person::before,
-.person::after,
-.person *,
-.person *::after,
-.person *::before {
+#person,
+#person::before,
+#person::after,
+#person *,
+#person *::after,
+#person *::before {
   position: absolute;
   content: "";
 }
 
 /* collarbone */
-.person {
+#person {
   top: 50%;
   left: 50%;
   width: 200px;
@@ -44,7 +44,7 @@ body {
 }
 
 /* neck */
-.person::before {
+#person::before {
   top: -90px;
   left: 60px;
   width: 80px;
@@ -64,7 +64,7 @@ body {
 }
 
 /* ear & hair */
-.person__head {
+#person__head {
   top: -145px;
   left: 5px;
   width: 50px;
@@ -81,7 +81,7 @@ body {
 }
 
 /* head */
-.person__head::before {
+#person__head::before {
   top: -30px;
   left: 25px;
   width: 130px;
@@ -95,7 +95,7 @@ body {
 }
 
 /* smile */
-.person__head::after {
+#person__head::after {
   top: 45px;
   left: 40px;
   width: 60px;
@@ -107,7 +107,7 @@ body {
 }
 
 /* eyes */
-.person__face {
+#person__face {
   /* left eye */
   top: 15px;
   left: 35px;
@@ -120,7 +120,7 @@ body {
 }
 
 /* hair */
-.person__face::before {
+#person__face::before {
   top: -85px;
   left: -20px;
   width: 330px;
@@ -130,7 +130,7 @@ body {
 }
 
 /* glasses */
-.person__face::after {
+#person__face::after {
   top: -25px;
   left: -28px;
   width: 60px;

@@ -4,10 +4,26 @@
   </head>
   <body>
     <h1>Part 1</h1>
-    <div class="person">
-      <div class="person__head">
-        <div class="person__face"></div>
+    <div id="person">
+      <div id="person__head">
+        <div id="person__face"></div>
       </div>
     </div>
   </body>
+  <!-- <script type="text/javascript" src="./part1.js"></script> -->
+  <!-- Note: the mouseover event sometimes doesn't react because the mouse is over on the WRONG area, you need to find a way to unit the area of the whole person -->
+  <script type="text/javascript">
+    const faceElement = document.getElementById("person__face");
+    console.log(faceElement);
+
+    function pupilFocus() {
+      console.log(faceElement.style.boxShadow);
+      faceElement.style.boxShadow = "65px 0px 0px 2px";
+    }
+    function pupilUnfocus() {
+      faceElement.style.boxShadow = "65px 0px 0px 0px";
+    }
+    faceElement.addEventListener("mouseover", pupilFocus);
+    faceElement.addEventListener("mouseleave", pupilUnfocus);
+  </script>
 </html>
