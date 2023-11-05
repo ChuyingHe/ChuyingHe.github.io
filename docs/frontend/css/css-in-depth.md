@@ -38,3 +38,30 @@ calc()函数内可以对两个及其以上的值进行基本运算。当要结�
 
 ## 变量
 变量名前面必须有两个连字符（--），用来跟CSS属性区分，剩下的部分可以随意命名。 
+⚠️ 在不支持自定义属性的浏览器上，任何使用ver（）的声明都会被忽略。请尽量为这些浏览器提供回退方案(fallback)：
+```css
+color: black;
+color: var (--main-color);
+```
+
+应用场景有切换网站主题等。
+
+我们可以用JS访问到该变量的值：
+```html
+<script>
+   var rootElement = document.documentElement;
+   var styles = getComputedStyle(rootElement);
+   var mainColor = styles.getPropertyValue('--main-bg');
+   console.log(String(mainColor).trim());
+</script>
+```
+
+## 布局
+高级的布局话题基于`文档流/flow`和`盒模型/box-model`等概念，这些是决定网页元素的大小和位置的基本规则。
+
+### 垂直居中
+### 等高列
+
+
+!!! "info" IE
+    IE有一个bug，它会默认将`<main>`元素渲染成行内元素，而不是块级元素，所以代码中我们用声明`display: block`来纠正。
