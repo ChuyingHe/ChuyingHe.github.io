@@ -4,6 +4,7 @@ nav:
   - Home: index.md
   - Architect:
       - BPMN: architect/bpmn/index.md
+      - System Design: architect/system_design.md
   - Cloud:
       - Docker: cloud/docker/index.md
       - Helm: cloud/helm/helm-1.md
