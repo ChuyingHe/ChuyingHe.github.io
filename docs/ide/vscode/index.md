@@ -14,6 +14,7 @@ Example for python fastapi runtime:
       "type": "python",
       "request": "launch",
       "module": "uvicorn",
+      "python": "${workspaceFolder}/venv/bin/python",
       "args": ["app.main:app", "--port", "4000", "--reload"],
       "jinja": true,
       "justMyCode": true,

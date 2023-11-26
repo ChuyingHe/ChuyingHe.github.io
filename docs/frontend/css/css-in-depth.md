@@ -123,11 +123,9 @@ Best Practise:
 :warning: 谨慎地使用滚动条!
 
 ### 垂直居中
+
+!!! "info" IE
+    IE有一个bug，它会默认将`<main>`元素渲染成行内元素，而不是块级元素，所以代码中我们用声明`display: block`来纠正。
+
 ### 等高列
-
-
-!!! info IE
-      IE有一个bug，它会默认将`<main>`元素渲染成行内元素，而不是块级元素，所以代码中我们用声明`display: block`来纠正。
-
-
 

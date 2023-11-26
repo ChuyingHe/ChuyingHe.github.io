@@ -58,7 +58,7 @@ nav:
   - Python:
       - 30 Days challenge: python/30_days.md
       - FastAPI: python/fastapi/index.md
-      - Bug Recording: python/bug_recording.md
+      - Oblivion: python/oblivion.md
       - Build Dependency: python/build_dependency.md
       - Virtual environment: python/virtual_env.md
   - Regex: regex/index.md

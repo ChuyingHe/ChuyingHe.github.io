@@ -1,6 +1,9 @@
 [TOC]
 
 # 1. 服务（Service）
+!!! note "Service 和 Route"
+		The **Service** will expose your application internally within the cluster, and the **Route** will create a publicly accessible URL for external access.
+
 Kubernetes中的每个`Pod`都有它自己的IP地址，但`Pod`经常会因为各种原因而挂掉，如果我们用`Pod`的IP地址来访问该`Pod`，会常出现IP地址无效的情况，我们用 **服务（Service）**  解决这个问题。**服务**提供了稳定的IP地址，我们永远可以找到**服务**的IP地址，然后通过该**服务**访问到想要找的应用Pod。
 
 !!! note
