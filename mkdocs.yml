@@ -16,7 +16,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.emoji
 
-theme:
-  name: material
-  features:
-    - content.tabs.link
+# theme:
+#   name: material
+#   features:
+#     - content.tabs.link
