@@ -4,7 +4,20 @@
 2. 用户代理样式表/user agent stylesheet：即浏览器默认样式
    其中的 **作者样式表** 会覆盖 **用户代理样式表**
 
-层叠的高级流程图，展示了声明的优先顺序：<img src="./flowchart.png" />
+层叠的高级流程图，展示了声明的优先顺序：<img src="../css-in-depth/flowchart.png" />
+
+## 全局选择器
+```css
+:root {
+
+}
+
+*,
+::before,
+::after {
+
+}
+```
 
 ## 单位
 `em` 当前字体大小的相对单位。 `rem=Root em`，根CSS文件中字体大小的相对单位
@@ -57,11 +70,62 @@ color: var (--main-color);
 ```
 
 ## 布局
-高级的布局话题基于`文档流/flow`和`盒模型/box-model`等概念，这些是决定网页元素的大小和位置的基本规则。
+高级的布局话题基于`文档流 / flow`和`盒模型 / box-model 等概念，这些是决定网页元素的大小和位置的基本规则。
+### 横向：两列布局
+使用浮动布局，将main和sidebar向左浮动，分别设置70%和30%的宽度。
+```css
+.main {
+   float: left; 
+   width: 70%;
+}
+.sidebar {
+   float: left;
+   width: 30%;
+}
+```
+虽然将两列宽度设置为70%和30%，但它们总共占据的宽度超过了可用空间的100%。这是因为其中的width指的是纯内容的宽度，即 `box-sizing: content-box`（没有算上padding，border和margin）
+
+<img src="../css-in-depth/box-model-original.png" width="300" />
+
+解决方法：
+
+1. 将`sidecar`的宽度设置成 `calc(30%-3em)`
+2. 调整 盒模型 `box-sizing: border-box`
+
+   <img src="../css-in-depth/box-model-border.png" width="300" />
+
+Best Practise:
+```css
+:root {
+   box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+   box-sizing: inherit;
+}
+```
+
+!!! note "普通文档流 / Workflow"
+   普通文档流——指的是网页元素的默认布局行为。行内元素跟随文字的方向从左到右排列，当到达容器边缘时会换行。块级元素会占据完整的一行，前后都有换行。
+
+   普通文档流是为限定的宽度和无限的高度设计的。
+
+###  高度
+普通文档流是为限定的宽度和无限的高度设计的。当明确设置一个元素的高度时，内容可能会溢出容器。用overflow属性可以控制溢出内容的行为，该属性支持以下4个值：
+
+- visible（默认值）: 所有内容可见，即使溢出容器边缘。
+- hidden: 溢出容器内边距边缘的内容被裁剪，无法看见。
+- scroll: 容器出现滚动条，用户可以通过滚动查看剩余内容。在一些操作系统上，会出现水平和垂直两种滚动条，即使所有内容都可见（不溢出）。不过，在这种情况下，滚动条不可滚动（置灰）。
+- auto: 只有内容溢出时容器才会出现滚动条。
+
+:warning: 谨慎地使用滚动条!
 
 ### 垂直居中
-### 等高列
-
 
 !!! "info" IE
     IE有一个bug，它会默认将`<main>`元素渲染成行内元素，而不是块级元素，所以代码中我们用声明`display: block`来纠正。
+
+### 等高列
+

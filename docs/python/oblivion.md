@@ -1,5 +1,22 @@
 # Oblivion
 
+# 422 unprocessable entity
+the order of the routers in the controller matters!
+
+for example:
+```python
+# wrong
+/{item_id}/details
+/all
+# here in the /all endpoint, fastapi will also ask for a {item_id} even though its not written
+
+# correct
+/all
+/{item_id}/details
+```
+
+
+
 # Object is not JSON serializable
 
 ```python
