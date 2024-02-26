@@ -279,6 +279,7 @@ parameters:             # 配置额外的参数
 
 !!! note "绑定模式/VolumeBindingMode"
     可能的值：<br/>
+    
     - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/>
     - `Immediate`
 

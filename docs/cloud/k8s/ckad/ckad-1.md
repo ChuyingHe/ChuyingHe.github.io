@@ -104,8 +104,11 @@ kubectl create -f pod-definition.yml
 - 扮演一个 load balancer 的角色，跨 Node 平衡访问
 
 !!! note
-`Replication Controller` vs `Replica Set` <br />
-两者都有上述提到的功能。**Replica Set**是更新的概念，多一个`.spec.selector`的属性，背后的原因是： <br /> - 除了由自己拷贝的`Pod`副本，**Replica Set**也可以用于管理其他`Pod`； <br /> - 而**Replication Controller**默认只能管理自己生成的`Pod`副本。 <br />
+	`Replication Controller` vs `Replica Set` <br />
+	两者都有上述提到的功能。**Replica Set**是更新的概念，多一个`.spec.selector`的属性，背后的原因是： <br /> 
+
+	- 除了由自己拷贝的`Pod`副本，**Replica Set**也可以用于管理其他`Pod`； <br /> 
+	- 而**Replication Controller**默认只能管理自己生成的`Pod`副本。 <br />
 
 ```yaml
 apiVersion: app/v1
@@ -166,12 +169,11 @@ spec:
 - **方法二**：先更新`ReplicaSet`，删除旧的 Pod `k edit replicaset xxx` ；然后 `k delete pod -l name=busybox-pod`
 
 !!! note
-因为`ReplicaSet`只检查数量，不检查 Pod 的内容，所以要把旧的 Pod 杀掉
+	因为`ReplicaSet`只检查数量，不检查 Pod 的内容，所以要把旧的 Pod 杀掉
 
 !!! warning
-**ReplicaSet** 的`apiVersion`的值是`apps/v1`，不是`v1`，不然你会看到一下错误：
-
-    	![请添加图片描述](../ckad-1/123a2143752c4f6095b937ffc734a84b.png)
+	**ReplicaSet** 的`apiVersion`的值是`apps/v1`，不是`v1`，不然你会看到一下错误：
+    ![请添加图片描述](../ckad-1/123a2143752c4f6095b937ffc734a84b.png)
 
 # 6. Deployment
 
@@ -204,8 +206,8 @@ spec:
 ```
 
 !!! note "Deployment vs ReplicaSet"
-注意到了吗，除了`kind`，其他内容和`ReplicaSet`中没有区别！
-这时候我们用`k create -f deployment.yml`创建 `Deployment`，你可以看到集群中会自动新建以下资源：
+	注意到了吗，除了`kind`，其他内容和`ReplicaSet`中没有区别！
+	这时候我们用`k create -f deployment.yml`创建 `Deployment`，你可以看到集群中会自动新建以下资源：
 
     	- Deployment
     	- ReplicaSet
@@ -286,11 +288,11 @@ mysql.connect("db-service.dev.svc.cluster.local")
 ```
 
 !!! note "跨 Namespace 的服务访问"
-命名格式是`[ServiceName].[Namespace].svc.cluster.local`
--- --
-**为什么可以这样访问到 Service 呢？**
+	命名格式是`[ServiceName].[Namespace].svc.cluster.local`
+	-- --
+	**为什么可以这样访问到 Service 呢？**
 
-    当一个Service被创建的时候，k8s会自动添加对应的DNS: <br/> `cluster.local`是k8s集群的默认域名（cluster domain），`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
+		当一个Service被创建的时候，k8s会自动添加对应的DNS: <br/> `cluster.local`是k8s集群的默认域名（cluster domain），`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
 
 ## ResourceQuota
 
@@ -315,7 +317,7 @@ spec:
 举例：`limits.cpu: "10"` 表示当前 Namespace 中所有 non-terminal 状态的 Pod 的`.limits.cpu`资源的总和没有超过 10
 
 !!! note "terminal / 终止状态 的 Pod"
-Pod which has .status == Failed or .status=succeeded
+	Pod which has .status == Failed or .status=succeeded
 
 # >>> 本章 kubectl 命令整理
 
@@ -438,7 +440,7 @@ dig www.baidu.com
 ```
 
 !!! note "DNS"
-<img src="../ckad-1/7fd8c9755eaf405cbf7ad062b99ed47c.png" width="600" />
+	<img src="../ckad-1/7fd8c9755eaf405cbf7ad062b99ed47c.png" width="600" />
 
     **示意图中发生的对话如下：**
 
