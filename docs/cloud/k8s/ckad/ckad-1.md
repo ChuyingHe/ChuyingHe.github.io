@@ -10,9 +10,10 @@
 - **容器（container）**：包含了 App，和运行 App 所需的所有配置与环境。比起虚拟机（VM）来更高效，更灵活
 - **Pod**：是 k8s 中的最小单位，Pod 中的内容分享了**同样的网络（Network）和存储（Storage）**。Pod 封装了一个或多个 container（如果是多个 container，那么大概率这些 container 包含了不同的 App，比如一个前端 App，一个数据库 App）。豆荚也可翻译成 pod，所以可以联想到图片如下：<br />
 
-<img src="../ckad-1/pod.jpeg" width=300 />
+	<img src="../ckad-1/pod.jpeg" width=300 />
 
-⚠️ Pod 常被用于扩大应用的规模，假设你的 App 访问人数在某个节假日激增，那我们就新建一个 pod，然后把同样的 App 部署到新建的 pod 上；同样的，Pod 也可以被用于降低 App 的规模
+	!!! note
+		Pod 常被用于扩大应用的规模，假设你的 App 访问人数在某个节假日激增，那我们就新建一个 pod，然后把同样的 App 部署到新建的 pod 上；同样的，Pod 也可以被用于降低 App 的规模
 
 - **节点（node）**：安装了 k8s 的机器，Pod 就是在 node 上跑的。（节点出问题被自动关闭的时候，其上面的容器中的 App 自然也会被关闭，所以一般我们会**_多节点运行_**）
 - **工作节点（worker node）**：真正存放容器，干活的节点

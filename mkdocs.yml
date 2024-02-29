@@ -2,21 +2,45 @@ site_name: Chuying's notebook
 dev_addr: 127.0.0.1:3333
 nav:
   - Home: index.md
+  - Architect:
+      - BPMN: architect/bpmn/index.md
+      - Guide from MemiLavi:
+        - 1. Welcome: architect/complete_guide/memi-1.md
+        - 2. What Is a Software Architect : architect/complete_guide/memi-2.md
+        - 3. The Architect's Mindset: architect/complete_guide/memi-3.md
+        - 4. The Architecture Process: architect/complete_guide/memi-4.md
+        - 5. Working with System Requirements: architect/complete_guide/memi-5.md
+        - 6. Types of Applications: architect/complete_guide/memi-6.md
+        - 7. Selecting Technology Stack: architect/complete_guide/memi-7.md
+        - 8. Meet the *-ilities: architect/complete_guide/memi-8.md
+        - 9. Components' Architecture: architect/complete_guide/memi-9.md
+        - 10. Design Patterns 101: architect/complete_guide/memi-10.md
+        - 11. System Architecture: architect/complete_guide/memi-11.md
+        - 12. External Considerations: architect/complete_guide/memi-12.md
+        - 13. Architecture Document: architect/complete_guide/memi-13.md
+        - 14. Case Study: architect/complete_guide/memi-14.md
+        - 15. Advanced Architecture Topics: architect/complete_guide/memi-15.md
+        - 16. Soft Skills: architect/complete_guide/memi-16.md
+        - 17. Conclusion: architect/complete_guide/memi-17.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
+
 markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.superfences
   - toc:
-      permalink: true
+      title: Contenu
+      permalink: True
+      baselevel: 3
   - attr_list
   - md_in_html
   - def_list
   - admonition
   - pymdownx.details
   - pymdownx.emoji
+  - tables
 
-# theme:
-#   name: material
-#   features:
-#     - content.tabs.link
+theme:
+  name: material
+  features:
+    - content.tabs.link
