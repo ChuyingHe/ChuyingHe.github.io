@@ -3,7 +3,6 @@ dev_addr: 127.0.0.1:3333
 nav:
   - Home: index.md
   - Architect:
-      - BPMN: architect/bpmn/index.md
       - Guide from MemiLavi:
         - 1. Welcome: architect/complete_guide/memi-1.md
         - 2. What Is a Software Architect : architect/complete_guide/memi-2.md
@@ -22,6 +21,69 @@ nav:
         - 15. Advanced Architecture Topics: architect/complete_guide/memi-15.md
         - 16. Soft Skills: architect/complete_guide/memi-16.md
         - 17. Conclusion: architect/complete_guide/memi-17.md
+      - Design Patterns (DP):
+        - 1. Introduction: architect/design_patterns/1_intro.md
+        - 2. Creational DP: architect/design_patterns/2_creational.md
+        - 3. Structural DP: architect/design_patterns/3_structural.md
+        - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
+      # - BPMN: architect/bpmn/index.md
+  - Cloud:
+      - Docker: cloud/docker/index.md
+      - Helm: cloud/helm/helm-1.md
+      - Kubernetes:
+          - CKAD:
+              - Read before exam: cloud/k8s/ckad/read_before_exam.md
+              - 1.核心概念介绍: cloud/k8s/ckad/ckad-1.md
+              - 2.配置: cloud/k8s/ckad/ckad-2.md
+              - 3.多容器Pod: cloud/k8s/ckad/ckad-3.md
+              - 4.容器状态监测: cloud/k8s/ckad/ckad-4.md
+              - 5.Pod设计: cloud/k8s/ckad/ckad-5.md
+              - 6.服务与网络: cloud/k8s/ckad/ckad-6.md
+              - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
+              - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
+              - 其他: cloud/k8s/ckad/ckad-0.md
+      - OpenShift:
+          - EX288:
+              - 1: cloud/openshift/ex288/01.md
+              - 2: cloud/openshift/ex288/02.md
+              - 3: cloud/openshift/ex288/03.md
+              - 4: cloud/openshift/ex288/04.md
+              - 5: cloud/openshift/ex288/05.md
+              - 6: cloud/openshift/ex288/06.md
+              - 7: cloud/openshift/ex288/07.md
+              - 8: cloud/openshift/ex288/08.md
+          - Operator: cloud/openshift/operator.md
+          - Internal Registry: cloud/openshift/internal_registry.md
+  - Ecommerce:
+      - Wordpress: ecommerce/wordpress/index.md
+  - Frontend:
+      - CSS: 
+          - CSS In Depth: frontend/css/css-in-depth.md
+          - Shape: frontend/css/shapes.md
+      - CRA: frontend/cra.md
+      - GSAP: frontend/gsap/index.md
+      - JavaScript: frontend/js/index.md
+      - Nginx: frontend/nginx/index.md
+      - React: 
+          - Hooks: frontend/react/hooks.md
+          - Basics: frontend/react/basics.md
+          - Oblivion: frontend/react/oblivion.md
+          - Resources: frontend/react/resources.md
+      - Web Design: frontend/web_design/index.md
+  - ffmpeg: ffmpeg/index.md
+  - IDEs:
+      - VSCode: ide/vscode/index.md
+  - Project Mgmt:
+      - Agile: project_mgmt/agile/index.md
+      - Git: project_mgmt/git/index.md
+      - IBM PM: project_mgmt/ibm_internal/index.md
+  - Python:
+      - 30 Days challenge: python/30_days.md
+      - FastAPI: python/fastapi/index.md
+      - Oblivion: python/oblivion.md
+      - Build Dependency: python/build_dependency.md
+      - Virtual environment: python/virtual_env.md
+  - Regex: regex/index.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
 
