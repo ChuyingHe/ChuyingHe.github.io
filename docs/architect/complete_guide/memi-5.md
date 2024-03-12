@@ -24,9 +24,9 @@ Non-functional requirements describe the various aspects of the system's operati
 5. SLA 
 
 Non-functional requirements basically describe what is expected environment for the system, with emphasis on edge cases, e.g.:
-- Large number of concurrent users.
-- Server crash.
-- Extremely high load of requests and so on.
+- Large number of concurrent users
+- Server crash
+- Extremely high load of requests
 
 ### 1. Performance: Latency & Throughput
 !!! tip "Tipps"
@@ -56,15 +56,15 @@ Quantity of work without crashing, it can be understood "approximately" as maxim
 E.g.: for a web API-based application, the load will usually be defined as how many concurrent requests are going to be received by the system without crashing. 
 
 !!! tip "Load VS Throughput"
-    For example, the performance requirement can dictate **throughput** of 100requests/s, but the system should be able to handle 500 concurrent requests without crashing, even if those requests will take more than a second to complete.
+    For example, the performance requirement can dictate **throughput** of 100requests/s, but the system should be able to handle 500 concurrent requests without crashing _--> even if those requests will take more than a second to complete._
 
-This definition is important since the worst thing that can happen to a system is to crash under heavy load. Users can tolerate a slowdown when there is a load, but they won't like it if the system will crash and burn. Example:
-
+This definition is important, because the worst thing that can happen to a system is to crash under heavy load.
+.
 !!! note "Example"
     for an e-commerce website, the regular load might be up to 200 concurrent requests, but on Black Friday, we are looking at more than 2000 concurrent requests. In that case, Load = 2000
 
 ### 3. Data volume
-This requirement defines how much data in gigabytes or terabytes our system will accumulate over time. It's important for helping us to decide:
+This requirement defines how much data in gigabytes or terabytes our system will _accumulate over tim_e. It's important for helping us to decide:
 
 - what kind of database? since not all databases can handle large quantities of data equally. 
 - what type of queries? because a query in a table of 100,000 rows will be completely different from a query in a table of 100 million rows.
@@ -76,7 +76,11 @@ The data volume usually has two aspects:
 2. what is a forecasted data growth? For example, a system might need 500MB on its first day and is expected to grow by 2TB annually. 
 
 ### 4. Concurrent users
-This requirement defines how many users will be using the system simultaneously. There is a big difference between **Concurrent users** and **load**. The concurrent users requirement describes how many users will be using the system, not how many users will be performing requests. This distinction is important. When a user is using a system, there are a lot of dead times when no action is actually taken.
+This requirement defines how many users will be using the system simultaneously. There is a big difference between **Concurrent users** and **load**. 
+
+> The concurrent users requirement describes how many users will be using the system, not how many users will be performing requests. 
+
+This distinction is important. When a user is using a system, there are a lot of dead times when no action is actually taken.
 
 For example, a user is asking the system to display all the data. The system executes an API that goes to the database and retrieves the data. This is an actual action. Now, the user is looking at the data. During this time, the system is doing nothing. The API is not working. The database just sits there and the network is silent.
 

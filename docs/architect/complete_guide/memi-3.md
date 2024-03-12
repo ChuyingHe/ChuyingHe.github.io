@@ -11,10 +11,10 @@ As an architect, you should consider both perspective for deveoper and foreign f
 
 Make yourself familiar with:
     
-    - Weaknesses
-    - Strengths
-    - Competition
-    - Grouwth Strategy
+- Weaknesses
+- Strengths
+- Competition
+- Grouwth Strategy
 
 !!! warning
     An architect shouldn't think her system as a standalone system, it should integrate into the eco-system of the company.
