@@ -26,7 +26,7 @@
 || Developer      | Architect                          |
 |-----------| ----------- | ------------------------------------ |
 |Level| micro       |  macro  |
-|Main goal|  to implement loops in the best way  |  to make sure the software design implements |
+|Main goal|  to implement the functionality in the best way  |  to design the software |
 
 
 # Definition

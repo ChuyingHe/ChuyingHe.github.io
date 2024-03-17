@@ -24,6 +24,7 @@ Non-functional requirements describe the various aspects of the system's operati
 5. SLA 
 
 Non-functional requirements basically describe what is expected environment for the system, with emphasis on edge cases, e.g.:
+
 - Large number of concurrent users
 - Server crash
 - Extremely high load of requests
@@ -59,7 +60,7 @@ E.g.: for a web API-based application, the load will usually be defined as how m
     For example, the performance requirement can dictate **throughput** of 100requests/s, but the system should be able to handle 500 concurrent requests without crashing _--> even if those requests will take more than a second to complete._
 
 This definition is important, because the worst thing that can happen to a system is to crash under heavy load.
-.
+
 !!! note "Example"
     for an e-commerce website, the regular load might be up to 200 concurrent requests, but on Black Friday, we are looking at more than 2000 concurrent requests. In that case, Load = 2000
 

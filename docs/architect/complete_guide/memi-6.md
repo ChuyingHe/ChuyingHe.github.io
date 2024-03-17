@@ -60,6 +60,7 @@ Console App, pr command line applications, often called CLI, are applications th
 - Long or short running Processes
 
 Console App are best for systems that require:
+
 - Long or short running Processes
 - short, focused actions such as exporting data
 
@@ -67,7 +68,10 @@ Console App are best for systems that require:
 Service is like Console, but:
 
 - no UI at all
-- manages by Service Manager in the OS
+- manages by Service Manager in the OS 
+
+!!! note "Service Manager" 
+    Service Manager is a system tool responsible for managing services, daemons, and other background processes. For example `systemd` in Ubuntu, Fedora, CentOS, and Debian system.
 
 Services App are best for systems that require:
 
@@ -83,7 +87,7 @@ a poor kid in the application world, usually you dont encounter it:
 !!! note "Example"
     Microsoft word
 
-are best for:
+is suitable for:
 
 - user-centric actions (word processing or calculations, and heavy gaming)
 
