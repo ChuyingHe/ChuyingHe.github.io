@@ -13,7 +13,7 @@ nav:
         - 7. Selecting Technology Stack: architect/complete_guide/memi-7.md
         - 8. Meet the *-ilities: architect/complete_guide/memi-8.md
         - 9. Components' Architecture: architect/complete_guide/memi-9.md
-        - 10. Design Patterns 101: architect/complete_guide/memi-10.md
+        - 10. Design Patterns: architect/complete_guide/memi-10.md
         - 11. System Architecture: architect/complete_guide/memi-11.md
         - 12. External Considerations: architect/complete_guide/memi-12.md
         - 13. Architecture Document: architect/complete_guide/memi-13.md
@@ -54,6 +54,8 @@ nav:
               - 8: cloud/openshift/ex288/08.md
           - Operator: cloud/openshift/operator.md
           - Internal Registry: cloud/openshift/internal_registry.md
+  - Data Scientist: 
+      - Embedding: data_scientist/embedding.md
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:
