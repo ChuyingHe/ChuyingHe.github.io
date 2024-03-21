@@ -15,12 +15,11 @@ nav:
         - 9. Components' Architecture: architect/complete_guide/memi-9.md
         - 10. Design Patterns: architect/complete_guide/memi-10.md
         - 11. System Architecture: architect/complete_guide/memi-11.md
-        - 12. External Considerations: architect/complete_guide/memi-12.md
+        - 12. Additional Considerations: architect/complete_guide/memi-12.md
         - 13. Architecture Document: architect/complete_guide/memi-13.md
         - 14. Case Study: architect/complete_guide/memi-14.md
         - 15. Advanced Architecture Topics: architect/complete_guide/memi-15.md
         - 16. Soft Skills: architect/complete_guide/memi-16.md
-        - 17. Conclusion: architect/complete_guide/memi-17.md
       - Design Patterns (DP):
         - 1. Introduction: architect/design_patterns/1_intro.md
         - 2. Creational DP: architect/design_patterns/2_creational.md

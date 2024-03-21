@@ -1,5 +1,4 @@
-# 2 types of Requirements
-## Functional requirements
+# Functional requirements
 Functional requirements = What the system should do
 
 - business flows: example, login, storing photos, receiving and crunching telemetry data
@@ -12,15 +11,15 @@ Functional requirements = What the system should do
     - Functional requirements should not be ignored
     - but Non-functional requirements has even a higher priority
 
-## Non-functional requirements
+# Non-functional requirements
 Non-functional requirements = What should the system deal with? 
 
 Non-functional requirements describe the various aspects of the system's operation, and are not tied to a specific behavior or logic. The most common 5 non-functional requirements are:
 
-1. performance
-2. load
-3. data volume
-4. concurrent users
+1. Performance
+2. Load
+3. Data volume
+4. Concurrent users
 5. SLA 
 
 Non-functional requirements basically describe what is expected environment for the system, with emphasis on edge cases, e.g.:
@@ -29,7 +28,7 @@ Non-functional requirements basically describe what is expected environment for 
 - Server crash
 - Extremely high load of requests
 
-### 1. Performance: Latency & Throughput
+## 1. Performance: Latency & Throughput
 !!! tip "Tipps"
     Its important to always talk in numbers: E.g.: How fast is fast? less than 1 sec or 1 ms
 
@@ -51,7 +50,7 @@ Non-functional requirements basically describe what is expected environment for 
     - If the application is well-designed, deployed on a strong hardware and knows its way around threads, it might have a throughput of 1000 users saved in one minute. 
     - If the code is buggy and there are a lot of memory leaks and no concurrency at all, we want to be able to reach a throughput of 60, which is a latency multiplied by 60, the number of seconds in a minute. 
    
-### 2. Load
+## 2. Load
 Quantity of work without crashing, it can be understood "approximately" as maximal Thoughput the system can handle. 
 
 E.g.: for a web API-based application, the load will usually be defined as how many concurrent requests are going to be received by the system without crashing. 
@@ -64,7 +63,7 @@ This definition is important, because the worst thing that can happen to a syste
 !!! note "Example"
     for an e-commerce website, the regular load might be up to 200 concurrent requests, but on Black Friday, we are looking at more than 2000 concurrent requests. In that case, Load = 2000
 
-### 3. Data volume
+## 3. Data volume
 This requirement defines how much data in gigabytes or terabytes our system will _accumulate over tim_e. It's important for helping us to decide:
 
 - what kind of database? since not all databases can handle large quantities of data equally. 
@@ -76,7 +75,7 @@ The data volume usually has two aspects:
 1. how much data is required on day one 
 2. what is a forecasted data growth? For example, a system might need 500MB on its first day and is expected to grow by 2TB annually. 
 
-### 4. Concurrent users
+## 4. Concurrent users
 This requirement defines how many users will be using the system simultaneously. There is a big difference between **Concurrent users** and **load**. 
 
 > The concurrent users requirement describes how many users will be using the system, not how many users will be performing requests. 
@@ -88,7 +87,7 @@ For example, a user is asking the system to display all the data. The system exe
 !!! tip "The rule of thumb"
     Concurrent users = 10 * Concurrent request
 
-### 5. SLA (Service Level Agreement)
+## 5. SLA (Service Level Agreement)
 describes what is the required uptime for this system in percentage.
 
 For example, Azure Cosmos DB takes pride with its 99.99% SLA. This is translated to less than an hour of downtime in a year.
