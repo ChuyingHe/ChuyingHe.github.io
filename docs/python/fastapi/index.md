@@ -1,214 +1,148 @@
-[Source](https://ibm-learning.udemy.com/course/the-complete-python-course/learn/lecture/9445238#overview)
+!!! note "Goal"
+The goal of this page is to give you a quick recap of important FastAPI concepts after you detached from it for a while
 
-## Basics
+# Concurrency vs Parallelism
 
-### Lamda function
+| Concurrent                                       | Parallel               |
+| :----------------------------------------------- | :--------------------- |
+| Ordering burger in Burger King                   | Odering Burrito        |
+| + good for the task that takes long waiting time | + good for quick tasks |
 
-double = [x*2 for x in Sequence]
-double = map(func, Sequence) # apply each item in Squence with func()
-double = map(lambda x: x\*2, Sequence)
+!!! tip "Coroutine"
+**co.routine** has 2 possible meanings: 1. Result of a async function 2. Technique that uses `async` and `await` to write code
 
-### Postion args
+**_Once async, always async_** - all the function that uses async function have to be async too!
 
-func(\*args)
+# Path
 
-### Keyword args
+Endpoint, route or path are all the same thing, they are mean `@app.get("/users/{user_id}")`
 
-func(\*\*kwargs)
+# Parameters
 
-### Magic methods
+There are 4 types of Parameters. They all inherit from the same common `Param` class. Though `Header` has some extra functionality.
 
-Magic methods are the auto-called methods in CLASS:
+## 1. Path parameter
 
-- `__init__()`: when CLASS object is created
-- `__str__()`: when you want to print object
-- `__repr__()`: to print xxx in order to reproduce the CLASS object
+Path parameter needs to be defined "twice":
 
-### Methods types
+- in path
+- in the function head in parentheses ()
+  ```python
+  @app.get("/users/{user_id}")
+  async def read_user(user_id: str):
+  ```
 
-1. instance methods
-   need the object -> in order to call them
-
-```python
-@classmethod
-def instance_method(self):
-```
-
-2. class methods
-   need the CLASS -> in order to call them
-   --> can be used to create Object
+Besides `str` there are also other **type annotation**, for example `Enum` will lead to a dropdown UI in swagger doc. You need to define the enum:
 
 ```python
-@classmethod
-def class_method(cls):
+class ModelName(str, Enum):
+    alexnet = "alexnet"
+    resnet = "resnet"
+    lenet = "lenet"
 ```
 
-3. static methods
-   a function instead of method. It has no info about the CLASS or OBJECT
+!!! note ""
+optional:
+`python
+    q: str | None = None
+    `
+
+    default:
+    ```python
+    q: str = "hi"
+    ```
+
+## 2. Query parameter
+
+When declare other parameters that are NOT a part of the path.
+
+- key-value pairs
+- use it after `?`, separated by `&`. E.g. `http://127.0.0.1:8000/items/?skip=0&limit=10`
+- it can be mixed with path parameters: order doesnt matter
+
+!!! note ""
+required: just give no default values
+
+## 3. Cookie parameter
+
+To declare cookies, you need to use Cookie, because otherwise the parameters would be interpreted as query parameters. E.g.
 
 ```python
-@staticmethod
-def static_method():
+from typing import Annotated
+from fastapi import Cookie
+
+@app.get("/items/")
+async def read_items(ads_id: Annotated[str | None, Cookie()] = None):
+    return {"ads_id": ads_id}
 ```
 
-### Inheritance
+!!! note "Annotated"
+`Annotated` is used to specify that the `ads_id` parameter is a cookie parameter and can be either a `string` or `None`.
+
+## 4. Header parameter
+
+To declare cookies, you need to use Header, e.g.:
 
 ```python
-class Child(Parent):
-def **init**(self):
-super().**init**()
+from typing import Annotated
+from fastapi import  Header
+
+@app.get("/items/")
+async def read_items(user_agent: Annotated[str | None, Header()] = None):
+    return {"User-Agent": user_agent}
 ```
 
-### Type hinting
+Header parameter has extra functionality comparison to other 3 parameters:
+
+- Header will convert the parameter names from hyphen (-) to underscore (\_) (because name user-agent is invalid)
+- its case-sensitve
+- Duplicate headers:
+  ```python
+  async def read_items(x_token: Annotated[list[str] | None, Header()] = None):
+  ```
+
+# Request Body
+
+operations that have Request Body:
+
+- POST
+- PUT
+- DELETE
+- PATCH
+
+Data type: use `Pydantic`! It also adds support in your IDE
 
 ```python
-def func(sequence: list) -> float
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item.name
 ```
 
-- input(sequence): has LIST type
-- return a FLOAT type
-- return the own class: "Book"
-- return another class: Bookshelf
+!!! note "How does it work in background?" 1. FastAPI reads the Request Body as JSON 2. convert the corresponding types 3. validate
 
-### Useful env variables
+!!! tip "Differentiation: Parameter vs Body" - If the parameter is also declared in the path, it will be used as a **path parameter**. - If the parameter is of a singular type (like int, float, str, bool, etc) it will be interpreted as a **query parameter**. - If the parameter is declared to be of the type of a Pydantic model, it will be interpreted as a **request body**.
 
-```python
-import sys
-sys.path # to see where to look for the python packages
-sys.modules #to see all imported modules
-__name__ # current file
-```
+    💡 **query parameter** and **request body** ONLY differ in data-type!
 
-### Errors
+# Typing
 
-```python
-def divide():
-  if ... raise ZeroDivisionError("msg...")
-```
+## Annotated
 
-Example:
+`Annotated` is a Python type hint that allows you to attach additional metadata or annotations to a type. This metadata can provide extra context or instructions for how the type should be interpreted or used. Here's an explanation of the code:
 
-```python
-try: ...
-except ZeroDivisionError as e :
-else: # when no error
-finally: # always output
-```
+# Onion Architecture
 
-### Custom Error Class
+<image src="./images/onion-architecture.png" width=500 />
 
-```python
-class SportInconsistency(ValueError):
-    pass
-```
-
-### First-class function
-
-to pass Function as Parameter
-
-```python
-func # pass a function
-func() # call a function
-```
-
-### Decorators
-
-make functions secure
-Decorators: @make_secure <-- the secure function
-import functools
-@functools.wrap(func)
-Decorators: pass with variable
-
-### Multability
-
-Do not use default-parameter-values that are mutable
-
-### Comment
-
-This is the official document that shows when hover on the class/method
-
-```python
-"""
-Document
-"""
-```
-
-## Error Handlung
-
-When you deliver your program to your client. You should always try to "catch the errors" so that your program doesn't crash!
-
-| ERROR TYPE          | Reason                                     |
-| :------------------ | :----------------------------------------- |
-| IndexError          | out of range                               |
-| KeyError            | used wrong key                             |
-| NameError           | var is not defined                         |
-| AttributeError      | attr of a list not exit                    |
-| NotImplementedError | the same as `pass`                         |
-| RuntimeError        | basically could be anything                |
-| SyntaxError         | wrong python syntax                        |
-| IndentationError    | indentation missing                        |
-| TabError            | Should have use "spaces" instead of "tabs" |
-| TypeError           | wrong type                                 |
-| ValueError          | correct type, but invalid value            |
-| ImportError         |                                            |
-| DeprecationWarning  |                                            |
-
-### Raise Error
-
-```python
-raise NotImplementedError('This function is not implemented yet')
-
-if not isintance(car, Car):
-    raise TypeError(f'Tried to add a `{car.__class__.__name__}` to the garage')
-
-# in the new specification, this Error can be prevent by using "type specification":
-def myfunc(self, car: Car):
-```
-
-### Create Own Error
-
-```python
-class RuntimeErrorWithCode(TypeError):
-    def __init__(self, message, code):
-        super().__init__(f'Error code {code}: {message}')
-        self.code = code
-```
-
-### Dealing with Error
-
-1. Silence the ERROR
-   > > with finally you silenced the ERROR -> no error info will be printed.
-   > > for PROD
-
-```python
-try:
-    # do sth
-except TypeError:
-   print("TypeError: your car is not a Car")
-except ValueError:
-   print("ValueError...")
-finally:
-    #code that always run
-   print(f'The garage now has {}')
-
-```
-
-2. Make the ERROR laut
-   > > for DEV
-
-```python
-try:
-    user.score = perform_calculation(user.engagement_metrics)
-except KeyError:
-    print('Incorrect values provided to our calculation function.')
-    raise
-else:
-    if user.score > 500:
-        send_engagement_notification(user)
-```
-
-
-!!! `raise`` has 2 use cases:
-	- raise NotImplementedError() --> outside, to call an Error
-    - raise --> inside a except Error, to unsilence the Error
-
+1. **Domain**: This is the innermost layer and represents the core domain logic of the application. It contains domain models, business rules, and interfaces defining the contracts for interacting with domain objects. It can includes `models/` for domain model definitions, and `repositories/` for interface definitions for interacting with data.
+2. **Service**: This layer sits around the domain layer and contains the application-specific business logic. It orchestrates interactions between different domain objects, applies business rules, and handles use cases.
+3. **Infrastructure**: This layer wraps around both the domain and application layers and deals with external concerns such as databases, file systems, external services, and configuration settings. It provides implementations for interacting with external resources while keeping the core domain and application layers decoupled from such details. It can also be further refined into subfolder such as `database/`, `external_service/`
+4. **API**: This is the outermost layer and represents the user interface or the entry point of the application. It handles HTTP requests, translates them into application-specific commands, and sends them to the application layer for processing. This layer is responsible for presenting information to the user and accepting user inputs.

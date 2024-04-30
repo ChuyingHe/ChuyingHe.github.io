@@ -15,7 +15,7 @@ Hook + Functional Component = Class Component
 <img src='../hook-1.svg' width=600>
 
 !!! note "Data type in hook"
-    the data that saved in hook is an **object**! Means it can be everything
+the data that saved in hook is an **object**! Means it can be everything
 
 ## General rules for all the Hooks
 
@@ -34,35 +34,34 @@ const MyComponent = () => {
 };
 export default MyComponent;
 ```
+
 !!! warning "Workaround"
-    If you want to use `useState` in a condition or a loop, extract a new component and put it there.
+If you want to use `useState` in a condition or a loop, extract a new component and put it there.
 
 ## 1. State Hooks
 
 ### 🪝`useState`
-
 
 `useState(initialState)`declares a state variable in component that you can update directly. `initialState` is the initial value of the state, it can be:
 
 - a variable in any type (could also be an `object`)
 - a pure function, which takes 0 arguments, and returns a value in any type
 
-
 !!! warning "State"
-    The State that created by `useState` decides when the Component (re)renders! Every time the State changes, the Component will rerender!
+The State that created by `useState` decides when the Component (re)renders! Every time the State changes, the Component will rerender!
 
 !!! note "State Batching"
-    The `setXXX()` functions in the same synchronous execution cycle (scope) will be batched together, and cause ONLY one re-render.
-    ```js
+The `setXXX()` functions in the same synchronous execution cycle (scope) will be batched together, and cause ONLY one re-render.
+`js
     setName("Max");
     setAge("5")
-    ```
-    The updates in both `name` and `age` will be applied **simultaneously**! That's why the following code will NOT work:
-    ```js
+    `
+The updates in both `name` and `age` will be applied **simultaneously**! That's why the following code will NOT work:
+`js
     console.log(name); // prints name state, e.g. 'Manu'
     setName('Max');
     console.log(name); // ??? what gets printed? Still 'Manu'?
-    ```
+    `
 
 Example:
 
@@ -80,7 +79,7 @@ function MyComponent() {
 ```
 
 !!! note "Array Destruction"
-    The way we write the LEFT-HAND side `[name, setName]` is called "Array Destruction"
+The way we write the LEFT-HAND side `[name, setName]` is called "Array Destruction"
 
 A classic use case for useState as "Controlled Component":
 
@@ -117,7 +116,7 @@ function handleClick() {
 ```
 
 !!! warning
-    if a variable depends on its previous value, to make sure the value is updated. We pass an **updater function** instead of a **value** to the `setXXX()`:
+if a variable depends on its previous value, to make sure the value is updated. We pass an **updater function** instead of a **value** to the `setXXX()`:
 
     ```js
     // by convention, we use `a` or `prevAge` to represent the previous/old/pending state
@@ -141,11 +140,11 @@ import { useReducer } from "react";
 // define a `reducer`
 function reducer(state, action) {
   switch (action.type) {
-    case 'incremented_age':
+    case "incremented_age":
       return {
         age: state.age + state.amount,
       };
-    case 'decreased_age':
+    case "decreased_age":
       return {
         age: state.age - state.amount,
       };
@@ -164,12 +163,15 @@ export default function Counter() {
     <>
       <button
         onClick={() => {
-          dispatch({ type: "incremented_age", amount: 2 });  {/* 👉 `dispatch()` with input parameter */}
+          dispatch({ type: "incremented_age", amount: 2 });
+          {
+            /* 👉 `dispatch()` with input parameter */
+          }
         }}
       >
         Increase
       </button>
-      <p>Hello! You are {state.age}.</p>    {/* 👉 `state` */}
+      <p>Hello! You are {state.age}.</p> {/* 👉 `state` */}
     </>
   );
 }
@@ -182,7 +184,7 @@ export default function Counter() {
 `useContext(SomeContext)` is used to manage global variable in the App, such as:
 
 - theme
-- authentication. 
+- authentication.
 
 It lets a component receive information from distant parents without passing the props through the tree! Implement it in three steps:
 
@@ -192,11 +194,11 @@ For convention we put the Context in a separate folder `/context`. The `createCo
 
 ```js
 // ./context/theme-context.jsx
-import { createContext } from 'react';
+import React from 'react';
 
 // create Context
 export const ThemeContext = React.createContext({
-  darkTheme: false;
+  darkTheme: false,
   setDarkTheme: () => {}
 });
 
@@ -236,25 +238,22 @@ The `Provider` has the `value` which is the implementation and overwrites the in
 
 ```js
 // index.jsx
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './index.css';
-import App from './App';
+import "./index.css";
+import App from "./App";
 import { ThemeContextProvider } from "./context/theme-context";
-
 
 ReactDOM.render(
   <ThemeContextProvider>
     <App />
-  </ThemeContextProvider>, 
-  document.getElementById('root')
+  </ThemeContextProvider>,
+  document.getElementById("root")
 );
-
 ```
 
 该例子中，`<ThemeContextProvider>`被用于于最顶层的 `index.js` 中，包裹着`<App/>`。这意味着，所有 App 组件的子组件都能访问到该 Context 的值。
-
 
 3.Use/Change the Context
 Here with the `useContext` you can actually apply the change: in this case, change the theme type.
@@ -283,7 +282,7 @@ export default ThemeChanger;
 ```
 
 !!! warning
-    `useContext()` call in a component is not affected by providers returned from the same component. The corresponding `<Context.Provider>` needs to be above the component doing the `useContext()` call.
+`useContext()` call in a component is not affected by providers returned from the same component. The corresponding `<Context.Provider>` needs to be above the component doing the `useContext()` call.
 
 ## 3. Ref Hooks
 
@@ -307,19 +306,19 @@ const MyComponent = () => {
 ```
 
 Another example:
-```js
-const input_ref = useRef()
 
-return <>
-  <input 
-  type="text"
-  ref={input_ref}
-  />
-</>
+```js
+const input_ref = useRef();
+
+return (
+  <>
+    <input type="text" ref={input_ref} />
+  </>
+);
 ```
 
 !!! note
-    useRef returns an object with a single property `current`, to use the ref, you always need to write `myRef.current`
+useRef returns an object with a single property `current`, to use the ref, you always need to write `myRef.current`
 
     To change the value in ref, you can assign new value:
 
@@ -363,21 +362,24 @@ The second parameter `dependencies` has 3 possibilities:
 3. ` `: empty --> runs after EVERY single render (and re-render when State changes)
 
 #### Clean up
+
 Sometimes we need to **clean up** the content in `useEffect`, we do so by returning a function in the end, this function will be executed before the next round executes:
+
 ```js
-useEffect(()=>{
+useEffect(() => {
   // do sth...
-  const timer = setTimeout(()=>{
+  const timer = setTimeout(() => {
     //...
-  }, 500)
+  }, 500);
 
   // clean up
   return () => {
-    clearTimeout(timer)
+    clearTimeout(timer);
   };
-},[name])
+}, [name]);
 ```
-* if `dependencies` is `[]`, then the **clean up** happens when the Component gets unmounted!
+
+- if `dependencies` is `[]`, then the **clean up** happens when the Component gets unmounted!
 
 ### 🪝`useLayoutEffect`
 
@@ -394,6 +396,7 @@ useEffect(()=>{
 `useMemo(calculateValue, dependencies)` is a React Hook that lets you **cache a value/component** between re-renders.
 
 Example - cache a value:
+
 ```js
 import { useMemo } from "react";
 
@@ -404,11 +407,11 @@ function TodoList({ todos, tab }) {
 ```
 
 Example - cache a component:
+
 ```js
 // Ingredients.jsx
 import { useMemo } from "react";
 const Ingredients = () => {
-
   // cache the component <IngredientList />
   const ingredientList = useMemo(() => {
     return (
@@ -419,40 +422,40 @@ const Ingredients = () => {
     );
   }, [userIngredients, removeIngredientHandler]);
 
-
   return (
     <section>
       <Search onLoadIngredients={filteredIngredientsHandler} />
       {ingredientList}
     </section>
-  )
-}
+  );
+};
 ```
 
-!!! note "`useMemo` vs `useCallback`"
-    - `useMemo` cache a value/component
-    - `useCallback` cache a function
+!!! note "`useMemo` vs `useCallback`" - `useMemo` cache a value/component - `useCallback` cache a function
 
 ### 🪝`useCallback`
 
 `useCallback(fn, dependencies)` is a React Hook that lets you **cache a function** between re-renders. This could avoid unnecessary re-render. The dependency array indicates that when the function ONLY re-renders when the dependency changes, if the array is empty, then it means this function should NEVER be re-rendered.
 
 ```js
-  // original function:
-  const handleSubmit = (orderDetails) => {
-    post('/product/' + productId + '/buy', {
-      referrer,
-      orderDetails,
-    });
-  }
+// original function:
+const handleSubmit = (orderDetails) => {
+  post("/product/" + productId + "/buy", {
+    referrer,
+    orderDetails,
+  });
+};
 
-  // function in useCallback:
-  const handleSubmit = useCallback((orderDetails) => {
-    post('/product/' + productId + '/buy', {
+// function in useCallback:
+const handleSubmit = useCallback(
+  (orderDetails) => {
+    post("/product/" + productId + "/buy", {
       referrer,
       orderDetails,
     });
-  }, [productId, referrer]);
+  },
+  [productId, referrer]
+);
 ```
 
 ### 🪝`useTransition`
@@ -470,6 +473,7 @@ const Ingredients = () => {
 ### 🪝`useSyncExternalStore`
 
 ## 7. Customized Hook
+
 Name convention is `useSOMETHING`, and its actually just a function. Whenever this customized hook is called, a new snapshot of this hook will be created. So the logic of this hook can be shared between different component, but not the data of this hook.
 
 TODO: https://ibm-learning.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/25599852#overview
