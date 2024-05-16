@@ -36,13 +36,11 @@ In the browser, File > Print > Save as PDF (see export to PDF)
 
 # Deploy in Github Page
 
-## Manual way
-
 1. make sure the repo name is `<git account name>.github.io`
-2. run `mkdocs gh-deploy`: this will create a new git branch `gh-pages` and push it to your repo automatically
+2. run `mkdocs gh-deploy`: this will create a new git branch `gh-pages` and **push it to your repo automatically**
 3. In the repo, under Settings > [Code and Automation] Pages > [Build and Deploy], setup the corrent branch:
    ![setup branch and folder for deployment](./readme-1.png)
 
-## Automated way
+## Update deployment
 
-TODO: Uses Github Action?
+After pushing the changes using the common `add`-`commit`-`push` steps, make sure use `mkdocs gh-deploy` to build and push the changes to `gh-deploy` branch.
