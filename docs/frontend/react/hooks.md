@@ -17,6 +17,48 @@ Hook + Functional Component = Class Component
 !!! note "Data type in hook"
 the data that saved in hook is an **object**! Means it can be everything
 
+## render/渲染
+
+什么时候一个 React 的组建会 render？
+
+1. **初次渲染**
+
+   当组件第一次被插入到 DOM 中时，会触发初次渲染。此时 React 会调用组件的渲染方法，将组件的内容渲染到页面上。
+
+2. **状态更新 (State Update)**
+
+   组件的 state 发生变化时，组件会重新渲染。React 会比较新旧状态的不同，并根据需要更新 DOM。
+
+3. **属性更新 (Props Update)**
+
+   父组件传递给子组件的 props 发生变化时，子组件会重新渲染。React 会比较新旧 props 的不同，并根据需要更新 DOM。
+
+4. **上下文更新 (Context Update)**
+
+   如果组件使用了 React 的 Context，当上下文数据发生变化时，所有使用该上下文的组件都会重新渲染。
+
+5. **父组件重新渲染**
+
+   当父组件重新渲染时，所有子组件也会重新渲染，除非在子组件中使用了 shouldComponentUpdate 或 React 的 memo 等优化手段。
+
+6. **强制更新 (Force Update)**
+
+   调用组件实例的 forceUpdate 方法，会强制组件重新渲染。通常不推荐使用这种方法，因为它会跳过 React 的优化。
+
+我们使用 hook 的目的是“在想要的时间点渲染想要的东西”：
+
+```js
+function TodoList({ todos, name }) {
+  // Executes on every render, before the DOM updates.
+
+  useEffect(() => {
+    // Executes after the DOM updates and only when name changes.
+  }, [name]);
+
+  return <>{todos}</>;
+}
+```
+
 ## General rules for all the Hooks
 
 1. Hooks can ONLY be used either in **React Functional Component** or **other custom Hooks**
@@ -94,7 +136,8 @@ A classic use case for useState as "Controlled Component":
       //   onChange={(event) => setName(event.target.value)}
 
       onChange={(event) => {
-        const newName = event.target.value;         // ! This new variable `newName` solve the "wrong object" error caused by how React handles the state
+        // ! This new variable `newName` solve the "wrong object" error caused by how React handles the state
+        const newName = event.target.value;
         setName((prevState) => ({
           name: newName,
           age: prevState.age,
@@ -347,7 +390,7 @@ Instead, ONLY read or write refs from **event handlers or effects** instead.
 
 ### 🪝`useImperativeHandle`
 
-`useImperativeHandle`
+`useImperativeHandle` is...
 
 ## 4. Effect Hooks
 
