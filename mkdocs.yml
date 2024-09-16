@@ -26,6 +26,9 @@ nav:
           - 3. Structural DP: architect/design_patterns/3_structural.md
           - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
       # - BPMN: architect/bpmn/index.md
+  - Bash Script: 
+      - Basics: bash_script/index.md
+      - Exercises: bash_script/exercises.md
   - Cloud:
       - Docker: cloud/docker/index.md
       - Helm: cloud/helm/helm-1.md
@@ -55,6 +58,7 @@ nav:
           - Internal Registry: cloud/openshift/internal_registry.md
   - Data Scientist:
       - Embedding: data_scientist/embedding.md
+      - ElasticSearch: data_scientist/elastic_search.md
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:
@@ -91,6 +95,9 @@ nav:
       - Procreate: sketch/procreate/index.md
 
 markdown_extensions:
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.tabbed
   - pymdownx.superfences
   - toc:
