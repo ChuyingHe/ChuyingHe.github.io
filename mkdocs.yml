@@ -3,30 +3,34 @@ dev_addr: 127.0.0.1:3333
 nav:
   - Home: index.md
   - Architect:
+      - AWS:
+          - Cloud Practitioner: architect/aws/cp/index.md
+          - Solution Architect Associate: architect/aws/saa/index.md
+          - Solution Architect Professional: architect/aws/sap/index.md
+      - IBM: architect/ibm/index.md
       - Guide from MemiLavi:
-          - 1. Welcome: architect/complete_guide/memi-1.md
-          - 2. What is a Software Architect: architect/complete_guide/memi-2.md
-          - 3. The Architect's Mindset: architect/complete_guide/memi-3.md
-          - 4. The Architecture Process: architect/complete_guide/memi-4.md
-          - 5. Working with System Requirements: architect/complete_guide/memi-5.md
-          - 6. Types of Applications: architect/complete_guide/memi-6.md
-          - 7. Selecting Technology Stack: architect/complete_guide/memi-7.md
-          - 8. Meet the *-ilities: architect/complete_guide/memi-8.md
-          - 9. Components' Architecture: architect/complete_guide/memi-9.md
-          - 10. Design Patterns: architect/complete_guide/memi-10.md
-          - 11. System Architecture: architect/complete_guide/memi-11.md
-          - 12. Additional Considerations: architect/complete_guide/memi-12.md
-          - 13. Architecture Document: architect/complete_guide/memi-13.md
-          - 14. Case Study: architect/complete_guide/memi-14.md
-          - 15. Advanced Architecture Topics: architect/complete_guide/memi-15.md
-          - 16. Soft Skills: architect/complete_guide/memi-16.md
+          - 1. Welcome: architect/memi/memi-1.md
+          - 2. What is a Software Architect: architect/memi/memi-2.md
+          - 3. The Architect's Mindset: architect/memi/memi-3.md
+          - 4. The Architecture Process: architect/memi/memi-4.md
+          - 5. Working with System Requirements: architect/memi/memi-5.md
+          - 6. Types of Applications: architect/memi/memi-6.md
+          - 7. Selecting Technology Stack: architect/memi/memi-7.md
+          - 8. Meet the *-ilities: architect/memi/memi-8.md
+          - 9. Components' Architecture: architect/memi/memi-9.md
+          - 10. Design Patterns: architect/memi/memi-10.md
+          - 11. System Architecture: architect/memi/memi-11.md
+          - 12. Additional Considerations: architect/memi/memi-12.md
+          - 13. Architecture Document: architect/memi/memi-13.md
+          - 14. Case Study: architect/memi/memi-14.md
+          - 15. Advanced Architecture Topics: architect/memi/memi-15.md
+          - 16. Soft Skills: architect/memi/memi-16.md
       - Design Patterns (DP):
           - 1. Introduction: architect/design_patterns/1_intro.md
           - 2. Creational DP: architect/design_patterns/2_creational.md
           - 3. Structural DP: architect/design_patterns/3_structural.md
           - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
-      # - BPMN: architect/bpmn/index.md
-  - Bash Script: 
+  - Bash Script:
       - Basics: bash_script/index.md
       - Exercises: bash_script/exercises.md
   - Cloud:
@@ -59,6 +63,7 @@ nav:
   - Data Scientist:
       - Embedding: data_scientist/embedding.md
       - ElasticSearch: data_scientist/elastic_search.md
+  - Design Thinking: design_thinking/index.md
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:
