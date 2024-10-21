@@ -64,6 +64,8 @@ nav:
       - Embedding: data_scientist/embedding.md
       - ElasticSearch: data_scientist/elastic_search.md
   - Design Thinking: design_thinking/index.md
+  - DevOps:
+      - Observability: dev_ops/observability/index.md
   - Ecommerce:
       - Wordpress: ecommerce/wordpress/index.md
   - Frontend:

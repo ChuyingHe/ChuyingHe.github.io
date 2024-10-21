@@ -19,6 +19,8 @@ The current shell in usage can be found by:
 echo $SHELL
 ```
 
+-------
+
 # Introductions
 To get the helping doc:
 ```bash
@@ -70,6 +72,8 @@ The first line starts with `#!` is called **shebang line** and it indicates what
 
 !!! note "bash VS ."
     `./script.sh` needs ^^execution permission^^
+
+-------
 
 
 # Variables
@@ -130,11 +134,17 @@ a=5
 unset a
 ```
 
+-------
+
 # Input 
 1. `read [-rp] Variable(s)`
+
     Example:
     ```bash
     read -p "Enter shell type and your name: " myShell myName
+    # in ZSH, it should be: 
+    #       read "?Enter shell type and your name: " myShell myName
+    # The ? in zsh serves the same purpose as -p in bash
     echo "Your shell type is ${myShell}, Your name is ${myName}"
     ```
 
@@ -144,9 +154,10 @@ unset a
     echo "Your shell type is ${myShell}, Your name is ${myName}"
     ```
     !!! info "IFS"
-        IFS = internal field separator
+        IFS = Internal Field Separator
 
-2. `source` concept
+2. `source`
+
     Commonly used when the variables are shared between different environments
     ```bash
     vi [myfile]
@@ -158,7 +169,9 @@ unset a
     name=JohnDoe
     course=Bash2Automation
     ```
+
 3. `export`
+
     ```bash
     export name=JohnDoe
     ```
@@ -214,7 +227,7 @@ unset a
     ```
 
     
-
+-------
 
 # Output
 1. `echo [-neE] [argument]`
@@ -232,6 +245,7 @@ unset a
 2. `cat`
 3. `printf`
 
+-------
 
 # String operations
 We assign a variable first: 
@@ -245,18 +259,27 @@ yourStr=Iamadogperson
 |`${myStr}`|refer to the string||
 |`${#myStr}`|length of the string||
 |`"${myStr} ${yourStr}"`|Concatenation|Needs to add quotes|
-|``|Lowercase||
-|``|||
-|``|||
+|`${myStr,,}`|Lowercase||
+|`${myStr^^}`|Uppercase||
+|`echo ${myStr} | tr '[a-z]' '[A-Z]'`|use Transform function to switch between lower and upper cases||
+|`${myStr:3:2}`|Slicing with index: from index 3, show 2 characters||
+|`echo ${myStr} | cut -c 3-5`|Slicing with index, from 3 to 5||
+|`echo ${myStr/One/Two}`|replace `One` with `Two`||
+|`echo ${myStr}` | sed 's/One/Two/g'`|replace `One` with `Two`||
 
+-------
 
+# String operations on Paths
 
+|Script|Function|Description|
+|:--|:--|:--|
+|`dirname /documents/code/example.txt`|print the path of the file|result: `/documents/code`|
+|`basename /documents/code/example.txt`|print the file name|result: `example.txt`|
 
+-------
 
-
-
-
-
+# Arrays
+Bash array = indexed array = list
 
 
 -------
