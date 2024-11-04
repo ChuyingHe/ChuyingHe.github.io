@@ -1,28 +1,28 @@
 _Note: course from Andrew Howden_
 
-# Understanding observability
-Goal: to identify/debug the Problem
+The goal of observability is to identify/debug the Problem.
 
-> Observability: How well you can reason through the software state by using telemetric outputs.
-> 
-> "遥测" (telemetry) refers to the collection and transmission of data from remote sources, while "输出" (outputs) denotes the data that is generated and provided by the system.
+!!! note "Observability"
+    How well you can reason through the software state by using telemetric outputs.
+    
+    "遥测" (telemetry) refers to the collection and transmission of data from remote sources, while "输出" (outputs) denotes the data that is generated and provided by the system.
 
 Nowaday, **Microservice** is the trend. However, they also create a much more complex and diverse software architecture - since there are not so much ^^_central governance_^^ of these systems.
 
 ➡️ ➡️ ➡️ The system has become more complex, therefore we need **Observability**
 
-## What are we observing?
-> Taking e-commerce shop as example. When a customer places an order, the system checks if the product is in stock, if the payment method is valid, and whether the customer has provided all necessary information (e.g., shipping address).
+# What are we observing?
+Taking e-commerce shop as example. When a customer places an order, the system checks if the product is in stock, if the payment method is valid, and whether the customer has provided all necessary information (e.g., shipping address).
 
 - Business Logic: The number of validation failures and the average time taken for validation checks.
-- Application Logic: how many Http requests
+- Application Logic: how many HTTP requests
 - Runtime: if the App is writen in Go, how much time it spends in Garbage collection
 - Kernel:  how is the CPU and memory utilization
 - Hardware: The temperature of the CPU, or the speed of the fans
 
 <img src="imgs/layers.png" width=200>
 
-## Problem Types
+# Problem Types
 
 - **Known Known**: I send a request to a server and get a 503, I know the app is unavailable.
 - **Known Unknown**: I send a request to a server but it doesnt work, I have the hypothesize that the application is attempting to write to disk, but the disk
@@ -30,25 +30,25 @@ is full - but we cannot validate this as we have no telemetry on the disk.
 - **Unknown Unknown**: we've validated everything that we can think of. But still couldn't find where the problem is
 - **Unknown Known**: We are sure that the app works, but someons has overridden the DNS record, which points to our service.
 
-## Effective Observability
+# Effective Observability
 A system requires two things in order to be observable:
 
 1. The telemetric data: that describe its internal state at some specific time.
 2. Understanding of the system. E.p. read the code
 
-## Pillars of Observability
+# Pillars of Observability
 <img src="imgs/pillars.png" width=800>
 
 # Pillar 1: Logs
 
-**3 Standard Streams** in computer programs: `STDIN`, `STDOUT`, `STDERR`, the `STDOUT` and `STDERR` are where the logs are. 
+**Three Standard Streams** in computer programs: `STDIN`, `STDOUT`, `STDERR`, the `STDOUT` and `STDERR` are where the logs are. 
 
 ## Log Components
 
 1. Trigger Event
 2. Context: that you want to associate with the **Trigger Event**
 
-## Syslog Severity Levels
+### Syslog Severity Levels
 
 |Level|Severity|Keyword|Description|
 |:--|:--|:--|:--|
@@ -61,7 +61,7 @@ A system requires two things in order to be observable:
 |6|Informational|info|Informational messages|
 |7|Debug|debug|Debug-level messages|
 
-## Log Destination
+### Log Destination
 
 1. Standard Stream (`STDERR`)
 2. File
@@ -72,9 +72,7 @@ Some log Destination may require a single owner process to coordinates:
 
 <img src="imgs/owner.png" width=300>
 
-However, a process will periodically flush these logs to the final destination, but many things might have written records to that buffer in the meantime. ➡️ ➡️ ➡️ This means that as we're actually consuming the logs, they might be in a wrong order.
-
-To be continue: https://ibm-learning.udemy.com/course/practical-introduction-to-observability/learn/lecture/39766470#overview
+However, a process will periodically flush these logs to the final destination, but many things might have written records to that buffer in the meantime.<br/>➡️ ➡️ ➡️ This means that as we're actually consuming the logs, they might be in a wrong order. The 2 sides of **Log Stream**:
 
 |Advantages|Disadvantages|
 |:--|:--|
@@ -88,10 +86,10 @@ To be continue: https://ibm-learning.udemy.com/course/practical-introduction-to-
     2. Single Instance
     3. Isolated
 
-## Log Consumption
-1. in Terminal
-Locally in your PC, or if you have the app on Cloud, you can do `kubectl log [Pod Name]` to view the logs.  Tools like `grep`(search tool) and `jq`(a JSON processor) are also useful for searching info.
-2. Log Aggregation & Indexing. Advantages:
+### Log Consumption
+1. **in Terminal**
+    Locally in your PC, or if you have the app on Cloud, you can do `kubectl log [Pod Name]` to view the logs.  Tools like `grep`(search tool) and `jq`(a JSON processor) are also useful for searching info.
+2. **Log Aggregation & Indexing**. Advantages:
     - These indexes can be handy to establish patterns in the data. 
     - Beyond that they centralized logs and they can provide this like grep like or jq like functionality
     - that's not tied to your local machine and can be much faster to process a really large amounts of material.
@@ -166,6 +164,106 @@ Nowaday we have microservices architecture, instead of the monolithic. But micro
     进程间传播, automatically passes tracing information between services, linking spans into a complete trace.
 
 
+## Trace
+**Traces** give us the big picture of what happens when a request is made to an application. Whether your application is ^^a monolith with a single database^^ or ^^a sophisticated mesh of services^^, **traces** are essential to understanding the full “path” a request takes in your application.
+
+### Tracer
+A Tracer creates **spans** containing more information about what is happening for a given operation, such as a request in a service. **Tracers** are created from **Tracer Providers**.
+
+
+### Tracer Provider
+**A Tracer Provider** is a factory for **Tracers**. In most applications, **a Tracer Provider** is initialized once and its lifecycle matches the application’s lifecycle. 
+
+### Trace Exporters
+Trace Exporters send **traces** to a consumer. This consumer can be standard output for debugging and development-time, the OpenTelemetry Collector, or any open source or vendor backend of your choice.
+
+
+### Span
+A **Span** represents ^^a single operation unit^^ within a **trace**. A **span** can includes another **span**。It can be represented in JSON:
+```json
+{
+  "name": "hello",
+  "context": {
+    "trace_id": "5b8aa5a2",
+    "span_id": "051581bf"
+  },
+  "parent_id": null,    # 💡 this indicates the parent/child relationship
+  "start_time": "2022-04-29T18:52:58.114201Z",
+  "end_time": "2022-04-29T18:52:58.114687Z",
+  "attributes": {
+    "http.route": "some_route1",
+    "net.transport": "IP.TCP",
+    "net.peer.ip": "172.17.0.1"
+  },
+  "events": [
+    {
+      "name": "Guten Tag!",
+      "timestamp": "2022-04-29T18:52:58.114561Z",
+      "attributes": {
+        "event_attributes": 1
+      }
+    },
+    {
+      "name": "",
+      "message": "OK",
+      "timestamp": "2021-10-22 16:04:01.209512872 +0000 UTC"
+    }
+  ],
+  "status_code": "STATUS_CODE_OK",
+  "status_message": "",
+}
+```
+
+Usually, a span includes the following informations:
+
+- Name
+- Parent span ID (empty for root spans)
+- Start and End Timestamps
+- Span Context: an immutable object on every span that contains `TraceID`, `SpanID`, `TraceFlags`, `TraceState`
+- Attributes: key-value pairs that contain metadata
+- Span Events: a structured log message (or annotation) on a Span, such as: 
+- Span Links: to associate one span with one or more spans, implying a causal relationship. 
+- Span Status: possible values are `Unset`, `Error`, `Ok`
+
+! info "Types of Span"
+    They are 5 types of Span: 
+
+    - `Client`: a synchronous outgoing remote call such as: an outgoing HTTP request or database call. Note that in this context, “synchronous” does not refer to `async/await`, but to the fact that it is not queued for later processing.
+    - `Server`: a synchronous incoming remote call such as: an incoming HTTP request
+    - `Internal`: an operation which does not cross a process boundary such as: instrumenting a function call 
+    - `Producer`: the creation of a job which may be asynchronously processed later such as: a remote job such as one inserted into a job queue 
+    - `Consumer`: the processing of a job created by a producer and may start long after the producer span has already ended.
 
 
 # Pillar 3: Metrics
+A metric is a measurement of a service captured at runtime. 
+
+
+-------
+
+
+# Other Jargons
+Lots of definitions are found [here](https://opentelemetry.io/docs/concepts/signals/)
+
+## Endpoints
+**Endpoints** define the API of a service. Every endpoint has a single, automatically discovered type: `BATCH`, `Database`, `HTTP`, `MESSAGING`, `RPC`, `GraphQL`
+
+## Inbound Calls = Incoming Calls
+
+the requests that your service or application receives from other services or clients. 
+
+Antonym: **Outbound/Outgoing Calls**
+
+
+## Latency
+**Latency** is a measure of delay, usually in milliseconds. **Endpoint Latency** indicates how quickly an endpoint responds to incoming requests.
+
+## Service
+**Service** can be seen as a logical component that provides a public API. 
+
+## Stream
+**Upstream** vs **Downstream**
+
+up and down are relative concepts according to the direction of ^^how the data flows^^
+
+<img src="imgs/up_down_stream.png" width=500>

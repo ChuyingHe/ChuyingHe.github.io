@@ -49,7 +49,8 @@ nav:
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
               - 其他: cloud/k8s/ckad/ckad-0.md
       - OpenShift:
-          - EX288:
+          - App Deployment: cloud/openshift/deployment.md
+          - DO288:
               - 1: cloud/openshift/ex288/01.md
               - 2: cloud/openshift/ex288/02.md
               - 3: cloud/openshift/ex288/03.md
@@ -58,6 +59,8 @@ nav:
               - 6: cloud/openshift/ex288/06.md
               - 7: cloud/openshift/ex288/07.md
               - 8: cloud/openshift/ex288/08.md
+          - DO280:
+              - 1: cloud/openshift/do280/01.md
           - Operator: cloud/openshift/operator.md
           - Internal Registry: cloud/openshift/internal_registry.md
   - Data Scientist:
