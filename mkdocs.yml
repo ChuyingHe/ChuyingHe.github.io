@@ -50,6 +50,10 @@ nav:
               - 其他: cloud/k8s/ckad/ckad-0.md
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
+          - Installation: cloud/openshift/installation.md
+          - Internal Registry: cloud/openshift/internal_registry.md
+          - Operator: cloud/openshift/operator.md
+          - Pipeline: cloud/openshift/pipeline.md
           - DO288:
               - 1: cloud/openshift/ex288/01_manifest_kustimize.md
               - 2: cloud/openshift/ex288/02_template_helm.md
@@ -70,8 +74,6 @@ nav:
               - 8: cloud/openshift/do280/08.md
               - 9: cloud/openshift/do280/09.md
               - 10: cloud/openshift/do280/10.md
-          - Operator: cloud/openshift/operator.md
-          - Internal Registry: cloud/openshift/internal_registry.md
   - Data Scientist:
       - Embedding: data_scientist/embedding.md
       - ElasticSearch: data_scientist/elastic_search.md
@@ -129,8 +131,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.emoji
-  - tables
-
+#   - tables
 theme:
   name: material
   features:
