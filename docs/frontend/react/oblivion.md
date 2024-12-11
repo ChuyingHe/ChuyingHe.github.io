@@ -31,3 +31,19 @@ const DetailPage = () => {
 export default DetailPage;
 
 ```
+
+
+# String with format
+In the React Componnent attribute where usually its string, you can do this:
+
+```js
+
+<MyComponent
+	labelDescription={
+		<>
+			Zeile 1<br />
+			Zeile 2
+		</>
+	}
+/>
+```

@@ -51,8 +51,8 @@ nav:
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
           - DO288:
-              - 1: cloud/openshift/ex288/01.md
-              - 2: cloud/openshift/ex288/02.md
+              - 1: cloud/openshift/ex288/01_manifest_kustimize.md
+              - 2: cloud/openshift/ex288/02_template_helm.md
               - 3: cloud/openshift/ex288/03.md
               - 4: cloud/openshift/ex288/04.md
               - 5: cloud/openshift/ex288/05.md
@@ -60,7 +60,16 @@ nav:
               - 7: cloud/openshift/ex288/07.md
               - 8: cloud/openshift/ex288/08.md
           - DO280:
-              - 1: cloud/openshift/do280/01.md
+              - 1. Manifest & Kustomize: cloud/openshift/do280/01.md
+              - 2. OC Template & Helm Chart: cloud/openshift/do280/02.md
+              - 3: cloud/openshift/do280/03.md
+              - 4: cloud/openshift/do280/04.md
+              - 5: cloud/openshift/do280/05.md
+              - 6: cloud/openshift/do280/06.md
+              - 7: cloud/openshift/do280/07.md
+              - 8: cloud/openshift/do280/08.md
+              - 9: cloud/openshift/do280/09.md
+              - 10: cloud/openshift/do280/10.md
           - Operator: cloud/openshift/operator.md
           - Internal Registry: cloud/openshift/internal_registry.md
   - Data Scientist:
@@ -111,7 +120,7 @@ markdown_extensions:
   - pymdownx.tabbed
   - pymdownx.superfences
   - toc:
-      title: Contenu
+      title: Table of Contents
       permalink: True
       baselevel: 3
   - attr_list
