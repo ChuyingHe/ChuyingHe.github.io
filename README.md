@@ -3,8 +3,8 @@
 To get start, run:
 
 ```bash
-python3 -m venv venv
-source ./venv/bin/activate
+python3.12 -m venv .venv
+source ./.venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -43,4 +43,4 @@ In the browser, File > Print > Save as PDF (see export to PDF)
 
 ## Update deployment
 
-After pushing the changes using the common `add`-`commit`-`push` steps, make sure use `mkdocs gh-deploy` to build and push the changes to `gh-deploy` branch.
+After pushing the changes using the common `add`-`commit`-`push` steps, make sure use `mkdocs gh-deploy` to build and push the changes to `gh-deploy` branch. If failed, make a new clone from the repo and run the command in the newly cloned folder.

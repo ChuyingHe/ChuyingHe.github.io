@@ -1,5 +1,4 @@
-# Security
-## Cloud Internet Service (CIS)
+# Cloud Internet Service (CIS)
 CIS protects web applications from internet-based attacks using Cloudflare's Global Points of Presence (PoP). Its NOT for:
 
 - applicatinos connected through VPN
@@ -20,7 +19,7 @@ Three major capabilities:
     \* The term `proxied` means that these edge servers act as a gateway or intermediary. They receive incoming requests from clients, check if they have the requested content, and, if available, serve it directly without reaching the origin server.
 
 
-### 1. Global Load Balancer (GLB)
+## 1. Global Load Balancer (GLB)
 A global load balancer manages traffic across server resources located in multiple regions, like all load balancers, automatically distribute traffic with a goal to minimize impact on users. It offers high availability and geographical distribution of traffic, based on the health of origin servers and the geographical region where the request originates. 
 
 
@@ -35,7 +34,7 @@ GLB Types:
 - performance-based: distributes traffics by weights
 
 
-### 2. Domain Network System (DNS)
+## 2. Domain Network System (DNS)
 DNS within CIS has the following features:
 
 - DNS management: manage DNS records, control proxying, and enable DNS security.
@@ -60,7 +59,7 @@ in **CIS**, we recommend you to configure both **1. Global Load Balancer (GLB)**
     
     When an Internet client requests static content, the GLB does not have to send the request to the application. Instead, it can return cached content from the CDN in CIS.
 
-### 3. Page Rules
+## 3. Page Rules
 CIS configurations can be customized on a page-by-page basis. Enterprise version also enables:
 
 - sorting query strings
@@ -77,13 +76,13 @@ CIS configurations can be customized on a page-by-page basis. Enterprise version
 
     **CDN** is a network of servers that is geographically dispersed to enable faster web performance.
 
-### 4. Web Application Firewall (WAF)
+## 4. Web Application Firewall (WAF)
 Features:
 
 - **Easy setup**: The CIS WAF is part of IBM's overall service, which takes just a few minutes to set up. After the client redirects their DNS to IBM CIS, they can switch on the WAF and set up the rules they need. 
 - Detailed reporting: See greater detail in the reporting, for example, threats blocked by rule/rule group.
 
-### 5. Transport Layer Security (TLS) 
+## 5. Transport Layer Security (TLS) 
 TLS options let clients control whether visitors can browse their website over a secure connection, and when they do, how CIS connects to the origin server.
 
 TLS Encryption Modes:
@@ -94,7 +93,7 @@ TLS Encryption Modes:
 - End-to-End CA signed (default and recommended)    
 - HTTPS only origin pull (Enterprise only)
 
-### 6. Range
+## 6. Range
 Range is a global TCP proxy running on CIS edge nodes that extends the power of CIS DDoS, TLS, and IP firewall to web servers and TCP-based services, keeping applications online and secure. 
 
 !!! note "Range Limitations"

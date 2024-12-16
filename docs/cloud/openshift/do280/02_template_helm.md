@@ -57,4 +57,5 @@ oc process my-cache-service -o yaml \
 |`oc process -f my-cache-service.yaml -p APPLICATION_USER=user1 -o yaml > my-cache-service-manifest.yaml`|`-f`: generate **manifest** YAML from the **template file** with the given parameter values. |
 
 
-# 2. Helm Chart
+# 2. Helm
+[check this](../../helm/helm-1.md)
