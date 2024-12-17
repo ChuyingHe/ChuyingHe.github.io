@@ -1,0 +1,4085 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../read_before_exam/">
+      
+      
+        <link rel="next" href="../ckad-2/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>1.核心概念介绍 - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.核心概念介绍
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Architect
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Architect
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    AWS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/cp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Practitioner
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/saa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solution Architect Associate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/sap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solution Architect Professional
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IBM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            IBM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Guide from MemiLavi
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Guide from MemiLavi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. What is a Software Architect
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. The Architect's Mindset
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. The Architecture Process
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5. Working with System Requirements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6. Types of Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7. Selecting Technology Stack
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8. Meet the *-ilities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9. Components' Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10. Design Patterns
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    11. System Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    12. Additional Considerations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    13. Architecture Document
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    14. Case Study
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    15. Advanced Architecture Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    16. Soft Skills
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Design Patterns (DP)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Design Patterns (DP)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/1_intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/2_creational/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. Creational DP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/3_structural/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Structural DP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4. Behavioral DP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Bash Script
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Bash Script
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/exercises/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Exercises
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cloud
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../helm/helm-1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_3_1" id="__nav_4_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CKAD
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CKAD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../read_before_exam/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Read before exam
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1.核心概念介绍
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1.核心概念介绍
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 考试形式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 基本概念
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 基本概念">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#master-node-vs-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Master node VS Worker node
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. k8s 的六大组件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. k8s 的六大组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      (1) API Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-etcd-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      (2) ETCD Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-kubelet-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      (3) Kubelet Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-container-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      (4) Container Runtime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      (5) Controllers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      (6) Scheduler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-k8s-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. k8s 中的 YAML
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. k8s 中的 YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apiversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      apiVersion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-replication-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Replication Controller
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Namespace
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Namespace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namespace-vs-namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Namespace 内部访问 vs 跨 Namespaces 之间的访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      ResourceQuota
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt;&gt;&gt; 本章 kubectl 命令整理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt;&gt;&gt; 课后小笔记
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=">>> 课后小笔记">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.多容器Pod
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4.容器状态监测
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.Pod设计
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6.服务与网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7.容器数据的可持久化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8.2021更新的考试内容
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ckad-0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    OpenShift
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            OpenShift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/deployment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    App Deployment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/internal_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/pipeline/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_6" id="__nav_4_4_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    DO288
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            DO288
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/01_deploy_app/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploying and Managing Applications
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/ex288/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_7" id="__nav_4_4_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    DO280
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            DO280
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/01_manifest_kustimize/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1. Manifest & Kustomize
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/02_template_helm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2. OC Template & Helm Chart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/03_auth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3. Authentication and Authorization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    6
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    7
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    8
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    9
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../openshift/do280/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    10
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Data Scientist
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Data Scientist
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/embedding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Embedding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/elastic_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ElasticSearch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design_thinking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Design Thinking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    DevOps
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            DevOps
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../dev_ops/observability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Observability
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Ecommerce
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Ecommerce
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ecommerce/wordpress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Wordpress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Frontend
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CSS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            CSS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/css-in-depth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CSS In Depth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/shapes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shape
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/cra/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CRA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/gsap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSAP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/js/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JavaScript
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/nginx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nginx
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_6" id="__nav_9_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    React
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_6">
+            <span class="md-nav__icon md-icon"></span>
+            React
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/hooks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/bugs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bugs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/oblivion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oblivion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/web_design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Design
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IDEs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            IDEs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ide/vscode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Project Mgmt
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Project Mgmt
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/agile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agile
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/ibm_internal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IBM PM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/grammars/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Grammars
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/oblivion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oblivion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/dependencies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Use dependencies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/build_dependency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Build Own Dependency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/virtual_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Virtual environment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Regex
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Sketch
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Sketch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sketch/procreate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Procreate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 考试形式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 基本概念
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 基本概念">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#master-node-vs-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Master node VS Worker node
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. k8s 的六大组件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. k8s 的六大组件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      (1) API Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-etcd-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      (2) ETCD Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-kubelet-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      (3) Kubelet Service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-container-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      (4) Container Runtime
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      (5) Controllers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      (6) Scheduler
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-k8s-yaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. k8s 中的 YAML
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. k8s 中的 YAML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apiversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      apiVersion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-replication-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Replication Controller
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Namespace
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Namespace">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namespace-vs-namespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Namespace 内部访问 vs 跨 Namespaces 之间的访问
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resourcequota" class="md-nav__link">
+    <span class="md-ellipsis">
+      ResourceQuota
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt;&gt;&gt; 本章 kubectl 命令整理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt;&gt;&gt; 课后小笔记
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=">>> 课后小笔记">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1.核心概念介绍</h1>
+
+<div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#1">1. 考试形式</a></li>
+<li><a href="#2">2. 基本概念</a><ul>
+<li><a href="#master-node-vs-worker-node">Master node VS Worker node</a></li>
+</ul>
+</li>
+<li><a href="#3-k8s">3. k8s 的六大组件</a><ul>
+<li><a href="#1-api-server">(1) API Server</a></li>
+<li><a href="#2-etcd-service">(2) ETCD Service</a></li>
+<li><a href="#3-kubelet-service">(3) Kubelet Service</a></li>
+<li><a href="#4-container-runtime">(4) Container Runtime</a></li>
+<li><a href="#5-controllers">(5) Controllers</a></li>
+<li><a href="#6-scheduler">(6) Scheduler</a></li>
+</ul>
+</li>
+<li><a href="#4-k8s-yaml">4. k8s 中的 YAML</a><ul>
+<li><a href="#apiversion">apiVersion</a></li>
+</ul>
+</li>
+<li><a href="#5-replication-controller">5. Replication Controller</a></li>
+<li><a href="#6-deployment">6. Deployment</a></li>
+<li><a href="#7-namespace">7. Namespace</a><ul>
+<li><a href="#namespace-vs-namespaces">Namespace 内部访问 vs 跨 Namespaces 之间的访问</a></li>
+<li><a href="#resourcequota">ResourceQuota</a></li>
+</ul>
+</li>
+<li><a href="#kubectl">&gt;&gt;&gt; 本章 kubectl 命令整理</a></li>
+<li><a href="#_1">&gt;&gt;&gt; 课后小笔记</a><ul>
+<li><a href="#dns">DNS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h3 id="1">1. 考试形式<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>远程，详细要求可以在官网上找到</li>
+<li>考试时可用的资源：k8s 官方文档</li>
+</ul>
+<h3 id="2">2. 基本概念<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>容器（container）</strong>：包含了 App，和运行 App 所需的所有配置与环境。比起虚拟机（VM）来更高效，更灵活</li>
+<li>
+<p><strong>Pod</strong>：是 k8s 中的最小单位，Pod 中的内容分享了<strong>同样的网络（Network）和存储（Storage）</strong>。Pod 封装了一个或多个 container（如果是多个 container，那么大概率这些 container 包含了不同的 App，比如一个前端 App，一个数据库 App）。豆荚也可翻译成 pod，所以可以联想到图片如下：<br /></p>
+<p><img src="../ckad-1/pod.jpeg" width=300 /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pod 常被用于扩大应用的规模，假设你的 App 访问人数在某个节假日激增，那我们就新建一个 pod，然后把同样的 App 部署到新建的 pod 上；同样的，Pod 也可以被用于降低 App 的规模</p>
+</div>
+</li>
+<li>
+<p><strong>节点（node）</strong>：安装了 k8s 的机器，Pod 就是在 node 上跑的。（节点出问题被自动关闭的时候，其上面的容器中的 App 自然也会被关闭，所以一般我们会<strong><em>多节点运行</em></strong>）</p>
+</li>
+<li><strong>工作节点（worker node）</strong>：真正存放容器，干活的节点</li>
+<li><strong>master 节点（master node）</strong>：也被叫做 <strong>控制面板/Control plane</strong>，监视集群中的 worker nodes，并负责对 worker nodes 上的容器进行实际编排。一个 cluster 中可以有一个或者多个 master nodes</li>
+<li><strong>集群（cluster）</strong>：由一群 nodes 组成</li>
+</ul>
+<p><img src="../ckad-1//844171d8f36a4d5c88e1c1883ada9aa6.png"></p>
+<h4 id="master-node-vs-worker-node">Master node VS Worker node<a class="headerlink" href="#master-node-vs-worker-node" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Master node<br/>/Control plane</th>
+<th style="text-align: left;">Worker node</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Server</td>
+<td style="text-align: left;">带<code>kube-apiserver</code>服务</td>
+<td style="text-align: left;">带<code>kubelet agent</code>代理</td>
+<td style="text-align: left;"><code>kube-apiserver</code>与<code>kubelet agent</code>之间有相互的沟通，<br /> 比如<code>kubelet</code>提供 worker node 是否健康的信息，<br /> <code>kube-apiserver</code>给<code>kubelet</code>发送任务信息等等。<br /> 所有信息都存储在 master node 上的 etcd 数据库中</td>
+</tr>
+<tr>
+<td style="text-align: left;">ETCD</td>
+<td style="text-align: left;">✓</td>
+<td style="text-align: left;">✗</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Controller</td>
+<td style="text-align: left;">✓</td>
+<td style="text-align: left;">✗</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Scheduler</td>
+<td style="text-align: left;">✓</td>
+<td style="text-align: left;">✗</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-k8s">3. k8s 的六大组件<a class="headerlink" href="#3-k8s" title="Permanent link">&para;</a></h3>
+<p><img src="../ckad-1/components-of-kubernetes.svg">
+当你安装k8s时，你实际上安装了以下组件：</p>
+<h4 id="1-api-server">(1) API Server<a class="headerlink" href="#1-api-server" title="Permanent link">&para;</a></h4>
+<p>相当于k8s的前端，所有的users，devices，CLIs都通过API Server与k8s集群进行沟通。</p>
+<h4 id="2-etcd-service">(2) ETCD Service<a class="headerlink" href="#2-etcd-service" title="Permanent link">&para;</a></h4>
+<p>（发音为et-see-dee)，是一个存储<strong><em>键值对（key-value）</em></strong> 的数据存储，用于实现node的锁，以防止冲突的产生。</p>
+<h4 id="3-kubelet-service">(3) Kubelet Service<a class="headerlink" href="#3-kubelet-service" title="Permanent link">&para;</a></h4>
+<p>是在cluster中每个node上运行的代理（agent）。负责确保按预期在节点上运行。</p>
+<h4 id="4-container-runtime">(4) Container Runtime<a class="headerlink" href="#4-container-runtime" title="Permanent link">&para;</a></h4>
+<p>是用于运行容器的底层软件。通常这个软件是 Docker，但也有其他容器技术。</p>
+<h4 id="5-controllers">(5) Controllers<a class="headerlink" href="#5-controllers" title="Permanent link">&para;</a></h4>
+<p>控制器（Controllers）负责编排（orchestration）。负责在node、container或endpoint出现故障时进行通知和响应。（比如，在特定情况下，Controller会决定启动新容器）。在k8s中有多个Controllers，每个负责不同的工作。</p>
+<h4 id="6-scheduler">(6) Scheduler<a class="headerlink" href="#6-scheduler" title="Permanent link">&para;</a></h4>
+<p>负责nodes之间的工作分配和调度。如果有新建的container，Scheduler会将container分配给node</p>
+<h3 id="4-k8s-yaml">4. k8s 中的 YAML<a class="headerlink" href="#4-k8s-yaml" title="Permanent link">&para;</a></h3>
+<p><code>YAML</code>基本介绍见<a href="http://t.csdn.cn/ZRc2c">3 分钟看懂 YAML</a>。k8s 中，我们可以选择用<code>k</code>命令行工具来部署应用，也可以用<code>YAML</code>文件定义”如何部署应用“，然后再一次性将<code>YAML</code>文件执行到 k8s 集群上。相比<code>k</code>，使用<code>YAML</code>的优点有：</p>
+<ul>
+<li>Devops as code：可以用 git 对<code>YAML</code>进行版本控制，像写软件代码一样写 devops 的部署，且多个程序猿可同时进行协作，不会出现信息不同步的问题</li>
+<li>Single source of truth：所有和 devops 相关的信息都可以查看对应的<code>YAML</code>文件</li>
+<li>容易 debug</li>
+<li>容易进行项目重建：假设你要把现有的部署挪到另一个云供应商平台上去，只需要在部署一遍<code>YAML</code>文件即可</li>
+</ul>
+<p>在 k8s 中的<code>YAML</code>文件都默认应该有<strong>四个属性</strong>：</p>
+<ul>
+<li><code>apiVersion</code>：版本，可以是 v1 或者 apps/v1</li>
+<li><code>kind</code>：资源种类，可以是 Pod，Service，ReplicaSet 或 Deployment 等</li>
+<li><code>metadata</code> ：该资源的元数据，包括 name，labels 等字典类型数据，不允许其他键的存在</li>
+<li><code>spec</code>：配置信息，每个资源应有的 spec 都不一样</li>
+</ul>
+<p>以下是一个 Pod 的<code>YAML</code>文件的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pod-definition.yml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Pod</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-pod</span>
+<span class="w">    </span><span class="nt">labels</span><span class="p">:</span><span class="w">                     </span><span class="c1"># s在`lables`中，你可以定义任意到键值对，以帮助你之后快速地找到相关资源</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="w">        </span><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">chuuuing</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-container</span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+</code></pre></div>
+<p>接下来我们将该<code>YAML</code>文件部署到集群上：</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pod-definition.yml
+</code></pre></div>
+<h4 id="apiversion">apiVersion<a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><code>kind</code>（资源种类）</th>
+<th style="text-align: left;"><code>apiVersion</code>（版本）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Pod</td>
+<td style="text-align: left;">v1</td>
+</tr>
+<tr>
+<td style="text-align: left;">Service</td>
+<td style="text-align: left;">v1</td>
+</tr>
+<tr>
+<td style="text-align: left;">ReplicaSet</td>
+<td style="text-align: left;">apps/v1</td>
+</tr>
+<tr>
+<td style="text-align: left;">Deployment</td>
+<td style="text-align: left;">apps/v1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-replication-controller">5. Replication Controller<a class="headerlink" href="#5-replication-controller" title="Permanent link">&para;</a></h3>
+<p><code>Replication Controller</code>是 Controller 组件的一种。</p>
+<ul>
+<li>监控并确保自己负责的<code>Pod</code>数量符合要求（比如：<code>Pod</code>的数量多了那就杀掉几个，少了就自动生成几个）</li>
+<li>扮演一个 load balancer 的角色，跨 Node 平衡访问</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>Replication Controller</code> vs <code>Replica Set</code> <br />
+两者都有上述提到的功能。<strong>Replica Set</strong>是更新的概念，多一个<code>.spec.selector</code>的属性，背后的原因是： <br /> </p>
+<ul>
+<li>除了由自己拷贝的<code>Pod</code>副本，<strong>Replica Set</strong>也可以用于管理其他<code>Pod</code>； <br /> </li>
+<li>而<strong>Replication Controller</strong>默认只能管理自己生成的<code>Pod</code>副本。 <br /></li>
+</ul>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReplicaSet</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-replicaset</span>
+<span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-pod</span>
+<span class="w">            </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">                </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-container</span>
+<span class="w">                  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">    </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+
+<span class="w">    </span><span class="nt">selector</span><span class="p">:</span><span class="w">           </span><span class="c1"># ReplicaSet独有的，ReplicationController没有的！</span>
+<span class="w">        </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+</code></pre></div>
+<table>
+    <tr>
+        <th>不带`selector`</th>
+        <th>带`selector`</th>
+    </tr>
+    <tr>
+        <td>监视器代表 ReplicationController<br/>只默认管理由自己创建的Pod</td>
+        <td>监视器代表 ReplicaSet<br/>可以管理所有带`matchLabels`的Pod</td>
+    </tr>
+    <tr>
+        <td><img src="../ckad-1/f4e1a8f0e24445cd97eb49d550f7a9f8.png" width=370 /></td>
+        <td><img src="../ckad-1/39cb34bbd5ee4a11b19724ce6ffc2db0.png" width=390 /></td>
+    </tr>
+</table>
+
+<!--
+1）把当前`replicaset`的yaml保存起来`k get replicaset myapp-replicaset -o yaml`
+2）修改该`yml`文件中的relicas的数量
+3）再用强制取代旧的`replicaset`：`k replace -f xxx.yml` （`-f`代表`force`）
+ **方法二**：假设当前`replicaset`也是用yaml文件建立起来的，`k scale --replicas=6 -f xxx.yml` 命令会同时修改YAML文件，并更新部署-->
+
+<p><strong>如何 scale up/down 集群中<code>Pod</code>的数量？</strong></p>
+<ul>
+<li><strong>方法一</strong>：<code>k edit replicaset</code>直接修改 yaml 格式</li>
+<li><strong>方法二</strong>： <code>k scale --replicas=6 replicaset myapp-replicaset</code> 只更新部署，YAML 文件不会被自动修改</li>
+<li><strong>其他</strong>： 根据用户流量自动 scale，我们之后会讲到</li>
+</ul>
+<p><strong>如果<code>ReplicaSet</code>中的 container template 有错，比如 image 的名字错了，如何修改？</strong></p>
+<ul>
+<li><strong>方法一</strong>：删除并重建<code>ReplicaSet</code>（删除<code>ReplicaSet</code>会自动删除它所监控的 Pod）</li>
+<li><strong>方法二</strong>：先更新<code>ReplicaSet</code>，删除旧的 Pod <code>k edit replicaset xxx</code> ；然后 <code>k delete pod -l name=busybox-pod</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>因为<code>ReplicaSet</code>只检查数量，不检查 Pod 的内容，所以要把旧的 Pod 杀掉</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>ReplicaSet</strong> 的<code>apiVersion</code>的值是<code>apps/v1</code>，不是<code>v1</code>，不然你会看到一下错误：
+<img alt="请添加图片描述" src="../ckad-1/123a2143752c4f6095b937ffc734a84b.png" /></p>
+</div>
+<h3 id="6-deployment">6. Deployment<a class="headerlink" href="#6-deployment" title="Permanent link">&para;</a></h3>
+<p>迄今为止，我们知道<code>Container</code>跑在<code>Pod</code>上，而<code>Pod</code>由<code>ReplicaSet</code>监控，<code>Deployment</code>被看作在<code>ReplicaSet</code>外的另一层外套。<code>Deployment</code>提供更新，撤消更新回滚到旧版本（rolling），暂停和恢复更改等功能。</p>
+<div class="highlight"><pre><span></span><code># deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: myapp-deployment
+    labels:
+        app: myapp
+        type: frontend
+spec:
+    template:
+        metadata:
+            name: myapp-pod
+            labels:
+                app: myapp
+                type: frontend
+        spec:
+            containers:
+            - name: nginx-container
+              image: nginx
+    replicas: 3
+    selector:
+        matchLabels:
+            type: frontend
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Deployment vs ReplicaSet</p>
+<p>注意到了吗，除了<code>kind</code>，其他内容和<code>ReplicaSet</code>中没有区别！
+这时候我们用<code>k create -f deployment.yml</code>创建 <code>Deployment</code>，你可以看到集群中会自动新建以下资源：</p>
+<pre><code>- Deployment
+- ReplicaSet
+- Pod
+</code></pre>
+</div>
+<p>🪆 因为他们之间的关系是一层套一层：<code>Pod</code> &lt; <code>ReplicaSet</code> &lt; <code>Deployment</code>，像俄罗斯套娃一样：</p>
+<p><img alt="请添加图片描述" src="../ckad-1/russian_doll.jpeg" /></p>
+<p><strong>用 kubectl 新建 deployment：</strong>
+用镜像新建一个 Deployment:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span><span class="o">[</span>DeploymentName<span class="o">]</span><span class="w"> </span>--image<span class="o">=[</span>ImageName<span class="o">]</span>
+</code></pre></div>
+<p>scale up:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>scale<span class="w"> </span>deployment<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="o">[</span>DeploymentName<span class="o">]</span>
+</code></pre></div>
+<h3 id="7-namespace">7. Namespace<a class="headerlink" href="#7-namespace" title="Permanent link">&para;</a></h3>
+<p>当集群建立起来的时候，k8s 会自动生成三个默认的 Namespace：</p>
+<ol>
+<li><code>default</code>：默认的 Namespace，如果你不另外创建专门给 App 的 Namespace 的话，一进集群就默认使用<code>default</code></li>
+<li><code>kube-system</code>：k8s 自动生成一些供内部使用的 Pods 和 Service，比如 DNS 服务。这个 Namespace 的存在保证了用户不会破坏这些内部资源</li>
+<li><code>kube-public</code>：这里应该放一些 <strong>所有 Namespace</strong> 都有权限访问的资源</li>
+</ol>
+<blockquote>
+<p>每个<code>Namespace</code>都有自己的参数设置和限制，能保证不占用过多的资源（比如说储存空间等）。<code>Namespace</code>常见的应用场景是：一个<code>dev</code>给开发，一个<code>prod</code>的<code>Namespace</code>在使用中。</p>
+</blockquote>
+<p>生成 pod.yaml 时，我们也可以指定该 Pod 所在的 Namespace：</p>
+<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-pod</span>
+<span class="w">    </span><span class="c1"># 指定 Namespace</span>
+<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+<span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="nn">...</span>
+</code></pre></div>
+<p>用 YAML 新建 Namespace：</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Namespace</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+</code></pre></div>
+<p>或者，用<code>k</code>新建：<code>k create namespace dev</code></p>
+<p><strong>其他相关的<code>k</code>的命令</strong></p>
+<ul>
+<li><code>k config current-context</code> 查看当前 context: <code>&lt;用户名&gt;:&lt;cluster名&gt;</code></li>
+<li><code>k get pods --namespace=xxx</code> 指定看 Namespace <code>xxx</code> 下的 Pod</li>
+<li><code>k get pods --all-namespaces</code> 或者<code>k get pods -A</code> 查看所有 Namespace 下的 Pod</li>
+<li><code>k config set-context --current --namespace=xxx</code> 把默认 namespace 设置成<code>xxx</code></li>
+</ul>
+<h4 id="namespace-vs-namespaces">Namespace 内部访问 vs 跨 Namespaces 之间的访问<a class="headerlink" href="#namespace-vs-namespaces" title="Permanent link">&para;</a></h4>
+<p><img alt="请添加图片描述" src="../ckad-1/8b7e0f79b6e742969e7ad33fa497ec7e.png" /></p>
+<p>Namespace 内部服务之间的服务访问 - 图中的(1）：</p>
+<div class="highlight"><pre><span></span><code>mysql.connect<span class="o">(</span><span class="s2">&quot;db-service&quot;</span><span class="o">)</span>
+</code></pre></div>
+<p>跨 Namespace 的服务访问 - 图中的(2）：<strong>default</strong> 访问 <strong>dev</strong> 中的数据库服务:</p>
+<div class="highlight"><pre><span></span><code>mysql.connect<span class="o">(</span><span class="s2">&quot;db-service.dev.svc.cluster.local&quot;</span><span class="o">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">跨 Namespace 的服务访问</p>
+<p>命名格式是<code>[ServiceName].[Namespace].svc.cluster.local</code></p>
+<hr />
+<p><strong>为什么可以这样访问到 Service 呢？</strong></p>
+<pre><code>当一个Service被创建的时候，k8s会自动添加对应的DNS: &lt;br/&gt; `cluster.local`是k8s集群的默认域名（cluster domain），`svc`是子域名，`[Namespace]`是该Service所在的Namespace，`[ServiceName]`是Service本身的名字
+</code></pre>
+</div>
+<h4 id="resourcequota">ResourceQuota<a class="headerlink" href="#resourcequota" title="Permanent link">&para;</a></h4>
+<p><code>ResourceQuota</code>用于给 <strong>整个<code>Namespace</code>的总资源</strong> 设限。比如<code>Pod</code>的数量，<code>CPU</code>数量，内存大小等等。
+用 YAML 新建 ResourceQuota：</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ResourceQuota</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">compute-quota</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">hard</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pods</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<span class="w">    </span><span class="nt">requests.cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span>
+<span class="w">    </span><span class="nt">requests.memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
+<span class="w">    </span><span class="nt">limits.cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<span class="w">    </span><span class="nt">limits.memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+</code></pre></div>
+<p>举例：<code>limits.cpu: "10"</code> 表示当前 Namespace 中所有 non-terminal 状态的 Pod 的<code>.limits.cpu</code>资源的总和没有超过 10</p>
+<div class="admonition note">
+<p class="admonition-title">terminal / 终止状态 的 Pod</p>
+<p>Pod which has .status == Failed or .status=succeeded</p>
+</div>
+<h3 id="kubectl">&gt;&gt;&gt; 本章 kubectl 命令整理<a class="headerlink" href="#kubectl" title="Permanent link">&para;</a></h3>
+<p><strong>新建容器：</strong></p>
+<p><code>k run my-new-pod --image nginx</code></p>
+<p>用镜像 nginx 部署一个容器到 kubernetes 集群上。因为 k8s 中最小单位是 Pod，所以同一时间，一个 Pod 也被生成</p>
+<hr />
+<p><strong>彩排，输出 yaml 文件：</strong></p>
+<p><code>k run my-new-pod --image nginx --dry-run=client -o yaml &gt; pod.yaml</code></p>
+<p>该命令不会马上执行“新建容器”的操作，<code>--dry-run=client</code>的意思是：我彩排一下，不真跑，只是看看是否可以创建资源，以及所用的命令是否正确。然后再用<code>-o yaml &gt; pod.yaml</code>将彩排得到的内容以<code>yaml</code>文件的形式输出</p>
+<hr />
+<p><strong>信息</strong></p>
+<p><code>k get all</code> 查看当前集群中所有</p>
+<p><code>k cluster-info</code> 查看当前集群信息</p>
+<p><code>k get nodes</code> 列举当前集群中所有的 nodes</p>
+<hr />
+<p><strong>Pod 相关：</strong></p>
+<p><code>k run yyy --image=xxx</code> 用镜像<code>xxx</code>创建名为<code>yyy</code>的容器，放进 Pod 中，因为 k8s 中最小单位是 Pod！！没有办法把 Container 单独拿出来</p>
+<p><code>k get pods</code> 列举当前集群中所有的 pods</p>
+<p><code>k describe pod xxx</code> 打印名为<code>xxx</code>的 pod 的具体信息</p>
+<p><code>k edit pod xxx</code> 对已存在的 pod 进行修改</p>
+<p><code>k delete pod -l name=busybox-pod</code> 删除所有标签为<code>name=busybox-pod</code>的 Pod</p>
+<hr />
+<p><strong>ReplicaSet 相关：</strong></p>
+<p><code>k get replicaset</code> 查看当前集群的 replicaset</p>
+<p><code>kl delete replicaset xxx</code> 删除名为<code>xxx</code>的 replicaset</p>
+<p><code>k edit replicaset xxx</code> 修改名为<code>xxx</code>的 replicaset</p>
+<p><strong>修改 ReplicaSet 中 Pod 的数量：</strong></p>
+<ul>
+<li>先修改<code>xxx.yml</code>文件中的 relicas 的数量，再用<code>k replace -f xxx.yml</code> 将更新部署到集群上</li>
+<li><code>k scale replicaset --replicas=6  [ReplicaSetName]</code> 或 <code>k scale deployment --replicas=3 [DeploymentName]</code> 只更新部署，毋需 YAML 文件</li>
+</ul>
+<hr />
+<p><strong>Deployment 相关</strong></p>
+<p><code>k create deployment [DeploymentName] --image=[ImageName] --replicas=4</code></p>
+<hr />
+<p><code>k create -f xxx.yml</code> 将定义好的 yaml 文件部署到当前集群上</p>
+<hr />
+<p><strong>kubectl 输出格式</strong></p>
+<p><code>k [command] [TYPE] [NAME] -o &lt;output_format&gt;</code></p>
+<ul>
+<li><code>-o json</code> 输出一个 JSON 格式的 API 对象。</li>
+<li><code>-o name</code> 仅打印资源名称，不打印其他内容。</li>
+<li><code>-o wide</code> 带附加信息的纯文本格式 ❗️</li>
+<li><code>-o yaml</code> 输出一个 YAML 格式的 API 对象。</li>
+</ul>
+<hr />
+<p><strong>namespace 相关</strong></p>
+<p><code>k config current-context</code> 查看当前 namespace</p>
+<p><code>k get namespaces</code> 或<code>k get ns</code></p>
+<p><code>k create namespace xxx</code>用<code>k</code>新建 Namespace</p>
+<p><code>k get pods --namespace=xxx</code> 指定看<code>xxx</code>Namespace 下的 Pod</p>
+<p><code>k get pods --all-namespaces</code> 查看所有 Namespace 下的 Pod</p>
+<p><code>k config set-context --current --namespace=xxx</code> 把默认 namespace 设置成<code>xxx</code></p>
+<hr />
+<p><strong>Service 相关</strong></p>
+<p><code>k expose pod redis --port=6379 --name redis-service</code> 为 Pod <code>redis</code> 新建一个名为<code>redis-service</code>的 ClusterIP 服务（<code>--type=ClusterIP</code>是默认值），该服务本身的端口是<code>6379</code>，该服务会用 Pod <code>redis</code> 的标签进行资源筛选</p>
+<p><code>k create service clusterip redis-service --tcp=6379:6379</code> 新建一个名为<code>redis-service</code>的 ClusterIP 服务，该服务将使用<code>6379</code>端口。该服务默认用<code>app=redis-service</code>标签进行资源筛选</p>
+<hr />
+<p>直接暴露某个 Pod：</p>
+<p><code>k run XXX --image=XXX --port=80</code> 只会定义 port，不会真正的 expose Pod，也不会生成对应的 Service</p>
+<p><code>k run XXX --image=XXX --port=80 --expose=true</code> 会同时生成 Pod 和对应的 Service (默认为 ClusterIP)</p>
+<h3 id="_1">&gt;&gt;&gt; 课后小笔记<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h4 id="dns">DNS<a class="headerlink" href="#dns" title="Permanent link">&para;</a></h4>
+<p>人类用姓名来标记和识别某个人，电脑则用 IP 地址。DNS（Domain Name System）是将网址（<code>www.baidu.com</code>）转换成 IP 地址（<code>103.235.46.40</code>）的桥梁，相当于一个电话簿，存的姓名是网址，而电话号码则是 IP 地址。</p>
+<p>用 <code>dig</code> 命令你可以看到百度网址的 IP 地址。在浏览器中输入<code>www.baidu.com</code>或者<code>103.235.46.40</code>得到的结果是一样的：你都会看到百度搜索引擎首页。</p>
+<div class="highlight"><pre><span></span><code>dig<span class="w"> </span>www.baidu.com
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">DNS</p>
+<p><img src="../ckad-1/7fd8c9755eaf405cbf7ad062b99ed47c.png" width="600" /></p>
+<p><strong>示意图中发生的对话如下：</strong></p>
+<ul>
+<li><strong>Laptop</strong>：我要访问<code>www.baidu.com</code>，请问这个网址的IP地址是什么？</li>
+<li><strong>Resolver</strong>：你好，我是你的本地电话簿，我去看看我有没有存过这个网址。。。我没有存过，不知道它的IP是什么，我得去问问其他人</li>
+<li><strong>Resolver</strong>：你好<strong>Root Server</strong>，你知道网址<code>www.baidu.com</code>的IP地址是什么吗？</li>
+<li><strong>Root Server</strong>：我不知道，但我猜TLD应该知道，你去问他吧</li>
+<li><strong>Resolver</strong>：你好<strong>TLD</strong>，你知道网址<code>www.baidu.com</code>的IP地址是什么吗？</li>
+<li><strong>TLD</strong>：我不知道，但<strong>SLD</strong>应该知道</li>
+<li><strong>Resolver</strong>：你好<strong>SLD</strong>，你知道网址<code>www.baidu.com</code>的IP地址是什么吗？</li>
+<li><strong>SLD</strong>：我知道，是<code>103.235.46.40</code></li>
+<li><strong>Resolver</strong>：感谢，我存下来，以防下次还需要用</li>
+<li><strong>Resolver</strong>：<strong>Laptop</strong>，你要的IP地址是<code>103.235.46.40</code></li>
+<li><strong>Laptop</strong>：🙏</li>
+</ul>
+<p>(TLD = Top Level Domain) <br/>
+(SLD = Second Level Domain)</p>
+</div>
+<!-- TODO: relationship between TLD, SLD and Root server -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.tabs.link"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>
