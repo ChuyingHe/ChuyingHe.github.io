@@ -76,6 +76,8 @@ The first line starts with `#!` is called **shebang line** and it indicates what
 -------
 
 
+
+
 # Variables
 ```bash
 #!bin/bash
@@ -133,7 +135,89 @@ heredoc> EOF
 a=5
 unset a
 ```
+-------
 
+# Special variables
+## :
+a no-op command, 等价于 true。它始终返回退出状态码 0（成功），但什么实际操作也不做。常见用法:
+
+1. 作为占位符，相当于python的pass：
+    ```bash
+    if [ "$condition" ]; then
+        : # 条件为真，但目前还没有具体操作
+    fi
+    ```
+2. 赋予变量默认值：如果变量 `NAME` 没有被设置或为空，则将其赋值为 world
+    ```bash
+    : ${NAME:="world"}
+    echo "Hello, $NAME"
+
+    # 等同于：
+    if [ -z "$NAME" ]; then
+        NAME="world"
+    fi
+    ```
+3. 清空文件
+    ```bash
+    : > file.text
+    ```
+
+## &>
+`&>` 是一种 重定向操作符，用于同时将 **标准输出（stdout）** 和 **标准错误（stderr）** 重定向到同一个目标。
+
+!!! note "stdout & stderr"
+    Shell 中的每个命令有两种主要输出流：
+    
+    - 标准输出（stdout，文件描述符为 `1`）：用于正常输出。
+    - 标准错误（stderr，文件描述符为 `2`）：用于错误消息或诊断信息。
+
+```bash
+# 以下两条命令效果相同
+ls &> output.txt
+ls > output.txt 2>&1
+```
+
+常见用法:
+1. 静默运行命令
+    ```bash
+    ls nonexistentfile &> /dev/null
+    # 不会在屏幕上输出错误消息。
+    ```
+2. 同时记录标准输出和错误到文件
+    ```bash
+    ls existingfile nonexistentfile &> logfile.txt
+    # 把成功的输出和错误消息都记录到 logfile.txt 中。
+    ```
+    如要分开打印：
+    ```bash
+    command > stdout.log 2> stderr.log
+    ```
+
+-------
+# Condition
+```bash
+case <variable> in
+    <pattern1>) <commands1> ;;
+    <pattern2>) <commands2> ;;
+    ...
+esac
+```
+
+- `<pattern1>`, `<pattern2>`: The patterns to compare with the variable.
+    - Wildcards like *, ?, and [...] can be used in patterns.
+    - Multiple patterns can be combined with | (logical OR).
+- `)` Indicates the end of a pattern and the start of commands.
+- `;;` Ends the commands for a pattern.
+
+## Logical Operators
+|Logical Operator| Description|
+|:-|:-|
+|`-a`|AND|
+|``||
+|``||
+|``||
+|``||
+|`-ne`| not equal|
 -------
 
 # Input 
@@ -254,18 +338,18 @@ myStr=Iamacatperson
 yourStr=Iamadogperson
 ```
 
-|Script|Function|Description|
-|:--|:--|:--|
-|`${myStr}`|refer to the string||
-|`${#myStr}`|length of the string||
-|`"${myStr} ${yourStr}"`|Concatenation|Needs to add quotes|
-|`${myStr,,}`|Lowercase||
-|`${myStr^^}`|Uppercase||
-|`echo ${myStr} | tr '[a-z]' '[A-Z]'`|use Transform function to switch between lower and upper cases||
-|`${myStr:3:2}`|Slicing with index: from index 3, show 2 characters||
-|`echo ${myStr} | cut -c 3-5`|Slicing with index, from 3 to 5||
-|`echo ${myStr/One/Two}`|replace `One` with `Two`||
-|`echo ${myStr}` | sed 's/One/Two/g'`|replace `One` with `Two`||
+|Script|Description|
+|:--|:--|
+|`${myStr}`|refer to the string|
+|`${#myStr}`|length of the string|
+|`"${myStr} ${yourStr}"`|Concatenation <br/>⚠️ Needs to add quotes|
+|`${myStr,,}`|Lowercase|
+|`${myStr^^}`|Uppercase|
+|`echo ${myStr} | tr '[a-z]' '[A-Z]'`|use Transform function to switch between lower and upper cases|
+|`${myStr:3:2}`|Slicing with index: from index 3, show 2 characters|
+|`echo ${myStr} | cut -c 3-5`|Slicing with index, from 3 to 5|
+|`echo ${myStr/One/Two}`|replace `One` with `Two`|
+|`echo ${myStr}` | sed 's/One/Two/g'`|replace `One` with `Two`|
 
 -------
 

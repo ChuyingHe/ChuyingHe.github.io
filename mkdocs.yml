@@ -39,6 +39,23 @@ nav:
       - Docker: cloud/docker/index.md
       - Helm: cloud/helm/helm-1.md
       - Kubernetes:
+          - CKA:
+              - cka-1: cloud/k8s/cka/cka-1.md
+              - cka-2: cloud/k8s/cka/cka-2.md
+              - cka-3: cloud/k8s/cka/cka-3.md
+              - cka-4: cloud/k8s/cka/cka-4.md
+              - cka-5: cloud/k8s/cka/cka-5.md
+              - cka-6: cloud/k8s/cka/cka-6.md
+              - cka-7: cloud/k8s/cka/cka-7.md
+              - cka-8: cloud/k8s/cka/cka-8.md
+              - cka-9: cloud/k8s/cka/cka-9.md
+              - cka-10: cloud/k8s/cka/cka-10.md
+              - cka-11: cloud/k8s/cka/cka-11.md
+              - cka-12: cloud/k8s/cka/cka-12.md
+              - cka-13: cloud/k8s/cka/cka-13.md
+              - cka-14: cloud/k8s/cka/cka-14.md
+              - cka-15: cloud/k8s/cka/cka-15.md
+              - cka-16: cloud/k8s/cka/cka-16.md
           - CKAD:
               - Read before exam: cloud/k8s/ckad/read_before_exam.md
               - 1.核心概念介绍: cloud/k8s/ckad/ckad-1.md

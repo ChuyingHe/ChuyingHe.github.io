@@ -40,9 +40,10 @@ spec:
 
 <img src="../ckad-7/multi_node.png" width=1200 />
 
-- **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
-- **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
-- 卷的这两个特性导致管理困难，而且也不利于扩大应用规模，因为无法支持多Node的应用，而**持久卷**能解决该问题
+!!! warning "Disadvantages of Volume"
+    - **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
+    - **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
+    - 卷的这两个特性导致管理困难，而且也不利于扩大应用规模，因为无法支持多Node的应用，而**持久卷**能解决该问题
 
 <!--
 ## 常见的 volume 的类型
@@ -95,8 +96,8 @@ kubectl get persistentvolume
 ```
 
 ## 持久卷的类型
-当我们在`pod.yaml`中定义`volumes`属性时，有很多不同选择。比如：NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO 或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。
-**- AWS Elastic Block Store：**
+当我们在`pod.yaml`中定义`volumes`属性时，有很多不同选择。比如：NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO 或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。比如：
+
 ```yaml
 volumes:
 - name: data-volume
@@ -173,9 +174,9 @@ spec:
 
 
 
-## PVC如何选择PV
+## PVC如何选择PV (Binding)
 ### 1. 根据属性选择
-Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（sufficient capacity），访问模式（access modes）、卷模式（volume modes）、存储类（storage class）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
+Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`storage class`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
 
 ### 2. 根据selectors和labels选择
 当然，如果想要绑定到特定的PV，也可以利用`labels`和`selectors`来定位到正确的PV。比如：
@@ -245,6 +246,8 @@ spec:
 
 # 5. 存储类 / Storage Classes
 
+## Static Provisioning
+
 假设我现在想使用GCE的存储空间，那么需要4个步骤：
 
 1. 在GCE中新建存储空间
@@ -252,12 +255,21 @@ spec:
 3. 创建一个PVC，对PV进行时使用
 4. 在Pod中使用引用PVC
 
-这个过程被称作 **Static Provisioning**。我们可以通过创建**存储类 / Storage Classes**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。Static和Dynamic Provisioning的区别如图：
+如图：
 
-<img src="../ckad-7/provisioning.png" width=600>
+<img src="../ckad-7/static_Provisioning.png" width=800>
+
+这个过程被称作 **Static Provisioning**。
+
+## Dynamic Provisioning
+
+我们可以通过创建**存储类 / Storage Classes**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
 
 
-**1.创建一个存储类 / StorageClass**
+<img src="../ckad-7/dynamic_Provisioning.png" width=800>
+
+
+### StorageClass
 ```yaml
 # my-sc.yaml
 apiVerson: storage.k8s.io/v1
@@ -265,7 +277,7 @@ kind: StorageClass
 metadata:
 	name: google-storage
 
-provisioner: kubernetes.io/gce-pd   # 配置器：不同供应商提供不同的配置器
+provisioner: kubernetes.io/gce-pd   # 🌈 配置器：不同供应商提供不同的配置器
 VolumeBindingMode: WaitForFirstConsumer
 parameters:             # 配置额外的参数
 	type: pd-standard
@@ -283,25 +295,17 @@ parameters:             # 配置额外的参数
     - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/>
     - `Immediate`
 
-**2.创建一个PVC, 使用StorageClass**
-```yaml
-# my-pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: my-claim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: google-storage
-  resources:
-    requests:
-      storage: 500Mi
-```
-**工作原理：**
-PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
+!!! info "Class"
+    You can use different drive in different StorageClass, thats where the name come from:
 
-**3.在Pod中使用该PVC**
+    <img src="../ckad-7/storageclass.png" />
+
+
+## 区别
+Static和Dynamic Provisioning的区别如图：
+
+<img src="../ckad-7/provisioning.png" width=600>
+
 
 # 6. Stateful Set
 **Stateful Set** 类似于 **Deployment**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：
