@@ -32,13 +32,12 @@ spec:
       type: Directory
 ```
 卷的使用确保了**Pod**被删除后，该**Pod**所产生的数据还被保留在所在的**Node**上，如图：
-<img src="../ckad-7/volume.png" width=1000 />
+<img src="../ckad-7/volume.png" width=550 />
 
-上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，那么每个**Node**其实都是不同的服务器，它们都有的`/data`文件路径，分别存储了不同的内容。所以我们要另找解决方法。
+上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，每个Node上的数据都是不一样的：
+<img src="../ckad-7/multi_node.png" width=800 />
 
-<img src="../ckad-7/multi_node.png" width=1200 />
-
-!!! warning "Disadvantages of Volume"
+!!! warning "Volume的缺点"
     - **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
     - **卷**存在于**Node服务器**上 -> 分布在不同**Node**上的App无法访问到同一个的**卷**
     - 卷的这两个特性导致管理困难，而且也不利于扩大应用规模，因为无法支持多Node的应用，而**持久卷**能解决该问题
@@ -63,7 +62,7 @@ spec:
 
 
 # 2. 持久卷（PersistentVolume / PV）
-我们想要一个<span style="background-color: #FFFF00">更中心化</span>的解决方法，如有某个**多Node的应用**需要修改存储空间，管理员（Administrator）可以统一对其进行管理。**持久卷池**可以帮我们解决这个问题。
+我们想要一个 <span style="background-color: #FFFF00">更中心化</span> 的解决方法，如有某个**多Node的应用**需要修改存储空间，管理员（Administrator）可以统一对其进行管理。**持久卷池**可以帮我们解决这个问题。
 
 持久卷是**Cluster**层级的，放满 **存储卷** 的池子（Pool），由集群的管理员进行管理和配置。然后由Pod根据自己的需求发送 **存储卷请求（PersistentVolumeClaim / PVC）**。
 
@@ -174,7 +173,7 @@ spec:
 
 ## PVC如何选择PV (Binding)
 ### 1. 根据属性选择
-Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`storage class`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
+Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`StorageClass`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
 
 ### 2. 根据selectors和labels选择
 当然，如果想要绑定到特定的PV，也可以利用`labels`和`selectors`来定位到正确的PV。比如：
@@ -242,7 +241,7 @@ spec:
 ```
 ⚠️ 对卷的绑定可以在Pod的定义文件中进行，也可以在Deployment或者ReplicaSet的定义文件中进行，效果是一样的
 
-# 5. 存储类 / Storage Classes
+# 5. 存储类 / StorageClasses
 
 ## Static Provisioning
 
@@ -253,6 +252,7 @@ spec:
 3. 创建一个PVC，对PV进行时使用
 4. 在Pod中使用引用PVC
 
+
 如图：
 
 <img src="../ckad-7/static_Provisioning.png" width=800>
@@ -261,39 +261,40 @@ spec:
 
 ## Dynamic Provisioning
 
-我们可以通过创建**存储类 / Storage Classes**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
+我们可以通过创建**存储类 / StorageClass**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。<br/ >--> PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
 
 
 <img src="../ckad-7/dynamic_Provisioning.png" width=800>
 
 
-### StorageClass
-```yaml
-# my-sc.yaml
-apiVerson: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-	name: google-storage
+!!! note "StorageClass举例"
+    ```yaml
+    # my-sc.yaml
+    apiVerson: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+      name: google-storage
 
-provisioner: kubernetes.io/gce-pd   # 🌈 配置器：不同供应商提供不同的配置器
-VolumeBindingMode: WaitForFirstConsumer
-parameters:             # 配置额外的参数
-	type: pd-standard
-	replication-type: none
-```
+    provisioner: kubernetes.io/gce-pd   # 🌈 配置器：不同供应商提供不同的配置器
+    VolumeBindingMode: WaitForFirstConsumer
+    parameters:             # 配置额外的参数
+      type: pd-standard
+      replication-type: none
+    ```
 
-!!! note "provisioner"
-    注意，kubernetes提供了多个provisioner，为每个云供应商都提供了provisioner，`kubernetes.io/gce-pd`是给 GoogleCloudEngine 的provisioner
+    **provisioner** <br/>
+    - k8s为每个云供应商都提供了不同的provisioner：比如`kubernetes.io/gce-pd`就是给 GoogleCloudEngine 的provisioner
+    - 是如果provisioner是`kubernetes.io/no-provisioner`，那么意味着该StorageClass不支持 dynamic provisioning
 
-    是如果provisioner是`kubernetes.io/no-provisioner`，那么意味着该StorageClass不支持 dynamic provisioning
 
-!!! note "绑定模式/VolumeBindingMode"
-    可能的值：<br/>
+    **VolumeBindingMode/绑定模式** <br/>
+    可能的值有：<br/>
     
     - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/>
     - `Immediate`
+    
 
-!!! info "Class"
+!!! info "Naming of 'StorageClass'"
     You can use different drive in different StorageClass, thats where the name come from:
 
     <img src="../ckad-7/storageclass.png" />
@@ -302,15 +303,26 @@ parameters:             # 配置额外的参数
 ## 区别
 Static和Dynamic Provisioning的区别如图：
 
-<img src="../ckad-7/provisioning.png" width=600>
+|<div style="width: 220px">Static Provisioning</div>|<div style="width: 220px">Dynamic Provisioning</div>|
+|:-|:-|
+|<pre><code>Pod -> PVC -> PV -> GCE</code></pre>|<pre><code>Pod -> PVC -> SC(PV)</code></pre>|
+
+<img src="../ckad-7/provisioning.png" width=500>
 
 
-# 6. Stateful Set
-**Stateful Set** 类似于 **Deployment**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：
-**Stateful Set** 中 **Pod** 是按顺序创建的。 部署第一个 **Pod** 后，它必须处于运行和就绪状态，才能继续部署下一个 **Pod** 。 **Stateful Set**给每一个创建的**Pod**都按照生成顺序编号，并根据编号生成独一无二的名字，比如：`sql-1`，`sql-2`
+# 6. StatefulSet
+**StatefulSet** 类似于 **Deployment**，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：<br/>
+
+- **StatefulSet** 中 **Pod** 是按顺序创建的。 
+- 部署第一个 **Pod** 后，它必须处于运行和就绪状态，才能继续部署下一个 **Pod** 。 
+- **StatefulSet**给每一个创建的**Pod**都按照生成顺序编号，并根据编号生成独一无二的名字，比如：`sql-1`，`sql-2`
+
+!!! note "使用场景"
+    - StatefulSet: 需要有状态、稳定身份的应用（如数据库、分布式系统），比如MySQL、Cassandra、Zookeeper、Kafka 等分布式系统 
+    - Deployment: 无状态应用（如 Web 应用、API 服务），比如Nginx、前端服务、微服务应用       
 
 ```yaml
-# Stateful Set的定义文件和Deployment大同小异，主要把 kind的类型改了
+# StatefulSet的定义文件和Deployment大同小异，主要把 kind的类型改了
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -337,7 +349,8 @@ spec:
 kubectl create -f my-ss.yaml
 ```
 
-⚠️ StatefulSet被删除时从后往前删
+!!! info
+    StatefulSet被删除时从后往前删
 
 # Headless Service
 不做loading balance，只提供DNS的服务。与StatefulSet一起使用时，为每一个Pod都提供一个DNS，格式为：`<pod-name>.<headless-service-name>.<namespace>.<cluster-domain>`比如：

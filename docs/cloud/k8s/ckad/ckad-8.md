@@ -8,7 +8,7 @@
 - `<argument>`小写。
 
 每一行命令的运行结果都是一个层（`layer`），每一层的都以上一层的结果为基础，执行命令。假设中途第N层出错，重新创建该镜像时，我们可直接使用N-1层的结果。
-```yaml
+```dockerfile
 FROM ubuntu	            # 以某个镜像为基础（常见的是“操作系统”镜像）
 
 RUN app-get update      # 安装依赖包
@@ -435,7 +435,7 @@ kubectl auth can-i delete nodes —-as dev-user —-namespace test
 从集群外部对Authorization进行管理，比如Open Policy Agent，会在收到请求后判断发送请求的用户是否有执行该动作的权利，如果有，才会redirect该请求到`kube-apiserver`服务器上
 
 ## 3. 集群内部的交流
-集群内部的组件（比如etcd，kube controller， manager scheduler和API server）与`kube-apiserver`服务器之间的交流都是由 **TLS** 加密过的。同一个集群上的不同Pod（上面的app）默认可以互相访问。如果有需要，我们可以通过 **Network Policies** 来限制访问权限。
+集群内部的组件（比如etcd，kube controller， manager scheduler和API server）与`kube-apiserver`服务器之间的交流都是由 **TLS** 加密过的。同一个集群上的不同Pod（上面的app）默认可以互相访问。如果有需要，我们可以通过 `NetworkPolicy` 来限制访问权限。
 
 ## 4. Admission Controller
 除了以上提到的`Authentication`和`Authorization`两个机制之外，kubernetes还提供了`Admission Controller`， 来控制一些`Authentication`和`Authorization`无法控制的东西，比如：
@@ -488,8 +488,8 @@ kubectl edit pod kube-apiserver --namespace kube-system
 
 
 
-### k8s提供的Admission Controller类型
-**1） Validating Admission Controller（验证类AC）**
+### k8s提供的AC类型
+#### 1. Validating AC（验证类）
 
 比如NamespaceExists 和 NamespaceAutoProvision，以下面命令为例：
 ```bash
@@ -499,7 +499,7 @@ kubectl run nginx --image nginx --namespace blue
 - AC `NamespaceExists`默认为启用状态，并且会检查命令中提到的Namespace `blue`是否存在，如果不存在，该命令会报错。
 - AC `NamespaceAutoProvision`默认为关闭状态，若启用，则在Namespace `blue`不存在的情况下会自动生成一个
 
-**2）Mutating Admission Controller（修改类AC）**
+#### 2. Mutating AC（修改类）
 
 DefaultStorageClass 这个AC会观察 **对存储类没有特定要求** 的 `PersistentVolumeClaim` 的创建，并自动向它们添加默认存储类。
 当我们查看创建的PVC时，我们可以看到该PVC的属性`StorageClass: default`
