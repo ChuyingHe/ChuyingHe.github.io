@@ -30,7 +30,7 @@ kubectl create deployment hello-openshift -o yaml \
 !!! tip "Doc"
     Use `kubectl explain deployment.spec.template.spec` to see the details of the field `deployment.spec.template.spec`
 
-!!! tip "Multiple src in single Manifest"
+!!! tip "Multiple src in single YAML Manifest"
     Use a line of `---` to separate the resources
 
 
@@ -75,8 +75,8 @@ kubectl apply -f resource.yaml
     ||`kubectl apply`|`kubectl create`|
     |:--|:--|:--|
     |Type|**declarative**|**imperative**|
-    |Consider the current state of a live resource?|Yes, compare:<br/> 1.Live configuration <br/>2.Manifest file <br/>3.Configuration in the annotation `last-applied-configuration`|No|
-    |Can update a live resource?|Yes|No|
+    |consider the<br/>current state<br/> of a **Live Resource**?|Yes, compare:<br/> 1.Live configuration <br/>2.Manifest file <br/>3.Configuration in the annotation `last-applied-configuration`|No|
+    |can it update<br/>**Live Resource**?|Yes|No|
 
 
 !!! warning "rollout"
@@ -128,7 +128,8 @@ Use the `oc diff -f .`（或`kubectl diff -f .`） command to review differences
 - production
 
 
-➡️ Both the `kubectl` and `oc` commands integrate the **Kustomize** tool.
+!!! info
+    Both `kubectl` and `oc` commands integrated the **Kustomize** tool.
 
 
 ## Files
