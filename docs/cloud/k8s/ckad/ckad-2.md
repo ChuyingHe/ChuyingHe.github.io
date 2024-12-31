@@ -1,5 +1,3 @@
-[TOC]
-
 # 1. Dockerfile
 ## CMD
 假设我们用`Dockerfile`创建了自己的镜像`myImg`。
@@ -86,10 +84,13 @@ spec:
 	      args: ["10"]					# 可变参数
 ```
 
-|命令/参数|Dockerfile|yaml|`docker run myPod`<br/>`--image=myImg`|`k run myPod`<br/>`--image=myImg`|
-|:--|:--|:--|:--|:--|
-|`sleep2.0`|`ENTRYPOINT ['sleep2.0']`|`.spec`<br/>`.containers`<br/>`.command: ['sleep2.0']`<br/><br/> * 命令 command 是单数|`--entrypoint`<br/> `sleep2.0`|`--command sleep2.0 `|
-|`10`|`CMD ['10']`|`.spec`<br/>`.containers`<br/>`.args: ['10']`<br/><br/> * 命令 args 是复数|`10`|`-- 10`|
+
+|Platform|Example|
+|:-|:-|
+|Dockerfile|`ENTRYPOINT ['sleep2.0']`<br/>`CMD ['10']`|
+|YAML file|-.spec.containers.command: `['sleep2.0']`<br/>-.spec.containers.args: `['10']`|
+|`docker run`|`docker run myPod --image=myImg`<br/>`--entrypoint sleep2.0`<br/>`10`|
+|`k run`|`k run myPod --image=myImg`<br/>`--command sleep2.0`<br/>`-- 10`|
 
 
 # 2. Pod和Deployment
@@ -109,7 +110,8 @@ vi new-pod.yml			# 然后按照你的要求修改new-pod.yaml
 kubectl delete pod xxx
 kubectl create -f new-pod.yml
 ```
-⚠️ 注意：该设计是合理的，因为`Pod`是`Deployment`生成的产物。如果想要修改`Pod`的某个参数，那么 **更合理的方法** 是修改`Deployment`，然后让`Deployment`生成新的`Pod`，而不是直接删除`Pod`！
+!!! warning "注意"
+	该设计不是最合理的，因为`Pod`是`Deployment`生成的产物。如果想要修改`Pod`的某个参数，那么 **更合理的方法** 是修改`Deployment`，然后让`Deployment`生成新的`Pod`，而不是直接删除`Pod`！
 
 ## Deployment
 和`Pod`不同，`Deployment`可以简单的通过`k edit deployment my-deployment`修改。
@@ -164,8 +166,8 @@ env:
 	  		key: APP_COLOR		# ConfigMap中对应的环境变量的名字
 ```
 
-!!! note
-		⚠️ 记忆点：`...From` + `...Ref`
+!!! warning "记忆点"
+	`...From` + `...Ref`
 
 将`ConfigMap`作为一个文件写入容器的`volume`里面。这个操作会在`volume`里面为每一个键值对建一个文件，以“键”为文件名，“值”为文件内容。（比如有两个文件，`APP_COLOR`文件内容是APP_COLOR的值，比如"green"，`APP_MODE`文件内容是"prod"）
 
@@ -233,9 +235,6 @@ env:
 	  		key: DB_Host		# Secret中对应的环境变量的名字
 ```
 
-!!! note
-		⚠️ 记忆点：`...From` + `...Ref`
-
 将`Secret`作为一个文件写入容器的`volume`里面：
 
 ```yaml
@@ -301,22 +300,24 @@ data:
 
 
 ## Secret的类型
-|类型|描述|举例|
+|类型|描述|<div style="width:350px">举例</div>|
 |:-|:-|:--------|
-|docker-registry|给Docker registry用的`Secret`|`k create secret docker-registry my-secret \` <br/> `--docker-email=tiger@acme.example \` <br/> `--docker-username=tiger \` <br/> `--docker-password=pass1234 \` <br/> `--docker-server=my-registry.example:5000` <br/> |
-|generic|从本地文件或者<br/>直接输入生成`Secret`<br/>（即默认的Opaque类型）|`k create secret generic my-secret \`<br/>`--from-literal=username=prod_user` <br/> `--from-literal=password=top_secret`|
-|tls|tls的`Secret`<br/>用于存储certificate以及与之相关联的key|`k create secret tls my-tls-secret \` <br />`--cert=path/to/cert/file \` <br />`--key=path/to/key/file` <br />|
+|`docker-registry`|给Docker registry用的`Secret`|`k create secret docker-registry my-secret \` <br/> `--docker-email=tiger@acme.example \` <br/> `--docker-username=tiger \` <br/> `--docker-password=pass1234 \` <br/> `--docker-server=my-registry.example:5000` <br/> |
+|`generic`|从本地文件或者<br/>直接输入生成`Secret`<br/>（即默认的Opaque类型）|`k create secret generic my-secret \`<br/>`--from-literal=username=prod_user` <br/> `--from-literal=password=top_secret`|
+|`tls`|用于存储certificate以及与之相关联的key|`k create secret tls my-tls-secret \` <br />`--cert=path/to/cert/file \` <br />`--key=path/to/key/file` <br />|
 
-!!! note
-		⚠️ TLS (Transport Layer Security) 是一种加密协议，用于保护 Internet 上的通信。 它是 SSL（安全套接字层）的继承者，为两台计算机提供了一种安全地相互通信的方式。
+!!! note "TLS (Transport Layer Security)"
+	是一种加密协议，用于保护 Internet 上的通信。 它是 SSL（安全套接字层）的继承者，为两台计算机提供了一种安全地相互通信的方式。
 
 # 6. Docker的安全性（SecurityContext）
 ## Process isolation
-当某个**主机/电脑**运行Docker时，Docker是以一个单独的进程（process）的形式存在的。你可以通过命令`ps aux`或者进程监视器（如下图）看到该Docker进程。（`ps aux`意味着`process all user x` - `x`表示任意用户）
+当某个**主机/电脑**运行Docker时，Docker是以一个单独的进程（process）的形式存在的。你可以通过命令`ps aux`或者进程监视器（如下图）看到该Docker进程。
+
+`ps aux`意味着`process all user x`, `x`表示任意用户
 <img src="../ckad-2/6ea1d90d0779485ab8f3679229b2a8d6.png" width=600 />
 
 !!! note "容器"
-		不同于虚拟机，容器并**不是完全**与主机本身分离的。容器用了Linux中的**命名空间**（Namespace）进行分离，主机本身有一个命名空间，容器自己有它的命名空间。所有的容器其实还是在主机上，但是在自己的命名空间中跑。
+	不同于虚拟机，容器并**不是完全**与主机本身分离的。容器用了Linux中的**命名空间**（Namespace）进行分离，主机本身有一个命名空间，容器自己有它的命名空间。所有的容器其实还是在主机上，但是在自己的命名空间中跑。
 
 
 如图所示：
@@ -328,7 +329,7 @@ data:
 
  
 !!! warning
-		尽管**主机视角**和**容器视角**都能看到3.1（`sleep 3000`）和3.2（`ls`）两个进程，他们在两个视角中显示的**进程ID**是不一样的！这是因为进程在不同的**命名空间**中可以有不同的进程 ID，这就是 Docker 在系统中 **隔离容器** 的方式！
+	尽管 **主机视角** 和 **容器视角** 都能看到3.1（`sleep 3000`）和3.2（`ls`）两个进程，他们在两个视角中显示的**进程ID**是不一样的！这是因为进程在不同的**命名空间**中可以有不同的进程 ID，这就是 Docker 在系统中 **隔离容器** 的方式！
 
 
 ## 安全角度的Users
@@ -341,15 +342,25 @@ root         1  0.0  0.0   2788  1116 ?        Ss   07:55   0:00 sleep 3600
 root         7  0.1  0.0   2888   984 pts/0    Ss   08:39   0:00 /bin/sh
 root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 ```
-⚠️ 在容器中，默认所有的进程都是用**root用户**来跑。但 **容器root用户** 和 **主机root用户** 
 
-!!! note "Linux用户"
-		我们可以将Linux中的用户分为两类：
+!!! note "Linux用户类型"
+	我们可以将Linux中的用户分为两类：
 
-		1. **root用户**：也叫 superuser 或者 administrator
-		2. **非root用户**：通常，在 Linux 系统上创建的第一个非root用户的 UID 为 1000，第二个用户帐户分配的 UID 为 1001，依此类推。即 `UID >= 1000` 的用户都是非root用户
+	1. **root用户**：也叫 superuser 或者 administrator
+	2. **非root用户**：通常，在 Linux 系统上创建的第一个非root用户的 UID 为 1000，第二个用户帐户分配的 UID 为 1001，依此类推。`UID >= 1000` 的用户都是非root用户
 
-有所不同。主机的root用户是Linux系统中最强大的用户，基本什么都能干（具体能干什么的列表在`usr/include/linux/capability.h`）。而 **容器root用户** 是设限的，这里列举一些:
+
+### 容器root VS 主机root
+
+| 特性                   | 容器 root 用户                                          | 主机 root 用户                                         |
+|------------------------|--------------------------------------------------------|-------------------------------------------------------|
+| **UID**              | 容器内部的 root UID 通常为 `0`，但可以映射到主机普通用户。| 主机 root 的 UID 始终为 `0`，并对应系统的超级用户权限。|
+| **权限范围**          | 默认仅限于容器内部，无法直接操作主机资源。              | 对整个主机系统拥有完全的权限，可修改任何系统资源。     |
+| **网络权限**          | 网络权限受容器网络命名空间（Network Namespace）限制。   | 拥有对主机网络接口的完全控制权。                       |
+| **特权模式影响**      | 在默认模式下权限有限，但启用 `--privileged` 会获取主机权限。| 不受限制，默认拥有所有特权。                          |
+
+
+**主机root用户** 是Linux系统中最强大的用户，基本什么都能干（具体能干什么的列表在`usr/include/linux/capability.h`）。而 **容器root用户** 是设限的，这里列举一些:
 
 |命令|用途|**主机root用户**|**容器root用户**|
 |:--|:--|:--|:--|
@@ -373,11 +384,20 @@ root        13  0.0  0.0   7060  1596 pts/0    R+   08:39   0:00 ps aux
 以上列出的是默认的权限，当然，你也可以手动地给**容器的用户**添加或者删减权限：
 
 - 增加
-	- 为容器`ubuntu`增加一个`MAC_ADMIN`的权限： `docker run --cap-add MAC_ADMIN ubuntu`
-	- 为容器`ubuntu`开放**所有**权限： `docker run --privileged ubuntu`
-- 删减：`docker run --cap-drop KILL ubuntu`
+	- 为容器`ubuntu`增加一个`MAC_ADMIN`的权限： 
+		```bash
+		docker run --cap-add MAC_ADMIN ubuntu
+		```
+	- 为容器`ubuntu`开放**所有**权限： 
+		```bash
+		docker run --privileged ubuntu
+		```
+- 删减：
+	```bash
+	docker run --cap-drop KILL ubuntu
+	```
 
-### 修改容器用户（USER）
+### 修改容器用户
 如果我们想要使用**非root用户**运行（因为这样更安全），可以通过以下方式修改：
 
 **方法一：创建容器时加上参数`--user`**
@@ -469,8 +489,8 @@ spec:
 
 在k8s中，有两类账号：
 
-- 用户账号（User Account）：给人的，包括但不限于Admin，Developer等
-- 服务账号（Service Account）：给App的，用于App与k8s的交互。服务账号提供了身份信息，常见的使用案例有：
+- 用户账号（UserAccount）：给人的，包括但不限于Admin，Developer等
+- 服务账号（ServiceAccount）：给App的，用于App与k8s的交互。服务账号提供了身份信息，常见的使用案例有：
 		
 	- 与APIServer的交流
 	- 与外部服务的交流
@@ -510,30 +530,34 @@ Events:              <none>
 ```bash
 k describe pod <PodName>
 ```
-<img src="../ckad-2/7a02817007cb40a694c3ee35cb5d5a96.png" width=500 />
+<img src="../ckad-2/7a02817007cb40a694c3ee35cb5d5a96.png" width=700 />
 
-## 从集群外部使用ServiceAccount
+## 使用
+
+### 从集群外使用sa
 
 **令牌**被导出到外部应用程序，在向 Kubernetes API 发送请求的时候用该令牌进行身份验证。比如：
 
 ```bash
-curl https://192.168.56.70:6443/api -insecure --header "Authorization: Bearer eyJhxxB..."
+curl https://192.168.56.70:6443/api \
+	-insecure \
+	--header "Authorization: Bearer eyJhxxB..."
 ```
 ⚠️ `eyJhxxB...`即令牌的内容。
 
- <img src="../ckad-2/ee9e74e3bdf04f5bbf9cd0cbf07fe772.png" width=800 />
+ <img src="../ckad-2/service_account.png" width=800 />
  
-## 从集群内部某个Pod使用ServiceAccount
+### 从集群内使用sa
 假如该应用程序运行于集群的某个`Pod`上，则自动生成的**令牌**会被写入该`Pod`的`Volume`中，无需“导出”。
 
- <img src="../ckad-2/9337fed038654e6a870901735aa510a7.png" width=600 />
+ <img src="../ckad-2/service_account_2.png" width=600 />
 
-## `default` ServiceAccount
+## `default` sa
 
-k8s系统自动为每一个`Namespace`生成一个名为“default”的SA，该SA拥有特定的API权限。该`Namespace`上新建的每一个Pod都会默认分配给“default”的SA。`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该SA。
+k8s系统自动为每一个`Namespace`生成一个名为`default`的SA，该SA拥有特定的API权限。该`Namespace`上新建的每一个Pod都会默认分配给`default`的SA。`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该SA。
 
 我们可以用`k describe pod xxx`查看`Volumes` 。也可以去看Secret本身：
-<img src="../ckad-2/7afa5468dbfb4aaa92f391cee3baff5a.png" width=600 />
+<img src="../ckad-2/7afa5468dbfb4aaa92f391cee3baff5a.png" width=700 />
 
 我们用`k exec -it xxx ls /var/run/secrets/kubernetes.io/serviceaccount`进到某个Pod的终端，能看到三个文件：
 
@@ -541,7 +565,7 @@ k8s系统自动为每一个`Namespace`生成一个名为“default”的SA，该
 - namespace
 - token: token真正存了**令牌**的文件，用于访问 Kubernetes API。
 
-## 叫停默认`default` ServiceAccount的挂载
+## 叫停默认`default` sa的挂载
 我们也可以叫停`default`ServiceAccount的自动挂载（可以在 Pod 或者 Deployment 的定义文件中进行修改）：
 
 ```yaml
@@ -558,12 +582,12 @@ spec:
 
 # ---------------Deployment--------------
 .spec.template.spec:
-      automountServiceAccountToken: false		# 叫停`default`ServiceAccount的自动挂载
+    automountServiceAccountToken: false		# 叫停`default`ServiceAccount的自动挂载
 ```
 
-## 给Pod添加额外的ServiceAccount
+## 给Pod添加额外的sa
 
-`default`ServiceAccount只提供了最基础的 Kubernetes API访问权限，我们可以给Pod添加自定义的ServiceAccount以提供更多其他权限： 删掉旧的Pod，用new-pod.yml新建一个Pod（或者直接修改包含该Pod的Deployment）
+`default` ServiceAccount只提供了最基础的 Kubernetes API访问权限，我们可以给Pod添加自定义的ServiceAccount以提供更多其他权限： 删掉旧的Pod，用new-pod.yml新建一个Pod（或者直接修改包含该Pod的Deployment）
 
 ```yaml
 # ---------------Pod--------------
@@ -579,7 +603,7 @@ spec:
 
 # ---------------Deployment--------------
 .spec.template.spec:
-			serviceAccountName: robot		# 使用另一个名为`robot`的ServiceAccount
+	serviceAccountName: robot		# 使用另一个名为`robot`的ServiceAccount
 ```
 
 
@@ -603,9 +627,11 @@ spec:
     type: Container
 ```
 
-!!! warning
-		- `ResourceQuotas` 对一个NS中的总资源设限
-		- `LimitRange` 对NS上单个Container使用的资源设限
+> `.spec.limits.type` 的可能值有: `Container`, `Pod`, `PersistentVolumeClaim`
+
+!!! warning "ResourceQuotas vs LimitRange"
+	- `ResourceQuotas` 对一个NS中的总资源设限
+	- `LimitRange` 对NS中，单个 Pod/Container 使用的资源设限，目的是避免单个 Pod 或容器过度使用资源。
 
 ```yaml
 # 默认CPU：
@@ -621,6 +647,7 @@ spec:
       cpu: 0.5
     type: Container
 ```
+
 ### Pod资源配置
 如果你的`Container`需要更多的资源，你可以在`Pod`/`Deployment`的定义文件中修改`Container`的资源属性，它会覆写 `LimitRange` 中的默认值。
 
@@ -652,7 +679,7 @@ spec:
 
 k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到Node里面：
 
-<img src="../ckad-2/9dd19aa0c00f4c45bd59cea686547452.png" width=900 />
+<img src="../ckad-2/pod_in_node.png" width=900 />
 
 ## 当Pod对资源的使用超出限制时
 当某个`Container`的资源使用超出限制时，k8s会这样处理：
@@ -660,22 +687,21 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 - CPU使用过多：Kubernetes 会限制 CPU，使其不会超出指定的限制。`Container`不能使用超过其限制的 CPU 资源。
 - Memory使用过多：理论上，`Container`可以使用比其限制更多的内存资源。但是，如果一个`Pod`不断尝试消耗超过其限制的Memory，则该`Pod`将被终止。
 
-**CPU单位**
+!!! info "CPU单位"
+	- 浮点数，1CPU=1000m（m=millicpu），最小的CPU可以是1m
+	- 1 CPU = 1 vCPU，可以是：AWS的1 vCPU；GCP的1Core；Azure的1Core；1 Hyperthred
 
-- 浮点数，1CPU=1000m（m=millicpu），最小的CPU可以是1m
-- 1 CPU = 1 vCPU，可以是：AWS的1 vCPU；GCP的1Core；Azure的1Core；1 Hyperthred
-
-**Memory单位**
-
-- 1 G（Gigabyte）= 1,000,000,000 bytes
-- 1 M（Megabyte）= 1,000,000 bytes
-- 1 K（Kilogabyte）= 1,000 bytes
-- **1 Gi**（Gibibyte）= 2^30 =1,073,741,824 bytes
-- **1 Mi**（Mebibyte）= 2^20 = 1,048,576 bytes
-- **1 Ki**（Kibibyte）= 2^10 = 1,024 bytes
+!!! info "Memory单位"
+	- 1 G（Gigabyte）= 1,000,000,000 bytes
+	- 1 M（Megabyte）= 1,000,000 bytes
+	- 1 K（Kilogabyte）= 1,000 bytes
+	- **1 Gi**（Gibibyte）= 2^30 =1,073,741,824 bytes
+	- **1 Mi**（Mebibyte）= 2^20 = 1,048,576 bytes
+	- **1 Ki**（Kibibyte）= 2^10 = 1,024 bytes
 
 # 10. Pod和Node的关系
-如何保证某个`Pod`一定会放到某个`Node`上
+> 如何保证某个`Pod`一定会放到某个`Node`上?
+
 ## Taints 和 Toleration
 我要去野营，为了防止虫子随便停在我身上，我需要防虫喷雾。`Taints`相当于杀虫剂，某个`Taint`针对虫子A，但是虫子B不怕这种杀虫剂，所以虫子B有`Tolerant`。所以决定了虫子是否会落到我的身上，有两个因素：
 
@@ -685,11 +711,10 @@ k8s会根据**资源需求**去找有资源空闲的Node，然后把新Pod放到
 假设我（人）是个`Node`，虫子是`Pod`。`Taints` 和 `Toleration`两个概念与安全无关，完全只是限制什么`Pod`放在什么`Node`中的一个规则。当完全没有规则定义的时候，k8s的`Scheduler`对`Pod`进行平均分配。
 
 !!! warning
-		`Taint` 和`Toleration`只是为了将某些`Pod`排除在某个`Node`之外，它无法保证特殊的`Pod`一定会放在适合它们的`Node`上（这个由**Node Affinity**实现）。因为其他`Node`可能没有设`Taint`。
-		
-		相反，`Taint` 和`Toleration`告诉`Node`只接受具有某些 `Toleration` 的  `pod` --> 只保证Node的纯净度
+	`Taint` 和`Toleration`只是为了将某些`Pod`排除在某个`Node`之外，它无法保证特殊的`Pod`一定会放在适合它们的`Node`上（这个由**Node Affinity**实现）。因为其他`Node`可能没有设`Taint`。
+	
+	相反，`Taint` 和`Toleration`告诉`Node`只接受具有某些 `Toleration` 的  `pod` --> 只保证Node的纯净度
 
-<!--TODO：这句话我没看懂-->
 
 ### 1. 给`Node`加上`Taint`：
 
@@ -725,9 +750,10 @@ spec:
 		  effect: NoSchedule
 ```
 !!! warning
-		`tolerations`中包含的是一个数组，别忘了`-`
+		`tolerations`中包含的是一个数组，别忘了这个符号：`-`
 
-⚠️ 一般我们先用`--dry-run=client`生成`*.yaml`文件，再在文件中加上`tolerations`！
+!!! info "Best Practise"
+	一般我们先用`--dry-run=client`生成`*.yaml`文件，再在文件中加上`tolerations`！
 
 !!! note "Namespace 和 Node"
 		- Namespace是一种将集群逻辑分区为虚拟子集群的方法。--> logical partition, only for conveniency

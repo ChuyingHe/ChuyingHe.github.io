@@ -1,4 +1,4 @@
-# 1. OpenShift Users and Groups
+# 1. Users & Groups
 以下这些OC Resources与 **authentication & authorization** 有关：
 
 - `user`: credential for external entities such as user or external system, it interacts with **API server**.  
@@ -7,6 +7,7 @@
 - `group`: set of `user`
 - `role`: it defines set of allowed API operations for `user`, `group` or `serviceaccount`
 
+## Users
 
 !!! info "identity"
     ```bash
@@ -17,22 +18,34 @@
     myusers:developer      myusers    developer      developer  8dbae772-1dd4-4242-b2b4-955b005d9022
     ```
 
-!!! warning "user VS sa"
+!!! warning "`User` vs `ServiceAccount`"
     ⚠️ `serviceaccount` can be considered as ONE TYPE of `user`
 
-    ||`user`|`serviceaccount`|
+    ||`User`|`ServiceAccount`|
     |:-|:-|:-|
-    |使用者|一个人，或一个外部系统（例如 CI/CD 工具）|应用程序，或服务|
-    |管理方式|- 用户的认证信息存储在 <ins>外部系统</ins>（如身份提供商），而不是 OpenShift 内部。<br/>- OpenShift 支持多种用户认证方式|- 是集群中的资源，可以通过 YAML 或 CLI 管理。<br/>- 每个命名空间都有默认的 `default` ServiceAccount|
-    |适用场景|- 开发者、管理员等直接操作 OpenShift 集群的用户。<br/>- 通过 CLI、Web 控制台或 API 与集群交互。<br/>- 外部集成系统需要通过用户身份进行认证（如 OAuth）。|- 用于 Pod 的运行时身份，Pod 使用 ServiceAccount 与集群交互。<br/>- 自动分配 Token，用于 API 访问的身份认证。<br/>- 应用程序需要读取 ConfigMap、Secrets 等集群资源时|
+    |**使用者**|一个人，或一个外部系统（例如 CI/CD 工具）|应用程序，或服务|
+    |**管理方式**|- 用户的认证信息存储在 <ins>外部系统</ins>（如身份提供商），而不是 OpenShift 内部。<br/>- OpenShift 支持多种用户认证方式|- 是集群中的资源，可以通过 YAML 或 CLI 管理。<br/>- 每个命名空间都有默认的 `default` `ServiceAccount`|
+    |**适用场景**|- 开发者、管理员等直接操作 OpenShift 集群的用户。<br/>- 通过 CLI、Web 控制台或 API 与集群交互。<br/>- 外部集成系统需要通过用户身份进行认证（如 OAuth）。|- 用于 Pod 的运行时身份，Pod 使用 `ServiceAccount` 与集群交互。<br/>- 自动分配 Token，用于 API 访问的身份认证。<br/>- 应用程序需要读取 ConfigMap、Secrets 等集群资源时|
 
 
 !!! info "User Types"
-    1. Regular User: they are represented as `user` resource
-    2. System User: Many system users are created automatically when the infrastructure is defined. For instance: cluster administrator (with access to everything), a per-node user, users for routers and registries, and various others. <br/>System user names start with a `system:` prefix, such as `system:admin`, `system:openshift-registry`, and `system:node:node1.example.com`.
-    3. `serviceaccount`
+    1. **Regular User**: they are represented as `user` resource
+    2. **System User**: Many system users are created automatically when the infrastructure is defined, for example, cluster administrator (with access to everything), a per-node user, users for routers and registries, and various others. <br/>**Name convention**: start with a `system:` prefix, such as:
+        - `system:admin`
+        - `system:openshift-registry`
+        - `system:node:node1.example.com`
 
-## Group
+!!! info "ServiceAccount"
+    **ServiceAccount** one type of **System User** that associated with projects
+    
+    - Some created automatically during project creation
+    - Admin can create more `sa` to grant extra priviledges to Wordloads
+    - By default, `sa` has no role
+    - **Name convention**: start with a `system:serviceaccount:[Namespace]:` prefix, such as:
+        - `system:serviceaccount:default:deployer`
+        - `system:serviceaccount:accounting:builder`
+
+## Groups
 
 ```bash
 # create Group
@@ -45,11 +58,10 @@ oc adm groups add-users lead-developers user1
 
 # Authentication
 
-assigns the cluster-admin role to the student user so that the `student` user can do anything in the cluster:
+assigns the `cluster-admin` role to the student user so that the `student` user can do anything in the cluster:
 ```bash
 oc adm policy add-cluster-role-to-user cluster-admin student
 ```
-
 
 The OpenShift API has two methods for authenticating requests:
 
@@ -93,7 +105,7 @@ INFO Login to the console with user: kubeadmin, password: shdU_trbi_6ucX_edbu_aq
 
 The OpenShift OAuth server can be configured to use many identity providers. The most common ones:
 
-## HTPasswd
+## 1. HTPasswd
 
 <img src="../imgs/apache.png" width="100" />
 
@@ -194,19 +206,17 @@ spec:
 
 
 
-## Keystone
+## 2. Keystone
 Enables shared authentication with an OpenStack Keystone v3 server.
 
-## LDAP
+## 3. LDAP
 Configures the LDAP identity provider to validate usernames and passwords against an LDAPv3 server, by using simple bind authentication.
 
-## GitHub or GitHub Enterprise
+## 4. GitHub or GitHub Enterprise
 Configures a GitHub identity provider to validate usernames and passwords against GitHub or the GitHub Enterprise OAuth authentication server.
 
-## OpenID Connect
+## 5. OpenID Connect
 Integrates with an OpenID Connect identity provider by using an Authorization Code Flow.
-
-
 
 
 # 3. Define and Apply Permissions with RBAC
@@ -225,8 +235,8 @@ Integrates with an OpenID Connect identity provider by using an Authorization Co
 ## CLIs
 |CLI||
 |:-|:-|
-|`oc adm policy add-cluster-role-to-user cluster-admin username`|To change a regular user to a cluster administrator(`cluster-admin` role)|
-|`oc adm policy remove-cluster-role-from-user cluster-admin username`|To change a cluster administrator(`cluster-admin` role) to a regular user|
+|`oc adm policy add-cluster-role-to-user [RoleName] [UserName]`|To change a regular user to a cluster administrator(`cluster-admin` role)|56
+|`oc adm policy remove-cluster-role-from-user [RoleName] [UserName]`|To change a cluster administrator(`cluster-admin` role) to a regular user|
 |`oc adm policy who-can delete user`| to determine which user can perform what(`delete user` in this case)|
 
 !!! note "role & cluster role"

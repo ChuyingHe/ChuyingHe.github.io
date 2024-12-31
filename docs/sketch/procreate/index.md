@@ -1,5 +1,3 @@
-[TOC]
-
 # Workspace
 Basic operations: 
 

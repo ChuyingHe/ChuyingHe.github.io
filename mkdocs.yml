@@ -40,6 +40,7 @@ nav:
       - Helm: cloud/helm/helm-1.md
       - Kubernetes:
           - CKA:
+              - Read before exam: cloud/k8s/cka/cka-0.md
               - cka-1: cloud/k8s/cka/cka-1.md
               - cka-2: cloud/k8s/cka/cka-2.md
               - cka-3: cloud/k8s/cka/cka-3.md
@@ -47,7 +48,7 @@ nav:
               - cka-5: cloud/k8s/cka/cka-5.md
               - cka-6: cloud/k8s/cka/cka-6.md
               - cka-7: cloud/k8s/cka/cka-7.md
-              - cka-8: cloud/k8s/cka/cka-8.md
+              - 8.Storage: cloud/k8s/cka/cka-8.md
               - cka-9: cloud/k8s/cka/cka-9.md
               - cka-10: cloud/k8s/cka/cka-10.md
               - cka-11: cloud/k8s/cka/cka-11.md
@@ -57,7 +58,7 @@ nav:
               - cka-15: cloud/k8s/cka/cka-15.md
               - cka-16: cloud/k8s/cka/cka-16.md
           - CKAD:
-              - Read before exam: cloud/k8s/ckad/read_before_exam.md
+              - Read before exam: cloud/k8s/ckad/ckad-0.md
               - 1.核心概念介绍: cloud/k8s/ckad/ckad-1.md
               - 2.配置: cloud/k8s/ckad/ckad-2.md
               - 3.多容器Pod: cloud/k8s/ckad/ckad-3.md
@@ -66,7 +67,7 @@ nav:
               - 6.服务与网络: cloud/k8s/ckad/ckad-6.md
               - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
-              - 其他: cloud/k8s/ckad/ckad-0.md
+              - 其他: cloud/k8s/ckad/ckad-9.md
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
           - Installation: cloud/openshift/installation.md
@@ -155,3 +156,6 @@ theme:
   name: material
   features:
     - content.tabs.link
+    - navigation.prunes
+extra_css:
+  - stylesheets/extra.css

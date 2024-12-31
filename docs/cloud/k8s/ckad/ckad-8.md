@@ -1,5 +1,3 @@
-[TOC]
-
 # 镜像生成
 当我们在镜像库（比如[Dockerhub](https://hub.docker.com/)）中找不到所需的镜像时，我们可以选择自己创建镜像：
 `Dockerfile`文件本质上是一个Docker能够理解的 txt文件。
@@ -306,8 +304,11 @@ users:                                              # users列表
 
 查看正在使用的`KubeConfig`文件：
 ```bash
-kubectl config view   # 查看默认文件路径下的KubeConfig
-kubectl config view --kubeconfig=my-customized-config   # 查看某个特定的KubeConfig
+# 查看默认文件路径下的KubeConfig，或者直接查看文件： $HOME/.kube/config
+kubectl config view
+
+# 查看某个特定的KubeConfig
+kubectl config view --kubeconfig=my-customized-config   
 ```
 
 用自定义的`KubeConfig`文件代替默认的：

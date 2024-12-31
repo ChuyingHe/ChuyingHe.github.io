@@ -1,6 +1,3 @@
-[TOC]
-
-
 # Installation
 
 1. `cdnjs` url

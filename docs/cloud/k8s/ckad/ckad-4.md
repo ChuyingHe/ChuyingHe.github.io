@@ -1,10 +1,16 @@
-[TOC]
-
 # 1. Pod的生命周期
-被用来形容`Pod`的状态的有**Pod Status**和**Pod Condition**：
-## Pod Status 
-`Pod Status`告诉我们当前的`Pod`在生命周期的哪一个阶段：
+被用来形容`Pod`的状态的有**Pod Status**和**Pod Condition**，总的来说 Status 是整体状态的高层次总结，Condition 提供更细粒度的信息，描述 Pod 的具体运行条件和状态。
 
+|特性|Pod Status|Pod Condition|
+|:-|:-|:-|
+|目的|提供 Pod 的整体生命周期状态。|提供 Pod 的详细运行条件信息。可以看到带timestamp的历史条件变化|
+|字段位置|`.status.phase`|`.status.conditions`|
+|可能值|只有有限的几个可能值：<br/>Pending, Running, Succeeded, Failed, Unknown|是一个数组，每个条件都有类型、状态、最后变化时间等字段，可能的条件有：<br/>PodScheduled, Ready, Initialized, ContainersReady 等。|
+|详细程度|高层次、简要总结。|细粒度、多条件描述。|
+|信息用途|查看 Pod 的生命周期状态，便于快速判断当前状态。|查看 Pod 的具体状态变化，便于排查问题或调试。|
+
+
+## Pod Status 
 |Pod Status|解释|
 |:--|:--|
 |`Pending`|`Pod`刚刚建成， **k8s的Scheduler** 正在考虑把`Pod`放在哪一个`Node`上。如果Scheduler没有办法决定把`Pod`放哪里那么就会一直处于`Pending`状态<br/><br/>可用 `k describe pod/xxx` 查看原因（比如是资源不足导致的）|
@@ -12,8 +18,24 @@
 |`Waiting`|Pod被排到了某个`Node`上，但出于某种原因，`Pod`没有办法跑。原因多种多样，比如镜像没有办法下载等|
 |`Running`|容器顺利地创建好了，App在跑了|
 
+
+!!! note "Example in YAML file"
+    ```yaml
+    status:
+      phase: Running
+    ```
+    
+!!! note "k describe"
+    `k describe pod/xxx用于`查看`Status`属性：
+
+    ```bash
+    NAME       READY   STATUS      RESTARTS      AGE
+    elephant   0/1     OOMKilled   3 (33s ago)   54s
+    monkey     1/1     READY   	   3 (33s ago)   54s
+    ```
+    ⚠️ 结果中`READY`列代表：`Pod中READY的Container的数量` / `Pod中Container的总数`，比如`1/1`
+
 ## Pod Condition
-总而言之，**Pod Status** 提供有关 Pod 整体状态的信息，而 **Pod Condition** 提供有关 **Pod 及其 Container** 特定方面的健康和状态的更详细信息。k8s提供了四个Conditions，可以用`k describe pod/xxx`查看`Condition`属性：
 
 |Pod Status|解释|
 |:--|:--|
@@ -22,13 +44,28 @@
 |`ContainersReady`|`Pod`上所有容器都运行正常|
 |`Ready`|`Pod`上所有容器可以通过Service被用户访问到 --> 这个属性也能在`k get pods`中的表格中看到，例子如下：|
 
-```bash
-NAME       READY   STATUS      RESTARTS      AGE
-elephant   0/1     OOMKilled   3 (33s ago)   54s
-monkey     1/1     READY   	   3 (33s ago)   54s
-```
-⚠️ 结果中`READY`列代表：`Pod中READY的Container的数量` / `Pod中Container的总数`，比如`1/1`
 
+!!! note "Example in YAML file"
+    ```yaml
+    status:
+      conditions:
+        - type: PodScheduled
+          status: True
+          lastProbeTime: null
+          lastTransitionTime: "2024-12-01T10:00:00Z"
+        - type: Ready
+          status: True
+          lastProbeTime: null
+          lastTransitionTime: "2024-12-01T10:05:00Z"
+        - type: ContainersReady
+          status: True
+          lastProbeTime: null
+          lastTransitionTime: "2024-12-01T10:05:00Z"
+        - type: Initialized
+          status: True
+          lastProbeTime: null
+          lastTransitionTime: "2024-12-01T09:55:00Z"
+    ```
 
 # 2. Readiness和Liveness监测
 ## Probe的三种写法
@@ -52,6 +89,20 @@ exec:
    	- cat
    	- /app/is_ready
 ```
+
+### TCP vs HTTP
+
+<video
+  muted
+  loop
+  preload="auto"
+  autoPlay
+  playsInline
+  src="../ckad-4/tcp_vs_http.mp4"
+  width="700"
+></video>
+
+
 
 **Probe的配置**
 
@@ -88,7 +139,7 @@ spec:
 
 ### LivenessProbe
 !!! note "Docker VS Kubernetes"
-    当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，其中的App无法被使用了，那需要开发者手动删除出问题的`Container`，再重新建一个。而Kubernetes会自动尝试删除旧的`Container`，建一个新的
+    当我们用Docker创建一个`Container`时，如果一个`Container`突然出问题，其中的App无法被使用了，那需要开发者手动删除出问题的`Container`，再重新建一个。而Kubernetes会自动尝试删除旧的`Container`，建一个新的 --> Pod/Container由Deployment管理和执行
 
 有时会我们会遇到`Container`本身没有问题，但是`Container`中的App因为某个bug而出错的情况（比如，python代码中某个依赖包无法找到）。这种情况下`Pod`没有办法监测到内部App的问题，我们就需要用到**LivenessProbe** ，它可以定期测试容器内的应用程序是否真的健康。如果测试失败，则该`Container`被认为不健康，会被销毁并重建。举例：
 ```yaml
@@ -158,7 +209,7 @@ k8s没有提供自带的监测工具，但是有很多开源的第三方服务�
 ### 日志的生成
 每个`Node`上都有一个**kubelet**代理，负责接收Master的指令，并且管理该`Node`上的`Pod`。该代理拥有一个名为**cAdvisor**（container advisor）的子组件，专门负责收集Pod的日志。
 
-<img src="../ckad-4/8276bcbcae7642d98ee1d119721bfcc9.png" width=500 />
+<img src="../ckad-4/metricsserver.png" width=500 />
 
 ### MetricsServer的安装
 使用minikube安装： 

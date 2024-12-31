@@ -1,5 +1,3 @@
-[TOC]
-
 多Pod容器有多种**设计模式**，包括**Ambassador**，**Adapter**和**Sidecar**。我们会一一对他们进行学习。
 
 # 1. 为何需要多容器Pod
@@ -14,8 +12,8 @@
 - 分享同一个network：可以相互引用为`localhost`
 - 访问同一个volume
 
-当用户访问量增多，我们需要扩大应用规模的时候，我们只需多见几个Pod就可以了：
-<img src="../ckad-3/29a6046b28464ffc94bac7392589e8d0.png" width=800 />
+当用户访问量增多，我们需要扩大应用规模的时候，我们只需多建几个Pod就可以了：
+<img src="../ckad-3/scale.png" width=800 />
 
 举例：多容器Pod的定义文件
 
@@ -40,21 +38,21 @@ spec:
 ## Sidecar
 在同一个`Pod`中，给每个配对的 Web 服务器配一个日志服务的实例。然后将不同Pod中日志服务记录下来的日志发送到一个**中央服务器**。
 
-<img src="../ckad-3/pod_pattern_sidecar.png" width=400 />
+<img src="../ckad-3/pod_pattern_sidecar.png" width=600 />
 
 ## Adapter
 是基于**Sidecar**设计模式的变种。唯一的区别是在发送日志到**中央服务器**之前，先对日志格式进行处理，以便**中央服务器**可以收到数据格式相同的对日志。
 
-<img src="../ckad-3/pod_pattern_adapter.png" width=400 />
+<img src="../ckad-3/pod_pattern_adapter.png" width=600 />
 
 
 ## Ambassador
 假设你有`dev`，`prod`两个个数据库，分别对应开发和生产两个应用场景。如何判断当前环境，并选择正确的数据库呢？我们可以选择将此类逻辑外包给 `Pod` 中的**某一个特定容器**，该容器就扮演了一个**大使（Ambassador）**的角色。
 
-<img src="../ckad-3/pod_pattern_ambassador.png" width=400 />
+<img src="../ckad-3/pod_pattern_ambassador.png" width=600 />
 
 
-!!! note
+!!! warning
     这三种是不同的软件设计模式，当我们用yaml文件写`Pod`时，定义文件其实并 **没有** 区别！
 
 # 3. initContainer
