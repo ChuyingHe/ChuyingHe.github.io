@@ -87,8 +87,8 @@ nav:
               - 1. Manifest & Kustomize: cloud/openshift/do280/01_manifest_kustimize.md
               - 2. OC Template & Helm Chart: cloud/openshift/do280/02_template_helm.md
               - 3. Authentication and Authorization: cloud/openshift/do280/03_auth.md
-              - 4: cloud/openshift/do280/04.md
-              - 5: cloud/openshift/do280/05.md
+              - 4. Network Security: cloud/openshift/do280/04_network_security.md
+              - 5. Expose SNI Application: cloud/openshift/do280/05_expose_sni_app.md
               - 6: cloud/openshift/do280/06.md
               - 7: cloud/openshift/do280/07.md
               - 8: cloud/openshift/do280/08.md

@@ -237,9 +237,8 @@ Integrates with an OpenID Connect identity provider by using an Authorization Co
 ## Authorization with RBAC
 **Role-based access control (RBAC)** is a technique for managing access to resources in a computer system. RBAC determines whether a user can perform certain actions within the cluster or project. There are 2 RBAC levels:
 
-- Cluster RBAC: Roles and bindings that apply across all projects.
-- Local RBAC: Roles and bindings that are scoped to a given project. Local role bindings can reference both cluster and local roles.
-cloud/k8s/ckad/ckad-8/#3rbac
+- **Cluster RBAC**: Roles and bindings that apply across all projects.
+- **Local RBAC**: Roles and bindings that are scoped to a given project. Local role bindings can reference both cluster and local roles.
 
 > 👉 See more illustration [here](../../k8s/ckad/ckad-8.md#3rbac) 
 
@@ -259,6 +258,7 @@ Cluster-wide:
 |`oc adm policy who-can delete user`| to determine which user can perform what(`delete user` in this case)|
 |`oc adm groups new [GroupName]`| to add new group to cluster|
 |`oc adm groups add-users [GroupName] [UserName]`| to add user to a group|
+|`$ oc adm policy remove-cluster-role-from-group [RoleName] [GroupName]`| to remove role from a group|
 
 Namespace-specific:
 

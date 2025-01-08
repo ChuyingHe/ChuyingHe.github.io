@@ -716,6 +716,7 @@ k logs ingress-nginx-controller-ffc6b494b-b7vms -n ingress-nginx
 
 # 3. NetworkPolicy
 <img src="../ckad-6/6ada1cda6fbf42439357ee2a4d31445b.png" width=200 />
+
 NetworkPolicy（`netpol`） 是 Kubernetes 中用于控制 Pod 网络流量的规则。通过 Network Policies，可以定义哪些流量（入站和/或出站）可以到达 Pod 或从 Pod 发出。
 
 
@@ -781,9 +782,38 @@ kubectl create -f policy-definition.yaml
 !!! warning "AND vs OR"
 	`from`中包含的内容是否作为数组的元素存在很重要！如下：
 
-	| `namespaceSelector` AND `podSelector` | `namespaceSelector` OR `podSelector` |
+	| As combined item | As separated items in list |
 	|--|--|
-	| <img src="../ckad-6/c00298c19d8b4c8c992d5f4cc135859a.png" /> | <img src="../ckad-6/8cae9a4ae09c4c919f8ae201159ee3be.png" /> |
+	|For example, `namespaceSelector` AND `podSelector` <br/> <img src="../ckad-6/c00298c19d8b4c8c992d5f4cc135859a.png" /> |For example, `namespaceSelector` OR `podSelector` <br/>  <img src="../ckad-6/8cae9a4ae09c4c919f8ae201159ee3be.png" /> |
+
+!!! warning "more than one `netpol`"
+	If a pod is matched by selectors in one or more `netpol`s, then the pod accepts only connections that at least one of those `netpol` allows.
+
+!!! warning
+	If a pod does not match any `netpol`, then OpenShift does NOT restrict traffic to that pod.
+
+!!! warning "Where does `netpol` apply?"
+	Network policies control only **internal traffic** from pods that do not use **host networking**.
+
+	网络策略只适用于 使用 Kubernetes 虚拟网络的 Pod 的内部流量，即 Pod 之间通过集群网络通信的流量。对于那些配置了 主机网络（host networking） 的 Pod，由于它们直接使用主机的网络栈，因此网络策略对它们的流量 不起作用:
+
+	- **Internal Traffic（内部流量）**：指 Pod 之间通过 Kubernetes 虚拟网络进行的通信。Pod A 通过服务（Service）访问 Pod B，例如 backend-service.default.svc.cluster.local。
+	- **Host Networking（主机网络）**：指 Pod 与节点共享网络栈，不再使用 Kubernetes 的虚拟网络，此时网络策略对流量无效。即，如果 Pod 配置了 `hostNetwork: true`：
+		<pre><code>
+		apiVersion: v1
+		kind: Pod
+		metadata:
+			name: host-network-example
+			namespace: default
+		spec:
+			<span style="background-color: #FFFF00">hostNetwork: true</span>
+			containers:
+			- name: nginx
+				image: nginx:latest
+				ports:
+				- containerPort: 80
+		</pre></code>
+
 
 
 # 4. 标签&选择器（Labels & Selectors）
