@@ -88,9 +88,8 @@ However, in some cases, connecting some pods to a custom network could be useful
 ## Multus 安装
 [Multus Doc](https://github.com/k8snetworkplumbingwg/multus-cni)
 
-**Multus CNI 插件** 允许集群中的 Pod 使用多个网络接口。它充当一个多功能的网络插件，能够将多个 CNI 插件（如 Flannel、Calico、SR-IOV 等）整合在一起，赋予每个 Pod 连接到多个网络的能力。
+**Multus CNI 插件** 允许集群中的 Pod 使用多个网络接口。它充当一个**元插件/meta-plugin**，能够将多个 CNI **插件/plugin**（如 Flannel、Calico、SR-IOV 等）整合在一起，赋予每个 Pod 连接到多个网络的能力。
 
---> This is accomplished by Multus acting as a **"meta-plugin"**, a CNI plugin that can call multiple other CNI plugins.
 
 
 !!! warning "Multus vs Default CNI in cluster"
@@ -99,19 +98,21 @@ However, in some cases, connecting some pods to a custom network could be useful
         - oc uses `SDN` or `OVN-Kubernetes`
     - **Multus meta-plugin** adds support for secondary networks by allowing Pods to connect to additional networks, but it doesn't replace the default network functionality.
 
-
-!!! note "Multus CNI & other CNI"
-    其他CNI 插件可通过Operators来安装。 比如 **Kubernetes NMState operator** 或 **SR-IOV (Single Root I/O Virtualization) network operator**。他们与Multus CNI的关系如图:
+!!! info "meta-plugin"
+    **meta-plugin** is a plugin that can call multiple other plugins.
+    
+    Multus CNI Plugin is a **meta-plugin**. 其他CNI 插件可通过Operators来安装。 比如 **Kubernetes NMState operator** 或 **SR-IOV (Single Root I/O Virtualization) network operator**。他们与Multus CNI的关系如图:
 
     <img src="../imgs/multus_cni.png" width="300" />
 
 ## 配置 Secondary Network
-Two ways to configure secondary networks:
+Two methods to configure secondary networks:
 
 1. create a `NetworkAttachmentDefinition` resource. 
 2. update the configuration of the **cluster network operator**
 
-### 1. create `NetworkAttachmentDefinition`
+### Method 1: create `NetworkAttachmentDefinition`
+
 <pre>
 <code>
 apiVersion: k8s.cni.cncf.io/v1
@@ -147,10 +148,50 @@ spec:
     - **MACVLAN**: Creates an MACVLAN-based network that is attached to a network interface.
 
 
-### 2. update Network Operator
+### Method 2: update Network Operator
+You can also create the same network attachment by editing the **cluster network operator configuration**:
+<pre>
+<code>
+apiVersion: operator.openshift.io/v1
+kind: Network
+metadata:
+  name: cluster
+spec:
+...output omitted...
+  <span style="background-color: #FFFF00">additionalNetworks:</span>
+  - name: example
+    namespace: example
+    <span style="background-color: #FFFF00">rawCNIConfig: |- 
+      {
+        "cniVersion": "0.3.1",
+        "name": "example", 4
+        "type": "host-device", 5
+        "device": "ens4",
+        "ipam": { 6
+          "type": "dhcp"
+        }
+      }</span>
+    type: Raw
+</code>
+</pre>
+
+
+!!! note "`ipam`"
+    The IP Address Management (`ipam`) CNI plug-in provides IP addresses for other CNI plug-ins.
+
+    You can provide more complex network configurations in the ipam key. For example:
+    ```yaml
+    "ipam": {
+      "type": "static",
+      "addresses": [
+        {"address": "192.168.X.X/24"}
+      ]
+    }
+    ```
 
 ## 使用Secondary Network
-Network attachment resources are **namespaced**, and are available only to pods in their namespace.
+!!! warning
+    Network attachment resources are **namespaced**, and are available only to pods in their namespace.
 
 To use the **Secondary Network**, simply add `annotation` to the `deployment`:
 <pre>
@@ -176,3 +217,35 @@ spec:
 ...
 </code>
 </pre>
+
+Multus updates the `k8s.v1.cni.cncf.io/network-status` annotation with the status of the additional networks.
+<pre>
+<code>
+[user@host ~]$ oc get pod example \
+  -o jsonpath='{.metadata.annotations.k8s\.v1\.cni\.cncf\.io/network-status}'
+[{
+    <span  style="background-color: #FFFF00">"name": "ovn-kubernetes",</span>
+    "interface": "eth0",
+    "ips": [
+        "10.8.0.59"
+    ],
+    "mac": "0a:58:0a:08:00:3b",
+    <span  style="background-color: #FFFF00">"default": true,</span>
+    "dns": {}
+},{
+    <span  style="background-color: #b0b4d6">"name": "non-http-multus/example",</span>
+    "interface": "net1",
+    "ips": [
+        "1.2.3.4"
+    ],
+    "mac": "52:54:00:01:33:0a",
+    "dns": {}
+}]
+</code>
+</pre>
+
+
+There are 2 networks attached to the `pod`:
+
+1. `ovn-kubernetes`: the primary network attachment managed by the OVN-Kubernetes CNI plugin, which is the default network(indicated by `"default": true`) for the OpenShift cluster.
+2. `non-http-multus/example`: a secondary network attachment created using the Multus CNI.

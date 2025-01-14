@@ -327,7 +327,26 @@ metadata:
 
 `ResourceQuota`用于给 **某个`Namespace`的总资源** 设限比如`Pod`的数量，`CPU`数量，内存大小等等。
 
-用 YAML 新建 ResourceQuota：
+!!! note "Quotas's Types"
+	有两种类型的限制：
+
+	**1. Compute Resource Quotas** <br/>
+		- **Limit Quota**: 容器可以使用的最大资源量，用于控制容器的资源使用上限，防止容器使用过多资源，影响其他容器的运行。（`limits.cpu`，`limits.memory`）
+		- **Request quotas**: 容器希望获得的资源。用于确保容器能够获得至少一定量的资源。（`requests.cpu`，`requests.memory`）
+
+	**2. Object Count Quotas**: limit the number of resources
+
+
+举例：`limits.cpu: "10"` 表示当前 Namespace 中所有 `non-terminal` 状态的 Pod 的`.limits.cpu`资源的总和没有超过 10
+
+!!! info "什么是 terminal状态的Pod？"
+	Pod which has `.status==Failed` or `.status=succeeded`
+
+!!! warning
+	After setting any compute quota, all workloads must define the corresponding request or resource limit. For example, if you create a `limits.cpu` quota, then the **workloads** that you create require the `resources.limits.cpu` key.
+
+### 创建ResourceQuota的3种方法
+#### 1. YAML
 ```yaml
 apiVersion: v1
 kind: ResourceQuota
@@ -335,18 +354,47 @@ metadata:
   name: compute-quota
   namespace: dev
 spec:
-  hard:
-    pods: "10"
+  <span style="background-color: #FFFF00">hard:</span>
+    count/pods: "10"
+
     requests.cpu: "4"
     requests.memory: 5Gi
     limits.cpu: "10"
     limits.memory: 10Gi
+  scopes: {} 
+  scopeSelector: {} 
 ```
 
-举例：`limits.cpu: "10"` 表示当前 Namespace 中所有 `non-terminal` 状态的 Pod 的`.limits.cpu`资源的总和没有超过 10
+#### 2. Web Console
+Administration > ResourceQuotas
 
-!!! info "什么是 terminal状态的Pod？"
-	Pod which has `.status==Failed` or `.status=succeeded`
+<img src="../ckad-1/rq_webconsole.png" width="400" />
+
+#### 3. CLI
+```bash
+oc create resourcequota example --hard=count/pods=1
+oc create resourcequota example --hard=count/deployments.apps=1 # ⚠️ 不是 count/deployment
+```
+
+!!! note
+	The previous command is equivalent to creating a resource quota with the following definition:
+
+	```yaml
+	apiVersion: v1
+	kind: ResourceQuota
+	metadata:
+		name: example
+	spec:
+		hard:
+			count/pods: "1"
+	```
+### 查看ResourceQuota
+```bash
+oc get quota example -o yaml
+# or
+oc get quota
+```
+
 
 # >>> 本章 kubectl 命令整理
 

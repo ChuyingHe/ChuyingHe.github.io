@@ -827,11 +827,6 @@ k create -f flightticket.yaml
 k get flightticket
 ```
 
-# Operator Framework
-在上面的两章中，我们需要分别自定义CRD和Controller，才能正常使用自定义的Resource。本章中有更简单高效的方法：`Operator Framework`。`Operator Framework`打包了CRD和Controller，以及其他所需的东西。
-
-在数据库[operatorhub.io](https://operatorhub.io/)中有许多可用的Operators
-
 
 # Deployment Strategies
 我们之前讨论过两个Deployment Strategies，然而还有更多的Strategies：

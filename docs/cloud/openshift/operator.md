@@ -1,7 +1,7 @@
 ## Operator
 capability levels
 
-<img src="./assets/operator-capability-level.png" width=600 />
+<img src="../assets/operator-capability-level.png" width=600 />
 
 |Capability Level|Explaination|Example(Database Operator)|
 |:--|:--|:--|
