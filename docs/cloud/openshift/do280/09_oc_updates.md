@@ -294,7 +294,7 @@ oc patch installplan install-72vnw --type merge \
         phase: RequiresApproval
     ```
 
-    <img src="../imgs/review-install-plan" />
+    <img src="../imgs/review-install-plan.png" />
 
 !!! warning "automatic VS manual"
     no matter `automatic` or `manual`, the OLM always updates an operator as soon as the configured channel has a later version of the operator.
