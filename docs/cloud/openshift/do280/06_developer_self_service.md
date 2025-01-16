@@ -127,7 +127,7 @@ kind: Template
 metadata:
   creationTimestamp: null
   name: project-request
-<span  style="background-color: #FFFF00">objects:</span>
+<span  style="background-color: #727bb8">objects:</span>
 - apiVersion: project.openshift.io/v1
   kind: Project
   metadata:
@@ -153,7 +153,7 @@ metadata:
   - apiGroup: rbac.authorization.k8s.io
     kind: User
     name: ${PROJECT_ADMIN_USER}
-<span  style="background-color: #FFFF00">parameters:</span>
+<span  style="background-color: #727bb8">parameters:</span>
 - name: PROJECT_NAME
 - name: PROJECT_DISPLAYNAME
 - name: PROJECT_DESCRIPTION
@@ -192,7 +192,7 @@ metadata:
 ...output omitted...
   name: cluster
 ...output omitted...
-<span  style="background-color: #FFFF00">
+<span  style="background-color: #727bb8">
 spec:
   projectRequestTemplate:
     name: project-request

@@ -354,7 +354,7 @@ metadata:
   name: compute-quota
   namespace: dev
 spec:
-  <span style="background-color: #FFFF00">hard:</span>
+  <span style="background-color: #727bb8">hard:</span>
     count/pods: "10"
 
     requests.cpu: "4"

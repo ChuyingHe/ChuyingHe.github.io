@@ -42,7 +42,7 @@ After you create the service, the **load balancer component**(such as **MetalLB*
 <pre><code>
 [user@host ~]$ kubectl get service
 NAME         TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)          AGE
-example-lb   LoadBalancer   172.30.21.79     <span  style="background-color: #FFFF00">192.168.50.20   1234</span>:31265/TCP   4m7s
+example-lb   LoadBalancer   172.30.21.79     <span  style="background-color: #727bb8">192.168.50.20   1234</span>:31265/TCP   4m7s
 
 <!-- or -->
 [user@host ~]$ oc get example-lb -o jsonpath="{.status.loadBalancer.ingress}"
@@ -118,15 +118,15 @@ Two methods to configure secondary networks:
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: example <span  style="background-color: #FFFF00"># 1</span>
+  name: example <span  style="background-color: #727bb8"># 1</span>
 spec:
   config: |-
     {
       "cniVersion": "0.3.1",
-      "name": "example", <span  style="background-color: #FFFF00"># 2</span>
-      "type": "host-device", <span  style="background-color: #FFFF00"># 3</span>
+      "name": "example", <span  style="background-color: #727bb8"># 2</span>
+      "type": "host-device", <span  style="background-color: #727bb8"># 3</span>
       "device": "ens4",
-      "ipam": { <span  style="background-color: #FFFF00"># 4</span>
+      "ipam": { <span  style="background-color: #727bb8"># 4</span>
         "type": "dhcp"
       }
     }
@@ -158,10 +158,10 @@ metadata:
   name: cluster
 spec:
 ...output omitted...
-  <span style="background-color: #FFFF00">additionalNetworks:</span>
+  <span style="background-color: #727bb8">additionalNetworks:</span>
   - name: example
     namespace: example
-    <span style="background-color: #FFFF00">rawCNIConfig: |- 
+    <span style="background-color: #727bb8">rawCNIConfig: |- 
       {
         "cniVersion": "0.3.1",
         "name": "example", 4
@@ -209,7 +209,7 @@ spec:
   template:
     metadata:
       annotations:
-        <span  style="background-color: #FFFF00">k8s.v1.cni.cncf.io/networks: example</span>
+        <span  style="background-color: #727bb8">k8s.v1.cni.cncf.io/networks: example</span>
       labels:
         app: example
         name: example
@@ -224,13 +224,13 @@ Multus updates the `k8s.v1.cni.cncf.io/network-status` annotation with the statu
 [user@host ~]$ oc get pod example \
   -o jsonpath='{.metadata.annotations.k8s\.v1\.cni\.cncf\.io/network-status}'
 [{
-    <span  style="background-color: #FFFF00">"name": "ovn-kubernetes",</span>
+    <span  style="background-color: #727bb8">"name": "ovn-kubernetes",</span>
     "interface": "eth0",
     "ips": [
         "10.8.0.59"
     ],
     "mac": "0a:58:0a:08:00:3b",
-    <span  style="background-color: #FFFF00">"default": true,</span>
+    <span  style="background-color: #727bb8">"default": true,</span>
     "dns": {}
 },{
     <span  style="background-color: #b0b4d6">"name": "non-http-multus/example",</span>

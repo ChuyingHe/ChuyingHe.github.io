@@ -82,7 +82,7 @@ kubectl apply -f resource.yaml
 !!! warning "rollout"
     If an updated Manifest changes only values in **Secret** or **ConfigMap**, the updated Manifest does NOT generate new pods automatically. Instead:
 
-    - use `oc rollout restart deployment/deployment-name` to _force the restart_.
+    - use `oc rollout restart deployment/deployment-name` to <ins>force the **restart**</ins> --> 是重启，不是回滚到上一个版本
     - if `spec.replica` == 1, you can also delete the previous pod.
 
 
@@ -120,7 +120,7 @@ Use the `oc diff -f .`（或`kubectl diff -f .`） command to review differences
 # 2. Kustomize
 <img src="../imgs/kustomize_logo.jpg" width="400" />
 
-**Kustomize** 是一个开源的Kubernetes **配置管理工具**，用于对Kubernetes 清单文件进行自定义和修改。 它允许用户通过分层和声明式的方式管理和定制应用程序的配置，而无需直接修改原始的清单文件，促进了配置的复用和可维护性。
+**Kustomize** 是一个开源的Kubernetes **配置管理工具**，用于对Kubernetes 清单文件进行自定义和修改。 它允许用户通过分层和声明式的方式管理和定制应用程序的配置，而无需直接修改原始的清单文件，促进了配置的复用和可维护性。我们可以用Kustomize配置多个环境，比如：
 
 - development
 - staging
@@ -213,7 +213,7 @@ resources:
 
 
 ### Patch
-Besides **overlays**, one can also use **patching** for customizization. The patches mechanism has several important keys: `patch`, `target` and `path`.
+Besides **overlays**, one can also use **patching** for customization. The patch mechanism has several important keys: `patch`, `target` and `path`.
 
 **Way 1: `patch` and `target`**
 
@@ -254,7 +254,6 @@ commonLabels: # (6)
     (6) The commonLabels field adds the env: test label to all resources.<br/>
 
 **Way 2: `path`**
-
 
 The patch.yaml file has the following content:
 ```yaml
@@ -297,6 +296,7 @@ commonLabels: # (6)
 
 
 
+
 ## CLIs
 
 E.g.: Taking `overlay/production` as the kustomization directory we want to use: 
@@ -304,7 +304,9 @@ E.g.: Taking `overlay/production` as the kustomization directory we want to use:
 |Command|Description|
 |:--|:--|
 |`kubectl kustomize overlay/production`|processes the Kustomize overlay located in the directory overlay/production and outputs the resulting Kubernetes manifests.|
-|`kubectl apply -k overlay/production`|update/create resources.<br/>`-k` flag means: applies a **kustomization**|
+|`kubectl apply -k overlay/production`|update/create resource using `overlay/production` layer. update/create resources.<br/>`-k` flag means: applies a **kustomization**|
+|`oc apply -k base`|use `base` layer|
+|`oc apply -k overlay/production`|update/create resource using `overlay/production` layer. update/create resources.<br/>`-k` flag means: applies a **kustomization**|
 |`oc delete -k overlay/production`|delete resources that were deployed by using **Kustomize**|
 
 
@@ -461,3 +463,14 @@ generatorOptions:
     - `-d` highlights the difference
 
     ➡️ Use `Ctrl+C` to exit the watch model
+
+
+# CLIs
+Extract the contents of the secret:
+
+```bash
+oc extract secret/db-secrets-55cbgc8c6m --to=-
+```
+
+- The `--to` option specifies the destination for the extracted files.
+- The `-` (dash) is a common convention in Unix-like systems that represents standard output (stdout).

@@ -62,7 +62,7 @@ spec:
 
 
 # 2. 持久卷（PersistentVolume / PV）
-我们想要一个 <span style="background-color: #FFFF00">更中心化</span> 的解决方法，如有某个**多Node的应用**需要修改存储空间，管理员（Administrator）可以统一对其进行管理。**持久卷池**可以帮我们解决这个问题。
+我们想要一个 <span style="background-color: #727bb8">更中心化</span> 的解决方法，如有某个**多Node的应用**需要修改存储空间，管理员（Administrator）可以统一对其进行管理。**持久卷池**可以帮我们解决这个问题。
 
 持久卷是**Cluster**层级的，放满 **存储卷** 的池子（Pool），由集群的管理员进行管理和配置。然后由Pod根据自己的需求发送 **存储卷请求（PersistentVolumeClaim / PVC）**。
 

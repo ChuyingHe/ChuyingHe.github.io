@@ -274,7 +274,7 @@ kubectl create job math-add-job \
     <td>
 <small><pre><code>
 apiVersion: batch/v1
-<span style="background-color: #FFFF00">kind: Job</span>
+<span style="background-color: #727bb8">kind: Job</span>
 metadata:
 	name: math-add-job
 <div style="background-color: lightgray">
@@ -295,12 +295,12 @@ spec:
     <td>
 <small><pre><code>
 apiVersion: batch/v1
-<span style="background-color: #FFFF00">kind: CronJob</span>
+<span style="background-color: #727bb8">kind: CronJob</span>
 metadata:
 	name: reporting-cron-job
 spec:
-	<span style="background-color: #FFFF00">schedule: "1 * * * *"</span>
-	<span style="background-color: #FFFF00">jobTemplate:</span>
+	<span style="background-color: #727bb8">schedule: "1 * * * *"</span>
+	<span style="background-color: #727bb8">jobTemplate:</span>
 <div style="background-color: lightgray">
 		spec:
 			completions: 3

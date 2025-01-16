@@ -105,13 +105,13 @@ IP address由两个部分组成：**网络地址（Network ID）** 和 **主机�
 - **外部IP**：由你的网络供应商提供，你访问一个网页时（比如百度），百度可以看到你的外部IP地址，知道你是从哪儿来的。<br/>
 	<pre><code>
 	# ifconfig=InterFace config
-	curl <span style="background-color: #FFFF00">if</span>config.me
+	curl <span style="background-color: #727bb8">if</span>config.me
 	</code></pre>
 	
 - **内部IP**：是自动生成的。人如其名，只做内部使用。比如，用于在家庭网络中识别你的身份信息。<br/>
 	<pre><code>
 	# ipconfig=Internet Protocol configuration
-	<span style="background-color: #FFFF00">ip</span>config getifaddr en0
+	<span style="background-color: #727bb8">ip</span>config getifaddr en0
 	</code></pre>
 
 <img src="../ckad-6/28a6f7c5d63b4ccb836b22f3990464fb.png" width=500 title="source: https://www.avast.com/c-what-is-an-ip-address" />
@@ -806,7 +806,7 @@ kubectl create -f policy-definition.yaml
 			name: host-network-example
 			namespace: default
 		spec:
-			<span style="background-color: #FFFF00">hostNetwork: true</span>
+			<span style="background-color: #727bb8">hostNetwork: true</span>
 			containers:
 			- name: nginx
 				image: nginx:latest
