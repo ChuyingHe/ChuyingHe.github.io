@@ -3,7 +3,7 @@
 
 - `user`: credential for external entities such as user or external system, it interacts with **API server**.  
 - `identiy`: keeps a record of successful authentication attempts from a specific user and identity provider. 
-- `serviceaccount` / `sa`: credential for applications/services running on the cluster。
+- `serviceaccount` / `sa`: credential for applications/services running on the cluster
 - `group`: set of `user`
 - `role`: it defines set of allowed API operations for `user`, `group` or `serviceaccount`
 
@@ -114,13 +114,12 @@ It validates usernames and passwords against a secret that stores credentials th
 
 !!! info "htpasswd flags"
     - `-c`: Create a new password file. This flag overwrites the existing file if it already exists.
-    - `-B`:	Use bcrypt for hashing the password. Bcrypt is a secure and computationally expensive algorithm, making it a strong choice for password hashing.
+    - `-B`:	Use **bcrypt encryption** for hashing the password. Bcrypt is a secure and computationally expensive algorithm, making it a strong choice for password hashing. <br/> If not, then use MD5 hashing algorithm for hasing
     - `-b`:	Batch mode. Allows you to pass the password directly on the command line, rather than being prompted interactively.
     - `-D` Delete user
 
 
-### Create user
-Creating an HTPasswd File:
+### 1. Create HTPasswd File
 
 ```bash
 # Create the htpasswd file
@@ -132,21 +131,6 @@ htpasswd -b /tmp/htpasswd student redhat1234
 
 # delete
 htpasswd -D /tmp/htpasswd student
-
-# Creating OC Secret with HTPasswd credential:
-# ⚠️⚠️⚠️ After `--from-file`, prefix `htpasswd=` is needed!
-oc create secret generic htpasswd-secret \
-    --from-file htpasswd=/tmp/htpasswd \
-    -n openshift-config
-
-# Extracting Secret to a file that locates under directory /tmp/
-oc extract secret/htpasswd-secret -n openshift-config \
-    --to /tmp/ --confirm
-
-# Updating the OC HTPasswd Secret
-oc set data secret/htpasswd-secret \
-    --from-file htpasswd=/tmp/htpasswd \
-    -n openshift-config
 ```
 
 !!! info "htpasswd文件示例"
@@ -156,26 +140,46 @@ oc set data secret/htpasswd-secret \
     new_developer:$apr1$S0TxtLXl$QSRfBIufYP39pKNsIg/nD1
     ```
 
-
-### Delete Users
+### 2. Create(update) secret
+Create(update) secret from the HTPasswd File
 
 ```bash
-# delete user data in the file
-htpasswd -D /tmp/htpasswd manager
+# Creating OC Secret with HTPasswd credential:
+# ⚠️⚠️⚠️ After `--from-file`, prefix `htpasswd=` is needed!
+oc create secret generic htpasswd-secret \
+    --from-file htpasswd=/tmp/htpasswd \
+    -n openshift-config
 
-# update the OC secret
+# Updating the OC HTPasswd Secret
 oc set data secret/htpasswd-secret \
-  --from-file htpasswd=/tmp/htpasswd -n openshift-config
-
-# ACTUALLY delete the OC USER resource (named `manager` in this case)
-oc delete user manager
-
-
-# ACTUALLY delete the OC IDENTITY resources
-#  -> `my_htpasswd_provider` is the name of the `identityProviders` that we defined in the OAuth
-oc get identities | grep manager
-oc delete identity my_htpasswd_provider:manager
+    --from-file htpasswd=/tmp/htpasswd \
+    -n openshift-config
 ```
+
+!!! note "extract from secret"
+    ```bash
+    # Extracting Secret to a file that locates under directory /tmp/
+    oc extract secret/htpasswd-secret -n openshift-config \
+        --to /tmp/ --confirm
+    ```
+
+!!! note "delete user"
+    ```bash
+    # 1. delete user data in the file
+    htpasswd -D /tmp/htpasswd manager
+
+    # 2. update the OC secret
+    oc set data secret/htpasswd-secret \
+    --from-file htpasswd=/tmp/htpasswd -n openshift-config
+
+    # 3. ACTUALLY delete USER resource (named `manager` in this case)
+    oc delete user manager
+
+    # 4. ACTUALLY delete IDENTITY resources
+    #  -> `my_htpasswd_provider` is the name of the `identityProviders` that we defined in the OAuth
+    oc get identities | grep manager
+    oc delete identity my_htpasswd_provider:manager
+    ```
 
 
 !!! warning "`user` VS `identity`"
@@ -183,8 +187,20 @@ oc delete identity my_htpasswd_provider:manager
     
     Example: A `user` can authenticate through both an LDAP account and a GitHub account, resulting in two `identity` objects linked to the same `user`.
 
-### Configuring the OAuth Custom Resource
-To use the HTPasswd identity provider, the OAuth custom resource must be edited to add an entry to the .spec.identityProviders array:
+### 3. Assign role to the user
+```bash
+[student@workstation ~]$ oc adm policy add-cluster-role-to-user \
+    cluster-admin new_admin
+Warning: User 'new_admin' not found
+clusterrole.rbac.authorization.k8s.io/cluster-admin added: "new_admin"
+```
+
+### 4. Configuring the OAuth Custom Resource
+To use the HTPasswd identity provider, the OAuth custom resource must be edited to add an entry to the `.spec.identityProviders` array using 
+```bash
+oc edit oauth
+```
+
 ```yaml
 apiVersion: config.openshift.io/v1
 kind: OAuth
@@ -192,7 +208,7 @@ metadata:
   name: cluster
 spec:
   identityProviders:
-  - name: my_htpasswd_provider 
+  - name: my_htpasswd_provider # name of this IdentityProvider, you can customize it
     mappingMethod: claim 
     type: HTPasswd
     htpasswd:
@@ -201,9 +217,11 @@ spec:
 ```
 
 !!! info "alternative"
+    也可以先把 oauth 资源保存成 yaml 文件，再进行修改。
+
     ```bash
     oc get oauth cluster -o yaml > oauth.yaml
-    oc replace -f oauth.yamls
+    oc replace -f oauth.yaml
     ```
 
 
@@ -214,9 +232,10 @@ spec:
     - `oc replace` will submit the full entire spec of the resource, as an atomic action.
 
 !!! info "namespace `openshift-config`"
-    The `openshift-config` namespace is used to store global configuration data for the cluster, including authentication configurations.
-
-    The `openshift-authentication` namespace is responsible for running the authentication services.
+    - The `openshift-config` namespace is used to store global configuration data for the cluster, including authentication configurations. 这里，我们用来储存有用户名+密码的`secret`
+    - The `openshift-authentication` namespace is responsible for running the authentication services. 
+        - 我们通过`oc get oauth cluster`修改了配置后，可以通过检查`openshift-authentication` ns下pod是否完成重启，来确定`oauth`中的修改是否已经被应用
+        - 如果在`openshift-config`中的`secret`被修改，`openshift-authentication`中的pod也会被重启！
 
 
 
@@ -253,12 +272,18 @@ Cluster-wide:
 
 |CLI||
 |:-|:-|
-|`oc adm policy add-cluster-role-to-user [RoleName] [UserName]`|To change a regular user to a cluster administrator(`cluster-admin` role)|56
-|`oc adm policy remove-cluster-role-from-user [RoleName] [UserName]`|To change a cluster administrator(`cluster-admin` role) to a regular user|
+|`oc adm policy add-cluster-role-to-user [RoleName] [UserName]`|To change a regular user to a cluster administrator(`cluster-admin` role) <br/>即创建一个 `clusterrolebindings`|
+|`oc adm policy remove-cluster-role-from-user [RoleName] [UserName]`|To change a cluster administrator(`cluster-admin` role) to a regular user <br/>即删除一个 `clusterrolebindings`|
 |`oc adm policy who-can delete user`| to determine which user can perform what(`delete user` in this case)|
 |`oc adm groups new [GroupName]`| to add new group to cluster|
 |`oc adm groups add-users [GroupName] [UserName]`| to add user to a group|
-|`$ oc adm policy remove-cluster-role-from-group [RoleName] [GroupName]`| to remove role from a group|
+|`$ oc adm policy remove-cluster-role-from-group [RoleName] [GroupName]`| to remove role from a group<br/>即删除一个 `clusterrolebindings`|
+
+!!! note "rolebinding"
+    `rolebinding` 可用于一下这两种情况：
+
+    - role -- rolebinding -- group
+    - role -- rolebinding -- user
 
 Namespace-specific:
 
@@ -283,3 +308,27 @@ Namespace-specific:
     |`edit`|Users with this role can create, change, and delete common application resources on the project, such as services and deployments. These users cannot act on management resources such as limit ranges and quotas, and cannot manage access permissions to the project.|
     |`self-provisioner`|Users with this role can create their own projects.|
     |`view`|Users with this role can view project resources, but cannot modify project resources.|
+
+
+
+## 练习纠错记录
+
+要求：<br/>
+As the `new_admin` user, prevent users from creating projects in the cluster. --》这里要求你先以`new_admin`的user身份登陆，然后再阻止**所有用户**创建项目的能力
+
+错误答案：<br/>
+```bash
+oc login -u new_admin -p new_password
+oc adm policy remove-cluster-role-from-user self-provisioner new_admin
+```
+
+正确答案：<br/>
+```bash
+oc login -u new_admin -p new_password
+oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+```
+
+解释：正确答案确保 **所有用户** 都不能创建项目，错误答案只确保 **用户`new_admin`** 不能创建项目
+
+- `self-provisioner` 是 OpenShift 中的一个默认clusterrole，该角色赋予用户创建新项目（即 namespace）的权限。
+- `system:authenticated:oauth` 是一个包含所有通过 OAuth 认证的用户的组。换句话说，当用户通过 OAuth 登录到 OpenShift 集群时，他们会自动成为这个组的一员。

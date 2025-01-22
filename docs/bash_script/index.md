@@ -70,8 +70,8 @@ The first line starts with `#!` is called **shebang line** and it indicates what
         If you have permission issue, do `ls -lrt` to check the permissions, and use `chmod u+x my_cmds.sh` to add ^^execution permission^^ to the file
 
 
-!!! note "bash VS ."
-    `./script.sh` needs ^^execution permission^^
+!!! note "`bash` VS `.`"
+    `.` needs ^^execution permission^^
 
 -------
 
@@ -97,9 +97,26 @@ There are 3 types:
 
 1. User defined variables
 2. System defined variables such as `${USER}`
-    - to see all, run `set`
-    - are defined with CAPITAL LETTERS
+    - defined with CAPITAL LETTERS
+    - a list of variables set by **bash** can be found [herer](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)
 3. Special variables such as `$$`, `$?`, `$@`...
+
+!!! info 
+    to see all set variables, run `set`
+
+## Exit Status
+Many commands in bash follow this convention:
+
+- `0`: Successful execution.
+- `1`: Command executed but did not succeed in finding/matching/performing the desired task.
+- `2` or higher: An error occurred during the execution.
+
+!!! info "check Exit Status"
+    To check Exit Status, you can run this direct after running a command line such as `echo "1 3 2" | grep  2`:
+
+    ```bash
+    echo $?
+    ```
 
 ## Naming
 - 0-9, A-Z and \_ are allowed
@@ -115,11 +132,11 @@ echo $a; echo $b; echo $c; echo $d; echo $e
 
 # 2. `cat`
 cat  << EOF
-heredoc> a:
-heredoc> ${a}
-heredoc> b:
-heredoc> ${b}
-heredoc> EOF
+a:
+${a}
+b:
+${b}
+EOF
 ```
 
 !!! note "Variable reference"
@@ -139,7 +156,7 @@ unset a
 
 # Special variables
 ## :
-a no-op command, 等价于 true。它始终返回退出状态码 0（成功），但什么实际操作也不做。常见用法:
+a no-op command, 等价于 `true`。它始终返回退出状态码 0（成功），但什么实际操作也不做。常见用法:
 
 1. 作为占位符，相当于python的pass：
     ```bash
@@ -178,6 +195,7 @@ ls > output.txt 2>&1
 ```
 
 常见用法:
+
 1. 静默运行命令
     ```bash
     ls nonexistentfile &> /dev/null
@@ -188,9 +206,9 @@ ls > output.txt 2>&1
     ls existingfile nonexistentfile &> logfile.txt
     # 把成功的输出和错误消息都记录到 logfile.txt 中。
     ```
-    如要分开打印：
+    如要分开打印：如成功，保存结果到`stdout.log`，如失败，保存结果到`stderr.log`
     ```bash
-    command > stdout.log 2> stderr.log
+    command 1> stdout.log 2> stderr.log
     ```
 
 -------
@@ -209,8 +227,60 @@ esac
 - `)` Indicates the end of a pattern and the start of commands.
 - `;;` Ends the commands for a pattern.
 
+# Operators
+
+## Arithmetic Operators
+Addition (+): Binary operation used to add two operands.
+Subtraction (-): Binary operation used to subtract two operands.
+Multiplication (*): Binary operation used to multiply two operands.
+Division (/): Binary operation used to divide two operands.
+Modulus (%): Binary operation used to find remainder of two operands.
+Increment Operator (++): Unary operator used to increase the value of operand by one.
+Decrement Operator (- -): Unary operator used to decrease the value of a operand by one
+
+## Numeric Comparison Operators
+
+-eq: Equal to.
+-ne: Not equal to.
+-lt: Less than.
+-le: Less than or equal to.
+-gt: Greater than.
+-ge: Greater than or equal to.
+
+## Relational Operators
+
+‘==’ Operator: Double equal to operator compares the two operands. Its returns true is they are equal otherwise returns false.
+‘!=’ Operator: Not Equal to operator return true if the two operands are not equal otherwise it returns false.
+‘<‘ Operator: Less than operator returns true if first operand is less than second operand otherwise returns false.
+‘<=’ Operator: Less than or equal to operator returns true if first operand is less than or equal to second operand otherwise returns false
+‘>’ Operator: Greater than operator return true if the first operand is greater than the second operand otherwise return false.
+‘>=’ Operator: Greater than or equal to operator returns true if first operand is greater than or equal to second operand otherwise returns false
+
 ## Logical Operators
-|Logical Operator| Description|
+
+Logical AND (`&&`, `-a`): This is a binary operator, which returns true if both the operands are true otherwise returns false.
+Logical OR (`||`): This is a binary operator, which returns true if either of the operands is true or if both the operands are true. It returns false only if both operands are false.
+Not Equal to (`!`): This is a unary operator which returns true if the operand is false and returns false if the operand is true.
+
+## Bitwise Operators
+Bitwise And (&): Bitwise & operator performs binary AND operation bit by bit on the operands.
+Bitwise OR (|): Bitwise | operator performs binary OR operation bit by bit on the operands.
+Bitwise XOR (^): Bitwise ^ operator performs binary XOR operation bit by bit on the operands.
+Bitwise complement (~): Bitwise ~ operator performs binary NOT operation bit by bit on the operand.
+Left Shift (<<): This operator shifts the bits of the left operand to left by number of times specified by right operand.
+Right Shift (>>): This operator shifts the bits of the left operand to right by number of times specified by right operand.
+
+## File Test Operators
+-b operator: returns true if the file is a block special file otherwise false.
+-c operator: returns true if it is a character special file otherwise false.
+-d operator: If given directory exists then operators returns true otherwise false.
+-e operator: If given file exits this operator returns true otherwise false.
+-r operator: If given file has read access then it returns true otherwise false.
+-w operator: If given file has write then it returns true otherwise false.
+-x operator: If given file has execute access then it returns true otherwise false.
+-s operator: If the size of given file is greater than 0 then it returns true otherwise it is false.
+
+|Operator| Description|
 |:-|:-|
 |`-a`|AND|
 |``||
@@ -310,7 +380,9 @@ esac
     are
     ```
 
-    
+`$#`  number of positional parameters
+
+
 -------
 
 # Output

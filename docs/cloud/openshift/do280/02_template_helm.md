@@ -59,3 +59,10 @@ oc process my-cache-service -o yaml \
 
 # 2. Helm
 [check this](../../helm/helm-1.md)
+
+
+!!! note "Helm vs Kustomize"
+    Kustomize 和 Helm Chart 是两种用于管理 Kubernetes 配置的工具，它们在功能和使用方式上有所不同，但都旨在简化 Kubernetes 应用的部署和管理。
+
+    - Kustomize 是一个原生支持 Kubernetes 的配置管理工具，允许用户不使用模板而直接调整和复用 YAML 文件。
+    - Helm Chart 包括 Kubernetes 的资源模板（如 Deployment、Service 等）和一个 values 文件，通过这个文件可以对模板中的变量进行配置。

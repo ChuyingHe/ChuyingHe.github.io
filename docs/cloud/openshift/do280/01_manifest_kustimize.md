@@ -77,6 +77,7 @@ kubectl apply -f resource.yaml
     |Type|**declarative**|**imperative**|
     |consider the<br/>current state<br/> of a **Live Resource**?|Yes, compare:<br/> 1.Live configuration <br/>2.Manifest file <br/>3.Configuration in the annotation `last-applied-configuration`|No|
     |can it update<br/>**Live Resource**?|Yes|No|
+    |auto annotated? <br/> `kubectl.kubernetes.io/last-applied-configuration`|yes|no, you need to add `--save-config` flag|
 
 
 !!! warning "rollout"
@@ -134,30 +135,88 @@ Use the `oc diff -f .`（或`kubectl diff -f .`） command to review differences
 
 ## Files
 ### `Base`
-The `kustomization.yaml` file in the root filder has a list resource field to include all resource files. E.g.:
+The `kustomization.yaml` file in the `/base` folder has a list resource field to include all resource files. E.g.:
 
-```txt
-# result of `tree .`
-base
-├── configmap.yaml
-├── deployment.yaml
-├── secret.yaml
-├── service.yaml
-├── route.yaml
-└── kustomization.yaml
-```
+<table>
+  <tr>
+    <th>  </th>
+    <th>Example 1:</th>
+    <th>Example 2:</th>
+  </tr>
+  <tr>
+    <td>File structure: </td>
+    <td>
+    ```bash
+    .
+    ├── base
+    │   ├── configmap.yaml
+    │   ├── deployment.yaml
+    │   ├── secret.yaml
+    │   ├── service.yaml
+    │   └── kustomization.yaml
+    └── overlays  
+        ├── kustomization.yaml
+        └── patch-replicas.yaml
+    ```
+    </td>
+    <td>
+    ```bash
+    .
+    ├── base
+    │   ├── database 
+    │   │   ├── configmap.yaml
+    │   │   ├── deployment.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── secret.yaml
+    │   │   └── service.yaml
+    │   ├── exoplanets 
+    │   │   ├── configmap.yaml
+    │   │   ├── deployment.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── route.yaml
+    │   │   ├── secret.yaml
+    │   │   └── service.yaml
+    │   └── kustomization.yaml 
+    └── overlays  
+        └── production
+            ├── kustomization.yaml
+            └── patch-replicas.yaml
+    ```
+    </td>
+  </tr>
+  <tr>
+    <td>`/base/kustomization.yaml`: </td>
 
-```yaml
-# kustomization.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- configmap.yaml
-- deployment.yaml
-- secret.yaml
-- service.yaml
-- route.yaml
-```
+    <td>
+    ```yaml
+    # kustomization.yaml
+    apiVersion: kustomize.config.k8s.io/v1beta1
+    kind: Kustomization
+    resources:
+    - configmap.yaml
+    - deployment.yaml
+    - secret.yaml
+    - service.yaml
+    - route.yaml
+    ```
+    </td>
+    <td>
+    ```yaml
+    # kustomization.yaml
+    apiVersion: kustomize.config.k8s.io/v1beta1
+    kind: Kustomization
+    resources:
+    - database
+    - exoplanets
+    ```
+    </td>
+  </tr>
+</table>
+
+
+
+
+
 
 
 
