@@ -27,6 +27,7 @@
     - `proxy_pass http://backend-service;`：将解密后的流量转发给后端服务 `backend-service`。
 
 
+
 ## 常见的 TLS Termination 类型
 
 | 特性 | **Edge Termination**| **Passthrough**| **Re-encryption** |
@@ -37,8 +38,20 @@
 | **性能消耗** | 减轻后端加解密负担，提升性能 | 中间节点性能消耗最少| 中间节点性能开销更大|
 | **中间节点功能** | 可执行路由、认证、日志记录等操作| 无法查看流量内容，功能受限| 可执行路由、认证、日志记录等操作|
 | **证书管理**<br/>**复杂性** | 中间节点需管理证书，后端无需管理| 仅后端管理证书，配置简单| 中间节点和后端均需管理证书|
-||<img src="../imgs/tls_edge.png" />|<img src="../imgs/tls_passthrough.png" />|<img src="../imgs/tls_reencryption.png" />|
 |**适用场景**|适用于性能优先的场景，如负载均衡器需（load balancer）要处理大量 TLS 流量。因为Edge为后端减负，而且可以用load balancer来可以提升系统的智能性和管理效率|适合对安全性要求高的场景，如需要端到端 TLS 保护的应用。|适合微服务架构中，既需要中间节点控制流量，又需要保证后端加密传输的情况。|
+
+!!! note "更多教程"
+    - [HTTP, HTTPS, CA, Certificate](https://www.youtube.com/watch?v=EnY6fSng3Ew&ab_channel=LaithAcademy)
+    - [Redhat Blog](https://www.redhat.com/en/blog/self-serviced-end-to-end-encryption-approaches-for-applications-deployed-in-openshift)
+
+
+### Edge
+<img src="../imgs/tls_edge.svg" />
+
+### Passthrough
+<img src="../imgs/tls_passthrough.svg" />
+
+### Re-encryption
 
 !!! note "Create route with **Edge Termination**"
     to create an encrypted edge route with a custom TLS certificate:
@@ -59,6 +72,16 @@
     ```bash
     oc get secrets/router-ca -n openshift-ingress-operator -o yaml
     ```
+## Example
+### Create unencrypted route
+```bash
+oc expose svc/my_service
+```
+
+### Create encrypted route
+
+- [Edge Termination](./04_ext_edge.md)
+- [Passthrough Termination](./04_ext_passthrough.md)
 
 # 2. NetworkPolicy (`netpol`)
 NetworkPolicy（`netpol`） 是一个kubernetes的概念，详见[CKAD 6.服务与网络](../../../k8s/ckad/ckad-6/#3-networkpolicy). 
@@ -176,7 +199,21 @@ a <ins>signed certificate</ins> and <ins>key</ins>. --> then, a `deployment` can
 oc annotate service hello \
     service.beta.openshift.io/serving-cert-secret-name=hello-secret
 ```
-With this annotation, the **`service-ca` Controller** auto-generates a `secret` that named `hello-secret`, which contains <ins>signed certificate</ins> and <ins>key</ins>.
+With this annotation, the **`service-ca` Controller** auto-generates a `secret` that named `hello-secret`, which contains <ins>signed certificate</ins> and <ins>a TLS key</ins>.
+
+!!! note "the auto-generated Secret `hello-secret`"
+    ```bash
+    [student@workstation ~]$ oc describe secret hello-secret
+    Name:         server-secret
+    Namespace:    network-svccerts
+    ...output omitted...
+    Type:  kubernetes.io/tls
+
+    Data
+    ====
+    tls.key:  1675 bytes
+    tls.crt:  2615 bytes
+    ```
 
 ### 2. Mount secret to deployment
 YAML file of a NGINX `deployment`:
@@ -211,7 +248,7 @@ spec:
     <img src="../imgs/ca.png" width="200" />
 
 ### 3. Certificate validation
-For a client service application to verify the validity of a certificate, the application needs the CA bundle that signedthat certificate. The **`service-ca` Controller** injects the **CA bundle** when you apply the annotation `service.beta.openshift.io/inject-cabundle=true` to an object.
+For a client service application to verify the validity of a certificate, the application needs the CA bundle that signed that certificate. The **`service-ca` Controller** injects the **CA bundle** when you apply the annotation `service.beta.openshift.io/inject-cabundle=true` to an object.
 
 The object could be:
 
@@ -255,3 +292,10 @@ You can also manually rotate the certificate: <br/>
 !!! info "rotate"
     In this context, "rotate" refers to the process of automatically replacing <ins>an old service CA certificate</ins> with a new one before the old certificate expires. 
 
+# Exercise Illustration
+
+## 4.4 Configure Network Policies
+<img src="../imgs/exercise_4.4.png" width="300" />
+
+## 4.6 Protect Internal Traffic with TLS
+<img src="../imgs/exercise_4.6.png" width="500" />

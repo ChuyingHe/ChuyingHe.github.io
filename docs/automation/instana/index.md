@@ -22,6 +22,3 @@ One needs `agent_key` to be able to access Helm repo. To install Instana properl
 6. create **UNIT** config file and create `secret` out of it
 7. create routes for both **core** and **unit**
 
-# Questions
-
-1. what does beeinstana do? The data store operators, are they are mandatary to install

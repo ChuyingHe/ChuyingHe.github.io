@@ -83,14 +83,14 @@ nav:
           - Operator: cloud/openshift/operator.md
           - Pipeline: cloud/openshift/pipeline.md
           - DO288:
-              - Deploying and Managing Applications: cloud/openshift/ex288/01_deploy_app.md
-              - 2: cloud/openshift/ex288/02.md
-              - 3: cloud/openshift/ex288/03.md
-              - 4: cloud/openshift/ex288/04.md
-              - 5: cloud/openshift/ex288/05.md
-              - 6: cloud/openshift/ex288/06.md
-              - 7: cloud/openshift/ex288/07.md
-              - 8: cloud/openshift/ex288/08.md
+              - Deploying and Managing Applications: cloud/openshift/do288/01_deploy_app.md
+              - 2: cloud/openshift/do288/02.md
+              - 3: cloud/openshift/do288/03.md
+              - 4: cloud/openshift/do288/04.md
+              - 5: cloud/openshift/do288/05.md
+              - 6: cloud/openshift/do288/06.md
+              - 7: cloud/openshift/do288/07.md
+              - 8: cloud/openshift/do288/08.md
           - DO280:
               - 1. Manifest & Kustomize: cloud/openshift/do280/01_manifest_kustimize.md
               - 2. OC Template & Helm Chart: cloud/openshift/do280/02_template_helm.md
@@ -102,6 +102,10 @@ nav:
               - 8. Application Security: cloud/openshift/do280/08_application_security.md
               - 9. Openshift Updates: cloud/openshift/do280/09_oc_updates.md
               - 10: cloud/openshift/do280/10.md
+          - DO322:
+              - 1. Describing the OpenShift Installation Process: cloud/openshift/do322/01.md
+              - 2: cloud/openshift/do322/02.md
+              - 3: cloud/openshift/do322/03.md
   - Data Scientist:
       - Embedding: data_scientist/embedding.md
       - ElasticSearch: data_scientist/elastic_search.md
@@ -142,6 +146,8 @@ nav:
   - Regex: regex/index.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
+  - Working Notes:
+      - 202501: working_notes/01_2025.md
 
 markdown_extensions:
   - pymdownx.caret
