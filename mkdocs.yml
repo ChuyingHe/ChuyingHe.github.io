@@ -103,9 +103,11 @@ nav:
               - 9. Openshift Updates: cloud/openshift/do280/09_oc_updates.md
               - 10: cloud/openshift/do280/10.md
           - DO322:
-              - 1. Describing the OpenShift Installation Process: cloud/openshift/do322/01.md
-              - 2: cloud/openshift/do322/02.md
-              - 3: cloud/openshift/do322/03.md
+              - 1. Intro to OpenShift Installation: cloud/openshift/do322/01.md
+              - 2. IPI on Cloud Provider: cloud/openshift/do322/02.md
+              - 3. Installing OC on a Virtualized Environment: cloud/openshift/do322/03.md
+              - 4. Installing OC without an Infrastructure Provider: cloud/openshift/do322/04.md
+              - 5. Operations & Maintainance: cloud/openshift/do322/05.md
   - Data Scientist:
       - Embedding: data_scientist/embedding.md
       - ElasticSearch: data_scientist/elastic_search.md
