@@ -42,7 +42,7 @@
 
 !!! note "更多教程"
     - [HTTP, HTTPS, CA, Certificate](https://www.youtube.com/watch?v=EnY6fSng3Ew&ab_channel=LaithAcademy)
-    - [Redhat Blog](https://www.redhat.com/en/blog/self-serviced-end-to-end-encryption-approaches-for-applications-deployed-in-openshift)
+    - [Redhat Blog: Self-Serviced End-to-end Encryption Approaches for Applications Deployed in OpenShift](https://www.redhat.com/en/blog/self-serviced-end-to-end-encryption-approaches-for-applications-deployed-in-openshift)
 
 
 ### Edge

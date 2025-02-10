@@ -134,8 +134,9 @@ Use the `oc diff -f .`（或`kubectl diff -f .`） command to review differences
 
 
 ## Files
+Kustomize根目录下有两个文件夹：一个`base/`，一个`overlays/`
 ### `Base`
-The `kustomization.yaml` file in the `/base` folder has a list resource field to include all resource files. E.g.:
+The `kustomization.yaml` file in the `base/` folder has a list resource field to include all resource files. E.g.:
 
 <table>
   <tr>
@@ -144,7 +145,7 @@ The `kustomization.yaml` file in the `/base` folder has a list resource field to
     <th>Example 2:</th>
   </tr>
   <tr>
-    <td>File structure: </td>
+    <td>File structure</td>
     <td>
     ```bash
     .
@@ -185,7 +186,7 @@ The `kustomization.yaml` file in the `/base` folder has a list resource field to
     </td>
   </tr>
   <tr>
-    <td>`/base/kustomization.yaml`: </td>
+    <td>/base/kustomization.yaml </td>
 
     <td>
     ```yaml
@@ -217,9 +218,6 @@ The `kustomization.yaml` file in the `/base` folder has a list resource field to
 
 
 
-
-
-
 ### `Overlays`
 **Overlays** overwrites some setting without modifying the original **Base**. Each **Overlays** contains a `kustomization.yaml` file.
 
@@ -227,7 +225,7 @@ The `kustomization.yaml` file in the `/base` folder has a list resource field to
 
 
 !!! note "Relationship: Base + Overlays"
-    - The kustomization.yaml file can refer to one or more directories as bases. 
+    - The `kustomization.yaml` file can refer to one or more directories as bases. 
     - Multiple overlays can use a common base kustomization directory.
 
 
@@ -272,7 +270,7 @@ resources:
 
 
 ### Patch
-Besides **overlays**, one can also use **patching** for customization. The patch mechanism has several important keys: `patch`, `target` and `path`.
+patch 是 `overlays` 用于修改 `base` 资源的具体方式，比如 `overlays/production/patch.yaml` 文件帮助实现了 `production` overlay。The patch mechanism has several important keys: `patch`, `target` and `path`.
 
 **Way 1: `patch` and `target`**
 
@@ -362,8 +360,8 @@ E.g.: Taking `overlay/production` as the kustomization directory we want to use:
 
 |Command|Description|
 |:--|:--|
-|`kubectl kustomize overlay/production`|processes the Kustomize overlay located in the directory overlay/production and outputs the resulting Kubernetes manifests.|
-|`kubectl apply -k overlay/production`|update/create resource using `overlay/production` layer. update/create resources.<br/>`-k` flag means: applies a **kustomization**|
+|`kubectl kustomize overlay/production`|processes the Kustomize overlay located in the directory overlay/production and outputs the resulting Kubernetes manifests YAML in terminal. 不会对 Kubernetes 集群进行任何更改。|
+|`kubectl apply -k overlay/production`|先使用 Kustomize 生成最终的 YAML 配置（但不输出），然后将其应用到 Kubernetes 集群。update/create resource using `overlay/production` layer. update/create resources.<br/>`-k` flag means: applies a **kustomization**|
 |`oc apply -k base`|use `base` layer|
 |`oc apply -k overlay/production`|update/create resource using `overlay/production` layer. update/create resources.<br/>`-k` flag means: applies a **kustomization**|
 |`oc delete -k overlay/production`|delete resources that were deployed by using **Kustomize**|
@@ -517,11 +515,10 @@ generatorOptions:
 !!! tip "watch"
     `watch -d oc get deployments,pods` 
     
-    The watch tool comes from the procps-ng package, which is commonly included in Linux distributions. It delivers real-time updates.
+    The watch tool comes from the `procps-ng` package, 是一个 Linux/Unix 系统自带的命令行工具，它用于周期性地（默认 2 秒）执行一个命令并实时刷新输出。
 
     - `-d` highlights the difference
-
-    ➡️ Use `Ctrl+C` to exit the watch model
+    - Use `Ctrl+C` to exit the watch model
 
 
 # CLIs

@@ -104,9 +104,9 @@ nav:
               - 10: cloud/openshift/do280/10.md
           - DO322:
               - 1. Intro to OpenShift Installation: cloud/openshift/do322/01.md
-              - 2. IPI on Cloud Provider: cloud/openshift/do322/02.md
-              - 3. Installing OC on a Virtualized Environment: cloud/openshift/do322/03.md
-              - 4. Installing OC without an Infrastructure Provider: cloud/openshift/do322/04.md
+              - 2. IPI on Cloud: cloud/openshift/do322/02.md
+              - 3. IPI & UPI on Virtual: cloud/openshift/do322/03.md
+              - 4. UPI without Infrastructure Provider: cloud/openshift/do322/04.md
               - 5. Operations & Maintainance: cloud/openshift/do322/05.md
   - Data Scientist:
       - Embedding: data_scientist/embedding.md

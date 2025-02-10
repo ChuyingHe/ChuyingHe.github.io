@@ -44,7 +44,7 @@ VQQHDAdSYWxlaWdoMRAwDgYDVQQKDAdSZWQgSGF0MRkwFwYDVQQDDBBvYЗA0LmV4
 ```
 
 ### `training-CA.pem`
-**public key**, contains the public key and metadata. Use it to distribute to clients or servers, to establish a trust chain for certificates signed by this CA.
+**certificate** that includes **public key** and some **metadata**. Use it to distribute to clients or servers, to establish a trust chain for certificates signed by this CA.
 
 ```txt
 -----BEGIN CERTIFICATE-----
@@ -55,7 +55,7 @@ VQQHDAdSYWxlaWdoMRAwDgYDVQQKDAdSZWQgSGF0MRkwFwYDVQQDDBBvYЗA0LmV4
 ```
 
 ### `training.ext`
-additional configuration for the certificate:
+ext=extended file system, created for Linux kernel. It contains additional configuration for the certificate:
 
 ```txt
 subjectAltName = @alt_names
@@ -77,20 +77,29 @@ Signed public Certificate for the Application
 ### `training.csr`
 is a Certificate Signing Request (CSR), an essential part of the process for obtaining a signed certificate. It contains:
 
-1. Information about the entity requesting the certificate, such as:
+1. Information about the **entity** that is requesting the certificate, such as:
 
-- Common Name (CN): The fully qualified domain name (e.g., todo-https.apps.ocp4.example.com).
-- Organization (O): The name of the organization (e.g., Red Hat).
-- Location details: Country (C), State (ST), and City (L).
-- Other optional metadata, such as email addresses.
+    - Common Name (CN): The fully qualified domain name (e.g., todo-https.apps.ocp4.example.com).
+    - Organization (O): The name of the organization (e.g., Red Hat).
+    - Location details: Country (C), State (ST), and City (L).
+    - Other optional metadata, such as email addresses.
 
-2. Public Key
-the public key that corresponds to the private key (`training.key`) you generated.
+2. **Public Key**: the public key that corresponds to the private key (`training.key`) you generated.
 
 ### `training-CA.srl`
-The training-CA.srl file is used by OpenSSL (or other certificate tools) to keep track of the serial numbers of certificates issued by a Certificate Authority (CA). It ensures that every certificate signed by the CA has a unique serial number, which is required by the X.509 standard for certificates.
+The `training-CA.srl` file is used by **OpenSSL** (or other certificate tools) to keep track of the serial numbers of certificates issued by a **Certificate Authority (CA)**. It ensures that every certificate signed by the CA has a unique serial number, which is required by the X.509 standard for certificates.
 
 
+!!! warning "*.pem VS *.crt"
+    `*.pem` could contain more info types, while `*.crt` only contains certificate.
+    
+    ||PEM (.pem)|CRT (.crt)|
+    |:-|:-|:-|
+    |**Stands for**|Privacy-Enhanced Mail|Certificate|
+    |**Format**|Base64-encoded text with header/footer|Can be in PEM (Base64) or DER (Binary)|
+    |**Content**|Typically contains only a public certificate.|Can contain certificates, private keys, certificate chains, or other cryptographic data.|
+    |**Common Headers**|`-----BEGIN CERTIFICATE-----` (for a public certificate)<br/>`-----BEGIN PRIVATE KEY-----` (for a private key)<br/>`-----BEGIN CERTIFICATE REQUEST-----` (for a CSR)|`-----BEGIN CERTIFICATE-----`|
+    |**Usage**|Used in OpenSSL, Apache, and many other applications.|Used by web servers, applications, and certificate authorities.|
 
 # 1. Generate TLS certificates for the application
 

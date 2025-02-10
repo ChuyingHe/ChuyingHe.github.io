@@ -23,30 +23,30 @@ Template（模板） 是一种资源定义，允许你通过参数化的方式�
 1. value with `-p`
     ```bash
     oc process my-cache-service \
-    -p TOTAL_CONTAINER_MEM=1024 \
-    -p APPLICATION_USER='cache-user' \
-    -o yaml \
-    > my-cache-service-manifest.yaml
+        -p TOTAL_CONTAINER_MEM=1024 \
+        -p APPLICATION_USER='cache-user' \
+        -o yaml \
+        > my-cache-service-manifest.yaml
     ```
 2. values within file:
     ```bash
     oc process my-cache-service \
-    --param-file=my-cache-service-params.env \
-    -o yaml \
-    > my-cache-service-manifest.yaml
+        --param-file=my-cache-service-params.env \
+        -o yaml \
+        > my-cache-service-manifest.yaml
     ```
 ## Create src with Template
 
 ```bash
 oc process my-cache-service \
-  --param-file=my-cache-service-params.env | oc apply -f -
+    --param-file=my-cache-service-params.env | oc apply -f -
 ```
 
 ## Update src with Template
 To compare the results of applying a different parameters file to a template against the live resources:
 ```bash
 oc process my-cache-service -o yaml \
-  --param-file=my-cache-service-params-2.env | oc diff -f -
+    --param-file=my-cache-service-params-2.env | oc diff -f -
 ```
 
 ## CLIs

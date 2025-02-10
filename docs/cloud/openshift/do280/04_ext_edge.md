@@ -1,4 +1,6 @@
-Edge certificates encrypt the traffic between <ins>the client and the router</ins>, but leave the traffic between <ins>the router and the service</ins> unencrypted. OpenShift generates its own certificate that it signs with its CA.
+Edge certificates encrypt the traffic between <ins>the client and the router</ins>, but leave the traffic between <ins>the router and the service</ins> unencrypted. 
+
+👉 OpenShift generates its own certificate that it signs with its CA.
 
 ```bash
 oc create route edge todo-https \

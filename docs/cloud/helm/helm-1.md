@@ -42,6 +42,7 @@ take release name = `myChartApp`.
 |`helm history myChartApp` |check release history |
 |`helm rollback myChartApp` |roll back to the previous release |
 |`helm upgrade myChartApp ...` |`helm upgrade myChartApp do280-repo/etherpad --version 0.0.7`  upgrade version to 0.0.7 <br/>`helm upgrade myChartApp do280-repo/etherpad -f values2.yaml`  upgrade values <br/>|
+||`helm upgrade [ReleaseName] [ChartName] [flags]` <br/>Flags 比如 `-f values.yaml`|
 |`helm template myChartApp helm-directory > base/deployment.yaml` |extract the object definition from <b>Helm Chart</b> into Kustomize's `/base/deployment.yaml`|
 
 # Helm Repository

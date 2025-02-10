@@ -1,11 +1,11 @@
 # 1. Users & Groups
 以下这些OC Resources与 **authentication & authorization** 有关：
 
-- `user`: credential for external entities such as user or external system, it interacts with **API server**.  
 - `identiy`: keeps a record of successful authentication attempts from a specific user and identity provider. 
-- `serviceaccount` / `sa`: credential for applications/services running on the cluster
-- `group`: set of `user`
 - `role`: it defines set of allowed API operations for `user`, `group` or `serviceaccount`
+    - `user`: credential for external entities (`user`, `external system`), it interacts with **API server**.  
+    - `serviceaccount` / `sa`: credential for `applications`, `services`
+    - `group`: set of `user`
 
 ## Users
 
@@ -18,6 +18,19 @@
     myusers:developer      myusers    developer      developer  8dbae772-1dd4-4242-b2b4-955b005d9022
     ```
 
+    - `IDP NAME`: 身份提供者（Identity Provider，IDP），表示该用户通过哪个认证系统登录（如 github、ldap、htpasswd）。
+    - `IDP USER NAME`: 用户在身份提供者（IDP）中的用户名，即该用户在 IDP 认证系统中的唯一标识。
+
+!!! info "User Types"
+    1. **Regular User**: they are represented as `user` resource
+    2. **System User**: Many system users are created automatically when the infrastructure is defined, for example, cluster administrator (with access to everything), a per-node user, users for routers and registries, and various others. <br/>**Name convention**: start with a `system:` prefix, such as:
+        - `system:admin`
+        - `system:openshift-registry`
+        - `system:node:node1.example.com`
+
+<img src="../imgs/user_sa.png" width="300" />
+
+
 !!! warning "`User` vs `ServiceAccount`"
     ⚠️ `serviceaccount` can be considered as ONE TYPE of `user`
 
@@ -27,13 +40,6 @@
     |**管理方式**|- 用户的认证信息存储在 <ins>外部系统</ins>（如身份提供商），而不是 OpenShift 内部。<br/>- OpenShift 支持多种用户认证方式|- 是集群中的资源，可以通过 YAML 或 CLI 管理。<br/>- 每个命名空间都有默认的 `default` `ServiceAccount`|
     |**适用场景**|- 开发者、管理员等直接操作 OpenShift 集群的用户。<br/>- 通过 CLI、Web 控制台或 API 与集群交互。<br/>- 外部集成系统需要通过用户身份进行认证（如 OAuth）。|- 用于 Pod 的运行时身份，Pod 使用 `ServiceAccount` 与集群交互。<br/>- 自动分配 Token，用于 API 访问的身份认证。<br/>- 应用程序需要读取 ConfigMap、Secrets 等集群资源时|
 
-
-!!! info "User Types"
-    1. **Regular User**: they are represented as `user` resource
-    2. **System User**: Many system users are created automatically when the infrastructure is defined, for example, cluster administrator (with access to everything), a per-node user, users for routers and registries, and various others. <br/>**Name convention**: start with a `system:` prefix, such as:
-        - `system:admin`
-        - `system:openshift-registry`
-        - `system:node:node1.example.com`
 
 !!! info "ServiceAccount"
     **ServiceAccount** one type of **System User** that associated with projects
@@ -55,6 +61,48 @@ oc adm groups new lead-developers
 oc adm groups add-users lead-developers user1
 ```
 
+
+### 常见的 系统级用户组
+
+1. 认证相关的用户组
+
+    |组名|说明|
+    |:-|:-|
+    |`system:authenticated`|所有已认证用户（包括 OAuth、X.509 证书、Kubeconfig 认证的用户）|
+    |`system:authenticated:oauth`|所有通过 OAuth 认证的用户（即使用 oc login 通过 OAuth 登录的用户）|
+    |`system:unauthenticated`|所有未认证的用户（如匿名 API 访问）|
+
+2. 角色相关的用户组
+
+    |组名|说明|
+    |:-|:-|
+    |`system:cluster-admins`|集群管理员组，拥有 最高权限，可以管理整个集群|
+    |`system:masters`|集群控制组，管理 OpenShift 控制平面（Master 节点）|
+    |`system:discovery`|所有用户 默认加入，可访问 oc get 相关的公开 API|
+    |`system:scope-impersonation`|允许用户模拟 OAuth 作用域（Scope）|
+
+3. 项目（Namespace）管理相关的用户组
+
+    |组名|说明|
+    |:-|:-|
+    |`system:cluster-readers`|只读访问集群资源，不能修改|
+    |`system:basic-users`|基本用户组，可以使用 oc whoami 查询自己的用户信息|
+    |`system:build-strategists`|构建策略管理员，管理构建策略|
+    |`system:image-builders`|允许在 OpenShift 内 构建镜像|
+    |`system:image-pullers`|允许从 Registry 拉取镜像（通常绑定到 Namespace）|
+    |`system:image-pushers`|允许向 Registry 推送镜像|
+    |`system:registry`|OpenShift 内部 镜像仓库服务|
+
+4. 特殊组
+
+    |组名|说明|
+    |:-|:-|
+    |`system:nodes`|所有 OpenShift Worker 节点，用于 kubelet 访问 API|
+    |`system:node-proxier`|OpenShift 网络代理（kube-proxy） 访问 API|
+    |`system:router`|OpenShift Router 组件，负责 Ingress/Route 路由|
+    |`system:deployer`|负责 部署 Pod，通常用于 DeploymentConfig|
+    |`system:serviceaccounts`|所有 ServiceAccount 账户（用于 Pod 访问 API）|
+
 # -------
 # 2. Authentication
 
@@ -63,42 +111,58 @@ assigns the `cluster-admin` role to the student user so that the `student` user 
 oc adm policy add-cluster-role-to-user cluster-admin student
 ```
 
-OpenShift API 有 2 种方法用于验证请求：`OAuth 访问令牌`更加灵活，适用于动态、可扩展的访问控制场景，而`X.509 客户端证书`则更为静态，通常用于已经依赖证书的安全环境中。
+OpenShift API 有 2 种方法用于验证请求：
 
-!!! note "1st method: X.509 client certificates"
-    it use the `kubeconfig` file, which embeds an X.509 client certificate that never expires. 
+## 1. `X.509 客户端证书`
+`X.509 client certificates`更为静态，通常用于已经依赖证书的安全环境中. This method uses the `kubeconfig` file, which embeds an **X.509 client certificate** that never expires. 
 
-    During installation, the OpenShift installer creates a unique kubeconfig file in the auth directory. The kubeconfig file contains specific details and parameters for the CLI to connect a client to the correct API server, including an X.509 certificate.
+During installation, the **OpenShift installer** creates a unique `kubeconfig` file in the auth directory. The `kubeconfig` file contains specific details and parameters for the CLI to connect a client to the correct API server, including an X.509 certificate.
 
-    The installation logs provide the location of the kubeconfig file like this:
+The installation logs provide the location of the kubeconfig file like this:
+```bash
+# log
+INFO Run 'export KUBECONFIG=/root/auth/kubeconfig' to manage the cluster with 'oc'.
+```
+
+To use the `kubeconfig` file to authenticate oc commands, do this:
+```bash
+export KUBECONFIG=/home/user/auth/kubeconfig
+```
+
+## 2. `OAuth 访问令牌`
+`OAuth access tokens`更加灵活，适用于动态、可扩展的访问控制场景. This method authenticates as the `kubeadmin` virtual user. Successful authentication grants an **OAuth access token**.
+
+After installation completes, OpenShift creates the `kubeadmin` virtual user. The `kubeadmin` secret in the `kube-system` namespace contains the hashed password for the kubeadmin user. The kubeadmin user has cluster administrator privileges.
+
+The installation logs provide the kubeadmin credentials like this:
+
+```bash
+# log
+...output omitted...
+INFO The cluster is ready when 'oc login -u kubeadmin -p shdU_trbi_6ucX_edbu_aqop'
+...output omitted...
+INFO Access the OpenShift web-console here:
+    https://console-openshift-console.apps.ocp4.example.com
+INFO Login to the console with user: kubeadmin, password: shdU_trbi_6ucX_edbu_aqop
+```
+
+
+!!! note
+    OpenShift 支持 X.509 和 OAuth：
+        - X.509 主要用于 API 访问（ServiceAccount 证书）。
+        - OAuth 主要用于 用户登录（默认使用 OAuthServer）。
+    
+    你可以使用 oc login 命令通过两种方式认证：
     ```bash
-    # log
-    INFO Run 'export KUBECONFIG=/root/auth/kubeconfig' to manage the cluster with 'oc'.
+    # 通过 OAuth 登录（默认方式）
+    oc login --server=https://openshift.example.com --token=YOUR_OAUTH_TOKEN
+
+    # 通过 X.509 证书登录（通常用于自动化）
+    oc login --server=https://openshift.example.com --certificate-authority=/path/to/ca.crt
     ```
 
-    To use the `kubeconfig` file to authenticate oc commands, do this:
-    ```bash
-    export KUBECONFIG=/home/user/auth/kubeconfig
-    ```
-
-!!! note "2rd method: OAuth access tokens"
-    it authenticate as the `kubeadmin` virtual user. Successful authentication grants an OAuth access token.
-
-    After installation completes, OpenShift creates the `kubeadmin` virtual user. The `kubeadmin` secret in the `kube-system` namespace contains the hashed password for the kubeadmin user. The kubeadmin user has cluster administrator privileges.
-
-    The installation logs provide the kubeadmin credentials like this:
-
-    ```bash
-    # log
-    ...output omitted...
-    INFO The cluster is ready when 'oc login -u kubeadmin -p shdU_trbi_6ucX_edbu_aqop'
-    ...output omitted...
-    INFO Access the OpenShift web-console here:
-        https://console-openshift-console.apps.ocp4.example.com
-    INFO Login to the console with user: kubeadmin, password: shdU_trbi_6ucX_edbu_aqop
-    ```
-
-无论是哪种方法，都依赖于**身份提供者 / Identity Providers**来验证用户的身份。 **身份提供者（IdP）**是这两种认证方法的核心，负责验证用户的身份后，颁发认证凭证（`OAuth access tokens`或`X.509 client certificates`）
+!!! note
+    无论是哪种方法，都依赖于**身份提供者 / Identity Providers**来验证用户的身份。 **身份提供者（IdP）**是这两种认证方法的核心，负责验证用户的身份后，颁发认证凭证（`OAuth access tokens`或`X.509 client certificates`）
 
 
 # 3. Configure Identity Providers（IdP）
@@ -108,9 +172,7 @@ OpenShift API 有 2 种方法用于验证请求：`OAuth 访问令牌`更加灵�
 
 <img src="../imgs/apache.png" width="100" />
 
-HTPasswd is a simple authentication mechanism that uses an Apache-style `.htpasswd` file to store user credentials.
-
-It validates usernames and passwords against a secret that stores credentials that are generated by using the htpasswd command.
+HTPasswd is a simple authentication mechanism that uses an Apache-style `.htpasswd` file to store user credentials. It validates usernames and passwords against a secret that stores credentials that are generated by using the htpasswd command. 过程很简单，只需用htpasswd工具生成文件，用文件生成secret，再修改oauth以使用该secret即可，
 
 !!! info "htpasswd flags"
     - `-c`: Create a new password file. This flag overwrites the existing file if it already exists.
@@ -141,7 +203,7 @@ htpasswd -D /tmp/htpasswd student
     ```
 
 ### 2. Create(update) secret
-Create(update) secret from the HTPasswd File
+Create(update) secret from the HTPasswd File. 注意所用的Namespace！
 
 ```bash
 # Creating OC Secret with HTPasswd credential:
@@ -170,7 +232,7 @@ oc set data secret/htpasswd-secret \
 
     # 2. update the OC secret
     oc set data secret/htpasswd-secret \
-    --from-file htpasswd=/tmp/htpasswd -n openshift-config
+        --from-file htpasswd=/tmp/htpasswd -n openshift-config
 
     # 3. ACTUALLY delete USER resource (named `manager` in this case)
     oc delete user manager
@@ -187,10 +249,11 @@ oc set data secret/htpasswd-secret \
     
     Example: A `user` can authenticate through both an LDAP account and a GitHub account, resulting in two `identity` objects linked to the same `user`.
 
-### 3. Assign role to the user
+### 3. [Optional] Assign role to the user
 ```bash
 [student@workstation ~]$ oc adm policy add-cluster-role-to-user \
-    cluster-admin new_admin
+                            cluster-admin new_admin
+
 Warning: User 'new_admin' not found
 clusterrole.rbac.authorization.k8s.io/cluster-admin added: "new_admin"
 ```
@@ -232,10 +295,12 @@ spec:
     - `oc replace` will submit the full entire spec of the resource, as an atomic action.
 
 !!! info "namespace `openshift-config`"
-    - The `openshift-config` namespace is used to store global configuration data for the cluster, including authentication configurations. 这里，我们用来储存有用户名+密码的`secret`
-    - The `openshift-authentication` namespace is responsible for running the authentication services. 
-        - 我们通过`oc get oauth cluster`修改了配置后，可以通过检查`openshift-authentication` ns下pod是否完成重启，来确定`oauth`中的修改是否已经被应用
-        - 如果在`openshift-config`中的`secret`被修改，`openshift-authentication`中的pod也会被重启！
+    `openshift-config` namespace is used to store global configuration data for the cluster, including authentication configurations. 这里，我们用来储存有用户名+密码的`secret`
+   
+!!! info "namespace `openshift-authentication`"
+    `openshift-authentication` namespace is responsible for running the authentication services. 我们通过`oc get oauth cluster`修改了配置后，可以通过检查`openshift-authentication` 下pod是否完成重启，来确定`oauth`中的修改是否已经被应用
+    
+    ⚠️ 如果在`openshift-config`中的`secret`被修改，`openshift-authentication`中的pod也会被重启！
 
 
 
