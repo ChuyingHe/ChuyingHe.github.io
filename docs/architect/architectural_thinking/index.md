@@ -165,7 +165,7 @@ There are usually LOOOOTS OF requirements, we start with categorizing them into 
 !!! note "activities"
     |Activities from **Business** perspective:|Activities from **User** perspective:|
     |:-|:-|
-    |- Business Process Model <br/>- Use Case Model <br/>- Use Case Specification: e.g. The user supplies the address and phone number|- IBM Design Thinking|
+    |- Business Process Model <br/>- Use Case Model <br/>- Use Case Specification: e.g. The user supplies the address and phone number|- Design Thinking Methodology|
 
 
 
@@ -193,7 +193,11 @@ There are usually LOOOOTS OF requirements, we start with categorizing them into 
         - Is it reliable?
 
 !!! info "Runtime NFR - Performance"
-    <img src="imgs/nfr_balance.png" width=300 />
+    You need to find a balance between:
+    
+    - Cost & Effort
+    - How accurate it needs to be
+    <!-- <img src="imgs/nfr_balance.png" width=300 /> -->
 
 !!! info "Runtime NFR - Availability"
     Important concepts for **Availability**: 
@@ -277,4 +281,89 @@ Requirements are dynamic and require careful management throughout a project’s
     - User “stories”
     - Use cases
     - Assumptions
+
+
+# 4. Architectural Decisions and Principles
+
+## Documenting the Decision
+Architectural decisions should be formally documented, each decision should include the following elements:
+
+!!! note "Example"
+    2.2 AD02: Choice of Integration
+
+    |||
+    |:-|:-|
+    | **An unique identifier** |AD02|
+    | **Design decision** | how to integrate into the exisiting systems? |
+    | **Issue/problem** | there are existing systems... |
+    | **Assumption** | with a interface|
+    | **Alternatives** | (1) FIle trasfer <br> (2) Messaging|
+    | **Decision** | Alternative (2) is better|
+    | **Justification** | together with the client I made the decision, because (2) Messaging provides reliable, asynchronous program-to-program communication|
+    | **Implications** | an integration server node will be required|
+    |**Parties Agreeing to the  Decision**|Person 1 (Representing the solution architecture team) <br/>Person 2 (representing the client)|
+
+!!! note "Difference"
+    | Architectural Decisions | Architectural Principles|
+    |:-|:-|
+    |are made within the context of the development of the solution’s architecture.|are imposed from outside the context of the solution architecture; they are often part of the enterprise’s Enterprise Architecture.|
+
+!!! note "other concepts"
+    | Policy | Lets protect the data|
+    | Principle| use SSO to protect the data. <br/> Define Principle with `Name`, `Statement`, `Motivation` and `Implication` |
+    | Guideline| ...|
+
+## Best Practise
+How to get a good architectural decision? There are **11 Solution Patterns** that you can follow:
+
+## Value Proposition
+### 1. Check Value Proposition
+- Confirming the customer wants and needs
+- Identify your differentiators of your Design
+
+## Simplification
+### 2. Simplify the Architecture 
+Simplify complex architectures and excessive infrastructure layers.
+
+### 3. Breakthrough the Design 
+### 4 Integrate the Facilities 
+### 5 Rightshape the Platforms & Processors
+Dont sale Cloud just because you want to sale it, the Client's Requirements have the highest priority.
+
+## Assets
+### 6 Re-use Existing Assets 
+### 7 Recycle Existing Code 
+### 8 Apply Frameworks / Skeletons
+
+## Delievery
+### 9 Optimize the Application Development environment
+### 10 Optimize the Delivery Model
+### 11. Rationalize SW/HW License Lifecycle
+
+# 5. Architecture Overview
+The **Architecture Overview Diagram** is a part of **Architecture Overview**. The goals:
+
+- to communicate a conceptual understanding of the intended IT system with the stakeholders
+- to explore and evaluate alternative architectural options
+- to enable early recognition and validation of the implication
+- to facilitate orientation for new people who join the project
+
+
+!!! note "where does Architecture Overview sit?"
+    Requirements (NFRs + FRs) --> **Architecture Overview** --> Component Model + Operational Model
+
+## Best Practises
+
+1. For who are you drawing this Diagram for? Considering drawing different Diagrams for different stakeholders
+2. No information overflow
+3. Use the language of your client
+4. Use colors - but be consistent
+
+## Anti-patterns
+Bad things to avoid:
+
+- Information overload
+- Information underload
+- too many acronyms -> solution: to annotate them
+- Providing more **technical** details than required for a **business** audience
 
