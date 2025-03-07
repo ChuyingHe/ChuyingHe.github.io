@@ -54,3 +54,36 @@ CIDR notation shows an IP address with a number at the end. This number tells ho
 
     - TCP 是 运输层协议，负责可靠的数据传输，就像一条 稳定的公路。
     - SSH 是 应用层协议，使用 TCP 作为 底层传输通道，就像在公路上跑的 加密邮车。
+
+
+# Gateway
+The gateway is the device that routes traffic from your local network to the internet (or other networks).
+
+```bash
+ip route show
+```
+Example output:
+
+```bash
+default via 192.168.1.1 dev eth0
+...
+```
+> `default via` shows the current gateway.
+
+
+
+# /etc/hosts
+
+
+# Private IP
+私有IP地址范围是专门为在私有网络（如家庭、办公室或企业内部网络）中使用而预留的IP地址。这些地址不会在公共互联网上路由，因此可以在不同的私有网络中重复使用，而不会造成冲突。私有IP地址范围由Internet Assigned Numbers Authority (IANA) 定义，主要包括以下三个区块：
+
+1. 【A类】10.0.0.0 到 10.255.255.255：这是一个A类地址范围，包含约1677万个IP地址。
+    - 子网掩码通常为255.0.0.0（/8）。
+    - 适用于大型网络。
+2. 【B类】172.16.0.0 到 172.31.255.255：这是一个B类地址范围，包含约104万个IP地址。
+    - 子网掩码通常为255.240.0.0（/12）。
+    - 适用于中型网络。
+3. 【C类】192.168.0.0 到 192.168.255.255：这是一个C类地址范围，包含约65536个IP地址。
+    - 子网掩码通常为255.255.0.0（/16）。
+    - 适用于小型网络，如家庭或小型办公室网络。

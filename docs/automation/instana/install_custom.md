@@ -14,6 +14,7 @@ BeeInstana can be installed as an OC Operator.
 # Install Instana
 
 One needs `agent_key` to be able to access Helm repo. To install Instana properly, these are the steps you need to do:
+
 1. install `instana-kubectl` plugin
 2. using the plugin that installed in step 1, install Instana Operator
 3. create Instana License File

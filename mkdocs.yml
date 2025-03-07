@@ -35,11 +35,13 @@ nav:
           - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
   - Automation:
       - Instana:
-          - Installation: automation/instana/index.md
-          - Bootcamp 1: automation/instana/1.md
-          - Bootcamp 2: automation/instana/2.md
-          - Bootcamp 3: automation/instana/3.md
-          - Bootcamp 4: automation/instana/4.md
+          - Installation/Standard: automation/instana/install_standard.md
+          - Installation/Custom: automation/instana/install_custom.md
+          - Bootcamp:
+              - 1: automation/instana/1.md
+              - 2: automation/instana/2.md
+              - 3: automation/instana/3.md
+              - 4: automation/instana/4.md
   - Bash Script:
       - Basics: bash_script/index.md
       - Exercises: bash_script/exercises.md
@@ -50,7 +52,6 @@ nav:
           - CKA:
               - Read before exam: cloud/k8s/cka/cka-0.md
               - cka-1: cloud/k8s/cka/cka-1.md
-              - cka-2: cloud/k8s/cka/cka-2.md
               - cka-3: cloud/k8s/cka/cka-3.md
               - cka-4: cloud/k8s/cka/cka-4.md
               - cka-5: cloud/k8s/cka/cka-5.md
@@ -78,7 +79,10 @@ nav:
               - 其他: cloud/k8s/ckad/ckad-9.md
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
-          - Installation: cloud/openshift/installation.md
+          - Installation:
+              - Intro: cloud/openshift/installation/index.md
+              - IPI: cloud/openshift/installation/ipi.md
+              - UPI: cloud/openshift/installation/upi.md
           - Internal Registry: cloud/openshift/internal_registry.md
           - Operator: cloud/openshift/operator.md
           - Pipeline: cloud/openshift/pipeline.md
@@ -134,6 +138,7 @@ nav:
   - ffmpeg: ffmpeg/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
+  - Network: network/index.md
   - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
       - Git: project_mgmt/git/index.md
@@ -145,6 +150,7 @@ nav:
       - Use dependencies: python/dependencies.md
       - Build Own Dependency: python/build_dependency.md
       - Virtual environment: python/virtual_env.md
+
   - Regex: regex/index.md
   - Sketch:
       - Procreate: sketch/procreate/index.md
