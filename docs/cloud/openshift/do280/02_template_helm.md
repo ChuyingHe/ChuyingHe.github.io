@@ -9,13 +9,34 @@ Template（模板） 是一种资源定义，允许你通过参数化的方式�
 |`oc process --parameters cache-service -n openshift`|只看模版的 **Parameters**|
 |`oc process --parameters -f my-template.yaml`|只看模版文件的 **Parameters**|
 
+
+!!! note "parameters"
+    Example:
+
+    ```bash
+    [student@workstation ~]$ oc process --parameters mysql-persistent  -n openshift
+    NAME                    DESCRIPTION   GENERATOR           VALUE
+    MEMORY_LIMIT            ...                               512Mi
+    NAMESPACE               ...                               openshift
+    DATABASE_SERVICE_NAME   ...                               mysql
+    MYSQL_USER              ...           expression          user[A-Z0-9]{3}
+    MYSQL_PASSWORD          ...           expression          [a-zA-Z0-9]{16}
+    MYSQL_ROOT_PASSWORD     ...           expression          [a-zA-Z0-9]{16}
+    MYSQL_DATABASE          ...                               sampledb
+    VOLUME_CAPACITY         ...                               1Gi
+    MYSQL_VERSION           ...                               8.0-el8
+    ```
+
+    - **GENERATOR** generate specifies the generator to be used to generate random string
+    - **VALUE** holds the Parameter data. If specified, the generator will be ignored.
+
 ## 模板的核心要素
 一个 OpenShift Template 通常包含以下几个部分：
 
 - **Metadata**: 定义模板的元数据，比如名字和标签。
-- **Parameters**: 参数是模板的关键，允许用户在实例化模板时传递值。支持默认值，可以为某些参数提供动态替换功能。--> the values that can be customized
-- **Objects**: 包含模板将生成的具体资源，比如 Deployment、Service、ConfigMap 等。
 - **Labels**: 为所有生成的资源统一添加标签，方便管理和选择。
+- **Objects**: 包含模板将生成的具体资源，比如 Deployment、Service、ConfigMap 等。
+- **Parameters**: 参数是模板的关键，允许用户在实例化模板时传递值。支持默认值，可以为某些参数提供动态替换功能。--> the values that can be customized
 
 
 
@@ -43,19 +64,20 @@ oc process my-cache-service \
 ```
 
 ## Update src with Template
-To compare the results of applying a different parameters file to a template against the live resources:
+To **compare** the results of applying a different parameters file to a template against the live resources:
 ```bash
 oc process my-cache-service -o yaml \
     --param-file=my-cache-service-params-2.env | oc diff -f -
 ```
 
+do `oc apply` to **update** the resource
+
 ## CLIs
 |Command|Description|
 |:-|:-|
-|`oc new-app --template=cache-service -p APPLICATION_USER=my-user`|create new src from the template|
-|`oc process my-cache-service -p APPLICATION_USER=user1 -o yaml > my-cache-service-manifest.yaml`|generate **manifest** YAML from the **template** with the given parameter values. |
+|`oc new-app --template=cache-service -p APPLICATION_USER=my-user`|create new src from the template<br/> 👉 When using it, no need to add `-n openshift`|
 |`oc process -f my-cache-service.yaml -p APPLICATION_USER=user1 -o yaml > my-cache-service-manifest.yaml`|`-f`: generate **manifest** YAML from the **template file** with the given parameter values. |
-
+|`oc create -f my-template.yaml`|用 yaml 文件创建 template|
 
 # 2. Helm
 [check this](../../helm/helm-1.md)

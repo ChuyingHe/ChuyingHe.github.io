@@ -4,7 +4,9 @@ To get start, run:
 
 ```bash
 python3.12 -m venv .venv
+sleep 5
 source ./.venv/bin/activate
+sleep 1
 pip install -r requirements.txt
 ```
 
