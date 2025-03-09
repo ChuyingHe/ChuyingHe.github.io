@@ -1,0 +1,13 @@
+.wy-nav-content {
+  /* 100%, if you want to stretch to full-width */
+  max-width: 80%;
+}
+
+.md-typeset h5 {
+  color: #4051b5;
+  padding-left: 5px;
+}
+
+.md-typeset h5::before {
+  content: "📎 ";
+}
