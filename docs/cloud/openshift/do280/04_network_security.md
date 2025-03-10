@@ -5,9 +5,9 @@
 
 
 !!! info "TLS & TLS Termination"
-    <span style="background-color: #727bb8">[加密]</span> **TLS（Transport Layer Security，传输层安全协议）** 是一种用于在计算机网络上提供安全通信的协议，它是 SSL（Secure Sockets Layer）的后续版本。TLS 主要用于确保数据在客户端和服务器之间传输时的 保密性、完整性 和 身份验证。
+    <span style="background-color: #ccd1f0">[加密]</span> **TLS（Transport Layer Security，传输层安全协议）** 是一种用于在计算机网络上提供安全通信的协议，它是 SSL（Secure Sockets Layer）的后续版本。TLS 主要用于确保数据在客户端和服务器之间传输时的 保密性、完整性 和 身份验证。
 
-    <span style="background-color: #727bb8">[解密]</span> **TLS Termination** 是指在网络通信中，通过一个设备/服务（如负载均衡器、代理服务器）解密 TLS 所加密的流量，从而使后续的服务器或服务可以处理明文数据。举例：在NGINX中配置TLS Termination：
+    <span style="background-color: #ccd1f0">[解密]</span> **TLS Termination** 是指在网络通信中，通过一个设备/服务（如负载均衡器、代理服务器）解密 TLS 所加密的流量，从而使后续的服务器或服务可以处理明文数据。举例：在NGINX中配置TLS Termination：
     ```nginx
     server {
         listen 443 ssl;

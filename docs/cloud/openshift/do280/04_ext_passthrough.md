@@ -21,7 +21,7 @@ passphrase.txt
 training.ext
 training-CA.key
 training-CA.pem
-<span style="background-color: #727bb8">
+<span style="background-color: #ccd1f0">
 training.key
 training.csr
 training-CA.srl
