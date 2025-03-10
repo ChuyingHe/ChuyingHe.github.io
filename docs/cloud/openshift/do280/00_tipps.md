@@ -10,3 +10,4 @@
 - DO180：
     - Chapter 5: Manage Storage for Application Config & Data: Limit etc
     - Chapter 6: Reliability: Health Probe etc
+- [OC CLI Reference 4.14](https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.14/html/cli_tools/microshift-oc-cli-commands)

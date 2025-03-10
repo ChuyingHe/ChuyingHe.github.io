@@ -70,7 +70,7 @@ oc process my-cache-service -o yaml \
     --param-file=my-cache-service-params-2.env | oc diff -f -
 ```
 
-do `oc apply` to **update** the resource
+then do `oc apply` to **update** the resource
 
 ## CLIs
 |Command|Description|
