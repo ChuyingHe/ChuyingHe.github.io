@@ -138,7 +138,9 @@ nav:
   - ffmpeg: ffmpeg/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
-  - Network: network/index.md
+  - Network:
+      - interesting topics: network/index.md
+      - HTTP: network/http.md
   - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
       - Git: project_mgmt/git/index.md

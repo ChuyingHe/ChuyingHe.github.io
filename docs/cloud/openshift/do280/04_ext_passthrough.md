@@ -1,3 +1,4 @@
+<img src="../imgs/ocp-passthrough.png" width="600" />
 
 <table>
     <tr>
@@ -75,7 +76,7 @@ Private Key for the Application that has the host `todo-https.apps.ocp4.example.
 Signed public Certificate for the Application
 
 ### `training.csr`
-is a Certificate Signing Request (CSR), an essential part of the process for obtaining a signed certificate. It contains:
+is a **Certificate Signing Request (CSR)**, an essential part of the process for obtaining a signed certificate. It contains:
 
 1. Information about the **entity** that is requesting the certificate, such as:
 
@@ -90,25 +91,27 @@ is a Certificate Signing Request (CSR), an essential part of the process for obt
 The `training-CA.srl` file is used by **OpenSSL** (or other certificate tools) to keep track of the serial numbers of certificates issued by a **Certificate Authority (CA)**. It ensures that every certificate signed by the CA has a unique serial number, which is required by the X.509 standard for certificates.
 
 
-!!! warning "*.pem VS *.crt"
+!!! warning "`*.pem` VS `*.crt`"
+    `*.pem` > `*.crt`
+    
     `*.pem` could contain more info types, while `*.crt` only contains certificate.
     
     ||PEM (.pem)|CRT (.crt)|
     |:-|:-|:-|
     |**Stands for**|Privacy-Enhanced Mail|Certificate|
     |**Format**|Base64-encoded text with header/footer|Can be in PEM (Base64) or DER (Binary)|
-    |**Content**|Typically contains only a public certificate.|Can contain certificates, private keys, certificate chains, or other cryptographic data.|
+    |**Content**|Can contain certificates, private keys, certificate chains, or other cryptographic data.|Typically contains only a single certificate.|
     |**Common Headers**|`-----BEGIN CERTIFICATE-----` (for a public certificate)<br/>`-----BEGIN PRIVATE KEY-----` (for a private key)<br/>`-----BEGIN CERTIFICATE REQUEST-----` (for a CSR)|`-----BEGIN CERTIFICATE-----`|
     |**Usage**|Used in OpenSSL, Apache, and many other applications.|Used by web servers, applications, and certificate authorities.|
 
 # 1. Generate TLS certificates for the application
 
-<img src="../imgs/generate_certifcate_passthrough.png" />
-
 ```bash
-# Generate a private key `training.key`
+# (1) 
+# Generate a Private Key `training.key`
 openssl genrsa -out training.key 4096
 
+# (2)
 # Generate the certificate signing request (CSR) `training.csr`:
 # - use the generated training.key`
 # - specify the hostname: todo-https.apps.ocp4.example.com
@@ -117,13 +120,17 @@ openssl req -new \
     -subj "/C=US/ST=North Carolina/L=Raleigh/O=Red Hat/\
     CN=todo-https.apps.ocp4.example.com"
 
+# (3)
 # Generate the signed certificate `training.crt`
-# - use the request: `training.csr`
-# - use the defined password: `passphrase.txt `
-# - use the CA info:
+# 
+# INPUT:
+# - the request: `training.csr`
+# - the defined password: `passphrase.txt `
+# - the CA info:
 #       -  public key of CA: `training-CA.pem`
 #       -  private key of CA: `training-CA.key`
-# Output:
+#       -  create a training-CA.srl if NOT exist
+# OUTPUT:
 #   - a signed Certificate: `training.crt`
 #   - a list for documenting purpose: `training.ext`
 openssl x509 -req -in training.csr \
@@ -132,9 +139,40 @@ openssl x509 -req -in training.csr \
     -out training.crt -days 1825 -sha256 -extfile training.ext
 ```
 
+<img src="../imgs/generate_certifcate_passthrough.png" width="600" />
+
+!!! note "`-subj`
+    The `-subj` flag in the `openssl req -new `command specifies the **distinguished name (DN)** directly in the command line, instead of interactively entering it.
+
+!!! note "Distinguished Name(DN)"
+    The **Distinguished Name (DN)** is a unique identifier for an entity (such as a `server`, `organization`, or `individual`) in a **digital certificate**. It is used in:
+
+    - X.509 certificates
+    - Certificate Signing Requests (CSR)
+    - LDAP (Lightweight Directory Access Protocol)
+
+    ⛰️ **In this case, DN is the "ID Card" for the Certificate**
+
+
+    A DN consists of multiple **Attributes**:
+    
+    |Attribute|Meaning|Example|
+    |:-|:-|:-|
+    |`C`|Country|`C=US` (United States)|
+    |`ST`|State or Province|`ST=North Carolina`|
+    |`L`|Locality (City)|`L=Raleigh`|
+    |`O`|Organization|`O=Red Hat`|
+    |`OU`|Organizational Unit|`OU=Engineering`|
+    |`CN`|Common Name (usually a domain or hostname)|`CN=todo-https.apps.ocp4.example.com`|
+    |`emailAddress`|Email Address (optional)|`emailAddress=admin@example.com`|
+
+    
+
+
+
 # 2. Generate TLS secret with Certificate and Key
 - Certificate: `training.crt`
-- Key: `training.key`
+- Private Key: `training.key`
 
 ```bash
 oc create secret tls todo-certs \

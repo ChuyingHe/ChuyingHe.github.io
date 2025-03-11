@@ -305,13 +305,31 @@ resources:
     |`commonLabels`|Add labels to all resources and selectors.|
     |`commonAnnotations`|Add annotations to all resources and selectors.|
 
+    ```bash
+    apiVersion: kustomize.config.k8s.io/v1beta1
+    kind: Kustomization
+
+    # common attributes / cross-cutting attributes
+    namespace: first-project
+    nameSuffix: -v2
+    namePrefix: chuying-
+
+    commonLabels:
+      owner: chuying
+        app: bingo
+    commonAnnotations:
+      env: test
+      oncallPager: 800-555-1212
+
+    ```
+
 
 ### Patch
 patch 是 `overlays` 用于修改 `base` 资源的具体方式，比如 `overlays/production/patch.yaml` 文件帮助实现了 `production` overlay。
 
 The patch mechanism has several important keys: `patch`, `target` and `path`.
 
-**Way 1: `patch` and `target`**
+#### Way 1: `patch` and `target`
 
 ```yaml
 # overlays/production/patch.yaml
@@ -323,7 +341,7 @@ namespace: test-env
 patches: 
 - patch: |-
     - op: replace             # operation
-      path: /metadata/name
+      path: /metadata/name    # '/' indicates DOC ROOT, here it means deployment.metatdata.name
       value: frontend-test
   target:                     # target
     kind: Deployment
@@ -340,8 +358,42 @@ resources:                    # used "base"
 commonLabels:                 # add label to all the resources
   env: test
 ```
+!!! note "`|-`"
+    is a **block scalar indicator** that handles multi-line content.
 
-**Way 2: `path`**
+    with `|-`:
+    ```bash
+    patches:
+      - patch: |-                   
+        - op: replace
+          path: /spec/replicas
+          value: 15
+    ```
+
+    without `|-`:
+    ```bash
+    patchs:
+      - patch: "- op: replace\n  path: /spec/replicas\n  value: 15"
+    ```
+
+!!! info "`|-` vs `|`"
+    ```bash
+    example: |-
+      Line 1
+      Line 2
+    ```
+    This results in `Line 1\nLine 2` (without a trailing newline).
+
+    ```bash
+    example: |
+      Line 1
+      Line 2
+    ```
+    This results in `Line 1\nLine 2\n` (with a trailing newline).
+
+
+
+#### Way 2: `patch` and `path`
 ```yaml
 # patch.yaml 
 apiVersion: apps/v1
@@ -370,6 +422,25 @@ resources:                  # used "base"
 - ../../base
 commonLabels:               # add label to all the resources
   env: prod
+```
+
+#### Way 3
+rebuild the resouce by using the same name. Kinda like a trick
+
+```bash
+# replicas.yaml
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  replicas: 2
+```
+
+```bash
+# kustomization.yaml
+patches:
+  - replicas.yaml
 ```
 
  

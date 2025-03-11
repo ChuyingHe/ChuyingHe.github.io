@@ -45,35 +45,19 @@
     - [Redhat Blog: Self-Serviced End-to-end Encryption Approaches for Applications Deployed in OpenShift](https://www.redhat.com/en/blog/self-serviced-end-to-end-encryption-approaches-for-applications-deployed-in-openshift)
 
 
-### Edge
-<img src="../imgs/tls_edge.svg" />
+### Illustration
+<img src="../imgs/OCP-PKI-and-certificates-reverse-proxy.png" width="600" />
 
-### Passthrough
-<img src="../imgs/tls_passthrough.svg" />
-
-### Re-encryption
-
-!!! note "Create route with **Edge Termination**"
-    to create an encrypted edge route with a custom TLS certificate:
-
-    ```bash
-    oc create route edge \
-        --service api-frontend \
-        --hostname api.apps.acme.com \
-        --key api.key \
-        --cert api.crt
-    ```
-
-    when `--key` and `--cert` exist,  then the **RHOCP ingress operator** provides a certificate from the **internal Certificate Authority (CA)**
+1. **Clear text**: the connection is always unencrypted.
+2. **Edge**: the connection is encrypted from the client to the reverse proxy, but unencrypted from the reverse proxy to the pod.
+3. **Re-encrypt**: the encrypted connection is terminated at the reverse proxy, but then re-encrypted.
+4. **Passthrough**: the connection is not encrypted by the reverse proxy. The reverse proxy uses the Server Name Indication (SNI) field to determine to which backend to forward the connection, but in every other respects it acts as a Layer 4 load balancer.
 
 
-!!! info "Certificates provided from internal 'Certificate Authority'"
-    to view the **certificates** that the internal **CA** provides:
-    ```bash
-    oc get secrets/router-ca -n openshift-ingress-operator -o yaml
-    ```
 ## Example
 ### Create unencrypted route
+<img src="../imgs/ocp-clear.png" width="600" />
+
 ```bash
 oc expose svc/my_service
 ```
