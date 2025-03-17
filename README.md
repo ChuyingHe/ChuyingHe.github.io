@@ -45,4 +45,9 @@ In the browser, File > Print > Save as PDF (see export to PDF)
 
 ## Update deployment
 
-After pushing the changes using the common `add`-`commit`-`push` steps, make sure use `mkdocs gh-deploy` to build and push the changes to `gh-deploy` branch. If failed, make a new clone from the repo and run the command in the newly cloned folder.
+After pushing the changes using the common `add`-`commit`-`push` steps, build and push the changes to `gh-deploy` branch. If failed, make a new clone from the repo and run the command in the newly cloned folder:
+```bash
+git pull
+sleep 2
+mkdocs gh-deploy
+```
