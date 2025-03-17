@@ -11,7 +11,7 @@ oc create route edge todo-https \
 ```
 
 - `edge` indicates its encrypted
-- When the `--key api.key` and `--cert api.crt` options are omitted, the RHOCP ingress operator creates the required certificate with its own **Certificate Authority (CA)**.
+- If the --key and --cert options are omitted, then the **RHOCP ingress operator** provides a certificate from the **internal Certificate Authority (CA)**.
 
 
 

@@ -489,6 +489,10 @@ oc adm policy remove-cluster-role-from-group self-provisioner system:authenticat
     ```bash
     error: unable to find target [new_developer]
     ```
+    可以用以下命令查看与角色 self-provisioner相连的是什么：
+    ```bash
+    oc get clusterrolebinding self-provisioner
+    ```
 
 ## Other CLIs
 |Default Clusterroles|Description|

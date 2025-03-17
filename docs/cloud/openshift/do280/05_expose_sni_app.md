@@ -9,7 +9,9 @@ For example, **cloud providers**(such as **IBM Cloud** or **G-cloud**) typically
 If you run a Kubernetes cluster on a cloud provider, controllers in Kubernetes use the cloud provider's APIs to configure the required cloud provider resources for a load balancing service. On environments where managed load balancer services are not available, you must configure a **load balancer component** according to the specifics of your network - for example, **MetalLB**:
 
 ## MetalLB
-**MetalLB** 是一个开源的负载均衡器解决方案(**load balancer component**)，专为<ins>没有内置云负载均衡器的</ins>集群设计。比如**bare metal cluster**, **clusters on hypervisors(虚拟机管理程序)** 或私有云. 
+**MetalLB** 是一个开源的负载均衡器解决方案(**load balancer component**)，专为<ins>没有内置云负载均衡器的</ins>集群设计。比如**bare metal cluster**, **clusters on hypervisors(虚拟机管理程序)** 或私有云.
+
+> 该 Operator 的名字本身也带 “Metal”，充分说明了它的使用环境
 
 **MetalLB** is an **Operator** that you can install per **Operator Lifecycle Manager**:
 
@@ -18,7 +20,7 @@ If you run a Kubernetes cluster on a cloud provider, controllers in Kubernetes u
 !!! info "step-by-step"
     1. Deploy **MetalLB**: Ensure MetalLB is installed and running in the cluster.
     2. Create the `IPAddressPool` resource
-    3. Configure MetalLB Advertisement: create either `L2Advertisement` or `BGPAdvertisement` resource
+    3. Configure MetalLB Advertisement: create either `L2Advertisement`（L2广播） or `BGPAdvertisement`（BGP广播） resource
     4. Create a **LoadBalancer type** `service` and **MetalLB** will allocate IPs from the specified pool. <br/>Example: create `service` of the LoadBalancer type to expose non-HTTP services outside the cluster.
     ```yaml
     apiVersion: v1
@@ -46,8 +48,9 @@ If you run a Kubernetes cluster on a cloud provider, controllers in Kubernetes u
       [{"ip":"192.168.50.20"}]
       ```
     
+    **⚠️ PORT(S)的格式是 `外部端口:内部端口/协议`** (`1234:31265/TCP`)
 
-    You can now connect to the `service` on port 1234 of the 192.168.50.20 address. You can test it in several ways:
+    You can now connect to the `service` on the `192.168.50.20:1234` address. You can test it in several ways:
     ```bash
     ping 192.168.50.20:1234
     # or
@@ -286,8 +289,10 @@ oc get networkattachmentdefinition.k8s.cni.cncf.io
     - `utility` connects **student network** and **cluster network**
 
 ### Cluster's Network Interfaces
-To check the IP of a node, login as `admin`, and run a "temporary" pod to execute `ip addr` command:
+To check the IP of a node, login as `admin`. 在 OpenShift 集群中的 master01 节点上启动一个调试容器. 
 ```bash
+# -- 是一个分隔符，用于区分 oc debug 命令的选项和要在目标节点上执行的命令。
+
 oc debug node/master01 -- chroot /host ip addr
 ```
 The result contains 2 Network Interfaces:

@@ -141,6 +141,7 @@ nav:
   - Network:
       - interesting topics: network/index.md
       - HTTP: network/http.md
+      - SSH vs TLS: network/ssh_vs_tls.md
   - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
       - Git: project_mgmt/git/index.md

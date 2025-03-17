@@ -330,11 +330,12 @@ metadata:
 !!! note "Quotas's Types"
 	有两种类型的限制：
 
-	**1. Compute Resource Quotas** <br/>
-		- **Limit Quota**: 容器可以使用的最大资源量，用于控制容器的资源使用上限，防止容器使用过多资源，影响其他容器的运行。（`limits.cpu`，`limits.memory`）
-		- **Request quotas**: 容器希望获得的资源。用于确保容器能够获得至少一定量的资源。（`requests.cpu`，`requests.memory`）
+	**1. Compute Resource Quotas**
 
-	**2. Object Count Quotas**: limit the number of resources
+	- **Limit Quota**: 容器可以使用的 最大资源量，用于控制容器的资源使用上限，防止容器使用过多资源，影响其他容器的运行。（`limits.cpu`，`limits.memory`）
+	- **Request quotas**: 容器希望获得的 最小资源量。用于确保容器能够获得至少一定量的资源。（`requests.cpu`，`requests.memory`）
+
+	**2. Object Count Quotas**: limit the number of resources. Pod, Service、ConfigMap、Secret、LoadBalancer 等
 
 
 举例：`limits.cpu: "10"` 表示当前 Namespace 中所有 `non-terminal` 状态的 Pod 的`.limits.cpu`资源的总和没有超过 10
@@ -352,17 +353,16 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: compute-quota
-  namespace: dev
+  namespace: dev	# 此 ResourceQuota 作用的 Namespace
 spec:
-  <span style="background-color: #ccd1f0">hard:</span>
+  hard:				# 别忘了这个
     count/pods: "10"
-
     requests.cpu: "4"
-    requests.memory: 5Gi
+    requests.memory: "5Gi"
     limits.cpu: "10"
-    limits.memory: 10Gi
-  scopes: {} 
-  scopeSelector: {} 
+    limits.memory: "10Gi"
+  scopes: {} 		# 用 QoS 类别选择， 比如 Terminating, BestEffort
+  scopeSelector: {} # 更灵活的filter，可使用 matchExpressions 指定匹配规则
 ```
 
 #### 2. Web Console
@@ -372,8 +372,10 @@ Administration > ResourceQuotas
 
 #### 3. CLI
 ```bash
-oc create resourcequota example --hard=count/pods=1
+oc create quota example --hard=pods=1
+oc create resourcequota example --hard=pods=1
 oc create resourcequota example --hard=count/deployments.apps=1 # ⚠️ 不是 count/deployment
+# --hard=pods=1,limits.cpu=10,requests.cpu=5 --> seperate the constraints by "," - NO SPACE
 ```
 
 !!! note
@@ -386,7 +388,7 @@ oc create resourcequota example --hard=count/deployments.apps=1 # ⚠️ 不是 
 		name: example
 	spec:
 		hard:
-			count/pods: "1"
+			count/pods: "1"		# new version is pods: "1"
 	```
 ### 查看ResourceQuota
 ```bash

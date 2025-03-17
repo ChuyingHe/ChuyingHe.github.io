@@ -172,18 +172,24 @@ spec:
 
 By default, **OpenShift** encrypts network traffic between **Nodes** and the **Control Plane**, and prevents external entities from reading internal traffic. This encryption provides stronger security than default **Kubernetes**, which does not automatically encrypt internal traffic. 
 
-## OC `service-ca` Controller 
-`service-ca` 控制器负责为集群中的服务 **提供和管理证书**。通过自动管理证书，极大简化了服务之间的安全通信配置，减少了手动操作和潜在的配置错误。
+## `service-ca` Operator 
+- 之前我自己手动配置了一个带有 [Passthrough Termination](./04_ext_passthrough.md) 的route，是不是挺麻烦的
+- OpenShift提供了自动化的解决方法: **`service-ca` Operator** 为集群中的services 提供**自动**证书管理。使用步骤如下： 
 
-The Controller generates and signs **service certificates** for internal traffic by creating a `secret` contains 
-a <ins>signed certificate</ins> and <ins>key</ins>. --> then, a `deployment` can mount this `secret` as a volume to use the <ins>signed certificate</ins>. 
+!!! info "说明"
+    为了便于理解，我们这里:
 
-### 1. Secret generation
+    - SERVER = the visitee
+    - CLIENT = the visiter
+    - CA = a trustworthy third-party authority
+
+
+### 1. [SERVER] Secret generation
 ```bash
 oc annotate service hello \
     service.beta.openshift.io/serving-cert-secret-name=hello-secret
 ```
-With this annotation, the **`service-ca` Controller** auto-generates a `secret` that named `hello-secret`, which contains <ins>signed certificate</ins> and <ins>a TLS key</ins>.
+With this annotation, the **`service-ca` Operator** auto-generates a `secret` that named `hello-secret`, which contains <ins>signed certificate</ins> and <ins>a TLS key</ins>.
 
 !!! note "the auto-generated Secret `hello-secret`"
     ```bash
@@ -199,7 +205,7 @@ With this annotation, the **`service-ca` Controller** auto-generates a `secret` 
     tls.crt:  2615 bytes
     ```
 
-### 2. Mount secret to deployment
+### 2. [SERVER] Mount secret to deployment
 YAML file of a NGINX `deployment`:
 
 ```yaml
@@ -219,9 +225,8 @@ spec:
             secretName: hello-secret        # the auto-generated Secret
             items:
               - key: tls.crt                # - Secret's certificate
-                path: server.crt
+                path: server.crt            # file name in the Container, answer "Mount to where?"
               - key: tls.key                # - Secret's key
-                path: private/server.key
 ...
 ```
 
@@ -231,8 +236,8 @@ spec:
 
     <img src="../imgs/ca.png" width="200" />
 
-### 3. Certificate validation
-For a client service application to verify the validity of a certificate, the application needs the CA bundle that signed that certificate. The **`service-ca` Controller** injects the **CA bundle** when you apply the annotation `service.beta.openshift.io/inject-cabundle=true` to an object.
+### 3. [Client] Certificate validation
+For a client service application to verify the validity of a certificate, the application needs the CA bundle that signed that certificate. The **`service-ca` Operator** injects the **CA bundle** (a group of Certificates) when you apply the annotation `service.beta.openshift.io/inject-cabundle=true` to an object.
 
 The object could be:
 
@@ -246,15 +251,34 @@ Example: annotating a `ConfigMap`:
 ```bash
 oc annotate configmap ca-bundle \
     service.beta.openshift.io/inject-cabundle=true
+
+# this cli will overwrite the whole CM, so make sure the CM is empty
 ```
 
 
 !!! note "CA Bundle"
-    A **CA bundle**, or **Certificate Authority bundle**, is a group of individual **SSL certificates** that are bundled together into a single file. 
+    A **CA bundle**, or **Certificate Authority bundle**, is a group of **SSL certificates** that are bundled into a single file. 
 
-    OpenShift/Kubernetes 中的服务会通过 **CA Bundle** 确定哪些 **CA** 是可信任的，从而验证通信对方的证书，如图：
+    OpenShift/Kubernetes 中的服务会通过 **CA Bundle** 中的 Certificates 确定哪些 **CA** 是可信任的，从而验证通信对方的证书，如图：
 
-    <img src="../imgs/ca_bundle.png" width="500" />
+    <img src="../imgs/ca_bundle.png" width="400" />
+
+    ```crt
+    -----BEGIN CERTIFICATE-----
+    MIIDdzCCAl+gAwIBAg...
+    -----END CERTIFICATE-----
+
+    -----BEGIN CERTIFICATE-----
+    MIIEFTCCAv2gAwIBAg...
+    -----END CERTIFICATE-----
+    ```
+
+!!! danger "What is inside a certificate?"
+    - issue to
+    - issued by
+    - Server Public Key
+    - encrypted server Public Key (encrypted by CA Private Key)
+
 
 ### 4. Certificate rotation
 
@@ -267,9 +291,9 @@ You can also manually rotate the certificate: <br/>
     oc delete secret/signing-key -n openshift-service-ca
     ```
     2. **generated service certificate**
-    **generated service certificate** are TLS certificates automatically created by the service-ca controller for individual services or routes.
+    **generated service certificate** are TLS certificates automatically created by the `service-ca` Operator for individual services or routes.
     ```bash
-    # delete the existing secret, and the service-ca controller automatically generates a new one.
+    # delete the existing secret, and the `service-ca` Operator automatically generates a new one.
     oc delete secret certificate-secret
     ```
 

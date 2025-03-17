@@ -92,26 +92,23 @@ oc patch clusterversion version --type="merge" \
 During the upgrade process, nodes in the cluster might become temporarily unavailable. In the case of worker nodes, the **machine health check** might identify such nodes as unhealthy and reboot them. To avoid rebooting such nodes, pause all the **machine health check** resources before updating the cluster.
 
 1. list all the available machine health check resources
-
-```bash
-[user@host ~]$ oc get machinehealthcheck -n openshift-machine-api
-NAME                             MAXUNHEALTHY  EXPECTEDMACHINES  CURRENTHEALTHY
-machine-api-termination-handler  100%
-```
+        ```bash
+        [user@host ~]$ oc get machinehealthcheck -n openshift-machine-api
+        NAME                             MAXUNHEALTHY  EXPECTEDMACHINES  CURRENTHEALTHY
+        machine-api-termination-handler  100%
+        ```
 
 2. pause the Health Check with the annotation
-
-```bash
-oc annotate machinehealthcheck -n openshift-machine-api \
-    machine-api-termination-handler cluster.x-k8s.io/paused=""
-```
+        ```bash
+        oc annotate machinehealthcheck -n openshift-machine-api \
+            machine-api-termination-handler cluster.x-k8s.io/paused=""
+        ```
 
 3. remove the annotation after the cluster is updated.
-
-```bash
-oc annotate machinehealthcheck -n openshift-machine-api \
-    machine-api-termination-handler cluster.x-k8s.io/paused-
-```
+        ```bash
+        oc annotate machinehealthcheck -n openshift-machine-api \
+            machine-api-termination-handler cluster.x-k8s.io/paused-
+        ```
 
 ## OTA
 OTA generates all possible update paths for your cluster. 
@@ -313,3 +310,11 @@ You can switch channels in the operator subscription.
 
 
 ## 3. You can create custom catalogs, and decide which versions of operators to include in the catalog. 
+
+
+
+# Gather info
+Gather cluster info for debugging purpose:
+```bash
+oc adm must-gather 
+```

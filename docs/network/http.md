@@ -13,7 +13,11 @@
     protocol = set of rules
 
 # HTTP
+默认端口`80`.
+
 Why is HTTP not secure?
 
 # HTTPS
+默认端口`443`.
+
 Why is HTTPS secure?

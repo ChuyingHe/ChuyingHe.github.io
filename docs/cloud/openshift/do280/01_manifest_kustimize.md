@@ -84,6 +84,17 @@ kubectl apply -f resource.yaml
     - use `oc rollout restart deployment/deployment-name` to <ins>force the **restart**</ins> → 是重启，不是回滚到上一个版本
     - if `spec.replica` == 1, you can also delete the previous pod.
 
+!!! warning "`oc delete pod ...` VS `oc rollout restart deployment ...`"
+    | Feature / Behavior                  | `oc delete pod ...`       | `oc rollout restart deployment ...` |
+    |-------------------------------------|--------------------------|----------------------------------|
+    |**What happend?**|OpenShift’s **ReplicaSet** will detect that a pod is missing and create a new one to maintain the desired number of replicas.|This triggers a new **rollout** of the deployment by restarting all pods in a controlled manner.|
+    | **Effect**                          | Deletes a specific pod, OpenShift recreates it | Restarts all pods in the deployment |
+    | **Scope**                           | Affects only the deleted pod | Affects all pods in the deployment |
+    | **Triggers new rollout?**           | ❌ No                      | ✅ Yes                              |
+    | **Secret update (mounted as volume)** | ✅ Yes, automatically picked up | ✅ Yes, but not necessary          |
+    | **Secret update (used as env var)**   | ❌ No, old value persists | ✅ Yes, ensures new value          |
+    | **Best use case**                   | Restarting a single pod due to issues such as: stuck process, memory leak. | Ensuring all pods restart and pick up new changes |
+
 
 ## Patch Manifest
 The `oc patch` command updates or adds fields in an existing object:
@@ -151,7 +162,8 @@ OpenShift looks at the **resource types** and **names** in the YAML files.
 # 2. Kustomize
 <img src="../imgs/kustomize_logo.jpg" width="300" />
 
-[Walk through video](https://www.youtube.com/watch?v=spCdNeNCuFU&ab_channel=DevOpsJourney)
+- [Walk through video](https://www.youtube.com/watch?v=spCdNeNCuFU&ab_channel=DevOpsJourney)
+- [kustomization YAML doc](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/)
 
 **Kustomize** 是一个开源的Kubernetes **配置管理工具**，用于对Kubernetes 清单文件进行自定义和修改。 它允许用户通过分层和声明式的方式管理和定制应用程序的配置，而无需直接修改原始的清单文件，促进了配置的复用和可维护性。我们可以用Kustomize配置多个环境，比如：
 

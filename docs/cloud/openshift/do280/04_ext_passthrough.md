@@ -10,6 +10,7 @@
 <pre><code>
 openssl-commands.txt
 passphrase.txt
+
 training.ext
 training-CA.key
 training-CA.pem
@@ -19,6 +20,7 @@ training-CA.pem
 <pre><code>
 openssl-commands.txt
 passphrase.txt
+
 training.ext
 training-CA.key
 training-CA.pem
@@ -124,24 +126,31 @@ openssl req -new \
 # Generate the signed certificate `training.crt`
 # 
 # INPUT:
-# - the request: `training.csr`
-# - the defined password: `passphrase.txt `
-# - the CA info:
-#       -  public key of CA: `training-CA.pem`
-#       -  private key of CA: `training-CA.key`
-#       -  create a training-CA.srl if NOT exist
+# - `training.csr`: the request
+# - `passphrase.txt`: the defined password
+# -  `training.ext`: configuration file
+# - CA info:
+#       -  `training-CA.pem`: public key
+#       -  `training-CA.key`: private key
+#       
 # OUTPUT:
-#   - a signed Certificate: `training.crt`
-#   - a list for documenting purpose: `training.ext`
+#   - `training.crt`: a signed Certificate
+#   - `training-CA.srl`: (If NOT exist) a list for documenting purpose
 openssl x509 -req -in training.csr \
     -passin file:passphrase.txt \
-    -CA training-CA.pem -CAkey training-CA.key -CAcreateserial \
-    -out training.crt -days 1825 -sha256 -extfile training.ext
+    -extfile training.ext \
+    -CA training-CA.pem \
+    -CAkey training-CA.key \
+    -CAcreateserial \       # Creates training-CA.srl if NOT exist, to track certificate Serial numbers
+    -out training.crt \
+    -days 1825 \            # Certificate’s validity period = 5 years
+    -sha256                 # Certificate signature hashing = SHA-256
+
 ```
 
-<img src="../imgs/generate_certifcate_passthrough.png" width="600" />
+<img src="../imgs/generate_tsl_certifcate.png" width="600" />
 
-!!! note "`-subj`
+!!! note "`-subj`"
     The `-subj` flag in the `openssl req -new `command specifies the **distinguished name (DN)** directly in the command line, instead of interactively entering it.
 
 !!! note "Distinguished Name(DN)"
@@ -165,9 +174,6 @@ openssl x509 -req -in training.csr \
     |`OU`|Organizational Unit|`OU=Engineering`|
     |`CN`|Common Name (usually a domain or hostname)|`CN=todo-https.apps.ocp4.example.com`|
     |`emailAddress`|Email Address (optional)|`emailAddress=admin@example.com`|
-
-    
-
 
 
 # 2. Generate TLS secret with Certificate and Key

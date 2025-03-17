@@ -2,13 +2,44 @@
 
 !!! info "Workload Resource Limit"
     For resource limitating purpose, workloads can specify the following properties:
-    - **Resource limits**: to limit the resources that a workload consumes.
-    - **Resource requests**: to declare the minimum required resources, to prevent deployments of new workloads if the cluster has insufficient resources.
+    
+    - **limits**: MAXIMAL resource consumption.
+    - **requests**: MINIMAL resource consumption, to prevent deployments of new workloads if the cluster has insufficient resources.
 
-Cluster adminstrator might needs more control, by dividing workloads into **namespaces**. `ResourceQuota` defines constraint that applies to the whole **namespace**, more basic knowledge check [here](/cloud/k8s/ckad/ckad-1/#resourcequota)。
+`ResourceQuota` defines constraint that applies to the one **namespace**, more check [here](/cloud/k8s/ckad/ckad-1/#resourcequota)。
+
+!!! danger "ResourceQuota are extensible"
+    
+    这里的 **extensible/可扩展** 指的是 Kubernetes 允许 `ResourceQuota` 配置不同的 **API 组**，甚至是 **自定义资源（CRD）**配额。
+
+    也是这个可扩展性，导致 Kubernetes 本身无法验证 ResourceQuota 是否正确或有效。如何检测呢？
+
+    1. 创建很低的 ResourceQuota
+    2. 创建资源
+    3. 观察资源是否成功创立，还可以看 NS 的 events：
+        ```bash
+        oc get event --sort-by .metadata.creationTimestamps
+        ```
+        common error:
+        - `exceeded quota: one-cpu`
+        - `must specify requests.cpu`
+    4. 查看 ResourceQuota 的 status：
+        ```bash
+        oc get quota one-cpu -o yaml
+        ```
+        Example:
+        ```bash
+        status:
+          hard:
+            requests.cpu: "1"
+          used:
+            requests.cpu: "1"
+        ```
+        
+
 
 # 2. ClusterResourceQuota
-**Cluster administrators** can use `ClusterResourceQuota` to apply restrictions across namespaces
+**Cluster administrators** can use `ClusterResourceQuota` to apply restrictions across multiple "selected" namespaces
 
 ## 创建
 
@@ -19,10 +50,10 @@ kind: ClusterResourceQuota
 metadata:
   name: example
 spec:
-  quota:
-    hard:
+  quota:              # NEW
+    hard:             # From here, the same as in ResourceQuota
       limits.cpu: 4
-  selector:
+  selector:           # selected namespaces
     annotations: {}
     labels:
       matchLabels:
@@ -34,7 +65,9 @@ Administration > CustomResourceDefinitions
 
 ### 3. CLI
 ```bash
-oc create clusterresourcequota example --project-label-selector=group=dev --hard=requests.cpu=10
+oc create clusterresourcequota example \
+    --project-label-selector=group=dev \
+    --hard=requests.cpu=10,limits.cpu=20    # seperate the constraints by "," - NO SPACE
 ```
 
 ## 查看
@@ -55,7 +88,7 @@ metadata:
   name: mem-limit-range
   namespace: default
 spec:
-  limits:
+  limits:   # 记忆方法：因为是 LimitRange 所以 spec 由 limits 开始
     - default:
         memory: 512Mi
       defaultRequest:
@@ -65,31 +98,82 @@ spec:
 
 Limit ranges can specify the following limit types:
 
-- `default`: default limits for workloads,  eliminate a need to declare limits explicitly in each workload. 
-- `defaultRequest`: default requests for workloads<br/> ⚠️ `default` >= `defaultRequest`
-- `max`: the maximum value of both requests and limits. Users cannot create workloads that declare limits or that make resource requests over the maximum.<br>⚠️ Consider allowing users who create workloads to edit maximum limit ranges.
-- `min`: the minimum value of both requests and limits.<br/>To ensure that users create workloads with enough requests and limits. 
-- `maxLimitRequestRatio`: the relationship between limits and requests. If you set a ratio of two, then the resource limit cannot be more than twice the request.
+- `default`(Limit): default limits for workloads,  eliminate a need to declare limits explicitly in each workload. 
+- `defaultRequest`: default `requests` for workloads
+    - ➡️ `default` >= `defaultRequest`
+- `max`: the maximum value of both `requests` and `limits`. 
+    - ➡️ Consider allowing users who create workloads to edit maximum limit ranges.
+- `min`: the minimum value of both `requests` and `limits`
+- `maxLimitRequestRatio` = `limits`/`requests`. `maxLimitRequestRatio: 2` means the resource `limit` cannot be more than twice the `request`.
 
 
 !!! warning
-    When a `ResourceQuota`/`ClusterResourceQuota` is present, all workloads must specify the corresponding limits and requests. When you set the `default` and `defaultRequest` keys in a `LimitRange`, workloads use the requests and limits from the limit range by `default`. So you will be able to create workloads without seeing this error:
+    **Problem**: When a `ResourceQuota`/`ClusterResourceQuota` is present, all workloads must specify the corresponding `limits` and `requests`. 
+    
+    **Solution**: Set the `LimitRange.spec.limits.default` and `LimitRange.spec.limits.defaultRequest`, workloads use the requests and limits from the limit range by `default`. So you will be able to create workloads without seeing this error:
 
     ```bash
     ...output omitted...
-    13s         Warning   FailedCreate        replicaset/example-74c57c8dff   Error creating: pods "example-74c57c8dff-rzl7w" is forbidden: failed quota: example: must specify limits.cpu for: hello-world-nginx; limits.memory for: hello-world-nginx; requests.cpu for: hello-world-nginx; requests.memory for: hello-world-nginx
+    13s         Warning   FailedCreate        replicaset/example-74c57c8dff   
+    Error creating: pods "example-74c57c8dff-rzl7w" is forbidden: 
+    failed quota: example: must specify 
+      limits.cpu for: hello-world-nginx; 
+      limits.memory for: hello-world-nginx; 
+      requests.cpu for: hello-world-nginx; 
+      requests.memory for: hello-world-nginx
     ...output omitted...
     ```
 
-!!! info 
+!!! warning
+    `LimitRange` gives workloads(e.g. `deployment`) default value, but in the generated `deployment.yaml` you see:
+    ```bash
+    # deployment
+    .spec.template.spec.containers[].resources: {}
+    ```
+
+    `LimitRange` modify `containers` but not `deployments`
+
+!!! danger 
     `LimitRange` do not affect existing pods. 
 
 |CLI||
 |:-|:-|
 |`oc get event --sort-by .metadata.creationTimestamp`||
-|`oc set resources deployment example --limits=cpu=[new-cpu-limit]`||
+|`oc set resources deployment example --limits=cpu=[new-cpu-limit]`|Set resource for workload|
+|`oc adm top node`|show usage statistics of resources （没有排序，尽管命令中有top这个词）|
+|`oc describe node/master01`|view the node details|
 
 
+!!! note "oc describe node/xxx"
+    ```bash
+    [student@workstation ~]$ oc describe node/master01
+    Name:               master01
+
+    Capacity:                     # ⬅ 总容量
+      cpu:                6
+
+    Allocatable:                  # ⬅ 可分配 CPU 资源：5500m（5.5 核心）
+      cpu:                5500m   
+
+    Allocated resources:
+      (Total limits may be over 100 percent, i.e., overcommitted.)
+      Resource           Requests       Limits
+      --------           --------       ------
+      cpu                4627m (84%)    0 (0%)    # ⬅ 4627m (84%), 所有正在运行的 Pod requests 的总和
+                                                  # ⬅ 0 (0%)，没有设 limits
+      memory             12102Mi (81%)  0 (0%)
+      ephemeral-storage  0 (0%)         0 (0%)
+      hugepages-1Gi      0 (0%)         0 (0%)
+      hugepages-2Mi      0 (0%)         0 (0%)
+    ```
+    - 可用的 CPU=5500m-4627m < 1vCPU
+    
+    - **Allocatable/可分配 CPU 资源**：Kubernetes 不会把全部 6 个 CPU 核心分配给 Pod，它会预留部分资源（500m）用于系统进程（如 kubelet、容器运行时、监控等）
+    ```bash
+    # m = millicores / 毫核
+    1000m = 1 vCPU
+    ```
+    该配置可以在 `/etc/kubernetes/kubelet.conf` 里的 `system-reserved` 配置看到。
 
 # 4. Project Template
 
@@ -99,19 +183,22 @@ Limit ranges can specify the following limit types:
     When you make a query to list `projects`, the API server lists `namespaces`, filters the visible `namespaces` to your user, and returns the visible `namespaces` in `project` format.
 
 
-OpenShift introduces the `ProjectRequest` resource type. When you create a project request, the OpenShift API server creates a `namespace` from a **Project Template**. By using a **Project Template**, cluster administrators can customize `namespace` creation. For example, cluster administrators can ensure that new `namespaces` have specific permissions, `ResourceQuota`, or `LimitRange`.
+OpenShift introduces the `ProjectRequest` resource type. When you create a project request, the OpenShift API server creates a `namespace` from a **Project Template**. By using a **Project Template**, cluster administrators can customize `namespace` to have:
 
-<img src="../imgs/project_ns.png" width="200" />
+- specific permissions
+- `ResourceQuota`
+- `LimitRange`
+
+<img src="../imgs/project_ns.png" width="300" />
 
 ## Resources
-You can add any namespaced resource to the **Project Template**. For example:
+You can add any **namespaced resource** to the **Project Template**. For example:
 
-- **Role & RoleBinding** <br/>
-  Add roles and role bindings to the template to grant specific permissions in new projects. The default template grants the admin role to the user who requests the project.
-- **ResourceQuota & LimitRange** <br/>
-  Add resource quotas to the project template to ensure that all new projects have resource limits. Therefore, better create also `LimitRange` when you have `ResourceQuota` - to reduce the effort for workload creation.
-- **NetworkPolicy**  <br/>
-  Add network policies to the template to enforce organizational network isolation requirements.
+- **Role & RoleBinding**: to grant specific permissions in new projects. 
+    - Default template grants the admin role to the user who requests the project.
+- **ResourceQuota & LimitRange**: to ensure that all new projects have resource limits.
+    - Better create both `ResourceQuota` and `LimitRange` together - to have the `default` and `defaultRequest` values - reduce the effort for workload creation.
+- **NetworkPolicy**: to enforce organizational network isolation requirements.
 
 ### Creation
 Create a file with an initial template:
@@ -170,7 +257,7 @@ metadata:
 
 
 
-Some resource in the **project template** such as `quotas` - do not have strict validation. -》 即使有错也不会报错！！比如把`count/pod`写成了`count/pods`。以防万一，可以这样做：
+不建议直接手动修改改文件，可以这样做：
 
 1. 创建一个namespace
 2. 创建 resources 比如 `RoleBinding` 直到获得预期的行为。
@@ -212,14 +299,13 @@ spec:
     watch oc get pod -n openshift-apiserver
     ```
 
-# 5. Self-provisioner `role`
+## 拦路虎 `self-provisioner`
 
-- `user` with the **self-provisioner** `clusterrole` can create projects
-- By default, the **self-provisioner** role is bound to all authenticated `user`
+!!! note
+    - User with the `self-provisioner` clusterrole can create projects
+    - By default, the **self-provisioner** role is bound to all authenticated users (as Default User Group `system:authenticated:oauth`)
 
-
-!!! warning
-    Remember that `user` with `namespace` permissions can create `namespace` that do not use the **project template**.
+在使用 Project Template 的路上，有一个拦路虎 - role `self-provisioner`。因为有权创建 project 的用户，也有权直接创建 namespace，这样有可能导致 namespace 缺少 **Project Template** 中自定义的规则！
 
 
 查看该role的rolebinding：
@@ -238,8 +324,30 @@ Subjects:
   Group  system:authenticated:oauth
 ```
 
-!!! warning
-    `Annotations:  rbac.authorization.kubernetes.io/autoupdate: true`确保 `self-provisioners` 这样的 `ClusterRoleBinding` 会在集群更新时自动同步到最新的系统策略，保持集群安全和策略一致性。
+两个修改方法:
+
+- 把 system:authenticated:oauth 从这个 clusterrolebinding 中移除 (比如[例子]((../03_auth/#_2))):
+  ```bash
+  oc adm policy remove-cluster-role-from-group
+  ```
+- 直接修改 clusterrolebinding:
+  ```bash
+  oc edit clusterrolebinding self-provisioners
+  ```
+
+
+!!! danger
+    上面这个clusterrolebinding中有这么一条 Annotations：
+    ```bash
+    rbac.authorization.kubernetes.io/autoupdate: true
+    ```
+    
+    它确保 `self-provisioners` 这样的 **ClusterRoleBinding** 会在集群更新时自动同步到最新的系统策略，保持集群安全和策略一致性。如果我要停用该功能：
+    ```bash
+    oc annotate clusterrolebinding/self-provisioners \
+      --overwrite rbac.authorization.kubernetes.io/autoupdate=false
+    ```
+    ⚠️ 小心使用！！！
 
 ## 修改
 to disable self-provisioning, using bash:
@@ -255,3 +363,6 @@ or edit YAML:
 ```bash
 oc edit clusterrolebinding/self-provisioners
 ```
+
+
+这里继续：https://rol.redhat.com/rol/app/courses/do280-4.14/pages/ch06s06

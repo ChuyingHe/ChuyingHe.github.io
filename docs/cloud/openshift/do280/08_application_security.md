@@ -21,31 +21,41 @@ oc describe pod console-5df4fcbb47-67c52 -n openshift-console | grep scc
     - A container image(from DockerHub) that requires running as a specific user ID can fail because the `restricted-v2` SCC runs the container by using a random user ID.
     - A container image that listens on port 80 or on port 443 can fail for a related reason. The random user ID that the `restricted-v2` SCC uses cannot start a service that listens on a **privileged network port** (port numbers that are less than 1024)
 
-    To debug: use the `scc-subject-review` subcommand to list all the security context constraints that can overcome the limitations that hinder the container: <br/>
+    To debug: use the `scc-subject-review` subcommand to list all the security context constraints that can overcome the limitations that hinder the container: 查看当前deployment使用的scc <br/>
     ```bash
     oc get deployment deployment-name -o yaml | oc adm policy scc-subject-review -f -
     ```
 
+!!! info "`oc scc-subject-review`"
+
+    ```bash
+      # Check whether user bob can create a pod specified in myresource.yaml
+      oc policy scc-subject-review -u bob -f myresource.yaml
+
+      # Check whether user bob who belongs to projectAdmin group can create a pod specified in myresource.yaml
+      oc policy scc-subject-review -u bob -g projectAdmin -f myresource.yaml
+
+      # Check whether a ServiceAccount specified in the pod.template.spec in myresourcewithsa.yaml can create the pod
+      oc policy scc-subject-review -f myresourcewithsa.yaml
+    ```
+
 ## Switch SCC
 1. create `serviceaccount`
-
-```bash
-oc create serviceaccount service-account-name
-```
+    ```bash
+    oc create serviceaccount my-sa
+    ```
 
 2. associate `serviceaccount` with an SCC
-
-```bash
-#  Identify a service account by using the -z option
-oc adm policy add-scc-to-user SCC -z service-account
-```
+    ```bash
+    #  Identify a serviceaccount by using the -z option
+    oc adm policy add-scc-to-user <SCC-NAME> -z my-sa
+    ```
+    PS: if assign SCC to a User, just do directly without `-z` flag: `oc adm policy add-scc-to-user restricted user1 user2`
 
 3. Change an existing deployment to use the `serviceaccount`
-
-```bash
-oc set serviceaccount deployment/deployment-name \
-    service-account-name
-```
+    ```bash
+    oc set serviceaccount deployment/deployment-name my-sa
+    ```
 
 
 
@@ -71,38 +81,50 @@ For regular workloads, `default` service account is enough, but in some "infrast
 
 
 ## How to get the correct access to k8s API?
-1. create role/clusterrole
-
-```yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: secret-reader
-rules:
-- apiGroups: [""] 
-  resources: ["secrets"] 
-  verbs: ["get", "watch", "list"] 
-```
-
+1. create role/clusterrole:
+    写yaml文件
+    ```yaml
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: secret-reader             # role name
+    rules:
+    - apiGroups: [""]                 # The API groups, where an empty string represents the core API
+      resources: ["secrets"]          # The resources that the role refers to
+      verbs: ["get", "watch", "list"] # The verbs/actions that the role allows the application to do
+    ```
+    或者用命令行：
+    ```bash
+    oc create clusterrole secret-reader --verb=get,watch,list --resource=secret
+    ```
 2. bind role to serviceaccount
+    ```bash
+    # role
+    oc adm policy add-role-to-user <RoleName> -z service-account
 
-```bash
-# role
-oc adm policy add-role-to-user cluster-role -z service-account
-
-# clusterrole
-oc adm policy add-cluster-role-to-user cluster-role service-account
-```
-
+    # clusterrole
+    oc adm policy add-cluster-role-to-user <ClusterRoleName> -z service-account
+    ```
 3. assign `serviceaccount` to `pod`
 
 
 !!! note "Accessing API Resources in a Different Namespace"
-    if you have an application pod in the `project-1` project that requires access to `project-2` secrets, then you must take these actions:
+    **Request:** Pod in `project-1` wants to read Secret in `project-2`
+    
+    **Background:** you have an application pod in the `project-1` project that requires access to `project-2` secrets, then you must take these actions:
 
     1. Create an `app-sa` service account in the `project-1` project.
     2. Assign the `app-sa` service account to your application pod.
-    3. Create a role binding on the `project-2` project that references the `app-sa` service account and the secret-reader role or cluster role.
+    3. Create a role binding on the `project-2` project that references the `app-sa` service account and the secret-reader role or cluster role. 
+        ```bash
+        # 如何引用另一个 project 中的 sa:
+        system:serviceaccount:<namespace>:<serviceaccount-name>
+        ```
+        create role-binding:
+        ```bash
+        oc project project-2
+        oc adm policy add-role-to-user edit system:serviceaccount:project-1:my-sa
+        ```
 
     <img src="../imgs/appsec-api-role-binding.svg" />
 
@@ -133,7 +155,7 @@ oc create cronjob --dry-run=client -o yaml test \
 ```
 
 !!! info "Schedule specificiation in CronJob"
-    The schedule specification for Kubernetes cron jobs is derived from the specification in Linux cron job.
+    The schedule specification for Kubernetes cron jobs is derived from the specification in Linux cron job
 
     ```bash
     # Example cron job definition:
@@ -141,11 +163,14 @@ oc create cronjob --dry-run=client -o yaml test \
     # │  ┌────────────── hour (0 - 23)
     # │  │   ┌────────── day of month (1 - 31)
     # │  │   │   ┌────── month (1 - 12) or jan,feb,mar,apr ...
-    # │  │   │   │   ┌── day of week (0 - 7) or sun,mon,tue,wed,thu,fri,sat
-    # │  │   │   │   │     (Sunday is 0 or 7)
+    # │  │   │   │   ┌── day of week (0 - 6) or sun,mon,tue,wed,thu,fri,sat
+    # │  │   │   │   │    
     # m  h  dom mon dow  command
       0 */2  *   *   *   /path/to/task_executable arguments
     ```
+
+    ⚠️ "dow"中，Sunday 是 0
+
 
     Examples:
 
@@ -198,6 +223,21 @@ spec:
     ```bash
     bash -xc 'wp maintenance-mode activate ; wp db export | gzip > database.sql.gz ; wp maintenance-mode deactivate ; rclone copy database.sql.gz s3://bucket/backups/ ; rm -v database.sql.gz ;'
     ```
+
+!!! note "`/bin/sh -c` VS `bash -xc`"
+    |Feature | `/bin/sh -c`| `bash -xc`|
+    |:-|:-|:-|
+    |Flags|`-c` execute|`-cx` execute with debug|
+    |Type | Lightweight shell (POSIX-compliant) | Advanced shell with extra features|
+    |Location | Usually /bin/sh (may point to different shells) | Usually /bin/bash|
+    |Scripting | Supports basic scripting | Supports advanced scripting (arrays, associative arrays, string manipulation, etc.)|
+    |Command History (history) | Not always available | Fully supported|
+    |Tab Completion | Minimal or none | Fully supported|
+    |Loops & Conditionals | POSIX standard | Extended syntax ([[ ... ]], == operator)|
+    |Process Substitution (<(cmd)) | Not supported | Supported|
+    |Array Variables (arr=(a b c)) | Not supported | Supported|
+
+
 ## Cronjob with ConfigMap's script
 1. create `configmap` with the required script:
 
@@ -251,3 +291,15 @@ spec:
               name: maintenance
               defaultMode: 0555
 ```
+
+# Exercies notes
+
+
+```bash
+oc debug node/master01 -- \   # Starts a debug pod on the node master01.
+    chroot /host \            # Changes Root-Filesystem to /host, which gives access to the node’s actual file system.
+    crictl rmi --prune        # Uses crictl (CRI-O CLI) to remove all unused images from the node.
+```
+
+!!! note "crictl"
+    Directly interacts with the container runtime (`CRI-O`), allowing you to manage containers and images at the node level.

@@ -261,6 +261,14 @@ stanctl up --air-gapped --multi-node-enable
 !!! note "UI URL of Instana Platform"
     In this case the Instana URL is `student-labs.prod.instana.training`
 
+### Install agent
+install agent, it will create pods for each nodes.
+
+
+```bash
+stanctl agent apply
+```
+
 ## node1
 !!! danger "storage requirement"
     |Description|Default directory|Min size|Disk I use here|
