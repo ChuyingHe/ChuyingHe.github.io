@@ -143,9 +143,27 @@ OpenShift 会在 同一个 region 内跨多个 zone 进行调度。但不会在�
 
 # RHCOS vs RHEL
 
-||RHCOS（Red Hat Enterprise Linux CoreOS）|RHEL（Red Hat Enterprise Linux）|
+||RHCOS（Red Hat Enterprise Linux `CoreOS`)|RHEL（Red Hat Enterprise Linux） `CentOS`|
 |:-|:-|:-|
 |适用场景	|专门用于 OpenShift 的容器操作系统，基于 **RHEL** 技术，但更轻量、自动化程度更高。|通用企业 Linux，适用于各种服务器和云计算、虚拟化、数据库等|
 |软件管理| OSTree 进行系统更新。|dnf/yum |
 |运行时|默认运行 CRI-O 容器运行时，优化了 OpenShift/Kubernetes 集群的运行。||
 |||需要订阅 Red Hat 订阅服务，才能获取更新和支持。|
+
+
+
+# Integrated vs not-integrated
+
+in `install-config.yaml` file, you can see whether the current installation is integrated or not by checking:
+
+```yaml
+platform: none: {}
+```
+
+This means NOT integrated.
+
+| Integrated Installation | NOT-integrated installation | 
+|:-|:-|
+|openshift has control on the infrastructure, e.g. can create VMs, can mount *.iso files|can NOT do such a thing|
+
+

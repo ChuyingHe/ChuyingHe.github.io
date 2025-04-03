@@ -74,20 +74,19 @@ DNS. 2 = *.apps.ocp4.example.com
 ### `training.key`
 Private Key for the Application that has the host `todo-https.apps.ocp4.example.com`
 
-### `training.crt`
-Signed public Certificate for the Application
 
 ### `training.csr`
-is a **Certificate Signing Request (CSR)**, an essential part of the process for obtaining a signed certificate. It contains:
-
-1. Information about the **entity** that is requesting the certificate, such as:
+is a **Certificate Signing Request (CSR)**, an essential part of the process for obtaining a signed certificate. It contains information about the **entity** that is requesting the certificate, such as:
 
     - Common Name (CN): The fully qualified domain name (e.g., todo-https.apps.ocp4.example.com).
     - Organization (O): The name of the organization (e.g., Red Hat).
     - Location details: Country (C), State (ST), and City (L).
     - Other optional metadata, such as email addresses.
 
-2. **Public Key**: the public key that corresponds to the private key (`training.key`) you generated.
+
+### `training.crt`
+Signed public Certificate for the Application
+
 
 ### `training-CA.srl`
 The `training-CA.srl` file is used by **OpenSSL** (or other certificate tools) to keep track of the serial numbers of certificates issued by a **Certificate Authority (CA)**. It ensures that every certificate signed by the CA has a unique serial number, which is required by the X.509 standard for certificates.
@@ -108,37 +107,42 @@ The `training-CA.srl` file is used by **OpenSSL** (or other certificate tools) t
 
 # 1. Generate TLS certificates for the application
 
+```mermaid
+graph LR
+    A((User)) -- openssl 生成 --> B[Private key]
+    B -- openssl 生成 --> C[CSR请求]
+    C -- openssl 发送 请求 给CA--> D[Certificate]
+```
+
 ```bash
-# (1) 
-# Generate a Private Key `training.key`
+# (1) 生成私钥 `training.key`
 openssl genrsa -out training.key 4096
 
-# (2)
-# Generate the certificate signing request (CSR) `training.csr`:
+# (2) 生成 certificate signing request (CSR) `training.csr`:
 # - use the generated training.key`
 # - specify the hostname: todo-https.apps.ocp4.example.com
 openssl req -new \
-    -key training.key -out training.csr \
-    -subj "/C=US/ST=North Carolina/L=Raleigh/O=Red Hat/\
-    CN=todo-https.apps.ocp4.example.com"
+    -key training.key \
+    -out training.csr \
+    -subj "/C=US/ST=North Carolina/L=Raleigh/O=Red Hat/CN=todo-https.apps.ocp4.example.com"
 
-# (3)
-# Generate the signed certificate `training.crt`
+# (3) 生成证书 `training.crt`
 # 
 # INPUT:
 # - `training.csr`: the request
+# - `training.ext`: configuration file
 # - `passphrase.txt`: the defined password
-# -  `training.ext`: configuration file
 # - CA info:
 #       -  `training-CA.pem`: public key
 #       -  `training-CA.key`: private key
-#       
+#
 # OUTPUT:
 #   - `training.crt`: a signed Certificate
 #   - `training-CA.srl`: (If NOT exist) a list for documenting purpose
-openssl x509 -req -in training.csr \
-    -passin file:passphrase.txt \
-    -extfile training.ext \
+openssl x509 \
+    -req -in training.csr \         # 处理请求, 指定输入的 CSR 文件
+    -passin file:passphrase.txt \   # 存储 CA 私钥密码的文件
+    -extfile training.ext \         
     -CA training-CA.pem \
     -CAkey training-CA.key \
     -CAcreateserial \       # Creates training-CA.srl if NOT exist, to track certificate Serial numbers

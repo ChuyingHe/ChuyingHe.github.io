@@ -2,6 +2,11 @@ site_name: Chuying's notebook
 dev_addr: 127.0.0.1:3333
 nav:
   - Home: index.md
+  - Administrator:
+      - Hardware:
+          - Disk: administrator/hardware/disk.md
+      - Linux: administrator/linux.md
+      - Infrastructure: administrator/infrastructure.md
   - Architect:
       - Architectural Thinking: architect/architectural_thinking/index.md
       - AWS:
@@ -35,6 +40,7 @@ nav:
           - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
   - Automation:
       - Instana:
+          - Intro: automation/instana/index.md
           - Installation/Standard: automation/instana/install_standard.md
           - Installation/Custom: automation/instana/install_custom.md
           - Bootcamp:
@@ -83,6 +89,8 @@ nav:
               - Intro: cloud/openshift/installation/index.md
               - IPI: cloud/openshift/installation/ipi.md
               - UPI: cloud/openshift/installation/upi.md
+              - Mirror Registry: cloud/openshift/installation/mirror_registry.md
+              - Network: cloud/openshift/installation/network.md
           - Internal Registry: cloud/openshift/internal_registry.md
           - Operator: cloud/openshift/operator.md
           - Pipeline: cloud/openshift/pipeline.md
@@ -141,6 +149,7 @@ nav:
   - Network:
       - interesting topics: network/index.md
       - HTTP: network/http.md
+      - LoadBalancer: network/loadbalancer.md
       - SSH vs TLS: network/ssh_vs_tls.md
   - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
@@ -165,7 +174,11 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tilde
   - pymdownx.tabbed
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       title: Table of Contents
       permalink: True

@@ -166,8 +166,8 @@ Limit ranges can specify the following limit types:
       hugepages-1Gi      0 (0%)         0 (0%)
       hugepages-2Mi      0 (0%)         0 (0%)
     ```
-    - 可用的 CPU=5500m-4627m < 1vCPU
     
+    - 可用的 CPU=5500m-4627m < 1vCPU
     - **Allocatable/可分配 CPU 资源**：Kubernetes 不会把全部 6 个 CPU 核心分配给 Pod，它会预留部分资源（500m）用于系统进程（如 kubelet、容器运行时、监控等）
     ```bash
     # m = millicores / 毫核
@@ -203,7 +203,7 @@ You can add any **namespaced resource** to the **Project Template**. For example
 ### Creation
 Create a file with an initial template:
 ```bash
-oc adm create-bootstrap-project-template -o yaml > file
+oc adm create-bootstrap-project-template -o yaml > project-template.yaml
 ```
 
 The YAML file looks like this:
@@ -262,14 +262,20 @@ metadata:
 1. 创建一个namespace
 2. 创建 resources 比如 `RoleBinding` 直到获得预期的行为。
 3. 将 resources 用 YAML 打印出来，清理掉没必要的部分比如`status`
-4. 将 resources 加入 `oc adm create-bootstrap-project-template -o yaml > file` 文件
-5. 再生成 **project template**: 
+4. 将 resources 加入 `oc adm create-bootstrap-project-template -o yaml > project-template.yaml` 文件
+5. 再生成 **project template**:  注意使用 project `openshift-config`:
 ```bash
-oc create -f template -n openshift-config
+oc create -f project-template.yaml -n openshift-config
 ```
 
 ### Usage
 Now we have created the **project template**, to use it, we update the `project` resource:
+
+修改 名为 `cluster` 的 `projects.config.openshift.io` 资源：
+
+```bash
+oc edit projects.config.openshift.io cluster
+```
 
 <pre>
 <code>
@@ -288,15 +294,23 @@ spec:
 </pre>
 
 !!! note "Reverse the usage"
-    To revert to the original **project template**, modify the `project` resource to clear the spec resource to match the `spec: {}` format using:
+    如果要使用原本的template， 把上面 highlighted `.spec.projectRequestTemplate` 代码去掉就行.
 
-    ```bash
-    oc edit projects.config.openshift.io cluster
-    ```
-
-    查看pod的重启：
+!!! info "如何查看 修改 已执行完成？"
+    在 project `openshift-apiserver` 中查看pod的重启，以确保修改已经生效：
     ```bash
     watch oc get pod -n openshift-apiserver
+    ```
+
+!!! warning "`projects` 和 `projects.config.openshift.io`"
+    两者一个列出所有项目，一个列出项目模版：
+    ```bash
+    # 有一堆大家建的projects/ns
+    oc get projects
+    oc get projects.project.openshift.io
+
+    # 结果一般只有一个，名为 cluster，这里可以设置bootstrap project template
+    oc get projects.config.openshift.io
     ```
 
 ## 拦路虎 `self-provisioner`
@@ -326,15 +340,14 @@ Subjects:
 
 两个修改方法:
 
-- 把 system:authenticated:oauth 从这个 clusterrolebinding 中移除 (比如[例子]((../03_auth/#_2))):
+1. 把 `system:authenticated:oauth` 从这个 clusterrolebinding 中移除 (比如[例子](../03_auth/#2-authentication)):
   ```bash
-  oc adm policy remove-cluster-role-from-group
+  oc adm policy remove-cluster-role-from-group <ROLE> <GROUP>
   ```
-- 直接修改 clusterrolebinding:
+2. 直接修改 clusterrolebinding:
   ```bash
   oc edit clusterrolebinding self-provisioners
   ```
-
 
 !!! danger
     上面这个clusterrolebinding中有这么一条 Annotations：

@@ -26,8 +26,8 @@ sample/
 |:-|:-|
 |`helm create myChart` |to create a new chart |
 |`helm pull xxx` |download a chart from a **repository**（即charts的数据库） |
-|`helm show chart myChart` |show info of a chart |
-|`helm show values myChart` |show default values of a chart |
+|`helm show chart myChart` |show info of a chart <br/> <img src='../helm_show_chart.png' width="500" />|
+|`helm show values myChart` |show default values of a chart <br/> <img src='../helm_show_values.png' width="400" /> |
 | |use `--version` to choose a specific version |
 
 

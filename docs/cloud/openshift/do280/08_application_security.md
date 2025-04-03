@@ -17,6 +17,10 @@ Most pods that OpenShift creates use the `restricted-v2` SCC, which provides lim
 oc describe pod console-5df4fcbb47-67c52 -n openshift-console | grep scc
 ```
 
+!!! warning
+    SCC 通过 ServiceAccount 作用于 Pod，而Role/ClusterRole 作用于 User 和 API 资源。
+
+
 !!! info "Use cases: when to switch SCC"
     - A container image(from DockerHub) that requires running as a specific user ID can fail because the `restricted-v2` SCC runs the container by using a random user ID.
     - A container image that listens on port 80 or on port 443 can fail for a related reason. The random user ID that the `restricted-v2` SCC uses cannot start a service that listens on a **privileged network port** (port numbers that are less than 1024)

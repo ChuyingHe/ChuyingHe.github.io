@@ -55,17 +55,44 @@
 
 
 ## Example
-### Create unencrypted route
+### 1. Create clear Route
 <img src="../imgs/ocp-clear.png" width="600" />
 
 ```bash
 oc expose svc/my_service
 ```
 
-### Create encrypted route
+### 2. Create edge Route 
+**可以使用 OpenShift 自带证书**，因为 OpenShift Router 在边缘终止 TLS，并负责管理证书。如果你不提供 `route.spec.tl.certificate`，OpenShift 会使用默认的 Router 证书.
 
-- [Edge Termination](./04_ext_edge.md)
-- [Passthrough Termination](./04_ext_passthrough.md)
+
+!!! warning
+    默认 Router 证书适用于 OpenShift 提供的 `*.apps.openshift-cluster.example.com` 这样的域名，但不适用于你自己的域名（如 `mycompany.com`）。如果你想用自己的域名，建议提供自定义证书：
+    ```bash
+    tls:
+        termination: edge
+        certificate: |-
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
+        key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+        ...
+        -----END RSA PRIVATE KEY-----
+    ```
+
+
+[📌 Example: Create an Edge Route](./04_ext_edge.md)
+
+
+### 3. Create Passthrough Route
+**不能使用 OpenShift 自带证书**，因为 OpenShift 不会终止 TLS，只是透传 HTTPS/TLS 流量到后端应用。<br/> --> 这意味着后端应用必须自己管理证书。你需要在 后端应用（Pod）中安装 TLS 证书，OpenShift 不会帮你处理！
+
+
+[📌 Example: Create a Passthrough Route with own Certificate](./04_ext_passthrough.md)
+
+## 生产环境
+在生产环境下，应该尽量提供自己的证书，最便捷的是用自己的证书（比如从Let’s Encrypt那里买）代替 **OpenShift Ingress Controller** 中Openshift自己的证书，这样cluster上所有的 `route` 都可以使用该证书
 
 # 2. NetworkPolicy (`netpol`)
 NetworkPolicy（`netpol`） 是一个kubernetes的概念，详见[CKAD 6.服务与网络](../../../k8s/ckad/ckad-6/#3-networkpolicy). 
@@ -172,9 +199,30 @@ spec:
 
 By default, **OpenShift** encrypts network traffic between **Nodes** and the **Control Plane**, and prevents external entities from reading internal traffic. This encryption provides stronger security than default **Kubernetes**, which does not automatically encrypt internal traffic. 
 
+!!! info
+    OpenShift 中后端服务获取证书的常见方式有三种：
+
+    1. 用户自己预置证书 - [📌 Example: Create a Passthrough Route with own Certificate](./04_ext_passthrough.md)
+    2. `service-ca` Operator： 用OpenShift Service CA 自动为服务生成证书
+    3. 使用 cert-manager 或其他证书管理器
+
+
+    这个section讲第二种方法。。。
+
+!!! info
+    |Feature|Kubernetes `cert-manager`|OpenShift `service-ca`|
+    |:-|:-|:-|
+    |Scope|General-purpose cert management|Internal OpenShift services only|
+    |Supports external issuers?|Yes (e.g., Let's Encrypt, Vault)|No (uses OpenShift’s internal CA)|
+    |Manages certs for services?|Yes|Yes|
+    |Manages certs for Ingress?|Yes|No|
+    |Works outside OpenShift?|Yes|No|
+    |Use case|For External TLS Needs → for `Ingress`, public endpoints, or workload-specific certificates that need external validation. |For Internal Communication  → to automatically issue and rotate certificates for internal `services` (avoiding manual certificate management). |
+    
+    一般来说一个Openshift cluster中两个operator都会被用到
+
 ## `service-ca` Operator 
-- 之前我自己手动配置了一个带有 [Passthrough Termination](./04_ext_passthrough.md) 的route，是不是挺麻烦的
-- OpenShift提供了自动化的解决方法: **`service-ca` Operator** 为集群中的services 提供**自动**证书管理。使用步骤如下： 
+生成 edge route的时候，OpenShift 的 **`service-ca` Operator** 为集群中的services 提供**自动**证书管理。使用步骤如下： 
 
 !!! info "说明"
     为了便于理解，我们这里:

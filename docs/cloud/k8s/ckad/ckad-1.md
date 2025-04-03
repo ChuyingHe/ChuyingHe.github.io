@@ -81,7 +81,7 @@ kube-proxy 是运行在每个 工作节点 (Worker Node) 上的关键组件，�
 
 # 4. k8s 中的 YAML
 
-`YAML`基本介绍见[3 分钟看懂 YAML](http://t.csdn.cn/ZRc2c)k8s 中，我们可以选择用`k`命令行工具来部署应用，也可以用`YAML`文件定义”如何部署应用“，然后再一次性将`YAML`文件执行到 k8s 集群上相比`k`，使用`YAML`的优点有：
+k8s 中，我们可以选择用`k`命令行工具来部署应用，也可以用`YAML`文件定义”如何部署应用“，然后再一次性将`YAML`文件执行到 k8s 集群上相比`k`，使用`YAML`的优点有：
 
 - Devops as code：可以用 git 对`YAML`进行版本控制，像写软件代码一样写 devops 的部署，且多个程序猿可同时进行协作，不会出现信息不同步的问题
 - Single source of truth：所有和 devops 相关的信息都可以查看对应的`YAML`文件
@@ -198,7 +198,9 @@ spec:
 **如果`ReplicaSet`中的 container template 有错，比如 image 的名字错了，如何修改？**
 
 - **方法一**：删除并重建`ReplicaSet`（删除`ReplicaSet`会自动删除它所监控的 Pod）
-- **方法二**：先更新`ReplicaSet`，删除旧的 Pod `k edit replicaset xxx` ；然后 `k delete pod -l name=busybox-pod`
+- **方法二**：先更新`ReplicaSet`，删除旧的 Pod。即：
+	- `k edit replicaset xxx` 
+	- `k delete pod -l name=busybox-pod`
 
 !!! note
 	因为`ReplicaSet`只检查数量，不检查 Pod 的内容，所以要把旧的 Pod 杀掉
@@ -209,7 +211,7 @@ spec:
 
 # 6. Deployment
 
-迄今为止，我们知道`Container`跑在`Pod`上，而`Pod`由`ReplicaSet`监控，`Deployment`被看作在`ReplicaSet`外的另一层外套`Deployment`提供更新，撤消更新回滚到旧版本（rolling），暂停和恢复更改等功能
+迄今为止，我们知道`Container`跑在`Pod`上，而`Pod`由`ReplicaSet`监控，`Deployment`被看作在`ReplicaSet`外的另一层外套。`Deployment`提供了更新，撤消更新，回滚到旧版本（rolling），暂停，和恢复更改等功能
 
 ```yaml
 # deployment.yml
@@ -365,6 +367,19 @@ spec:
   scopeSelector: {} # 更灵活的filter，可使用 matchExpressions 指定匹配规则
 ```
 
+!!! note "spec.scopes"
+	- 如果不指定，ResourceQuota 会应用于命名空间内的所有资源。
+	- 可设置多个 `--scopes=BestEffort,NotTerminating`
+
+	|场景|推荐 Scope|
+	|:-|:-|
+	|限制无资源请求的 Pod, 即未设置 CPU/内存请求的Pod|--scopes=BestEffort|
+	|限制长期运行的 Pod, 即未设置 `activeDeadlineSeconds` 的 Pod|--scopes=NotTerminating|
+	|限制会主动终止的 Pod（如 Job）, 即设置了 `activeDeadlineSeconds` 的 Pod|--scopes=Terminating|
+
+
+	
+
 #### 2. Web Console
 Administration > ResourceQuotas
 
@@ -452,6 +467,9 @@ oc get quota
 
 - 先修改`xxx.yml`文件中的 relicas 的数量，再用`k replace -f xxx.yml` 将更新部署到集群上
 - `k scale replicaset --replicas=6  [ReplicaSetName]` 或 `k scale deployment --replicas=3 [DeploymentName]` 只更新部署，毋需 YAML 文件
+
+!!! danger "TODO"
+	If I change `k scale replicaset --replicas=6  [ReplicaSetName]`, will the deployment also change its replica number?
 
 ---
 

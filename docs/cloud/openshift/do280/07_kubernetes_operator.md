@@ -14,7 +14,7 @@ An **operator** typically defines **custom resources (CRs)**. The operator CRs d
 ## 1. Cluster Operators
 **Cluster Operators** 由 **Cluster Version Operator (CVO)** 管理. Cluster Operators 管理整个 Kubernetes 集群级别的资源和功能。它们通常负责关键的基础设施组件，如网络、存储、监控和日志记录等。比如web console， the OAuth server.
 
-**Cluster Operator**可以再Webconsole中找到： **Administration** > **Cluster Settings** > **ClusterOperators**. <br/>--> [此文档](https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/operators/cluster-operators-ref#cluster-bare-metal-operator_cluster-operators-ref) 列出了所有built-in ClusterOperators (约35个)。
+**Cluster Operator**可以再Webconsole中找到： **Administration** > **Cluster Settings** > **ClusterOperators**. <br/>--> [此文档](https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/operators/cluster-operators-ref) 列出了所有built-in ClusterOperators (约35个)。
 
 !!! info "CVO"
     The **Cluster Version Operator (CVO)** installs and updates **Cluster Operators** - as part of the OpenShift installation and update processes.

@@ -175,8 +175,12 @@ spec:
 ### 1. 根据属性选择
 Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`StorageClass`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
 
+<!-- 
+TODO: double check this
+
 ### 2. 根据selectors和labels选择
 当然，如果想要绑定到特定的PV，也可以利用`labels`和`selectors`来定位到正确的PV。比如：
+
 1. Pod中添加`selectors`属性
 ```yaml
 # pod.yaml
@@ -190,6 +194,22 @@ selector:
 # pv.yaml
 labels:
 	name: my-pv
+``` -->
+
+### 2. pvc的 volumeName
+
+```bash
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  volumeName: my-pv  # 手动指定绑定到名为 "my-pv" 的 PV
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
 ```
 
 ### 3. 特例

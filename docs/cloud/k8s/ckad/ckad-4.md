@@ -71,18 +71,18 @@
 ## Probe的三种写法
 Pod Condition中的`Ready`不能保证Container中的App已经可以接受用户访问了。比如Jenkins服务器刚刚开始跑的时候需要大改10-15秒时间，所以在这10-15秒中内。`Pod`会告诉我们Condition是`Ready`了，但其实App本身并没有起来。我们给Container添加 Probes，用 Probes 来测试App是否成功运行。**Probes**有三种写法：
 
-1. **HTTP测试** （如果App是一个API server）
+1. **HTTP测试**: for web applications
 ```yaml
 httpGet: 
    path: /api/ready
    port: 8080
 ```
-2. **TCP socket测试**（如果App是个数据库）
+2. **TCP socket测试**: for services that don't expose HTTP but should be reachable via a port.
 ```yaml
 tcpSocket: 
    port: 3306
 ```
-3. 自定义的命令脚本
+3. 自定义的 **命令脚本**: for checking internal states or system-level conditions.
 ```yaml
 exec: 
    command:
