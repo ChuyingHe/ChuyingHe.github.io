@@ -16,10 +16,12 @@ spec:
 ```
 我们用选择器过滤。
 
-!!! note
-		如有多个`selector`，使用逗号隔开，中间没有空格！！
+!!! info
+	- 如有多个`selector`，使用逗号隔开，中间没有空格！！
+	- 下面的例子中，only pods that have both labels (`app=App1` and `env=dev`) will be returned.
 
 ```bash
+
 kubectl get pods --selector app=App1,env=dev
 ```
 
@@ -50,7 +52,14 @@ spec:
 ```
 
 !!! note
-		选择器`selector`用于删选带有特定标签的`Pod`
+	`selector.matchLabels:` 定义 ReplicaSet 负责管理哪些 Pod。
+
+	逻辑：Kubernetes 会查找所有 已存在的 Pod，如果它们的 标签（Labels）包含有符合的 matchLabels （这里是 `app=App1`），那么 ReplicaSet 会接管它们。
+
+!!! warning
+	`selector.matchLabels`中如果有多个条件，则他负责的Pod中应该包含 **所有的** 标签
+		
+
 
 # 2. 注释
 **注释（`annotations`）**用于记录其他详细信息。 例如：名称，版本及其他
@@ -85,6 +94,13 @@ metadata:
 	```bash
 	# ⚠️ 可用 `--revision=1` 指定查看 Deployment 的某个特定版本
 	kubectl rollout history deployment/[DeploymentName]
+	```
+	你会看到：
+	```bash
+	deployment.apps/[DeploymentName]
+	REVISION  CHANGE-CAUSE
+	1         kubectl apply --record -f deployment.yaml
+	2         <none>	# 这里执行命令的时候忘了写 --record， 所以信息丢失了
 	```
 	假设你发现新的软件版本有bug，想要**回滚**到上一个版本：
 
@@ -201,9 +217,8 @@ Deployment 为 Pod 和 ReplicaSet 提供声明式更新。三者关系如下：
 
 
 !!! note
-		- Job 定义文件格式与ReplicaSet类似，中有两个`.spec`，
-		- `.spec.completions: 3`：定义了Job要新建的Pod的数量。Pod按序创建，第二个 Pod 仅在第一个 Pod 完成后创建。如有Pod创建失败，Job会持续新建Pod直到有指定数量的`completed`的Pod为止
-		- `.spec.parallelism: 3`：默认情况下，Pod按序创建，我们也可以自定义其为同时建立，在`.spec`中添加`.parallelism: 3`即可定义同时创建的Pod的数量
+		- `.spec.completions: 3`：3个任务，由3个Pod执行，Pod按序创建，第二个 Pod 仅在第一个 Pod 完成后创建。如有Pod创建失败，Job会持续新建Pod直到有指定数量的`completed`的Pod为止
+		- `.spec.parallelism: 3`：3个任务，由3个Pod执行，**并行** 运行 Pod
 		- `.spec.backoffLimit: 15`：如果没有一次Pod执行成功，最多执行Pod15次。所以Pod停止执行的情况有两种：要么有一次成功了，要么次数超过15了
 
 

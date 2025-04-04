@@ -31,8 +31,11 @@ myapp-service	NodePort	10.106.127.123	<None>			80:30008/TCP	30s
 ```
 
 !!! info
-	- PORT(S)中代表的是：`<Port><NodePort>/<Protocol>`
-	- 其中的 `kubernetes服务`是k8s在启动时创建的默认服务。`myapp-service`服务是我们创建的，现在作为用户可以通过`curl http://192.168.1.2:30008`直接访问到前端App了！
+	- `kubernetes` 服务是k8s在启动时创建的默认服务。`myapp-service`服务是我们创建的，现在作为用户可以通过`curl http://192.168.1.2:30008`直接访问到前端App了！
+	- PORT(S)中代表的是：`<ServicePort>:<NodePort>/<Protocol>`
+	- `targetPort` 不会显示在 `oc get svc` 结果中
+	- `ClusterIP`（集群内的虚拟 IP），集群内的 Pod 通过此 IP 访问 Service
+	
 
 
 
@@ -55,50 +58,102 @@ spec:
 ```
 YAML文件中共有三个端口：
 
-1. `port` <br/> 
-服务本身的端口，必须写明，否则会报错 --> 服务自己的port就简单地叫`port`
+1. `port` - Service 自己的 Port <br/> 
+	- 服务本身的端口
+	- 服务自己的port就简单地叫`port`
+	- ✅ 必写，否则会报错
 2. `targetPort` <br/> 
-应用程序的实际端口（Pod的端口） --> 是服务的目标，所以叫`target`<br/>  可选，如不写明，默认与`port`值相同
+	- 应用程序的实际端口（Pod的端口） 
+	- 是服务的目标，所以叫`target`
+	- 🚫 可选，如不写明，默认与`port`值相同
 3. `nodePort` <br/>
-Node的端口，是外部访问服务的端口（集群外）<br/>  可选，如不写明，k8s会提供任意一个在 **[30000, 32767]** 范围内可用的端口
+	- Node的端口，是外部访问服务的端口（集群外）
+	- 🚫 可选，如不写明，k8s会提供任意一个在 **[30000, 32767]** 范围内可用的端口
 
 <img src="../ckad-6/nodeport.png" width=500 />
 
 如图，外部的访问者只需要知道Node的IP地址（`192.168.1.2`），和Node开放的Port（`30007`）就行了
 	
-!!! note
-	- `.spec.ports`容纳的是一个数组，意味着，在一个服务中，是可以多个这样的映射的（`NodePort`->`Port`->`TargetPort`），即开放**多个端口**，用于与不同的App进行沟通，但要注意的是，如果有多个端口开放，那么Service的每个端口都必须有一个名称
-	- `.spec.selector` 指定`targetPort`属于哪一个Pod，上面例子中绑定了一个`labels`中有`app=myapp`和`function=frontend`的Pod。
-		<br/> 很多情况下，一个前端App会有多个replicas，但因为他们都有相同的`labels`，他们会自动被service找到！
+!!! note "`service.spec.ports`"
+	`.spec.ports`容纳的是一个数组，意味着一个服务可开放 **多个端口**，用于与不同的App进行沟通
+	
+	- ⚠️ 注意：如果有多个端口开放，那么`Service`的每个端口都必须有一个名称
+	
+	
+	使用场景: 
+
+	1. 多协议服务（如 HTTP + gRPC）- L7 应用层协议<br/>
+		这里的 HTTP 和 gRPC 都是基于 TCP 的应用层协议。它们 使用不同的端口，但都是 TCP，例如：
+		```yaml
+		spec:
+			ports:
+			- name: http
+				port: 80
+				targetPort: 8080
+			- name: grpc
+				port: 50051
+				targetPort: 50051
+		```
+	2. TCP + UDP - 例如DNS服务 - L4 传输层协议<br/>
+		这里涉及 不同的传输层协议，即 TCP 和 UDP，所以必须分开声明
+		```yaml
+		spec:
+			ports:
+			  - name: dns-tcp
+				port: 53
+				targetPort: 53
+				protocol: TCP
+			  - name: dns-udp
+				port: 53
+				targetPort: 53
+				protocol: UDP
+		```
+	3. 同时提供多个版本的 API
+		```yaml
+		spec:
+			ports:
+				- name: api-v1
+				port: 8080
+				targetPort: 8080
+				- name: api-v2
+				port: 9090
+				targetPort: 9090
+		```
+	4. Service 代理多个不同的 Backend 端口. 一个 Pod 运行多个进程，每个进程监听不同端口（如 Web + Metrics）。
+		```yaml
+		spec:
+		ports:
+		  - name: web
+			port: 80
+			targetPort: 8080
+		  - name: metrics
+			port: 9090
+			targetPort: 9090
+		```
+
+
+
+
+!!! info
+	- `.spec.selector` 指定`targetPort`属于哪一个Pod，上面例子中绑定了一个`labels`中有`app=myapp`的Pod。
+		- 很多情况下，一个前端App会有多个replicas，但因为他们都有相同的`labels`，他们会自动被service找到！
 	- `targetPort`是Pod而不是Container！因为Pod中的所有Container是共享网络的，所以用同一个Pod端口
 
 
 
 !!! note "服务的端点（Endpoint）"
-	`Service`中有一个`Endpoint`，这个`Endpoint`将跟踪哪些 Pod 是Service的端点，起到了一个实时数据存储的作用。
-
-	端点（`Endpoint`）是服务（`Service`）的一组网络地址。 创建服务时，k8s自动为`Service`生成`Endpoint`。 端点表示服务所针对的 Pod 的实际 IP 地址和端口。当创建、删除或替换 Pod 时， 服务的端点由 Kubernetes API 服务器动态更新。
+	`Service`中有一个`Endpoint`，这个`Endpoint`是 该`Service` 指向的 真正的 Pod IP 地址和端口
 
 	查看`Service`细节:
 	
 	```bash
-	k describe svc <ServiceName> | grep -i endpoint
+	k describe svc <ServiceName>
 	```
 
 	<img src="../ckad-6/endpoint.png" width=400/>
 
-## IP地址
-### IP地址格式
+## IP地址类型
 
-IP address由两个部分组成：**网络地址（Network ID）** 和 **主机地址（Host ID）**。拿`192.168.1.10`举例：
-
-- **网络地址** 是前三个数：`192.168.1`，显示了当前所在的网络地址
-- **主机地址** 是最后一个数： `10`，显示当前网络中，主机的编号
-
-!!! note
-	当你使用VPN（Virtual Private Network）的时候，你的 **网络地址** 是被隐藏的
-
-### IP地址类型
 
 有两种类型：**外部IP地址（external/public）** 和 **内部IP地址（internal/private）**。一般来说，每个设备都有自己的 **外部IP** 和 **内部IP**，且一般两者不同。
 
@@ -107,13 +162,17 @@ IP address由两个部分组成：**网络地址（Network ID）** 和 **主机�
 	# ifconfig=InterFace config
 	curl <span style="background-color: #ccd1f0">if</span>config.me
 	</code></pre>
-	
+
+
 - **内部IP**：是自动生成的。人如其名，只做内部使用。比如，用于在家庭网络中识别你的身份信息。<br/>
 	<pre><code>
 	# ipconfig=Internet Protocol configuration
 	<span style="background-color: #ccd1f0">ip</span>config getifaddr en0
 	</code></pre>
-
+	
+!!! note
+	当你使用VPN（Virtual Private Network）的时候，你的 **网络地址** 是被隐藏的
+	
 <img src="../ckad-6/28a6f7c5d63b4ccb836b22f3990464fb.png" width=500 title="source: https://www.avast.com/c-what-is-an-ip-address" />
 
 ## 服务类型

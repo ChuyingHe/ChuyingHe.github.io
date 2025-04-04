@@ -253,7 +253,7 @@ kubectl top pod
 
 `docker run [ImageName] --name [ContainerName]`
 
-`docker run -d [ImageName]] --name [ContainerName]` detached 模式
+`docker run -d [ImageName] --name [ContainerName]` detached 模式
 
 `docker logs -f [ContainerName]` 打印日志
 

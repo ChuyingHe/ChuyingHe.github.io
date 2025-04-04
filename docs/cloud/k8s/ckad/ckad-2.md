@@ -462,14 +462,14 @@ spec:
 		runAsUser: 1000
 
 	containers:
-		- name: ubuntu
-			image: ubuntu
-			command: ["sleep", "3600"]
-			# ---------- Container级别 ----------
-			securityContext:
-				runAsUser: 1000
-				capabilities:
-					add: ["MAC_ADMIN", "SYS_TIME"]
+	  - name: ubuntu
+		image: ubuntu
+		command: ["sleep", "3600"]
+		# ---------- Container级别 ----------
+		securityContext:
+			runAsUser: 1000
+			capabilities:
+				add: ["MAC_ADMIN", "SYS_TIME"]
 ```
 
 举例：删除某个`capabilities`：
@@ -498,32 +498,29 @@ spec:
 	- 第三方软件使用SA来识别Pods
 
 
-```bash
-# 为 SA 生成token
-kubectl create token  <ServiceAccountName>
-```
 
-创建`ServiceAccount`的时候，也会自动创建一个相对应的**令牌（token）**。该令牌会被放在一个 **自动生成的`Secret`对象** 中。用以下命令可以看到生成的令牌的名字：
+
+创建`ServiceAccount`的时候，也会自动创建一个相对应的**静态 Token**。该令牌会被放在一个 **自动生成的`Secret`对象** 中。用以下命令可以看到生成的令牌的名字：
 
 ```bash
 kubectl describe serviceaccount <ServiceAccountName>
 ```
-<!-- TODO： 没有办法看到令牌 为什么 -->
+你会看到：
 
-<!--
-TODO
-这里放一个截屏
+<img src="../ckad-2/describe_sa.png" width=400 />
 
-Name:                default
-Namespace:           default
-Labels:              <none>
-Annotations:         <none>
-Image pull secrets:  <none>
-Mountable secrets:   <none>
-Tokens:              <none>
-Events:              <none>
+!!! note "动态 Token"
+	也可以为 Kubernetes 服务账户（ServiceAccount）生成短期的身份认证 Token，通常用于 API 访问或其他需要身份验证的场景：
+	```bash
+	# 为 SA 生成 动态 Token
+	kubectl create token  <ServiceAccountName> \
+		--duration=10m	# 默认 Token 有效期通常为 1 小时
+	```
+	命令会返回一个类似以下的 Token（JWT 格式）：
+	```bash
+	eyJhbGciOiJSUzI1NiIsImtpZCI6Il9oYXZlX3NvbWVfZnVuIn0.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tN3h2cXoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjEyMzQ1NiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.abcdef...
+	```
 
--->
 
 查看Pod的`ServiceAccount`放在哪里：
 
@@ -554,7 +551,14 @@ curl https://192.168.56.70:6443/api \
 
 ## `default` sa
 
-k8s系统自动为每一个`Namespace`生成一个名为`default`的SA，该SA拥有特定的API权限。该`Namespace`上新建的每一个Pod都会默认分配给`default`的SA。`default`ServiceAccount会自动将自带的Secret作为Volume挂载到新的Pod中（文件路径为`/var/run/secrets/kubernetes.io/serviceaccount`）。以确保新建的Pod能使用该SA。
+k8s系统自动为每一个`Namespace`生成一个名为`default`的SA，该SA拥有特定的API权限。
+
+在这个 Namespace 中创建的 每个 `Pod`，如果没有指定其他服务账户，都会自动使用这个 `default` 服务账户。Kubernetes 会把 default 服务账户关联的认证信息（Token、CA 证书等）自动挂载到 `Pod` 里的固定路径中:
+```bash
+/var/run/secrets/kubernetes.io/serviceaccount
+```
+这样，Pod 里的应用就能直接使用这些凭证访问 Kubernetes API。
+
 
 我们可以用`k describe pod xxx`查看`Volumes` 。也可以去看Secret本身：
 <img src="../ckad-2/7afa5468dbfb4aaa92f391cee3baff5a.png" width=700 />
@@ -563,7 +567,7 @@ k8s系统自动为每一个`Namespace`生成一个名为`default`的SA，该SA�
 
 - ca.crt
 - namespace
-- token: token真正存了**令牌**的文件，用于访问 Kubernetes API。
+- token: 真正存了**令牌**的文件，用于访问 Kubernetes API。
 
 ## 叫停默认`default` sa的挂载
 我们也可以叫停`default`ServiceAccount的自动挂载（可以在 Pod 或者 Deployment 的定义文件中进行修改）：
@@ -585,7 +589,7 @@ spec:
     automountServiceAccountToken: false		# 叫停`default`ServiceAccount的自动挂载
 ```
 
-## 给Pod添加额外的sa
+## 修改Pod/Deployment使用的sa
 
 `default` ServiceAccount只提供了最基础的 Kubernetes API访问权限，我们可以给Pod添加自定义的ServiceAccount以提供更多其他权限： 删掉旧的Pod，用new-pod.yml新建一个Pod（或者直接修改包含该Pod的Deployment）
 
@@ -725,9 +729,14 @@ kubectl taint nodes <NodeName> <key><operator><value>:<TaintEffect>
 kubectl taint nodes node1 app=blue:NoSchedule
 ```
 
+!!! info "OpenShift 也有这个mechanism，但需要adm"
+	```bash
+	oc adm taint nodes node1 app=blue:NoSchedule
+	```
+
 其中的`TaintEffect` 属性决定了如果 `Pod` 没有对应的 `Toleration` 会发生什么，从严格到宽松共有3个Effect：
 
- 1. `NoExecute`：不再接受新的`Pod`，驱逐有已存但并没有`Toleration`的`Pod`
+ 1. `NoExecute`：不再接受新的`Pod`，驱逐有已存在，但并没有`Toleration`的`Pod`
  2. `NoSchedule`：没有`Toleration`的`Pod`不会放在有`Taint`的`Node`上
  3. `PreferNoSchedule`：尽量避免，但是不保证
 

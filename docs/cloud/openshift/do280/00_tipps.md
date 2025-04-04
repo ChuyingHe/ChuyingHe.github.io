@@ -25,7 +25,12 @@ https://docs.openshift.com/container-platform/4.14
 
 
 ```bash
+# check URL of the console
 oc whoami —show-console
+
+# explain
+oc explain pod.spec.template
+oc explain pods --recursive | grep envFrom -A3
 ```
 
 # Chapters to review
