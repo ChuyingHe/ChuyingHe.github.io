@@ -75,12 +75,13 @@ kind: PersistentVolume
 metadata:
   name: pv-volume
 spec:
-  accessModes:    # 可能的mode： ReadOnlyMany, ReadWriteOnce 和 ReadWriteMany
+  accessModes:          # 可能的mode： ReadOnlyMany, ReadWriteOnce 和 ReadWriteMany
     - ReadWriteOnce
-  capacity:       # 所需的存储空间的大小
+  capacity:             # 所需的存储空间的大小
     storage: 1Gi
-  hostPath:       # 卷的类型：Node（主机）上的文件夹 - 不推荐
+  hostPath:             # 卷的类型：Node（主机）上的文件夹 - 不推荐
     path: /tmp/data
+  storageClassName: ""  # SC
 ```
 生成持久卷：
 
@@ -140,6 +141,7 @@ spec:
   resources:        # 所需资源
     requests:
       storage: 500Mi
+  storageClassName: ""
 ```
 生成PVC：
 ```bash
@@ -172,21 +174,26 @@ spec:
 
 
 ## PVC如何选择PV (Binding)
-### 1. 根据属性选择
+### 1. 根据属性自动绑定
 Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`StorageClass`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
 
-<!-- 
-TODO: double check this
+|条件|PVC 和 PV 必须一致|
+|:-|:-|
+|storage|PVC 请求的 ≤ PV 提供的|
+|accessModes|PVC 请求的 ⊆ PV 支持的|
+|storageClassName|必须匹配（或者都为空）|
+|状态|PV 处于 Available 状态|
 
 ### 2. 根据selectors和labels选择
-当然，如果想要绑定到特定的PV，也可以利用`labels`和`selectors`来定位到正确的PV。比如：
+如果你想指定 PVC 使用哪个 PV, 也可以利用 PVC 的`labels`和`selectors`来定位到正确的PV。比如：
 
-1. Pod中添加`selectors`属性
+1. PVC中添加`selectors`属性
 ```yaml
-# pod.yaml
-selector:
-	matchLabels:
-		name: my-pv
+# pvc.yaml
+spec:
+  selector:
+    matchLabels:
+      name: my-pv
 ```
 2. 在PV中添加`labels`属性
 
@@ -194,11 +201,13 @@ selector:
 # pv.yaml
 labels:
 	name: my-pv
-``` -->
+``` 
 
-### 2. pvc的 volumeName
+### 3. pvc 的 volumeName
+如果你想指定 PVC 使用哪个 PV，可以提前给它设置 `volumeName`。 `volumeName` 是最直接的方式，但必须确保 PVC 的所有参数（如 `accessModes`、`storageClassName` 和 `size`）与该 PV 完全兼容。
 
 ```bash
+# pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -212,9 +221,9 @@ spec:
       storage: 10Gi
 ```
 
-### 3. 特例
+### 特例
 最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。<br/>
-**--> 这可能导致PV的浪费！**
+** 这可能导致PV的浪费！**
 
 假设我们有一个PVC和一个PV。PVC要求的存储空间是`500Mi`，而现在可用的PV只有一个，那么PVC只能绑定到剩下的PV。用`k get pvc`可用看到：
 ```bash
@@ -222,7 +231,7 @@ NAME     STATUS    VOLUME   	CAPACITY   ACCESS MODES   STORAGECLASS    AGE
 my-claim Bound     my-volume    1Gi        RWO            aws-xxx		  40m
 ```
 
-### 4. 没有可用的PV时，PVC的行为
+## 没有可用的PV时，PVC的行为
 如果当前的Cluster中，没有可用的PV，那么发出的PVC会一直处于`Pending`的状态。这时用`k get pvc`会看到：
 ```bash
 NAME     STATUS    VOLUME   CAPACITY    ACCESS MODES   STORAGECLASS           AGE
@@ -263,6 +272,16 @@ spec:
 
 # 5. 存储类 / StorageClasses
 
+!!! warning
+    - PV（PersistentVolume） 就像已经准备好出租的房子
+    - PVC（PersistentVolumeClaim） 就像租客的租房需求
+    - StorageClass 就像中介公司给的template，帮你根据需求 **自动造房子**（即动态 provision）
+
+    PVC 是用户的存储需求，PV 是系统可用的存储资源，而 StorageClass 则是动态创建 PV 的“建房模板”，三者一起构成 Kubernetes 存储资源的分配与管理体系。
+
+!!! info
+    `storageClassName: ""` 表示静态绑定
+
 ## Static Provisioning
 
 假设我现在想使用GCE的存储空间，那么需要4个步骤：
@@ -275,16 +294,33 @@ spec:
 
 如图：
 
-<img src="../ckad-7/static_Provisioning.png" width=800>
+```mermaid
+flowchart TD
+  PV[PV: 10Gi Manual房] --> Match
+  PVC[PVC: 我要10Gi Manual房] --> Match
+  Match --> Bind[绑定成功]
+```
+<!-- <img src="../ckad-7/static_Provisioning.png" width=800> -->
 
 这个过程被称作 **Static Provisioning**。
 
 ## Dynamic Provisioning
 
-我们可以通过创建**存储类 / StorageClass**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。<br/ >--> PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
+我们可以通过创建**存储类 / StorageClass**来自动化步骤（1）和（2），实现**“Dynamic Provisioning”** 。
 
+- PVC通过`storageClassName`连接到StorageClass，StorageClass中的 **配置器/provisioner** 来配置新的GCE磁盘，并且自动生成一个相对应的PV
+- 你不需要手动创建 PV，也不需要事先准备路径或磁盘挂载等工作
 
-<img src="../ckad-7/dynamic_Provisioning.png" width=800>
+如图：
+
+```mermaid
+flowchart TD
+  PVC["PVC: 我要5Gi fast房，找StorageClass"] --> SC["StorageClass: fast模板"]
+  SC --> PVNew["创建新PV: 5Gi"]
+  PVNew --> Bind["自动绑定"]
+```
+
+<!-- <img src="../ckad-7/dynamic_Provisioning.png" width=800> -->
 
 
 !!! note "StorageClass举例"
@@ -318,6 +354,10 @@ spec:
     You can use different drive in different StorageClass, thats where the name come from:
 
     <img src="../ckad-7/storageclass.png" />
+
+
+!!! danger "有可能 PVC 无法通过 StorageClass 自动生成 PV"
+    比如集群中根本没有安装这个 CSI 插件。那么 StorageClass 就失去了它存在的意义，直接用 Static Provisioning，即PV + PVC更合理
 
 
 ## 区别

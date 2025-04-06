@@ -152,6 +152,9 @@ YAML文件中共有三个端口：
 
 	<img src="../ckad-6/endpoint.png" width=400/>
 
+	- `IP`：Cluster给 service 分配的虚拟IP
+	- `Endpoints`：service指向的 Pod 真正的IP， 并非虚拟！
+
 ## IP地址类型
 
 
@@ -172,7 +175,7 @@ YAML文件中共有三个端口：
 	
 !!! note
 	当你使用VPN（Virtual Private Network）的时候，你的 **网络地址** 是被隐藏的
-	
+
 <img src="../ckad-6/28a6f7c5d63b4ccb836b22f3990464fb.png" width=500 title="source: https://www.avast.com/c-what-is-an-ip-address" />
 
 ## 服务类型
@@ -209,7 +212,7 @@ spec:
     </tr>
     <tr>
         <td><code>Headless</code></td>
-        <td>一种特殊的 <code>ClusterIP</code> 配置，无负载均衡，直接返回 Pod 的 IP，ClusterIP的集群 IP 为 None。<br/><br/><b>适用于</b>：直接访问 Pod 的场景，例如 StatefulSet 应用（如数据库）。</td>
+        <td>一种特殊的 <code>ClusterIP</code> 配置，无负载均衡，不会分配虚拟的 ClusterIP（`clusterIP: None`），而是直接暴露后端 Pod 的真实 IP！<br/><br/><b>适用于</b>：直接访问 Pod 的场景，例如 StatefulSet 应用（如数据库）。</td>
         <td>给客户直接提供员工手机号码，而非总机转接。</td>
 		<td>
 <pre><code>
@@ -252,6 +255,12 @@ spec:
 !!! danger
 	The name "ClusterIP" refers to the fact that this service provides a virtual IP address (ClusterIP) that is accessible only within the cluster.
 
+	💡 `ClusterIP`<br/>
+	Cluster 给 Service 分配的那个虚拟 IP 就叫做 `ClusterIP`
+
+	💡 可以分配给 Service 的 `ClusterIP`范围 在 OpenShift Cluster安装时就已经在 `install-config.yaml` 的 `networking.serviceNetwork` 被定义了。
+
+
 默认类型，仅能在集群内部访问。比如：Frontend访问Backend
 
 ```yaml
@@ -273,7 +282,7 @@ spec:
 !!! info
 	问：假设现在有前端后端组成的程序，而前端和后端各有自己的`Replicas`（复制品，为了处理较大的用户访问而存在）。访问前端1的时候，前端1的API是发送给后端的哪一个`replica`的呢？
 
-	答：Kubernetes的**ClusterIP服务**可以帮助我们将 `Pod` 分组在一起（所有的前端`replicas`为一组，后端`replicas`为另一组），并提供单个接口（即`Service`）来访问组中的 `Pod`。`Pod`会因为各种bug生生死死，每次重生之后拿到的IP地址还不一样，所以我们没有办法直接用`Pod`，因为我们不知道该去哪个IP地址找，而`Service`提供了稳定的IP地址。如图：
+	答：Kubernetes的 **ClusterIP服务** 可以帮助我们将 `Pod` 分组在一起（所有的前端`replicas`为一组，后端`replicas`为另一组），并提供单个接口（即`Service`）来访问组中的 `Pod`。`Pod`会因为各种bug生生死死，每次重生之后拿到的IP地址还不一样，所以我们没有办法直接用`Pod`，因为我们不知道该去哪个IP地址找，而`Service`提供了稳定的IP地址。如图：
 	
 	<img src="../ckad-6/6c0afcac50c4444a96129c530c4da11f.png"  />
 
@@ -314,6 +323,8 @@ spec:
 ### （3）Headless类 
 !!! danger
 	The term "headless" implies that the service does not have a "head" or a centralized virtual IP address (ClusterIP). -> Instead, it directly exposes the backend pod IPs to clients.
+
+	TODO：Headless类 Service 是如何expose Pod的？
 
 当我们想要访问指定的Pod时，例如 StatefulSet 应用（如数据库）。只要将`.spec.clusterIP`设置为`None`即可：
 
@@ -495,6 +506,7 @@ Openshift的`Route`诞生于k8s的`Ingress`之前，红帽作为k8s的主要贡�
 
 ### (1) Ingress Controller
 Ingress控制器由四个资源组成：
+
 1. 负载均衡器（以Deployment的形式存在）
 2. ConfigMap
 3. NodePort类的服务
@@ -700,18 +712,18 @@ annotations:
 		name: ingress-rule
 	spec: 
 		rules:
-		- host: www.my-shop.cn
-		http:
-			paths:
-			backend:
-				serviceName: my-shop-cn
-				servicePort: 80
-		- host: www.my-shop.de
-		http:
-			paths:
-			backend:
-				serviceName: my-shop-de
-				servicePort: 80
+		  - host: www.my-shop.cn
+			http:
+				paths:
+				backend:
+					serviceName: my-shop-cn
+					servicePort: 80
+		  - host: www.my-shop.de
+			http:
+				paths:
+				backend:
+					serviceName: my-shop-de
+					servicePort: 80
 	```
 
 <!-- ![请添加图片描述](../ckad-6/1a71f7d2c32d462c8a9ae149a739bea6.png) -->
@@ -870,8 +882,8 @@ kubectl create -f policy-definition.yaml
 
 	网络策略只适用于 使用 Kubernetes 虚拟网络的 Pod 的内部流量，即 Pod 之间通过集群网络通信的流量。对于那些配置了 主机网络（host networking） 的 Pod，由于它们直接使用主机的网络栈，因此网络策略对它们的流量 不起作用:
 
-	- **Internal Traffic（内部流量）**：指 Pod 之间通过 Kubernetes 虚拟网络进行的通信。Pod A 通过服务（Service）访问 Pod B，例如 backend-service.default.svc.cluster.local。
-	- **Host Networking（主机网络）**：指 Pod 与节点共享网络栈，不再使用 Kubernetes 的虚拟网络，此时网络策略对流量无效。即，如果 Pod 配置了 `hostNetwork: true`：
+	- **Internal Traffic（内部流量）**：指 Pod 之间通过 Kubernetes 虚拟网络进行的通信。Pod A 通过服务（Service）访问 Pod B，例如 `backend-service.default.svc.cluster.local`。
+	- **Host Networking（主机网络）**：指 Pod 不再有一个独立的 Pod IP，而是会直接使用 Node 的 IP。不再使用 Kubernetes 分配给Pod的虚拟网络，此时网络策略对流量无效。即，如果 Pod 配置了 `hostNetwork: true`：
 		<pre><code>
 		apiVersion: v1
 		kind: Pod
