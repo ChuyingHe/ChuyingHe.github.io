@@ -798,7 +798,7 @@ NetworkPolicy（`netpol`） 是 Kubernetes 中用于控制 Pod 网络流量的�
 	- **背景：** 理论上一个cluster上所有的`Pod`之间都能通过`Service`互相沟通，但如图，我们可能不需要也不想要 Frontend 和 Database 之间直接进行沟通，我们可以通过 **Network Policies** 对某个`Pod`的traffic设限
 	- **Network Policies**：通过`label`和`selectors`将 **Network Policies** 连接到`Pod`上去
 
-NetworkPolicy举例：YAML中的`.spec.podSelector.matLabels.name`指定了 **目标 Pod 标签**。
+NetworkPolicy举例：YAML中的`.spec.podSelector.matchLabels.name`指定了 **目标 Pod 标签**。
 ```yaml
 # policy-definition.yaml
 apiVersion: networking.k8s.io/v1
@@ -834,6 +834,9 @@ spec:
 		  - protocol: TCP
 		    port: 80
 ```
+
+!!! note 
+	`.spec.podSelector: {}` 意思是该规则应用到当前 namespace 所有 Pod 上
 
 !!! note
 	无论是 ingress 还是 egress的规则，都由两部分组成：

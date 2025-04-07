@@ -63,7 +63,10 @@ oc expose svc/my_service
 ```
 
 ### 2. Create edge Route 
-**可以使用 OpenShift 自带证书**，因为 OpenShift Router 在边缘终止 TLS，并负责管理证书。如果你不提供 `route.spec.tl.certificate`，OpenShift 会使用默认的 Router 证书.
+因为 OpenShift Router 在边缘终止 TLS，并负责管理证书，因此得名 “Edge”。可以使用：
+
+- OpenShift 自带证书：如果你不提供 `route.spec.tl.certificate`，OpenShift 会使用默认的 Router 证书.
+- 自己指定的 证书
 
 
 !!! warning
@@ -104,6 +107,7 @@ In contrast to traditional firewalls,  `netpol` network traffic between pods by 
 
     ```bash
     oc label namespace network-1 network=network-1
+    # ⚠️ oc label project network-1 network=network-1 会报错，无法修改 Project 的元数据！ 只能改 Namespace的！
     ```
 
     2.Define `netpol`:<br/>

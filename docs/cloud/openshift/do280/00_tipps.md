@@ -24,14 +24,7 @@ https://docs.openshift.com/container-platform/4.14
 `Ctrl+F` search on browser
 
 
-```bash
-# check URL of the console
-oc whoami —show-console
 
-# explain
-oc explain pod.spec.template
-oc explain pods --recursive | grep envFrom -A3
-```
 
 # Chapters to review
 ## DO280
@@ -86,3 +79,5 @@ install operator with cli
 - health probe
 - resource limit: trouble shooting question `.containers[].resources.limits.memory` -> need more
 - auto scaling
+
+

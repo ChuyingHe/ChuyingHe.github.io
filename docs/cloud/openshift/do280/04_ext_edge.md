@@ -2,6 +2,18 @@
 
 Edge certificates encrypt the traffic between <ins>the client and the router</ins>, but leave the traffic between <ins>the router and the service</ins> unencrypted. 
 
+
+# 使用 OpenShift 自带证书 创建 edge route
+```bash
+oc create route edge todo-https \
+    --service todo-http \
+    --hostname todo-https.apps.ocp4.example.com \
+    --key <file>.key \
+    --cert <file>.crt
+```
+
+# 使用 自己指定的 证书 创建 edge route
+
 👉 OpenShift generates its own certificate that it signs with its CA.
 
 ```bash
