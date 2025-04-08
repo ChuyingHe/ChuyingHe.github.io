@@ -1,5 +1,13 @@
-# 1. Security Context Constraints
-Red Hat OpenShift provides **security context constraints (SCCs)**, a security mechanism that limits the access from a running pod in OpenShift to the host environment. Cluster administrators can list the SCCs that OpenShift defines:
+# 1. Security Context Constraints (SCC)
+
+简单来说，SCC 是 OpenShift 用来限制容器行为的一种机制，确保集群中运行的容器符合安全标准。SCC 定义了 Pod 的以下安全行为：
+
+- 是否允许特权容器：是否允许容器以 root 用户身份运行，或以更高的权限访问主机。
+- 容器能否运行在主机网络上：是否允许容器使用宿主机的网络。
+- 用户和组的限制：容器是否能使用特定的用户、组或 UID。
+- 是否允许访问特定资源：如是否允许访问主机路径、允许卷挂载等。
+
+Cluster administrators can list the SCCs that OpenShift defines:
 
 ```bash
 oc get scc
@@ -25,12 +33,20 @@ oc describe pod console-5df4fcbb47-67c52 -n openshift-console | grep scc
     - A container image(from DockerHub) that requires running as a specific user ID can fail because the `restricted-v2` SCC runs the container by using a random user ID.
     - A container image that listens on port 80 or on port 443 can fail for a related reason. The random user ID that the `restricted-v2` SCC uses cannot start a service that listens on a **privileged network port** (port numbers that are less than 1024)
 
-    To debug: use the `scc-subject-review` subcommand to list all the security context constraints that can overcome the limitations that hinder the container: 查看当前deployment使用的scc <br/>
+    ⚠️ 这条命令列出了在当前配置下，系统允许该资源（deployment/nginx）使用的 SCC 列表 - 并不代表该 deployment 已经在用这个 SCC 了！ <br/>
     ```bash
-    oc get deployment deployment-name -o yaml | oc adm policy scc-subject-review -f -
+    oc get deployment nginx -o yaml | oc adm policy scc-subject-review  -f -
+    ```
+    Result:
+    ```bash
+    RESOURCE           ALLOWED BY
+    Deployment/nginx   anyuid
     ```
 
-!!! info "`oc scc-subject-review`"
+    - Deployment/nginx：我们检查的是这个 Deployment。
+    - anyuid：这个 Deployment 所使用的服务账号（ServiceAccount）被允许使用 anyuid SCC
+
+!!! info "`oc policy scc-subject-review`"
 
     ```bash
       # Check whether user bob can create a pod specified in myresource.yaml
@@ -317,3 +333,48 @@ oc debug node/master01 -- \   # Starts a debug pod on the node master01.
 
 !!! note "crictl"
     Directly interacts with the container runtime (`CRI-O`), allowing you to manage containers and images at the node level.
+
+# -----
+
+
+# 为什么即使已有 `Role` 仍然需要使用 `SCC`
+
+**`Role`** 和 **`SCC (Security Context Constraints)`** 是两种不同的安全机制，它们各自控制 OpenShift 中的不同方面，因此它们是互补的，而不是互相替代的。下面详细解释为什么即使已经有了 `Role`，仍然需要使用 `SCC`。
+
+## 1. `Role` 控制的是权限，`SCC` 控制的是容器的安全上下文
+- **`Role`** 用来定义用户或 ServiceAccount 对集群资源（如 Pods、Services、Deployments 等）进行 **访问控制** 的权限。例如：
+  - 允许用户创建或修改资源。
+  - 允许用户查看资源。
+  - 控制用户是否可以执行特定操作（如创建或删除 Pods）。
+  
+- **`SCC`** 用来定义容器在执行时 **可以使用哪些特权**，即容器的 **安全上下文**。它控制以下内容：
+  - 是否允许容器以 **root 用户** 权限运行。
+  - 是否允许容器使用 **特权模式**（privileged mode）。
+  - 是否允许容器访问 **宿主机网络** 或 **挂载宿主机文件系统** 等资源。
+  - 控制容器是否使用特定的 **SELinux 上下文** 或 **用户/组 ID**。
+
+## 2. `Role` 控制对资源的访问，`SCC` 控制容器的行为
+- `Role` 更多的是控制谁可以 **访问资源**（比如读取、写入、修改、删除资源）。例如，给用户 `view` 权限表示他可以查看资源，但不允许修改。
+  
+- `SCC` 则控制容器在 **执行时** 是否符合某些安全要求。例如，容器能否在特权模式下运行，能否以 `root` 用户权限启动，能否挂载宿主机的目录等。这个主要关注容器的 **行为安全性**，而不仅仅是资源访问权限。
+
+## 3. 为什么 `Role` 和 `SCC` 是互补的
+- **`Role`** 定义了你是否可以执行某些资源的操作，而 **`SCC`** 则是定义了你在执行容器时，是否有足够的权限去使用某些敏感的特性（如特权容器、root 用户、宿主机网络等）。即使你有权限创建 Pod、修改 Deployment，如果没有适当的 **SCC**，容器仍然无法以所需的方式运行。
+  
+  比如，如果你有权限创建 Pods（通过某个 **Role**），但是容器需要以 **root 用户** 运行，或者使用 **特权模式**，这时你就需要配置 **SCC** 来允许这些操作。
+
+## 4. `oc adm policy add-role-to-user` vs `oc adm policy add-scc-to-user`
+- `oc adm policy add-role-to-user`： 这个命令将一个角色添加到某个用户（或 ServiceAccount）。例如，赋予用户对某个项目的读写权限。
+- `oc adm policy add-scc-to-user`： 这个命令将一个 **SCC** 绑定到某个用户（或 ServiceAccount）。它决定了该用户运行的容器是否能以某种特权执行（例如是否允许以 root 用户身份运行容器）。
+
+## 5. 例子
+假设你有一个用户 `developer`，他需要运行一个容器来访问宿主机网络。
+
+- **Role**： 你会用 `oc adm policy add-role-to-user` 为 `developer` 分配 `edit` 权限，使他能够在项目中创建 Pods 和 Deployments。
+- **SCC**： 但是如果 `developer` 需要在容器中访问宿主机网络，OpenShift 默认的 **SCC** 可能不允许这样做，因为这种行为需要特权。你会使用 `oc adm policy add-scc-to-user` 为 `developer` 绑定 `privileged` 或 `anyuid` 等 **SCC**，使得容器能够在容器中以特权模式运行。
+
+## 总结
+- **`Role`** 控制访问权限，它决定了谁可以操作集群资源（如 Pods、Services）。
+- **`SCC`** 控制容器的 **运行时权限**，它决定了容器能否以特权模式运行，是否可以访问宿主机网络，是否可以以 root 用户身份运行等。
+
+因此，**即使有了 Role**，你仍然需要为容器配置适当的 **SCC** 来确保容器能够按照需要的安全上下文执行。两者结合，确保了既能合理控制资源访问，又能确保容器运行时的安全性。

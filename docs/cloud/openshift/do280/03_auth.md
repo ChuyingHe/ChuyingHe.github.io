@@ -361,7 +361,8 @@ spec:
     oc get oauth cluster -o yaml > oauth.yaml
     oc replace -f oauth.yaml
     ```
-
+!!! info "UI Console"
+    也可以通过UI修改： Administration > Cluster Settings > Configuration > Oauth
 
 !!! note "`oc replace` VS `oc apply`"
     Some resources have immutable fields that apply won't let you change. For example, a deployment cannot have its selectors changed. `oc replace` can be used in these situations.

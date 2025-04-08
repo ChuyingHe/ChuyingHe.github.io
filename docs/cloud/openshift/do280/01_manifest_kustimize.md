@@ -111,13 +111,13 @@ The `oc patch` command updates or adds fields in an existing object:
   ```
 
     !!! note "patch 文件"
-        上述例子中，oc patch 使用的 patch 文件不需要是一个完整的 Deployment 定义。它只需要包含你想要修改的部分。Patch 文件可以是 JSON 或 YAML 格式。举例`volume-mount.yaml`
+        上述例子中，oc patch 使用的 patch 文件 **不是** 一个完整的 Deployment 定义。它只需要包含你想要修改的部分。Patch 文件可以是 JSON 或 YAML 格式。举例`volume-mount.yaml`
         ```yaml
         spec:
           template:
             spec:
               containers:
-                - name: hello-container # 指定要修改的容器
+                - name: hello-container # ⚠️ 指定要修改的容器
                   volumeMounts:
                     - name: my-volume
                       mountPath: /data
@@ -126,6 +126,14 @@ The `oc patch` command updates or adds fields in an existing object:
                   emptyDir: {}
         ```
 
+        常见错误：
+
+        - ❌ 写成完整资源对象	
+        - ❌ 字段名拼错或层级不对	
+        - ❌ containers 列表中没写容器名	
+        - ❌ 用 JSON Merge Patch 写复杂结构	
+
+      
 ## Validate Manifest
 
 - `--dry-run=server`: submits a server-side request without persisting the resource.

@@ -121,7 +121,7 @@ openssl genrsa -out training.key 4096
 # (2) 生成 certificate signing request (CSR) `training.csr`:
 # - use the generated training.key`
 # - specify the hostname: todo-https.apps.ocp4.example.com
-openssl req -new \
+openssl req -new \          # 不要忘记这个 -new
     -key training.key \
     -out training.csr \
     -subj "/C=US/ST=North Carolina/L=Raleigh/O=Red Hat/CN=todo-https.apps.ocp4.example.com"
@@ -139,13 +139,15 @@ openssl req -new \
 # OUTPUT:
 #   - `training.crt`: a signed Certificate
 #   - `training-CA.srl`: (If NOT exist) a list for documenting purpose
-openssl x509 \
-    -req -in training.csr \         # 处理请求, 指定输入的 CSR 文件
+openssl x509 -req \             # 不要忘记这个 -req
+    -in training.csr \          # 处理请求, 指定输入的 CSR 文件
     -passin file:passphrase.txt \   # 存储 CA 私钥密码的文件
-    -extfile training.ext \         
+    -extfile training.ext \ 
+
     -CA training-CA.pem \
     -CAkey training-CA.key \
     -CAcreateserial \       # Creates training-CA.srl if NOT exist, to track certificate Serial numbers
+    
     -out training.crt \
     -days 1825 \            # Certificate’s validity period = 5 years
     -sha256                 # Certificate signature hashing = SHA-256
@@ -156,6 +158,10 @@ openssl x509 \
 
 !!! note "`-subj`"
     The `-subj` flag in the `openssl req -new `command specifies the **distinguished name (DN)** directly in the command line, instead of interactively entering it.
+    
+    如果你在命令中不用`-subj`，也可以一个个输入：
+    <img src="../imgs/openssl_csr.png" width="600" />
+
 
 !!! note "Distinguished Name(DN)"
     The **Distinguished Name (DN)** is a unique identifier for an entity (such as a `server`, `organization`, or `individual`) in a **digital certificate**. It is used in:

@@ -54,6 +54,33 @@
 4. **Passthrough**: the connection is not encrypted by the reverse proxy. The reverse proxy uses the Server Name Indication (SNI) field to determine to which backend to forward the connection, but in every other respects it acts as a Layer 4 load balancer.
 
 
+## OpenShift 中的证书
+### 默认路由证书（Ingress 默认证书）
+用于 OpenShift Ingress Router，也就是 OpenShift 中的 外部 HTTPS 入口。它负责终止（解密）外部传入的 HTTPS 请求，并将请求转发给后端的应用（通常是 HTTP）。
+
+- 只用在 Route 上：
+    - Edge Route 
+    - Re-encrypt Route 的前端 TLS 终止
+- 默认情况下，这个证书是由 OpenShift 自动生成的，一般是一个自签名的证书（或使用集群自带的证书）。
+- 该证书的 DNS 名称会匹配你为 Route 配置的域名，例如：yourapp.apps.cluster.com。
+
+!!! note
+    ```bash
+    oc get secrets/router-ca -n openshift-ingress-operator
+    ```
+
+### 内部 CA 根证书（service-ca 证书）
+用于 OpenShift 集群内部服务之间的安全通信。
+
+- 不仅限于 Route，还可用于内部服务（例如：Prometheus、Alertmanager、Webhook、API Server）之间的加密通信。
+
+
+!!! note
+    ```bash
+    # signing-key 是 Service CA 的 私钥，用来为集群中的服务签发 TLS 证书
+    oc get sercret/signing-key -n openshift-service-ca
+    ```
+
 ## Example
 ### 1. Create clear Route
 <img src="../imgs/ocp-clear.png" width="600" />
@@ -199,19 +226,10 @@ spec:
 ```
 
 
-# 3. Protect Internal Traffic with TLS
+# 3. Protect Internal Traffic with TLS / 内部 CA 根证书
 
 By default, **OpenShift** encrypts network traffic between **Nodes** and the **Control Plane**, and prevents external entities from reading internal traffic. This encryption provides stronger security than default **Kubernetes**, which does not automatically encrypt internal traffic. 
 
-!!! info
-    OpenShift 中后端服务获取证书的常见方式有三种：
-
-    1. 用户自己预置证书 - [📌 Example: Create a Passthrough Route with own Certificate](./04_ext_passthrough.md)
-    2. `service-ca` Operator： 用OpenShift Service CA 自动为服务生成证书
-    3. 使用 cert-manager 或其他证书管理器
-
-
-    这个section讲第二种方法。。。
 
 !!! info
     |Feature|Kubernetes `cert-manager`|OpenShift `service-ca`|
