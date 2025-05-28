@@ -181,6 +181,19 @@ INFO Run 'export KUBECONFIG=/root/auth/kubeconfig' to manage the cluster with 'o
 export KUBECONFIG=/home/user/auth/kubeconfig
 ```
 
+!!! note
+    OpenShift 内部使用了多组 X.509 证书，每组证书承担不同角色，统一保障整个集群的安全通信与认证机制。比如：
+
+    ｜用途 ｜ 描述｜
+    ｜:- ｜ :-｜
+    ｜API Server 通信加密 ｜ 提供 Kubernetes API 的 HTTPS 接口所需的 TLS 证书。｜
+    ｜Etcd 通信加密 ｜ 控制平面组件与 etcd 通信使用的证书，保证数据一致性和安全性。｜
+    ｜集群组件身份认证 ｜ 组件之间（如 kubelet 和 API Server）的相互身份验证。｜
+    ｜Ingress（路由）证书 ｜ 终端用户访问服务（通过路由）时的 TLS 证书。｜
+    ｜Service Serving Certificates ｜ 用于服务内部通信（如 pod 间）使用的 TLS 证书｜
+
+
+
 
 ## 2. OAuth 访问令牌
 `OAuth access tokens`更加灵活，适用于动态、可扩展的访问控制场景. 默认用于用户身份验证，支持多种 OAuth 身份提供者：

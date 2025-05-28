@@ -8,7 +8,7 @@ Compatible versions: 4.10, 4.12, 4.14
 
 # Resources
 - [EX280 Description](https://www.redhat.com/en/services/training/red-hat-certified-openshift-administrator-exam)
-- [EX280 Exam Dumps](https://github.com/bugbiteme/EX280-study/tree/main)
+<!-- - [EX280 Exam Dumps](https://github.com/bugbiteme/EX280-study/tree/main) -->
 - [Studying & Walk through](https://www.youtube.com/watch?v=nLhBrjhQRe8&ab_channel=Cloudlearning)
 - DO180：
     - Chapter 5: Manage Storage for Application Config & Data: Limit etc

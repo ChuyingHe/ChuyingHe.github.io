@@ -38,16 +38,25 @@ nav:
           - 2. Creational DP: architect/design_patterns/2_creational.md
           - 3. Structural DP: architect/design_patterns/3_structural.md
           - 4. Behavioral DP: architect/design_patterns/4_behavioral.md
+      - GCP PCAC:
+          - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
+      - Benthos:
+          - Introduction: automation/benthos/intro.md
       - Instana:
-          - Intro: automation/instana/index.md
+          - 1. Intro: automation/instana/theory/1.intro.md
+          - 2. Agent, Sensor: automation/instana/theory/2.agent_sensor.md
+          - 3. Trace, Call, Span: automation/instana/theory/3.trace.md
+          - 4. Event, Alert: automation/instana/theory/4.event.md
+          - 5. Integration, SKD, API: automation/instana/theory/5.api.md
+          - 6. UI: automation/instana/theory/6.ui.md
+
           - Installation/Standard: automation/instana/install_standard.md
           - Installation/Custom: automation/instana/install_custom.md
-          - Bootcamp:
-              - 1: automation/instana/1.md
-              - 2: automation/instana/2.md
-              - 3: automation/instana/3.md
-              - 4: automation/instana/4.md
+      - n8n:
+          - Introduction: automation/n8n/index.md
+      - NodeRed:
+          - Introduction: automation/nodered/intro.md
   - Bash Script:
       - Basics: bash_script/index.md
       - Exercises: bash_script/exercises.md
@@ -147,10 +156,9 @@ nav:
   - IDEs:
       - VSCode: ide/vscode/index.md
   - Network:
-      - interesting topics: network/index.md
-      - HTTP: network/http.md
+      - IP: network/ip.md
       - LoadBalancer: network/loadbalancer.md
-      - SSH vs TLS: network/ssh_vs_tls.md
+      - Protocols: network/protocols.md
   - Project Mgmt:
       - Agile: project_mgmt/agile/index.md
       - Git: project_mgmt/git/index.md

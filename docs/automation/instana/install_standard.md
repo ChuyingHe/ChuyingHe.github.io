@@ -22,6 +22,7 @@ TO CHECK:
 > Doc: https://www.ibm.com/docs/en/instana-observability/current?topic=edition-installing
 
 In this step, we basically use the command `stanctl up` to automatically set up everything. Required parameters:
+
 - download key or an official agent key: from Instana
 - sales key: from instana
 - domain: fyre VM's public URL
@@ -31,6 +32,7 @@ In this step, we basically use the command `stanctl up` to automatically set up 
 - TLS: auto generate
 
 > Tipp: 
+> 
 > - use `stanctl --help`
 > - all configs are in the local directory `.stanctl/`
 
@@ -48,7 +50,7 @@ echo xxx | base64 -d
 # Install Instana Agent 
 One Agent for one Node!
 
-<img src="../imgs/agent" />
+<img src="../imgs/agent.png" />
 
 
 # Deinstallation
@@ -59,6 +61,8 @@ https://www.ibm.com/docs/de/instana-observability/287?topic=edition-uninstalling
 
 
 # Instana Standard Installation - Multi Nodes - Airgap
+
+
 [Doc](https://www.ibm.com/docs/en/instana-observability/287?topic=mnc-system-requirements)
 
 ||instana0|instana1|instana2|
@@ -86,6 +90,12 @@ export DOWNLOAD_KEY=<instana-download-key>
 export INSTANA_VERSION=1.8.1-1
 wget https://_:$DOWNLOAD_KEY@artifact-public.instana.io/artifactory/rel-rpm-public-virtual/stanctl-$INSTANA_VERSION.x86_64.rpm
 sudo rpm -Uvh stanctl-$INSTANA_VERSION.x86_64.rpm
+
+# Verify the stanctl version
+stanctl --version
+
+# Check the available Instana version using the downloaded stanctl tool
+stanctl versions identify
 
 # Packing stanctl for air-gap environment, this might take a while
 stanctl air-gapped package
@@ -169,6 +179,7 @@ firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --permanent --add-port=8443/tcp
 firewall-cmd --new-zone=internal-access --permanent
+# ⚠️⚠️⚠️ Replace the node IPs here!
 firewall-cmd --permanent --zone=internal-access --add-source=<node0-IP>	
 firewall-cmd --permanent --zone=internal-access --add-source=<node1-IP>
 firewall-cmd --permanent --zone=internal-access --add-source=<node2-IP>
@@ -197,7 +208,12 @@ ssh-keygen -t rsa
 
 # output the Public Key 
 # copy the output to node1 and node2
-cat /root/.ssh/id_rsa.pub
+# cat /root/.ssh/id_rsa.pub
+
+# Copies your public SSH key to a remote host's authorized_keys file (/root/.ssh/authorized_keys)
+ssh-copy-id -i /root/.ssh/id_rsa root@instana-1
+ssh-copy-id -i /root/.ssh/id_rsa root@instana-2
+# Prompt will remind you to type in the ssh password to both hosts (instana-1 and instana-2)
 ```
 
 ### 3. stanctl
@@ -224,21 +240,6 @@ stanctl up --air-gapped --multi-node-enable
 # ? Confirm Instana admin password: ********
 # ? Enter TLS certificate file (hit ENTER to auto-generate):
 ```
-
-!!! danger "error"
-    **Error**: 
-
-    ```bash
-    running "ssh [-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -o LogLevel=ERROR root@10.0.0.31 systemctl start k3s]" failed with exit code 1 (Job for k3s.service failed because the control process exited with error code.
-    See "systemctl status k3s.service" and "journalctl -xeu k3s.service" for details.
-    ```
-
-    **Reason**: firewall setting is wrong, you might forgot to add the followings, check the firewall setting in this page:
-
-    ```bash
-    firewall-cmd --permanent --zone=internal-access --add-source=<node0-IP> ...
-    ```
-
 
 
 !!! note "domain"
@@ -331,6 +332,7 @@ firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --permanent --add-port=8443/tcp
 firewall-cmd --new-zone=internal-access --permanent
+# ⚠️⚠️⚠️ Replace the node IPs here!
 firewall-cmd --permanent --zone=internal-access --add-source=<node0-IP>	
 firewall-cmd --permanent --zone=internal-access --add-source=<node1-IP>
 firewall-cmd --permanent --zone=internal-access --add-source=<node2-IP>
@@ -387,6 +389,7 @@ firewall-cmd --permanent --add-port=80/tcp
 firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --permanent --add-port=8443/tcp
 firewall-cmd --new-zone=internal-access --permanent
+# ⚠️⚠️⚠️ Replace the node IPs here!
 firewall-cmd --permanent --zone=internal-access --add-source=<node0-IP>	
 firewall-cmd --permanent --zone=internal-access --add-source=<node1-IP>
 firewall-cmd --permanent --zone=internal-access --add-source=<node2-IP>
@@ -416,3 +419,56 @@ echo "<Public-key>" >> /root/.ssh/authorized_keys
 ## result
 
 you can access the UI from Bastion workstation.
+
+
+
+
+# Bug Documentation
+
+!!! danger "error"
+    **Error**: 
+
+    ```bash
+    running "ssh [-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -o LogLevel=ERROR root@10.0.0.31 systemctl start k3s]" failed with exit code 1 (Job for k3s.service failed because the control process exited with error code.
+    See "systemctl status k3s.service" and "journalctl -xeu k3s.service" for details.
+    ```
+
+    **Reason**: firewall setting is wrong, you might forgot to add the followings, check the firewall setting in this page:
+
+    **Solution**:
+    ```bash
+    firewall-cmd --permanent --zone=internal-access --add-source=<node0-IP> ...
+    firewall-cmd --reload
+    ```
+
+!!! danger "error"
+    **Error**: 
+
+    ```bash
+    Executable k3s binary not found at /usr/local/bin/k3s
+
+    # or
+    Error: stat /root/.stanctl/k3s/k3s: no such file or directory
+    ```
+
+    **Reason**: k3s installation went wrong
+
+    **Solution**: delete the cluster, clean up the installed stanctl and redo the
+    ```bash
+    # remove k3s
+    source /usr/local/bin/k3s-uninstall.sh
+    rm -rf /etc/rancher/k3s
+    rm -rf /var/lib/rancher/k3s
+    rm -rf /var/lib/kubelet
+    rm -rf /etc/cni
+    rm -rf /opt/cni
+    rm -rf /var/lib/cni
+    rm -rf ~/.kube 
+
+
+    # remove stanctl
+    rm -rf /root/.stanctl
+    rm -f /usr/local/bin/stanctl
+    ```
+
+    then re-do the [STANCTL](#3-stanctl) step
