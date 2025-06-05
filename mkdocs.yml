@@ -42,6 +42,7 @@ nav:
           - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
       - Benthos: automation/benthos.md
+      - Grafana: automation/grafana.md
       - Instana:
           - 1. Intro: automation/instana/theory/1.intro.md
           - 2. Agent, Sensor: automation/instana/theory/2.agent_sensor.md

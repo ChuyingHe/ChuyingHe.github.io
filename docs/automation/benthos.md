@@ -3,7 +3,7 @@
 - [Official documentation](https://docs.redpanda.com/redpanda-connect/get-started/about/)
 - [Git repo](https://github.com/redpanda-data/connect)
 
-Benthos has been renamed to RedPanda?
+**Benthos** has been acquired by RedPanda. Now its known as **Redpanda Connect**.
 
 A streaming ETL service for **Data Engineering**:
 
