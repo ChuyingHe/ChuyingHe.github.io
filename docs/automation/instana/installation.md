@@ -1,13 +1,45 @@
-# Instana Standard Installation - Single Node
+
+# Custom Edition
+- [Instana Installation on OCP](https://pages.github.ibm.com/DACH-TECH-AUTOMATION/dach-automation-waiops-tech-mini-jam/chapters/instana_cpwaiops_onocp/instana/)
+- [step-by-step](https://github.ibm.com/Lai-Mee-Lok/OCP-step-by-step-Instana-Backend/tree/power)
+
+
+## What you need
+- `<agent key>`
+- `<sales key>`
+
+## BeeInstana Operator
+BeeInstana can be installed as an OC Operator.
+
+!!! warning
+    Installation of BeeInstana is optional at installation time and it can be added later to an existing installation. However, adding BeeInstana to an existing Instana installation will result in a database migration to BeeInstana. The duration of this migration is dependent on the amount of already existing data.
+
+## Install 
+
+One needs `agent_key` to be able to access Helm repo. To install Instana properly, these are the steps you need to do:
+
+1. install `instana-kubectl` plugin
+2. using the plugin that installed in step 1, install Instana Operator
+3. create Instana License File
+4. create `secret` and collect them
+5. create **CORE** config file and create `secret` out of it
+6. create **UNIT** config file and create `secret` out of it
+7. create routes for both **core** and **unit**
+
+
+
+# Standard Edition 
+
+## Single Node
 
 <img src="../imgs/instana_editions.png" width="500" />
 
-## 1. Create a VM on fyre
+### 1. Create a VM on fyre
 Create a machine on fyre with at least 16Core, 64 Memory CoreOS. 
 
 Using the <username>:<api_key> and the [fyre API](https://fyre.ibm.com/help#fyre-api) request to create the machine. Use `ssh` to access the VM's console
 
-## 2. Preparing for a single-node deployment
+### 2. Preparing for a single-node deployment
 > Doc: https://www.ibm.com/docs/en/instana-observability/current?topic=cluster-preparing
 
 - Follow the instructions until th "**Create the directories**"
@@ -18,7 +50,7 @@ TO CHECK:
 - Firewall rules
 - Configuring an HTTP proxy
 
-## 3. Installing
+### 3. Installing
 > Doc: https://www.ibm.com/docs/en/instana-observability/current?topic=edition-installing
 
 In this step, we basically use the command `stanctl up` to automatically set up everything. Required parameters:
@@ -37,17 +69,10 @@ In this step, we basically use the command `stanctl up` to automatically set up 
 > - all configs are in the local directory `.stanctl/`
 
 
-## Namespaces
-### instana-core
-all backend components, get the components' logs one by one to check potential
-### instana-unit
-web & tenant. The `username` & `pw` to login to the Instana UI are stored in a secret `instana-unit` in this NS. Decode the secret to get the credential:
+### Namespaces
 
-```bash
-echo xxx | base64 -d
-```
 
-# Install Instana Agent 
+## Install Instana Agent 
 One Agent for one Node!
 
 <img src="../imgs/agent.png" />

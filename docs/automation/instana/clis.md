@@ -31,7 +31,29 @@ helm install synthetic-pop -n syn
 
 
 
-# kubectl
+
+
+# Unit + Core
+- **Core** and **Units** must be installed in different namespaces. 
+- Each **Core** needs its own namespace. 
+- Multiple **Units** that belong to the same Core can be installed in the same namespace.
+
+
+> Namespace names can be freely chosen. The namespaces `instana-core` and `instana-units` are the default NS in standard edition
+
+In both NS, a pull secret is needed for pulling the **images** for **Core** and **Units** resources
+
+```bash
+kubectl create secret docker-registry instana-registry \
+    --namespace=<namespace> \
+    --docker-username=_ \
+    --docker-password=<agent_key> \
+    --docker-server=artifact-public.instana.io
+```
+
+To see the specification for both Core and Unit resource, check the [API Reference](https://www.ibm.com/docs/en/instana-observability/current?topic=edition-api-reference#core).
+
+# Namespaces
 
 namespace neutral CLIs:
 
@@ -86,7 +108,20 @@ kubectl edit ClickHouseInstallation instana -n instana-clickhouse|
 kubectl get ClickHouseInstallation instana -n instana-clickhouse
 ```
 
-## instana-core
+## ⛰️ instana-core 
+A **Core** represents shared components and is responsible for configuring data store access. As a result, most configurations are going to happen here. - This is created using **Core** Images from the `artifact-public.instana.io`.
+
+A Core resource's YAML might look like this:
+```yaml
+apiVersion: instana.io/v1beta2
+kind: Core
+metadata:
+  namespace: instana-core
+  name: instana-core
+spec:
+  ...
+```
+
 ```bash
 kubectl create secret generic instana-core --namespace instana-core --from-file=config.yaml
 
@@ -103,6 +138,7 @@ kubectl get core instana-core -n instana-core
 
 kubectl instana action reconcile --core instana-core -n instana-core
 ```
+
 
 
 ## instana-elasticsearch
@@ -139,7 +175,8 @@ kubectl -n instana-operator scale deployment instana-operator --replicas 2
 
 
 
-## instana-unit
+## ⛰️ instana-unit
+web & tenant. 
 
 ```bash
 kubectl create secret generic tenant2-unit2 --from-file=config.yaml -n instana-unit|
@@ -148,6 +185,13 @@ kubectl -n instana-unit scale deployment --replicas
 
 kubectl describe unit tenant0-unit0 -n instana-unit
 kubectl get unit tenant0-unit0 -n instana-unit
+```
+
+### Login credential
+The `username` & `pw` to login to the Instana UI are stored in a secret `instana-unit` in this NS. Decode the secret to get the credential:
+
+```bash
+echo xxx | base64 -d
 ```
 
 
