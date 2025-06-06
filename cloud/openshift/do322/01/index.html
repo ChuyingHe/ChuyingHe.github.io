@@ -1,0 +1,6179 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../do280/10/">
+      
+      
+        <link rel="next" href="../02/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>1. Intro to OpenShift Installation - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-installation-methods" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Intro to OpenShift Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Administrator
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Administrator
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/hardware/disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infrastructure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architect
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architect
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/architectural_thinking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architectural Thinking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AWS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/cp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Practitioner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/saa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Associate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/sap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Professional
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IBM
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            IBM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide from MemiLavi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Guide from MemiLavi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Welcome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. What is a Software Architect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. The Architect's Mindset
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. The Architecture Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Working with System Requirements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Types of Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Selecting Technology Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Meet the *-ilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Components' Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10. Design Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11. System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12. Additional Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13. Architecture Document
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14. Case Study
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15. Advanced Architecture Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    16. Soft Skills
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design Patterns (DP)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Design Patterns (DP)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/1_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/2_creational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. Creational DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/3_structural/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Structural DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Behavioral DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    GCP PCAC
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            GCP PCAC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/gcp/1.preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Automation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/benthos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Benthos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/grafana/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grafana
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Instana
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Instana
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/clis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLIs, Namespaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/1.jargons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jargons
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent, Sensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/3.trace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Trace, Call, Span
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/4.event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event, Alert
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/5.api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration, SKD, API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/6.ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    n8n
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            n8n
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/n8n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    NodeRed
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            NodeRed
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/nodered/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/iCalBuddy.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    iCalBuddy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bash Script
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Bash Script
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cloud
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../helm/helm-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_1" id="__nav_6_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CKA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-11
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-13
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-14
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-16
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_2" id="__nav_6_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKAD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            CKAD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.核心概念介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.多容器Pod
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.容器状态监测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5.Pod设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6.服务与网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7.容器数据的可持久化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.2021更新的考试内容
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    其他
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    OpenShift
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            OpenShift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_2" id="__nav_6_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Installation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/ipi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/upi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/mirror_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mirror Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../internal_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Internal Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pipeline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_6" id="__nav_6_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO288
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            DO288
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/01_deploy_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploying and Managing Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_7" id="__nav_6_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO280
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            DO280
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/01_manifest_kustimize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Manifest & Kustomize
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/02_template_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. OC Template & Helm Chart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/03_auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Authentication and Authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/04_network_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Network Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/05_expose_sni_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Expose SNI Application
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/06_developer_self_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Enable Developer Self-Service
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/07_kubernetes_operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Kubernetes Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/08_application_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Application Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/09_oc_updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Openshift Updates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_8" id="__nav_6_4_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO322
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            DO322
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    1. Intro to OpenShift Installation
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Intro to OpenShift Installation
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-installation-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Installation Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Installation Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ipi-full-stack-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. IPI / Full-stack Automation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-upi-pre-existing-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. UPI / Pre-existing Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      General Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipi-specific-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPI specific Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upi-specific-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      UPI specific Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UPI specific Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation Modes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Modes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-connected" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Connected
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-disconnected" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Disconnected
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cluster-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Cluster Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bootstrapbootkube-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Bootstrap(Bootkube) Stage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bootstraptemporary-control-plane-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Bootstrap(Temporary Control Plane) Stage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bootstrap(Temporary Control Plane) Stage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      download log
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-log-in-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      check log in cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verifying-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Verifying Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hosted-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Hosted Openshift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hosted Openshift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iaas-cloud-providers-that-can-host-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      IaaS cloud providers that can host Openshift
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oc-adm" class="md-nav__link">
+    <span class="md-ellipsis">
+      oc adm
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. IPI on Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. IPI & UPI on Virtual
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. UPI without Infrastructure Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Operations & Maintainance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Scientist
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Data Scientist
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Embedding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/elastic_search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ElasticSearch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design_thinking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design Thinking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DevOps
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            DevOps
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../dev_ops/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ecommerce
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Ecommerce
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ecommerce/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Frontend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_1">
+            <span class="md-nav__icon md-icon"></span>
+            CSS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/css-in-depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS In Depth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/shapes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/cra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CRA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/gsap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GSAP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/js/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nginx
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_6" id="__nav_11_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    React
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_6">
+            <span class="md-nav__icon md-icon"></span>
+            React
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bugs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/web_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ffmpeg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ffmpeg
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IDEs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            IDEs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ide/vscode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VSCode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/ip/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/loadbalancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoadBalancer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Mgmt
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Project Mgmt
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/agile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agile
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/ibm_internal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IBM PM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/grammars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grammars
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/fastapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FastAPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use dependencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/build_dependency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build Own Dependency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/virtual_env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtual environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sketch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Sketch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sketch/procreate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Procreate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Working Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Working Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../working_notes/01_2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    202501
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-installation-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Installation Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Installation Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ipi-full-stack-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. IPI / Full-stack Automation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-upi-pre-existing-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. UPI / Pre-existing Infrastructure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      General Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#firewall-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Firewall Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipi-specific-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPI specific Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upi-specific-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      UPI specific Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UPI specific Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation Modes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Modes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-connected" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Connected
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-disconnected" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Disconnected
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-cluster-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Cluster Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bootstrapbootkube-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Bootstrap(Bootkube) Stage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bootstraptemporary-control-plane-stage" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Bootstrap(Temporary Control Plane) Stage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bootstrap(Temporary Control Plane) Stage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      download log
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-log-in-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      check log in cluster
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verifying-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Verifying Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hosted-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Hosted Openshift
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hosted Openshift">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iaas-cloud-providers-that-can-host-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      IaaS cloud providers that can host Openshift
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oc-adm" class="md-nav__link">
+    <span class="md-ellipsis">
+      oc adm
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>1. Intro to OpenShift Installation</h1>
+
+<p>Course Objectives: Installing OpenShift on a cloud, virtual, or physical infrastructure.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Installation method \ Infrastructure Type</th>
+<th style="text-align: left;">Cloud</th>
+<th style="text-align: left;">Virtual (Hypervisor)</th>
+<th style="text-align: left;">Physical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">UPI</td>
+<td style="text-align: left;">✅ Chapter 2</td>
+<td style="text-align: left;">✅ Chapter 3</td>
+<td style="text-align: left;">✅ Chapter 4,5,6 - a.k.a OC installation without Infrastructure Provider</td>
+</tr>
+<tr>
+<td style="text-align: left;">IPI</td>
+<td style="text-align: left;">✅ Chapter 2</td>
+<td style="text-align: left;">✅ Chapter 3</td>
+<td style="text-align: left;"><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/deploying_installer-provisioned_clusters_on_bare_metal/index">IPI on Bare Metal</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">In what case does the Administrator chose UPI over IPI?</p>
+<p>Two possible cases:</p>
+<ul>
+<li>The Administrator does not have access to a cloud environment and has restricted access to the company’s network configuration.       </li>
+<li>The Administrator wants fine-grained control over the OpenShift installation process.</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Linux distribution in Openshift</p>
+<p>During the installation process. there will be different nodes:</p>
+<ul>
+<li><strong>Bastion Node</strong>: used for administrative access</li>
+<li><strong>Bootstrap Node</strong>: temporary, used only during installation.</li>
+<li><strong>Master Nodes</strong>: runs control plane components.</li>
+<li><strong>Worker Nodes</strong>: Runs applications and workloads.</li>
+</ul>
+<p>They all should use Redhat Linux distribution(e.g. in our tutorial <code>RHCOS</code>)</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Linux distribution: OC vs K8S</p>
+<ul>
+<li>While <strong>Kubernetes</strong> supports all cloud and Linux distributions, making it widely accessible to organizations using various platforms</li>
+<li><strong>OpenShift</strong> supports only Red Hat distributions, such as Red Hat Enterprise Linux (RHEL), CentOS, and Fedora.</li>
+</ul>
+</div>
+<h3 id="1-installation-methods">1. Installation Methods<a class="headerlink" href="#1-installation-methods" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Operations</p>
+<ul>
+<li>Day-0 - Planning &amp; Alignment: Architecture design, Tool selection, Infrastructure Planning, Security &amp; Compliance</li>
+<li>Day-1 - Deployment(Automation): Infrastructure provisioning, Code deployment, Database Setup, Security configurations</li>
+<li>Day-2 - Maintenance, Monitoring, and Optimization: Monitoring and Alerting, Incident response, Routine maintenance, Performance tuning</li>
+</ul>
+</div>
+<p>To deploy an OpenShift Container Platform cluster, administrators must use the openshift-install binary. </p>
+<p>To deploy an OpenShift Container Platform cluster, administrators must use the <code>openshift-install</code> binary(a.k.a. <strong>The OpenShift Installer</strong>). This cmd then generates <strong>ignition configuration files</strong>（字面意思：点火文件） for the bootstrap, control plane nodes, and compute nodes.</p>
+<div class="admonition info">
+<p class="admonition-title">where to find Ignition File?</p>
+<p>The ignition process loads the ignition file configuration files from one of the following locations:</p>
+<ul>
+<li>Local disk</li>
+<li>Cloud metadata</li>
+<li>Over the network using HTTP or HTTPS</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>The Ignition config files that the installation program generates contain certificates that expire after 24 hours, which are then renewed at that time. If the cluster is shut down before renewing the certificates and the cluster is later restarted after the 24 hours have elapsed, the cluster automatically recovers the expired certificates. The exception is that you must manually approve the pending node-bootstrapper certificate signing requests (CSRs) to recover kubelet certificates. See the documentation for Recovering from expired control plane certificates for more information.</p>
+<p>Consider using Ignition config files within 12 hours after they are generated, because the 24-hour certificate rotates from 16 to 22 hours after the cluster is installed. By using the Ignition config files within 12 hours, you can avoid installation failure if the certificate update runs during installation.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Example of Ignition File</p>
+<p>For more information check <a href="https://coreos.github.io/ignition/examples/">here</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="nt">&quot;ignition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3.1.0&quot;</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="err">Ig</span><span class="kc">n</span><span class="err">i</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="err">versio</span><span class="kc">n</span>
+<span class="p">},</span>
+<span class="nt">&quot;passwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err">Co</span><span class="kc">nf</span><span class="err">igures</span><span class="w"> </span><span class="err">SSH</span><span class="w"> </span><span class="err">public</span><span class="w"> </span><span class="err">keys</span><span class="w"> </span><span class="kc">f</span><span class="err">or</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">core.</span>
+<span class="w">    </span><span class="nt">&quot;users&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;core&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sshAuthorizedKeys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;ssh-rsa AAA...hlw== lab@utility.lab.example.com\n&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;ssh-rsa AAA...3DR\n&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">},</span>
+<span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="err">S</span><span class="kc">t</span><span class="err">orage</span><span class="w"> </span><span class="err">sec</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span>
+<span class="w">    </span><span class="nt">&quot;files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="err">...ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="w"> </span><span class="err">omi</span><span class="kc">tte</span><span class="err">d...</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;overwrite&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/etc/motd&quot;</span><span class="p">,</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="err">Appe</span><span class="kc">n</span><span class="err">ds</span><span class="w"> </span><span class="kc">t</span><span class="err">o</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">/e</span><span class="kc">t</span><span class="err">c/mo</span><span class="kc">t</span><span class="err">d</span><span class="w"> </span><span class="kc">f</span><span class="err">ile</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">base</span><span class="mi">64</span><span class="w"> </span><span class="err">e</span><span class="kc">n</span><span class="err">coded</span><span class="w"> </span><span class="err">source</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="err">.</span>
+<span class="w">        </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;root&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;append&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data:text/plain;charset=utf-8;base64,VGh...lCg==&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">420</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="err">...ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="w"> </span><span class="err">omi</span><span class="kc">tte</span><span class="err">d...</span>
+
+<span class="err">#</span><span class="w"> </span><span class="err">Crea</span><span class="kc">tes</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">sys</span><span class="kc">te</span><span class="err">md</span><span class="w"> </span><span class="err">service</span><span class="w"> </span><span class="err">u</span><span class="kc">n</span><span class="err">i</span><span class="kc">t</span><span class="w"> </span><span class="err">called</span><span class="w"> </span><span class="err">`boo</span><span class="kc">t</span><span class="err">kube.service`</span><span class="w"> </span><span class="kc">t</span><span class="err">ha</span><span class="kc">t</span><span class="w"> </span><span class="err">execu</span><span class="kc">tes</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">scrip</span><span class="kc">t</span><span class="p">:</span>
+<span class="err">#</span><span class="w">   </span><span class="err">`/usr/local/bi</span><span class="kc">n</span><span class="err">/boo</span><span class="kc">t</span><span class="err">kube.sh`</span>
+<span class="nt">&quot;systemd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;contents&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[Unit]\nDescription=Bootstrap a Kubernetes cluster\nRequires=crio-configure.service\nWants=kubelet.service\nAfter=kubelet.service crio-configure.service\nConditionPathExists=!/opt/openshift/.bootkube.done\n\n[Service]\nWorkingDirectory=/opt/openshift\nExecStart=/usr/local/bin/bootkube.sh\n\nRestart=on-failure\nRestartSec=5s\n&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bootkube.service&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="err">...ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="w"> </span><span class="err">omi</span><span class="kc">tte</span><span class="err">d...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>By default, the data stored in ignition files is encoded in <strong>base64</strong>. For inspection, you can decode this data in plain text using the <code>base64 -d</code> command:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>user@demo<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;VGh...lCg==&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d
+This<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>**bootstrap<span class="w"> </span>node**<span class="p">;</span><span class="w"> </span>it<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>destroyed<span class="w"> </span>when<span class="w"> </span>the<span class="w"> </span>master<span class="w"> </span>is<span class="w"> </span>fully<span class="w"> </span>up.
+The<span class="w"> </span>primary<span class="w"> </span>services<span class="w"> </span>are<span class="w"> </span>release-image.service<span class="w"> </span>followed<span class="w"> </span>by<span class="w"> </span>bootkube.service.<span class="w"> </span>To<span class="w"> </span>watch<span class="w"> </span>their<span class="w"> </span>status,<span class="w"> </span>run<span class="w"> </span>e.g.
+
+<span class="w">  </span>journalctl<span class="w"> </span>-b<span class="w"> </span>-f<span class="w"> </span>-u<span class="w"> </span>release-image.service<span class="w"> </span>-u<span class="w"> </span>bootkube.service
+</code></pre></div>
+<p>Check the ignition configs used in the system:
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/boot/ignition/config.ign
+</code></pre></div></p>
+<p>Chekc the ignition logs:
+<div class="highlight"><pre><span></span><code>journalctl<span class="w"> </span>-t<span class="w"> </span>ignition
+</code></pre></div></p>
+<h4 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h4>
+<p>The <strong>OpenShift Installer</strong> offers the following installation methods:</p>
+<h5 id="1-ipi-full-stack-automation">1. IPI / Full-stack Automation<a class="headerlink" href="#1-ipi-full-stack-automation" title="Permanent link">&para;</a></h5>
+<ul>
+<li>also called installer-provisioned infrastructure (<strong>IPI</strong>).</li>
+<li>administrators install OpenShift with <ins>minimal manual intervention</ins> in an opinionated manner.</li>
+<li>The OpenShift installer deploys the cluster on infrastructure that the installer provisions and the cluster maintains.</li>
+<li>The OpenShift installer controls all installation areas, including <ins>infrastructure provisioning</ins></li>
+</ul>
+<p><img src="../imgs/Full-stack-automation.svg" /></p>
+<h5 id="2-upi-pre-existing-infrastructure">2. UPI / Pre-existing Infrastructure<a class="headerlink" href="#2-upi-pre-existing-infrastructure" title="Permanent link">&para;</a></h5>
+<ul>
+<li>also called user-provisioned infrastructure (<strong>UPI</strong>).</li>
+<li>Administrators can use the OpenShift installer to deploy a cluster on infrastructure that they prepare and maintain themselves.</li>
+<li>Administrators are responsible for creating and managing their infrastructure</li>
+</ul>
+<p><img src="../imgs/Pre-existing-Infrastructure.svg" /></p>
+<div class="admonition warning">
+<p class="admonition-title">IPI vs UPI</p>
+<p><img src="../imgs/ipi-vs-upi.png" /></p>
+</div>
+<h4 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h4>
+<h5 id="general-prerequisites">General Prerequisites<a class="headerlink" href="#general-prerequisites" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Provision a bastion host.</li>
+<li>Generate an <strong>SSH key</strong> on the bastion host: for remote access to the OpenShift nodes (bootstrap, master, and worker nodes)</li>
+<li>Download and install <code>openshift-install</code> on the bastion host.</li>
+<li>Download and install <code>oc</code> on the bastion host.</li>
+<li>Get the registry <code>pull-secret</code>.</li>
+<li>OpenShift cluster nodes must have access to a <strong>Network Time Protocol (NTP)</strong> server.</li>
+<li>Ensure that the infrastructure network firewall fulfills the OpenShift network access requirements.</li>
+</ul>
+<h6 id="firewall-prerequisites">Firewall Prerequisites<a class="headerlink" href="#firewall-prerequisites" title="Permanent link">&para;</a></h6>
+<p>Some Ports+Protocol prerequisites for:</p>
+<ul>
+<li>Connectivity Requirements from All Cluster Nodes to All Cluster Nodes</li>
+<li>Connectivity Requirements from All Cluster Nodes to Control Plane Nodes</li>
+<li>API Load Balancer Ports</li>
+<li>Application Ingress Load Balancer Ports</li>
+</ul>
+<h5 id="ipi-specific-prerequisites">IPI specific Prerequisites<a class="headerlink" href="#ipi-specific-prerequisites" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Verify infrastructure permissions and quotas.</li>
+<li>For <strong>cloud</strong> environments, a cloud account with required permissions and quotas is required.</li>
+</ul>
+<h5 id="upi-specific-prerequisites">UPI specific Prerequisites<a class="headerlink" href="#upi-specific-prerequisites" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Configure network services: DNS etc.</li>
+<li>Provide hardware (physical or virtual) for cluster nodes.</li>
+<li>Install RHCOS on cluster nodes.</li>
+</ul>
+<h6 id="dns-service">DNS service<a class="headerlink" href="#dns-service" title="Permanent link">&para;</a></h6>
+<p>When installing OpenShift using the <strong>UPI</strong>, one of the network services that administrators must configure is the <strong>DNS service</strong>. Administrators must configure the DNS service using DNS records. A complete DNS record takes the form <code>&lt;component&gt;.&lt;cluster_name&gt;.&lt;base_domain&gt;</code>:</p>
+<ul>
+<li><code>&lt;cluster_name&gt;</code> is the name of the cluster (for instance ocp4).</li>
+<li><code>&lt;base_domain&gt;</code> is the cluster base domain configured in the <code>install-config.yaml</code> configuration file (for instance <code>example.com</code>).</li>
+<li>The reverse DNS records (PTR) are also required</li>
+</ul>
+<p>The following DNS Records are needed:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Record</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Kubernetes API</td>
+<td style="text-align: left;"><code>api.&lt;cluster_name&gt;.&lt;base_domain&gt;</code></td>
+<td style="text-align: left;">DNS A/AAAA or CNAME and PTR records to identify the API load balancer for the control plane nodes (resolvable by both clients external to the cluster and from all the nodes within the cluster).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Kubernetes API</td>
+<td style="text-align: left;"><code>api-int.&lt;cluster_name&gt;.&lt;base_domain&gt;</code></td>
+<td style="text-align: left;">DNS A/AAAA or CNAME and PTR records to identify the API load balancer for the control plane nodes (resolvable from all the nodes within the cluster).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Routes</td>
+<td style="text-align: left;"><code>*.apps.&lt;cluster_name&gt;.&lt;base_domain&gt;</code></td>
+<td style="text-align: left;">Wildcard DNS A/AAAA or CNAME record to identify the Application Ingress load balancer that targets the cluster nodes that run the ingress router pod (resolvable by both clients external to the cluster and from all the nodes within the cluster).</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cluster nodes</td>
+<td style="text-align: left;"><code>&lt;name&gt;.&lt;cluster_name&gt;.&lt;base_domain&gt;</code></td>
+<td style="text-align: left;">DNS A/AAAA or CNAME and PTR records to identify each cluster node, including <strong>Bootstrap Node</strong> (resolvable by the nodes within the cluster).</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">BIND</p>
+<p><strong>BIND(Berkeley Internet Name Domain)</strong> is one of the most widely used <strong>Domain Name System (DNS)</strong> server software. The BIND configuration is typically managed via two main files:</p>
+<ul>
+<li><code>named.conf</code>: The primary configuration file defining server settings, zones, and ACLs.</li>
+<li>Zone files: Contain the actual DNS records for each managed domain. File name and extension are defined in the <code>*.conf</code> file</li>
+</ul>
+<p><div class="highlight"><pre><span></span><code><span class="o">[</span>root@utility<span class="w"> </span>~<span class="o">]</span><span class="c1"># cat /etc/named.conf</span>
+
+...output<span class="w"> </span>omitted...
+zone<span class="w"> </span><span class="s2">&quot;example.com&quot;</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">type</span><span class="w"> </span>master<span class="p">;</span>
+<span class="w">    </span>file<span class="w"> </span><span class="s2">&quot;example.com.db&quot;</span><span class="p">;</span>
+<span class="w">    </span>allow-update<span class="w"> </span><span class="o">{</span><span class="w"> </span>none<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+</code></pre></div>
+The zone file <code>example.com.db</code> might looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@utility<span class="w"> </span>~<span class="o">]</span><span class="c1"># cat /var/named/example.com.db</span>
+
+<span class="nv">$TTL</span><span class="w">  </span>1D
+@<span class="w">     </span>IN<span class="w">  </span>SOA<span class="w"> </span>dns.ocp4.example.com.<span class="w"> </span>root.example.com.<span class="w"> </span><span class="o">(</span>
+<span class="w">                </span><span class="m">2019022400</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>serial
+<span class="w">                </span>3h<span class="w">         </span><span class="p">;</span><span class="w"> </span>refresh
+<span class="w">                </span><span class="m">15</span><span class="w">         </span><span class="p">;</span><span class="w"> </span>retry
+<span class="w">                </span>1w<span class="w">         </span><span class="p">;</span><span class="w"> </span>expire
+<span class="w">                </span>3h<span class="w">         </span><span class="p">;</span><span class="w"> </span>minimum
+<span class="w">            </span><span class="o">)</span>
+<span class="w">            </span>IN<span class="w"> </span>NS<span class="w"> </span>dns.ocp4.example.com.
+dns.ocp4<span class="w">      </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.254
+api.ocp4<span class="w">      </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.254
+api-int.ocp4<span class="w">  </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.254
+*.apps.ocp4<span class="w">   </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.254
+bootstrap.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.9
+master01.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.10
+master02.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.11
+master03.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.12
+worker01.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.13
+worker02.ocp4<span class="w"> </span>IN<span class="w"> </span>A<span class="w"> </span><span class="m">192</span>.168.50.14
+</code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Setup and enable BIND</p>
+<ol>
+<li>install Bind</li>
+<li>Create config file and zone file</li>
+<li>update file permission</li>
+<li>restart Bind</li>
+<li>Test the config:
+    <div class="highlight"><pre><span></span><code>&lt;!--<span class="w"> </span>Check<span class="w"> </span>the<span class="w"> </span>configuration<span class="w"> </span>syntax:<span class="w"> </span>--&gt;
+sudo<span class="w"> </span>named-checkconf
+
+&lt;!--<span class="w"> </span>Check<span class="w"> </span>zone<span class="w"> </span>files<span class="w"> </span>--&gt;
+sudo<span class="w"> </span>named-checkzone<span class="w"> </span>example.com<span class="w"> </span>/var/named/example.com.zone
+
+&lt;!--<span class="w"> </span>Query<span class="w"> </span>DNS<span class="w"> </span>Server<span class="w"> </span>--&gt;
+dig<span class="w"> </span>@localhost<span class="w"> </span>example.com
+dig<span class="w"> </span>@localhost<span class="w"> </span>-x<span class="w"> </span><span class="m">192</span>.168.0.1
+</code></pre></div></li>
+</ol>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By default, when installing OpenShift using the full-stack automation method on supported cloud providers, the OpenShift installer automatically performs the DNS service configuration.</p>
+<p>Administrators must configure the DNS service when installing OpenShift using the full-stack automation method on the following infrastructures:</p>
+<ul>
+<li>(Cloud) Red Hat OpenStack Platform cloud provider using an external DNS</li>
+<li>(Virtual) VMware vSphere</li>
+<li>(Physical) Bare metal</li>
+</ul>
+</div>
+<h3 id="installation-modes">Installation Modes<a class="headerlink" href="#installation-modes" title="Permanent link">&para;</a></h3>
+<p>Depending on the external connectivity of the cluster, administrators can use one of the following installation modes:</p>
+<h4 id="1-connected">1. Connected<a class="headerlink" href="#1-connected" title="Permanent link">&para;</a></h4>
+<p>The cluster nodes have internet access to pull container images from the <code>quay.io</code> and <code>registry.redhat.io</code> registries. The connected installation mode is supported when using the <strong>full-stack automation (IPI)</strong> or the <strong>pre-existing infrastructure installation (UPI)</strong> methods.</p>
+<h4 id="2-disconnected">2. Disconnected<a class="headerlink" href="#2-disconnected" title="Permanent link">&para;</a></h4>
+<p>Administrators use this installation mode when a connected installation is not possible. The OpenShift installer uses a local container registry to pull container images. <br/>➡️ Not all cloud providers support installation in disconnected mode.</p>
+<ol>
+<li>mirror the required images to the local container registry and obtain the imageContentSources data for your OpenShift version</li>
+<li>start <strong>OpenShift Installation Process</strong>, you can customize <code>install-config.yaml</code> file</li>
+</ol>
+<h3 id="2-cluster-installation">2. Cluster Installation<a class="headerlink" href="#2-cluster-installation" title="Permanent link">&para;</a></h3>
+<p>无论是 UPI 还是 IPI, 都有一个步骤是Installer完成的，那就是 <strong>Cluster Installation</strong>. 该步骤的具体原理见<a href="../installation_process/">这里</a>。</p>
+<p>需要的执行步骤有：</p>
+<ol>
+<li>Fulfill the installation prerequisites.</li>
+<li>Create the installation directory.<br/>This directory stores all the files created by the OpenShift installer.
+<div class="highlight"><pre><span></span><code><span class="o">[</span>user@demo<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>mkdir<span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster
+</code></pre></div></li>
+<li>Create config YAML file. <br/>Use the <strong>Openshift Installer</strong> to create the configuration file (<code>install-config.yaml</code>), and save it in the folder <code>/ocp4-cluster</code>:
+<div class="highlight"><pre><span></span><code><span class="c1"># generate a cluster SSH public key `ocp4-cluster.pub`</span>
+<span class="c1"># ⚠️ The **cluster SSH key** enables access from the bastion host to the cluster nodes!</span>
+ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-b<span class="w"> </span><span class="m">4096</span><span class="w"> </span>-N<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.ssh/ocp4-cluster
+</code></pre></div>
+Use the SSH key in the <code>install-config.yaml</code> file generation
+<div class="highlight"><pre><span></span><code><span class="o">[</span>user@demo<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>openshift-install<span class="w"> </span>create<span class="w"> </span>install-config<span class="w"> </span><span class="se">\</span>
+&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster
+?<span class="w"> </span>SSH<span class="w"> </span>Public<span class="w"> </span>Key<span class="w"> </span>/home/user/.ssh/ocp4-cluster.pub
+?<span class="w"> </span>Platform<span class="w"> </span>aws
+INFO<span class="w"> </span>Credentials<span class="w"> </span>loaded<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="w"> </span>profile<span class="w"> </span><span class="k">in</span><span class="w"> </span>file<span class="w"> </span><span class="s2">&quot;/home/user/.aws/credentials&quot;</span>
+?<span class="w"> </span>Region<span class="w"> </span>us-east-2
+?<span class="w"> </span>Base<span class="w"> </span>Domain<span class="w"> </span>mydomain.com
+?<span class="w"> </span>Cluster<span class="w"> </span>Name<span class="w"> </span>ocp4
+?<span class="w"> </span>Pull<span class="w"> </span>Secret<span class="w"> </span><span class="o">[</span>?<span class="w"> </span><span class="k">for</span><span class="w"> </span>help<span class="o">]</span><span class="w"> </span>+++++
+INFO<span class="w"> </span>Install-Config<span class="w"> </span>created<span class="w"> </span><span class="k">in</span>:<span class="w"> </span>/home/user/ocp4-cluster
+</code></pre></div></li>
+<li>
+<p>Generate the Kubernetes manifests.<br/>
+A Kubernetes manifest is a file that describes one or more Kubernetes API objects, such as Pods, Services, Deployments or MachineConfigs. This cmd takes the <code>install-config.yaml</code> as input, and gerates manifest under the folder <code>/home/user/ocp4-cluster/manifests</code> and <code>/home/user/ocp4-cluster/openshift</code>:
+    <div class="highlight"><pre><span></span><code>openshift-install<span class="w"> </span>create<span class="w"> </span>manifests<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Manifest customization</p>
+<p>You can ONLY modify the manifest if its documented in Redhat support instruction. No free styles pls</p>
+</div>
+</li>
+<li>
+<p>Generate the ignition configuration files. <br/>This cmd generates ignition files (<code>master.ign</code>, <code>worker.ign</code>, <code>bootstrap.ign</code>) under the folder <code>/home/user/ocp4-cluster</code>:
+    <div class="highlight"><pre><span></span><code>openshift-install<span class="w"> </span>create<span class="w"> </span>ignition-configs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Ignition files valid time period</p>
+<p>Ignition files are valid for 24 hours, after which the included certificates expire. If so, create new ignition files.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">ignition file customization</p>
+<p>You can ONLY modify the ignition file if its documented in Redhat support instruction. No free styles pls </p>
+</div>
+</li>
+<li>
+<p>(Only in IPI) Deploy the OpenShift cluster. 
+    <div class="highlight"><pre><span></span><code>openshift-install<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span><span class="se">\</span>
+&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster<span class="w"> </span>--log-level<span class="o">=</span>debug
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Skip step 6 in UPI Environment</p>
+<p>In a <strong>UPI / pre-existing infrastructure installation</strong>, you don't nned to run the <code>openshift-install create cluster</code> command, because you have already:</p>
+<ul>
+<li>Installed RHCOS on the cluster nodes (masters, workers, and bootstrap).</li>
+<li>Set up networking, storage, and load balancers.</li>
+<li>Configured DNS, ignition files, and more.</li>
+</ul>
+<p>Therefore, just do the following to observe the installation:</p>
+<div class="highlight"><pre><span></span><code>openshift-install<span class="w"> </span>wait-for<span class="w"> </span>bootstrap-complete<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster<span class="w"> </span>--log-level<span class="o">=</span>debug
+
+openshift-install<span class="w"> </span>wait-for<span class="w"> </span>install-complete<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster<span class="w"> </span>--log-level<span class="o">=</span>debug
+</code></pre></div>
+</div>
+</li>
+<li>
+<p>Verify the OpenShift cluster health. You can start using the <code>oc</code> command once the <strong>Bootstrap</strong> has the Kubernetes API running on the <strong>temporary control plane</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Configuring the KUBECONFIG environment variable to use the kubeconfig file.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster/auth/kubeconfig
+
+<span class="c1"># 2. Using the kubeadmin credentials stored in the kubeadmin-password file.</span>
+
+<span class="c1"># 3. Login to the Kubernetes API as cluster-admin</span>
+oc<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>cluster-admin<span class="w"> </span>-p<span class="w"> </span><span class="o">[</span>PASSWORD<span class="o">]</span>
+
+<span class="c1"># 4. monitoring:</span>
+<span class="c1"># the installation process</span>
+watch<span class="w"> </span><span class="s1">&#39;oc get clusterversion; oc get clusteroperators; \</span>
+<span class="s1">    &gt; oc get pods --all-namespaces | grep -v -E &quot;Running|Completed&quot;; oc get nodes&#39;</span>
+
+<span class="c1"># how the cluster version operator (CVO) installs the cluster operators</span>
+watch<span class="w"> </span><span class="s1">&#39;oc get clusterversion; oc get clusteroperators; \</span>
+<span class="s1">    &gt; oc get pods --all-namespaces | grep -v -E &quot;Running|Completed&quot;; oc get nodes&#39;</span>
+
+<span class="c1"># print events</span>
+oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>-A<span class="w"> </span>-w
+</code></pre></div>
+</li>
+</ol>
+<!-- DOUBLE CHECK THIS??? -->
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Kubernetes manifests</strong> and <strong>ignition configuration files</strong> are created automatically in the create cluster step, if they do not exist already. (True or False)</p>
+</div>
+<h3 id="3-troubleshooting">3. Troubleshooting<a class="headerlink" href="#3-troubleshooting" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Stages</p>
+<p>The cluster installation has 3 main stages:</p>
+<ol>
+<li>Bootstrap(Bootkube) Stage:<ul>
+<li>The OpenShift installation process deploys the <strong>bootstrap node</strong>. </li>
+<li>The <code>release-image</code> <strong>systemd service</strong> running on the <strong>Bootstrap Node</strong> downloads the container images required to start the <strong>temporary control plane</strong>.</li>
+<li><code>bootkube</code> <strong>systemd service</strong> running on the <strong>Bootstrap Node</strong> starts the <strong>temporary control plane</strong>.</li>
+</ul>
+</li>
+<li>Bootstrap(Temporary Control Plane) Stage<ul>
+<li>The Kubernetes API and the <strong>temporary control plane</strong> are running on the <strong>bootstrap node</strong>. </li>
+<li>the <strong>Bootstrap Node</strong> waits until the <strong>control plane nodes</strong> boot and form an <strong>etcd cluster</strong>. </li>
+<li>the <strong>Bootstrap Node</strong> schedules the <strong>production control plane</strong> to the control plane nodes.</li>
+</ul>
+</li>
+<li>Production Control Plane Stage: <br/>
+    After the <strong>production control plane</strong> runs on the control plane nodes, the <strong>cluster version operator (CVO)</strong> finishes the OpenShift cluster deployment.</li>
+</ol>
+</div>
+<h4 id="1-bootstrapbootkube-stage">1. Bootstrap(Bootkube) Stage<a class="headerlink" href="#1-bootstrapbootkube-stage" title="Permanent link">&para;</a></h4>
+<p>At this stage, the Kubernetes API is not yet available, use <code>ssh</code> to get logs</p>
+<p>Assumes that <code>192.168.50.9</code> is the <strong>Bootstrap Node</strong> IP address. Use the cluster SSH private key to connect to the <strong>Bootstrap Node</strong> from the <strong>bastion</strong> host:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># login to Bootstrap Node</span>
+ssh<span class="w"> </span>-i<span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.ssh/ocp4-cluster<span class="w"> </span>core@192.168.50.9
+
+<span class="c1"># debug two services: release-image &amp; bootkube</span>
+journalctl<span class="w"> </span>-b<span class="w"> </span>-f<span class="w"> </span>-u<span class="w"> </span>release-image.service<span class="w"> </span>-u<span class="w"> </span>bootkube.service
+
+<span class="c1"># use `crictl` command on the **Bootstrap Node** to look for failed containers and print their logs:</span>
+sudo<span class="w"> </span>bash
+crictl<span class="w"> </span>ps<span class="w"> </span>-a
+crictl<span class="w"> </span>ps<span class="w"> </span>logs<span class="w"> </span>&lt;container_id&gt;
+</code></pre></div>
+<h4 id="2-bootstraptemporary-control-plane-stage">2. Bootstrap(Temporary Control Plane) Stage<a class="headerlink" href="#2-bootstraptemporary-control-plane-stage" title="Permanent link">&para;</a></h4>
+<p>Here, the Kubernetes API is available on the <strong>Bootstrap Node</strong> --&gt; You can use <code>SSH</code> to get logs from the <strong>Bootstrap Node</strong> with the following config:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># export login config</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster/auth/kubeconfig
+</code></pre></div>
+<h5 id="download-log">download log<a class="headerlink" href="#download-log" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="c1"># pull log from bootstrap machine to a *.tar.gz file</span>
+openshift-install<span class="w"> </span>gather<span class="w"> </span>bootstrap<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster
+
+<span class="c1"># unzip and check the log</span>
+<span class="nb">cd</span><span class="w"> </span>ocp4-cluster<span class="w"> </span>
+tar<span class="w"> </span>-xvzf<span class="w"> </span>log-bundle-20210107135825.tar.gz
+<span class="nb">cd</span><span class="w"> </span>log-bundle-xxxx
+<span class="c1"># check the log of the bootstrap systemd services</span>
+ls<span class="w"> </span>bootstrap/journals/
+<span class="c1"># check the bootstrap containers</span>
+ls<span class="w"> </span>bootstrap/containers/
+<span class="c1"># check the control plane nodes,</span>
+ls<span class="w"> </span>control-plane/
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">UPI for <code>openshift-install gather</code></p>
+<p>when using UPS, you must specify the IP addresses of the bootstrap and control plane nodes when running the <code>openshift-install gather</code> bootstrap command.</p>
+<div class="highlight"><pre><span></span><code>openshift-install<span class="w"> </span>gather<span class="w"> </span>bootstrap<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--dir<span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/ocp4-cluster<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--bootstrap<span class="w"> </span>&lt;bootstrap_address&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--master<span class="w"> </span>&lt;master_1_address&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--master<span class="w"> </span>&lt;master_2_address&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>--master<span class="w"> </span>&lt;master_3_address&gt;<span class="s2">&quot; </span>
+</code></pre></div>
+</div>
+<h5 id="check-log-in-cluster">check log in cluster<a class="headerlink" href="#check-log-in-cluster" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>nodes
+oc<span class="w"> </span>get<span class="w"> </span>clusterversion
+oc<span class="w"> </span>get<span class="w"> </span>clusteroperators
+
+oc<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>-A<span class="w"> </span>-w
+oc<span class="w"> </span>adm<span class="w"> </span>node-logs<span class="w"> </span>-u<span class="w"> </span>crio<span class="w"> </span>master01
+oc<span class="w"> </span>adm<span class="w"> </span>node-logs<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span>master01
+
+oc<span class="w"> </span>debug<span class="w"> </span>node/master01
+<span class="c1"># after starting the debug node, you can do:</span>
+sh-4.2#<span class="w"> </span>chroot<span class="w"> </span>/host
+sh-4.2#<span class="w"> </span>journalctl<span class="w"> </span>-f
+sh-4.2#<span class="w"> </span>sudo<span class="w"> </span>bash
+sh-4.2#<span class="w"> </span>crictl<span class="w"> </span>ps<span class="w"> </span>-a
+sh-4.2#<span class="w"> </span>crictl<span class="w"> </span>logs<span class="w"> </span>&lt;container_id&gt;
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">crio &amp; kubelet</p>
+<p>The OpenShift cluster nodes run very few local services because most of the system services run as containers. The main exceptions are the <code>cri-o</code> container engine and the <code>kubelet</code>, which are <strong>systemd service units</strong>.</p>
+</div>
+<h3 id="4-verifying-installation">4. Verifying Installation<a class="headerlink" href="#4-verifying-installation" title="Permanent link">&para;</a></h3>
+<p><a href="../imgs/verifying_oc_installation.pdf">Checklist</a></p>
+<h3 id="6-hosted-openshift">6. Hosted Openshift<a class="headerlink" href="#6-hosted-openshift" title="Permanent link">&para;</a></h3>
+<p>OpenShift can be installed using either <strong>IPI</strong> or <strong>UPI</strong> methods, and both options can be used on either <strong>on-premise data centers</strong> or <strong>IaaS cloud providers</strong>.</p>
+<h4 id="iaas-cloud-providers-that-can-host-openshift">IaaS cloud providers that can host Openshift<a class="headerlink" href="#iaas-cloud-providers-that-can-host-openshift" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Hosted offering</th>
+<th style="text-align: left;">Cloud hosted</th>
+<th style="text-align: left;">Billed by</th>
+<th style="text-align: left;">Managed by</th>
+<th style="text-align: left;">Supported by</th>
+<th style="text-align: left;">Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Microsoft Azure Red Hat OpenShift</td>
+<td style="text-align: left;">Azure</td>
+<td style="text-align: left;">Microsoft</td>
+<td style="text-align: left;">Red Hat and Microsoft</td>
+<td style="text-align: left;">Red Hat and Microsoft</td>
+<td style="text-align: left;"><a href="https://www.openshift.com/products/azure-openshift">Doc</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Red Hat OpenShift Dedicated</td>
+<td style="text-align: left;">AWS or GCP</td>
+<td style="text-align: left;">Red Hat (OpenShift), AWS or GCP (Infrastructure)</td>
+<td style="text-align: left;">Red Hat</td>
+<td style="text-align: left;">Red Hat</td>
+<td style="text-align: left;"><a href="https://www.openshift.com/products/dedicated/">Doc</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Red Hat OpenShift on IBM Cloud</td>
+<td style="text-align: left;">IBM Cloud</td>
+<td style="text-align: left;">IBM</td>
+<td style="text-align: left;">IBM</td>
+<td style="text-align: left;">Red Hat and IBM</td>
+<td style="text-align: left;"><a href="https://www.openshift.com/products/openshift-ibm-cloud/">Doc</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Red Hat OpenShift Service on AWS</td>
+<td style="text-align: left;">AWS</td>
+<td style="text-align: left;">AWS</td>
+<td style="text-align: left;">Red Hat and AWS</td>
+<td style="text-align: left;">Red Hat and AWS</td>
+<td style="text-align: left;"><a href="https://www.openshift.com/products/amazon-openshift/">Doc</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="oc-adm">oc adm<a class="headerlink" href="#oc-adm" title="Permanent link">&para;</a></h3>
+<p><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.17/html/cli_tools/openshift-cli-oc#cli-administrator-commands">reference</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

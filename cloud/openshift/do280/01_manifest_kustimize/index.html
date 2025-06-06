@@ -1,0 +1,6394 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../do288/08/">
+      
+      
+        <link rel="next" href="../02_template_helm/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>1. Manifest & Kustomize - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-manifest" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Manifest & Kustomize
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Administrator
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Administrator
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/hardware/disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../administrator/infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infrastructure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architect
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architect
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/architectural_thinking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architectural Thinking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AWS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/cp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Practitioner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/saa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Associate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/aws/sap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Professional
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IBM
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            IBM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/ibm/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide from MemiLavi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Guide from MemiLavi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Welcome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. What is a Software Architect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. The Architect's Mindset
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. The Architecture Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Working with System Requirements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Types of Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Selecting Technology Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Meet the *-ilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Components' Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10. Design Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11. System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12. Additional Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13. Architecture Document
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14. Case Study
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15. Advanced Architecture Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/memi/memi-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    16. Soft Skills
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design Patterns (DP)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Design Patterns (DP)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/1_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/2_creational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. Creational DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/3_structural/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Structural DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Behavioral DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    GCP PCAC
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            GCP PCAC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../architect/gcp/1.preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Automation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/benthos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Benthos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/grafana/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grafana
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Instana
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Instana
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/clis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLIs, Namespaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/1.jargons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jargons
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent, Sensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/3.trace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Trace, Call, Span
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/4.event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event, Alert
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/5.api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration, SKD, API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/instana/theory/6.ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    n8n
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            n8n
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/n8n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    NodeRed
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            NodeRed
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/nodered/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../automation/iCalBuddy.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    iCalBuddy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bash Script
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Bash Script
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../bash_script/exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cloud
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../helm/helm-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_1" id="__nav_6_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CKA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-11
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-13
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-14
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/cka/cka-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-16
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_2" id="__nav_6_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKAD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            CKAD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.核心概念介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.多容器Pod
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.容器状态监测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5.Pod设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6.服务与网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7.容器数据的可持久化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.2021更新的考试内容
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../k8s/ckad/ckad-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    其他
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    OpenShift
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            OpenShift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_2" id="__nav_6_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Installation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/ipi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/upi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/mirror_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mirror Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../internal_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Internal Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pipeline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_6" id="__nav_6_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO288
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            DO288
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/01_deploy_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploying and Managing Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do288/08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_7" id="__nav_6_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO280
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            DO280
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    1. Manifest & Kustomize
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Manifest & Kustomize
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Manifest / 配置
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Manifest / 配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customize-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-src-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create src with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-src-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update src with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validate Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compare Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-resource-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delete Resource with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Kustomize
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Kustomize">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overlays
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#way-1-patch-and-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 1: patch and target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#way-2-patch-and-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 2: patch and path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#way-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clis" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmapgenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      configMapGenerator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretgenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      secretGenerator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generatoroptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      generatorOptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generatorOptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-disable-hash-suffix" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. disable hash suffix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-add-labelsannotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Add labels/annotations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips &amp; Tricks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q&amp;A
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1deployment-updated-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.Deployment &amp; updated Secret
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_template_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. OC Template & Helm Chart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Authentication and Authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_network_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Network Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_expose_sni_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Expose SNI Application
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_developer_self_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Enable Developer Self-Service
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_kubernetes_operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Kubernetes Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_application_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Application Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_oc_updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Openshift Updates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_8" id="__nav_6_4_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO322
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            DO322
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do322/01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Intro to OpenShift Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do322/02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. IPI on Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do322/03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. IPI & UPI on Virtual
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do322/04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. UPI without Infrastructure Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do322/05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Operations & Maintainance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Scientist
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Data Scientist
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Embedding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_scientist/elastic_search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ElasticSearch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../design_thinking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design Thinking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DevOps
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            DevOps
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../dev_ops/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ecommerce
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Ecommerce
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ecommerce/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Frontend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_1">
+            <span class="md-nav__icon md-icon"></span>
+            CSS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/css-in-depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS In Depth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/css/shapes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/cra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CRA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/gsap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GSAP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/js/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nginx
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_6" id="__nav_11_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    React
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_6">
+            <span class="md-nav__icon md-icon"></span>
+            React
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bugs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/react/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../frontend/web_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ffmpeg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ffmpeg
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IDEs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            IDEs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../ide/vscode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VSCode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/ip/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/loadbalancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoadBalancer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Mgmt
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Project Mgmt
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/agile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agile
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../project_mgmt/ibm_internal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IBM PM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/grammars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grammars
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/fastapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FastAPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use dependencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/build_dependency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build Own Dependency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/virtual_env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtual environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sketch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Sketch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../sketch/procreate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Procreate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Working Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Working Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../working_notes/01_2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    202501
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Manifest / 配置
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Manifest / 配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customize-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Customize Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-src-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create src with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-src-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update src with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validate Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compare Manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-resource-with-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delete Resource with Manifest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kustomize" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Kustomize
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Kustomize">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overlays
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patch
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#way-1-patch-and-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 1: patch and target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#way-2-patch-and-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 2: patch and path
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#way-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Way 3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clis" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configmapgenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      configMapGenerator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secretgenerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      secretGenerator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generatoroptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      generatorOptions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generatorOptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-disable-hash-suffix" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. disable hash suffix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-add-labelsannotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Add labels/annotations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips &amp; Tricks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q&amp;A
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q&amp;A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1deployment-updated-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.Deployment &amp; updated Secret
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>1. Manifest & Kustomize</h1>
+
+<p><strong>imperative commands 命令式</strong> means using CLIs directly. Disadvantage:</p>
+<ul>
+<li>Impaired reproducibility</li>
+<li>Lacking version control</li>
+<li>Lacking support for GitOps</li>
+</ul>
+<p><strong>declarative commands 声明式</strong> is a way to manage resources using manifest file (<code>YAML</code> or <code>JSON</code>)</p>
+<p>Both Kubernetes and Openshift have both <strong>imperative</strong> and <strong>declarative</strong> options. However in production, we recommend to use <strong>imperative</strong> for developing and experimenting, <strong>declarative</strong> for deploying, maintaining and documenting. </p>
+<h3 id="1-manifest">1. Manifest / 配置<a class="headerlink" href="#1-manifest" title="Permanent link">&para;</a></h3>
+<h4 id="create-manifest">Create Manifest<a class="headerlink" href="#create-manifest" title="Permanent link">&para;</a></h4>
+<p>Where to get the YAML file?</p>
+<ol>
+<li>Use the YAML view of a resource in the web console.</li>
+<li>
+<p>Use imperative commands with the <code>--dry-run=client</code> option to generate manifests. E.g.:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>hello-openshift<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--image<span class="w"> </span>registry.ocp4.example.com:8443/redhattraining/hello-world-nginx:v1.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--save-config<span class="w"> </span><span class="se">\ </span>
+<span class="w">    </span>--dry-run<span class="o">=</span>client<span class="w"> </span><span class="se">\ </span>
+<span class="w">    </span>&gt;<span class="w"> </span>~/my-app/example-deployment.yaml
+</code></pre></div></p>
+<ul>
+<li>The <code>--save-config</code> saves the current config (in JSON format) in the annotation <code>kubectl.kubernetes.io/last-applied-configuration</code>. 其实就是一个版本控制的作用，用来记录上一次deployment的配置，以确保资源状态与配置文件一致。</li>
+<li>The <code>--dry-run=client</code> option prevents the command from creating resources in the cluster.</li>
+</ul>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Doc</p>
+<p>To see the details of the field, for example <code>deployment.spec.template.spec</code>:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>explain<span class="w"> </span>deployment.spec.template.spec
+</code></pre></div></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Multiple src in single YAML Manifest</p>
+<p>Use a line of <code>---</code> to separate the resources</p>
+</div>
+<h4 id="customize-manifest">Customize Manifest<a class="headerlink" href="#customize-manifest" title="Permanent link">&para;</a></h4>
+<p>你可以修改以下这些内容：</p>
+<ol>
+<li>Remove empty fields</li>
+<li>Changing attributes such as：<ul>
+<li><code>namespace</code></li>
+<li><code>spec.replicas</code> </li>
+<li><code>spec.template.spec.containers[].ports.containerPort</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="create-src-with-manifest">Create src with Manifest<a class="headerlink" href="#create-src-with-manifest" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Creating with 1 Manifest file (or a URL):
+  <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>resource.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>resource.yaml
+
+kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>https://example.com/example-apps/deployment.yaml
+</code></pre></div></li>
+<li>Create with all Manifest files under one directory
+  <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-R<span class="w"> </span>-f<span class="w"> </span>~/my-app
+</code></pre></div></li>
+</ul>
+<h4 id="update-src-with-manifest">Update src with Manifest<a class="headerlink" href="#update-src-with-manifest" title="Permanent link">&para;</a></h4>
+<p>更新资源：</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>resource.yaml
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Compare: <code>apply</code> vs <code>create</code></p>
+<p>➡️ <code>oc apply</code> is more powerful</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><code>kubectl apply</code></th>
+<th style="text-align: left;"><code>kubectl create</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Type</td>
+<td style="text-align: left;"><strong>declarative</strong></td>
+<td style="text-align: left;"><strong>imperative</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">consider the<br/>current state<br/> of a <strong>Live Resource</strong>?</td>
+<td style="text-align: left;">Yes, compare:<br/> 1.Live configuration <br/>2.Manifest file <br/>3.Configuration in the annotation <code>last-applied-configuration</code></td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr>
+<td style="text-align: left;">can it update<br/><strong>Live Resource</strong>?</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">No</td>
+</tr>
+<tr>
+<td style="text-align: left;">⚠️ auto annotated in <br/> <code>kubectl.kubernetes.io/last-applied-configuration</code></td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">no, you need to add <code>--save-config</code> flag</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">rollout</p>
+<p>If an updated Manifest changes only values in <strong>Secret</strong> or <strong>ConfigMap</strong>, the updated Manifest does NOT generate new pods automatically. Instead:</p>
+<ul>
+<li>use <code>oc rollout restart deployment/deployment-name</code> to <ins>force the <strong>restart</strong></ins> → 是重启，不是回滚到上一个版本</li>
+<li>if <code>spec.replica</code> == 1, you can also delete the previous pod.</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title"><code>oc delete pod ...</code> VS <code>oc rollout restart deployment ...</code></p>
+<table>
+<thead>
+<tr>
+<th>Feature / Behavior</th>
+<th><code>oc delete pod ...</code></th>
+<th><code>oc rollout restart deployment ...</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>What happend?</strong></td>
+<td>OpenShift’s <strong>ReplicaSet</strong> will detect that a pod is missing and create a new one to maintain the desired number of replicas.</td>
+<td>This triggers a new <strong>rollout</strong> of the deployment by restarting all pods in a controlled manner.</td>
+</tr>
+<tr>
+<td><strong>Effect</strong></td>
+<td>Deletes a specific pod, OpenShift recreates it</td>
+<td>Restarts all pods in the deployment</td>
+</tr>
+<tr>
+<td><strong>Scope</strong></td>
+<td>Affects only the deleted pod</td>
+<td>Affects all pods in the deployment</td>
+</tr>
+<tr>
+<td><strong>Triggers new rollout?</strong></td>
+<td>❌ No</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td><strong>Secret update (mounted as volume)</strong></td>
+<td>✅ Yes, automatically picked up</td>
+<td>✅ Yes, but not necessary</td>
+</tr>
+<tr>
+<td><strong>Secret update (used as env var)</strong></td>
+<td>❌ No, old value persists</td>
+<td>✅ Yes, ensures new value</td>
+</tr>
+<tr>
+<td><strong>Best use case</strong></td>
+<td>Restarting a single pod due to issues such as: stuck process, memory leak.</td>
+<td>Ensuring all pods restart and pick up new changes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="patch-manifest">Patch Manifest<a class="headerlink" href="#patch-manifest" title="Permanent link">&para;</a></h4>
+<p>The <code>oc patch</code> command updates or adds fields in an existing object:</p>
+<ul>
+<li>from json
+  <div class="highlight"><pre><span></span><code>oc<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>hello<span class="w"> </span>-p<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;resources&quot;:{&quot;requests&quot;:{&quot;cpu&quot;: &quot;100m&quot;}}}}}}&#39;</span>
+</code></pre></div></li>
+<li>
+<p>from a patch file:
+  <div class="highlight"><pre><span></span><code>oc<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>hello<span class="w"> </span>--patch-file<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>~/volume-mount.yaml
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">patch 文件</p>
+<p>上述例子中，oc patch 使用的 patch 文件 <strong>不是</strong> 一个完整的 Deployment 定义。它只需要包含你想要修改的部分。Patch 文件可以是 JSON 或 YAML 格式。举例<code>volume-mount.yaml</code>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-container</span><span class="w"> </span><span class="c1"># ⚠️ 指定要修改的容器</span>
+<span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-volume</span>
+<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data</span>
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-volume</span>
+<span class="w">          </span><span class="nt">emptyDir</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div></p>
+<p>常见错误：</p>
+<ul>
+<li>❌ 写成完整资源对象    </li>
+<li>❌ 字段名拼错或层级不对  </li>
+<li>❌ containers 列表中没写容器名 </li>
+<li>❌ 用 JSON Merge Patch 写复杂结构    </li>
+</ul>
+</div>
+</li>
+</ul>
+<h4 id="validate-manifest">Validate Manifest<a class="headerlink" href="#validate-manifest" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>--dry-run=server</code>: submits a server-side request without persisting the resource.</li>
+<li><code>--validate=true</code>: uses a schema to validate the input and fails the request if it is invalid. 比如json/yaml语法，数据类型，和必须要有的key-value</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Compare: <code>server</code> vs <code>client</code></p>
+<p><strong>两者都不会真正创建或更新资源。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><code>--dry-run=client</code></th>
+<th style="text-align: left;"><code>--dry-run=server</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">where?</td>
+<td style="text-align: left;">在本地进行验证，不会与 Kubernetes 服务器交互。</td>
+<td style="text-align: left;">在服务器端进行验证。它将把配置文件发送到 Kubernetes API 服务器，由服务器检查文件内容是否在集群中有效（例如，字段值是否正确、资源是否存在等）</td>
+</tr>
+<tr>
+<td style="text-align: left;">suitable for</td>
+<td style="text-align: left;">检查 YAML 文件的基本格式和结构，适合快速检查配置文件是否有明显错误</td>
+<td style="text-align: left;">更严格，适合需要精确验证的场景</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="compare-manifest">Compare Manifest<a class="headerlink" href="#compare-manifest" title="Permanent link">&para;</a></h4>
+<p>To review differences between live objects and manifests in current directory(<code>.</code>). 
+<br/>→ 只是比较，不进行实质更改</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>diff<span class="w"> </span>-f<span class="w"> </span>.
+<span class="c1"># or</span>
+kubectl<span class="w"> </span>diff<span class="w"> </span>-f<span class="w"> </span>.
+</code></pre></div>
+<h4 id="delete-resource-with-manifest">Delete Resource with Manifest<a class="headerlink" href="#delete-resource-with-manifest" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>delete<span class="w"> </span>-f<span class="w"> </span>.
+</code></pre></div>
+<p>OpenShift looks at the <strong>resource types</strong> and <strong>names</strong> in the YAML files.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Live Resources and the YAML file does NOT have to be identical!</p>
+</div>
+<h3 id="2-kustomize">2. Kustomize<a class="headerlink" href="#2-kustomize" title="Permanent link">&para;</a></h3>
+<p><img src="../imgs/kustomize_logo.jpg" width="300" /></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=spCdNeNCuFU&amp;ab_channel=DevOpsJourney">Walk through video</a></li>
+<li><a href="https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/">kustomization YAML doc</a></li>
+</ul>
+<p><strong>Kustomize</strong> 是一个开源的Kubernetes <strong>配置管理工具</strong>，用于对Kubernetes 清单文件进行自定义和修改。 它允许用户通过分层和声明式的方式管理和定制应用程序的配置，而无需直接修改原始的清单文件，促进了配置的复用和可维护性。我们可以用Kustomize配置多个环境，比如：</p>
+<ul>
+<li>development</li>
+<li>staging</li>
+<li>testing</li>
+<li>production</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Both <code>kubectl</code> and <code>oc</code> commands integrated the <strong>Kustomize</strong> tool.</p>
+</div>
+<h4 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h4>
+<p>Kustomize根目录下有两个文件夹：一个<code>base/</code>，一个<code>overlays/</code></p>
+<h5 id="base"><code>Base</code><a class="headerlink" href="#base" title="Permanent link">&para;</a></h5>
+<p>The <code>base/kustomization.yaml</code> file includes a list that includes all resource files under <code>base/</code>. E.g.:</p>
+<table>
+  <tr>
+    <th>  </th>
+    <th>Example 1:</th>
+    <th>Example 2:</th>
+  </tr>
+  <tr>
+    <td>base/<br/>kustomization.yaml</td>
+
+    <td>
+    <div class="highlight"><pre><span></span><code><span class="c1"># kustomization.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap.yaml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployment.yaml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secret.yaml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service.yaml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">route.yaml</span>
+</code></pre></div>
+    </td>
+    <td>
+
+    <div class="highlight"><pre><span></span><code><span class="c1"># kustomization.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">database</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">exoplanets</span><span class="w"> </span><span class="c1"># ⬅️ 这是个文件夹！</span>
+</code></pre></div>
+
+    </td>
+  </tr>
+  <tr>
+    <td>File structure:</td>
+    <td>
+    <div class="highlight"><pre><span></span><code>.
+├──<span class="w"> </span>base
+│<span class="w">   </span>├──<span class="w"> </span>configmap.yaml
+│<span class="w">   </span>├──<span class="w"> </span>deployment.yaml
+│<span class="w">   </span>├──<span class="w"> </span>secret.yaml
+│<span class="w">   </span>├──<span class="w"> </span>service.yaml
+│<span class="w">   </span>└──<span class="w"> </span>kustomization.yaml
+└──<span class="w"> </span>overlays<span class="w">  </span>
+<span class="w">    </span>├──<span class="w"> </span>kustomization.yaml
+<span class="w">    </span>└──<span class="w"> </span>patch-replicas.yaml
+</code></pre></div>
+    </td>
+    <td>
+    <div class="highlight"><pre><span></span><code>.
+├──<span class="w"> </span>base
+│<span class="w">   </span>├──<span class="w"> </span>database<span class="w"> </span>
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>configmap.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>deployment.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>kustomization.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>secret.yaml
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>service.yaml
+│<span class="w">   </span>├──<span class="w"> </span>exoplanets<span class="w"> </span>
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>configmap.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>deployment.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>kustomization.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>route.yaml
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>secret.yaml
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>service.yaml
+│<span class="w">   </span>└──<span class="w"> </span>kustomization.yaml<span class="w"> </span>
+└──<span class="w"> </span>overlays<span class="w">  </span>
+<span class="w">    </span>└──<span class="w"> </span>production
+<span class="w">        </span>├──<span class="w"> </span>kustomization.yaml
+<span class="w">        </span>└──<span class="w"> </span>patch-replicas.yaml
+</code></pre></div>
+    </td>
+  </tr>
+
+</table>
+
+<h5 id="overlays"><code>Overlays</code><a class="headerlink" href="#overlays" title="Permanent link">&para;</a></h5>
+<p><strong>Overlays</strong> overwrites some setting without modifying the original <strong>Base</strong>. Each <strong>Overlays</strong> contains a <code>kustomization.yaml</code> file.</p>
+<p><img src="../imgs/kustomize-directory-structure.svg" /></p>
+<div class="admonition note">
+<p class="admonition-title">Relationship: Base + Overlays</p>
+<ul>
+<li>The <code>kustomization.yaml</code> file can refer to <strong>one or more</strong> directories as bases. </li>
+<li>Multiple overlays can use a common base kustomization directory.</li>
+</ul>
+</div>
+<div class="highlight"><pre><span></span><code># result of `tree .`
+base
+├── configmap.yaml
+├── deployment.yaml
+├── secret.yaml
+├── service.yaml
+├── route.yaml
+├── kustomization.yaml
+overlay
+└── development
+    └── kustomization.yaml
+└── testing
+    └── kustomization.yaml
+└── production
+    ├── kustomization.yaml
+    └── patch.yaml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># overlays/development/kustomization.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev-env</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">extra Attributes</p>
+<p>These are the extra <strong>Attributes</strong> provided by Kustomize to use in <code>kustomization.yaml</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><strong>Field</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>namespace</code></td>
+<td style="text-align: left;">Set a specific namespace for all resources.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>namePrefix</code></td>
+<td style="text-align: left;">Add a prefix to the name of all resources.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nameSuffix</code></td>
+<td style="text-align: left;">Add a suffix to the name of all resources.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>commonLabels</code></td>
+<td style="text-align: left;">Add labels to all resources and selectors.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>commonAnnotations</code></td>
+<td style="text-align: left;">Add annotations to all resources and selectors.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>apiVersion:<span class="w"> </span>kustomize.config.k8s.io/v1beta1
+kind:<span class="w"> </span>Kustomization
+
+<span class="c1"># common attributes / cross-cutting attributes</span>
+namespace:<span class="w"> </span>first-project
+nameSuffix:<span class="w"> </span>-v2
+namePrefix:<span class="w"> </span>chuying-
+
+commonLabels:
+<span class="w">  </span>owner:<span class="w"> </span>chuying
+<span class="w">    </span>app:<span class="w"> </span>bingo
+commonAnnotations:
+<span class="w">  </span>env:<span class="w"> </span><span class="nb">test</span>
+<span class="w">  </span>oncallPager:<span class="w"> </span><span class="m">800</span>-555-1212
+</code></pre></div>
+</div>
+<h5 id="patch">Patch<a class="headerlink" href="#patch" title="Permanent link">&para;</a></h5>
+<p>patch 是 <code>overlays</code> 用于修改 <code>base</code> 资源的具体方式，比如 <code>overlays/production/patch.yaml</code> 文件帮助实现了 <code>production</code> overlay。</p>
+<p>The patch mechanism has several important keys: <code>patch</code>, <code>target</code> and <code>path</code>.</p>
+<h6 id="way-1-patch-and-target">Way 1: <code>patch</code> and <code>target</code><a class="headerlink" href="#way-1-patch-and-target" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="c1"># overlays/production/patch.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-env</span>
+
+<span class="c1"># list of patches</span>
+<span class="nt">patches</span><span class="p">:</span><span class="w"> </span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">    </span><span class="no">- op: replace             # operation</span>
+<span class="w">      </span><span class="no">path: /metadata/name    # &#39;/&#39; indicates DOC ROOT, here it means deployment.metatdata.name</span>
+<span class="w">      </span><span class="no">value: frontend-test</span>
+<span class="w">  </span><span class="nt">target</span><span class="p">:</span><span class="w">                     </span><span class="c1"># target</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span><span class="w">                   </span>
+<span class="w">    </span><span class="no">- op: replace</span>
+<span class="w">      </span><span class="no">path: /spec/replicas</span>
+<span class="w">      </span><span class="no">value: 15</span>
+<span class="w">  </span><span class="nt">target</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="nt">resources</span><span class="p">:</span><span class="w">                    </span><span class="c1"># used &quot;base&quot;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+<span class="nt">commonLabels</span><span class="p">:</span><span class="w">                 </span><span class="c1"># add label to all the resources</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title"><code>|-</code></p>
+<p>is a <strong>block scalar indicator</strong> that handles multi-line content.</p>
+<p>with <code>|-</code>:
+<div class="highlight"><pre><span></span><code>patches:
+<span class="w">  </span>-<span class="w"> </span>patch:<span class="w"> </span><span class="p">|</span>-<span class="w">                   </span>
+<span class="w">    </span>-<span class="w"> </span>op:<span class="w"> </span>replace
+<span class="w">      </span>path:<span class="w"> </span>/spec/replicas
+<span class="w">      </span>value:<span class="w"> </span><span class="m">15</span>
+</code></pre></div></p>
+<p>without <code>|-</code>:
+<div class="highlight"><pre><span></span><code>patchs:
+<span class="w">  </span>-<span class="w"> </span>patch:<span class="w"> </span><span class="s2">&quot;- op: replace\n  path: /spec/replicas\n  value: 15&quot;</span>
+</code></pre></div></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title"><code>|-</code> vs <code>|</code></p>
+<p><div class="highlight"><pre><span></span><code>example:<span class="w"> </span><span class="p">|</span>-
+<span class="w">  </span>Line<span class="w"> </span><span class="m">1</span>
+<span class="w">  </span>Line<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+This results in <code>Line 1\nLine 2</code> (without a trailing newline).</p>
+<p><div class="highlight"><pre><span></span><code>example:<span class="w"> </span><span class="p">|</span>
+<span class="w">  </span>Line<span class="w"> </span><span class="m">1</span>
+<span class="w">  </span>Line<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+This results in <code>Line 1\nLine 2\n</code> (with a trailing newline).</p>
+</div>
+<h6 id="way-2-patch-and-path">Way 2: <code>patch</code> and <code>path</code><a class="headerlink" href="#way-2-patch-and-path" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="c1"># patch.yaml </span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend-prod</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod-env</span>
+
+<span class="c1"># list of patches</span>
+<span class="nt">patches</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">patch.yaml</span><span class="w">          </span><span class="c1"># the name of Patch File</span>
+<span class="w">  </span><span class="nt">target</span><span class="p">:</span><span class="w">                   </span><span class="c1"># target</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">frontend</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowNameChange</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">   </span><span class="c1"># this OPTION enables kustomization to update the name by using a patch YAML file</span>
+<span class="nt">resources</span><span class="p">:</span><span class="w">                  </span><span class="c1"># used &quot;base&quot;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+<span class="nt">commonLabels</span><span class="p">:</span><span class="w">               </span><span class="c1"># add label to all the resources</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span>
+</code></pre></div>
+<h6 id="way-3">Way 3<a class="headerlink" href="#way-3" title="Permanent link">&para;</a></h6>
+<p>rebuild the resouce by using the same name. Kinda like a trick</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># replicas.yaml</span>
+kind:<span class="w"> </span>Deployment
+metadata:
+<span class="w">  </span>name:<span class="w"> </span>frontend
+<span class="w">  </span>namespace:<span class="w"> </span>default
+spec:
+<span class="w">  </span>replicas:<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># kustomization.yaml</span>
+patches:
+<span class="w">  </span>-<span class="w"> </span>replicas.yaml
+</code></pre></div>
+<h4 id="clis">CLIs<a class="headerlink" href="#clis" title="Permanent link">&para;</a></h4>
+<p>Example: I want to use <code>overlay/production</code> now:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><div style="width: 300px">Command</div></th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>oc/kubectl kustomize overlay/production</code></td>
+<td style="text-align: left;">打印查看该 Overlay 会生成的manifests</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>oc/kubectl apply -k overlay/production</code></td>
+<td style="text-align: left;">use <code>overlay/production</code> layer. <br/>- Update/create resources.<br/>- <code>-k</code> flag means: applies a <strong>kustomization</strong><br/>- 先使用 Kustomize 生成最终的 YAML 配置（但不输出），然后将其应用到 Kubernetes 集群</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>oc/kubectl apply -k base</code></td>
+<td style="text-align: left;">use <code>base</code> layer</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>oc/kubectl delete -k overlay/production</code></td>
+<td style="text-align: left;">delete resources that were deployed by using <strong>Kustomize</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="generator">Generator<a class="headerlink" href="#generator" title="Permanent link">&para;</a></h4>
+<p>Kustomize has <strong>configMapGenerator</strong> and <strong>secretGenerator</strong> fields that generate <code>configmap</code> and <code>secret</code> resources. <strong>Generators</strong> help to manage the content of <code>configmaps</code> and <code>secrets</code>, by taking care of encoding and including content from other sources.</p>
+<h5 id="configmapgenerator">configMapGenerator<a class="headerlink" href="#configmapgenerator" title="Permanent link">&para;</a></h5>
+<p>Definition: The Kustomize's <code>configmapGenerator</code> can generates <code>cm</code> in 3 ways. see example：
+<div class="highlight"><pre><span></span><code><span class="c1"># kustomization.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-stage</span>
+<span class="nt">resources</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../base</span>
+<span class="nt">configMapGenerator</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-1</span><span class="w">   </span><span class="c1"># 1️⃣ from file *.properties </span>
+<span class="w">  </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application.properties</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-2</span><span class="w">   </span><span class="c1"># 2️⃣ from env *.env</span>
+<span class="w">  </span><span class="nt">envs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-2.env</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-3</span><span class="w">   </span><span class="c1"># 3️⃣ from literal key-value pair</span>
+<span class="w">  </span><span class="nt">literals</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">msg=&quot;Welcome!&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable=&quot;true&quot;</span>
+</code></pre></div></p>
+<p>Usages: In the deployment file uses the generated <code>configmap</code>:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="l l-Scalar l-Scalar-Plain">...output omitted...</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quay.io/hello-app:v1.0</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MY_MESSAGE</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">configMapKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-3</span><span class="w">   </span><span class="c1"># &lt;-- Use the CM by name</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">msg</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MSG_ENABLE</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">configMapKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-3</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enable</span>
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>By changing the <code>configMapGenerator</code>, Kustomize will generate new <code>configmap</code> in the next <code>oc apply -k</code> process</li>
+<li>the <code>configmap</code> generated by <strong>Kustomize Generator</strong> behaves a bit differently → Kustomize appends a <ins>hash</ins> to the name like this:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application.properties</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">Day=Monday</span>
+<span class="w">    </span><span class="no">Enable=True</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-1-5g2mh569b5</span><span class="w">    </span><span class="c1"># 1️⃣ from file</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Enable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span>
+<span class="w">  </span><span class="nt">Greet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Welcome</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-2-92m84tg9kt</span><span class="w">    </span><span class="c1"># 2️⃣ from env</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">literal key-value pair</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-3</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configmap-3-k7g7d5bffd</span><span class="w">    </span><span class="c1"># 3️⃣ from literal key-value pair</span>
+<span class="nn">---</span>
+<span class="l l-Scalar l-Scalar-Plain">...output omitted...</span>
+</code></pre></div></li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>假设我们修改了<code>configMapGenerator</code>中的一个值，某个<code>Deployment</code>在使用生成的<code>config</code>。然后我用<code>oc apply -k overlays/production</code>应用这个修改，那么我将得到：</p>
+<ul>
+<li>一个拥有新哈希值的cm：<code>hello-3-696dm8h728</code></li>
+<li>一个使用新cm的新Deployment：<code>hello-55bc55ff9-hrszh</code></li>
+</ul>
+</div>
+<h5 id="secretgenerator">secretGenerator<a class="headerlink" href="#secretgenerator" title="Permanent link">&para;</a></h5>
+<p>The Kustomize's <code>secretGenerator</code> can generates <code>secret</code> also in 3 ways: file, env, or literals.</p>
+<h5 id="generatoroptions">generatorOptions<a class="headerlink" href="#generatoroptions" title="Permanent link">&para;</a></h5>
+<p>This <code>generatorOptions</code> can define alternative behavior of the <code>*Generators</code>. For example:</p>
+<h6 id="1-disable-hash-suffix">1. disable <ins>hash suffix</ins><a class="headerlink" href="#1-disable-hash-suffix" title="Permanent link">&para;</a></h6>
+<p><strong>Why hash suffix are needed?</strong><br>
+我们使用<code>oc/kubectl apply -k overlays/production</code>应用修改时，会自动生成带有新哈希suffix的resources，保证了修改被使用到。</p>
+<p>But in some case, the <ins>hash suffix</ins> is not needed. I can disable it with the <code>generatorOptions</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">generatorOptions</span><span class="p">:</span><span class="w">     </span><span class="c1"># &lt;-- The Option</span>
+<span class="w">  </span><span class="nt">disableNameSuffixHash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">configMapGenerator</span><span class="p">:</span><span class="w">   </span><span class="c1"># The Generators</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-configmap</span>
+<span class="w">  </span><span class="nt">literals</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name=&quot;configmap-3&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">description=&quot;literal key-value pair&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>优先级：<code>Kustomize</code> 的规则是 <strong>局部设置 &gt; 全局设置</strong>，所以局部的 <code>disableNameSuffixHash: false</code> 会生效。</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">generatorOptions</span><span class="p">:</span><span class="w">   </span>
+<span class="w">  </span><span class="nt">disableNameSuffixHash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">       </span><span class="c1"># Global</span>
+<span class="nt">configMapGenerator</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">global-config</span>
+<span class="w">    </span><span class="nt">literals</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">key1=value1</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">disableNameSuffixHash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">  </span><span class="c1"># Local</span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">createdBy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;local-options&quot;</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test&quot;</span>
+</code></pre></div>
+</div>
+<h6 id="2-add-labelsannotations">2. Add <code>labels</code>/<code>annotations</code><a class="headerlink" href="#2-add-labelsannotations" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="c1"># 这个标签将添加到当前文件中所有的 ConfigMap 和 Secret 中。</span>
+<span class="nt">generatorOptions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">fruit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apple</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">note</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">project-on-cloud</span>
+</code></pre></div>
+<h3 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">watch</p>
+<p><code>watch -d oc get deployments,pods</code> </p>
+<p>The <code>watch</code> tool comes from the <code>procps-ng</code> package, 是一个 Linux/Unix 系统自带的命令行工具，它用于周期性地（默认 2 秒）执行一个命令并实时刷新输出。</p>
+<ul>
+<li><code>-d</code> highlights the difference</li>
+<li>Use <code>Ctrl+C</code> to exit the watch model</li>
+</ul>
+</div>
+<h3 id="clis_1">CLIs<a class="headerlink" href="#clis_1" title="Permanent link">&para;</a></h3>
+<p>Print the contents of the secret:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>extract<span class="w"> </span>secret/db-secrets-55cbgc8c6m<span class="w"> </span>--to<span class="o">=</span>-
+</code></pre></div>
+<ul>
+<li>The <code>--to</code> option specifies the destination for the extracted files.</li>
+<li>The <code>-</code> (dash) is a common convention in Unix-like systems that represents standard output (stdout).</li>
+</ul>
+<h3 id="qa">Q&amp;A<a class="headerlink" href="#qa" title="Permanent link">&para;</a></h3>
+<h4 id="1deployment-updated-secret">1.Deployment &amp; updated Secret<a class="headerlink" href="#1deployment-updated-secret" title="Permanent link">&para;</a></h4>
+<p>Q: In Kubernetes, if I update the <strong>secret</strong> value, will the <strong>deployment</strong> get the updates automatically?</p>
+<p>A: No. <strong>Secrets</strong> are mounted as files in <strong>pods</strong> (if used as volumes) or injected as environment variables.</p>
+<p>Q: whats the difference between these 2 methods? Does it make difference when Secret is a file or just Env?
+    1. oc delete pod/xxx
+    2. oc rollout restart deployment/xx</p>
+<p>A:?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

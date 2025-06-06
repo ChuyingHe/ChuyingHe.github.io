@@ -1,0 +1,7453 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../administrator/infrastructure/">
+      
+      
+        <link rel="next" href="../aws/cp/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Architectural Thinking - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-course-goals" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architectural Thinking
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Administrator
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Administrator
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hardware
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Hardware
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/hardware/disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Disk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/infrastructure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Infrastructure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architect
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Architect
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Architectural Thinking
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architectural Thinking
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Course Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-is-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. What is Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. What is Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perspectives-to-be-consider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perspectives to be consider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-architect-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why is Architect important?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architect-aspects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architect Aspects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architect-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architect Work
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stakeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stakeholders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-system-context-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tool - System Context Diagram
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirement Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirement Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-functional-requirements-frs" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Functional Requirements (FRs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nonfunctional-requirements-nfrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Nonfunctional Requirements (NFRs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-future-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Future Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-architectural-decisions-and-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Architectural Decisions and Principles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Architectural Decisions and Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documenting-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documenting the Decision
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practise
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Value Proposition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value Proposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-value-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check Value Proposition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simplification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-simplify-the-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Simplify the Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-breakthrough-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Breakthrough the Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-integrate-the-facilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 Integrate the Facilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-rightshape-the-platforms-processors" class="md-nav__link">
+    <span class="md-ellipsis">
+      5 Rightshape the Platforms &amp; Processors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-re-use-existing-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      6 Re-use Existing Assets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-recycle-existing-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      7 Recycle Existing Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-apply-frameworks-skeletons" class="md-nav__link">
+    <span class="md-ellipsis">
+      8 Apply Frameworks / Skeletons
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delievery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delievery
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Delievery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-optimize-the-application-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      9 Optimize the Application Development environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-optimize-the-delivery-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      10 Optimize the Delivery Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-rationalize-swhw-license-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Rationalize SW/HW License Lifecycle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Architecture Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Architecture Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practises
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anti-patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-component-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Component Model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Component Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-functional-aspect-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Functional Aspect Modeling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Functional Aspect Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-component-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Component Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-how-to-create-a-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-step: how to create a Component?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Classification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-operational-aspect-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 Operational Aspect Modeling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Operational Aspect Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-step
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step-by-step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-lom" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. LOM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-transform-lom-into-pom" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Transform LOM into POM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Elements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-validation-viability" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Validation &amp; Viability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Validation &amp; Viability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Assessment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viability-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viability Assessment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approach-cvm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Approach - CVM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-agile" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Agile
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Agile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-in-agile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture in Agile
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture in Agile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-agile-impact-architect" class="md-nav__link">
+    <span class="md-ellipsis">
+      how Agile impact Architect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agile-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agile &amp; DevOps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agile &amp; DevOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#devops-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      DevOps tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AWS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws/cp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cloud Practitioner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws/saa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Associate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws/sap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solution Architect Professional
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IBM
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            IBM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ibm/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ibm/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guide from MemiLavi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Guide from MemiLavi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Welcome
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. What is a Software Architect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. The Architect's Mindset
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. The Architecture Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Working with System Requirements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Types of Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Selecting Technology Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Meet the *-ilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Components' Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10. Design Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11. System Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12. Additional Considerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13. Architecture Document
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14. Case Study
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15. Advanced Architecture Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memi/memi-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    16. Soft Skills
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Design Patterns (DP)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Design Patterns (DP)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design_patterns/1_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design_patterns/2_creational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. Creational DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design_patterns/3_structural/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Structural DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design_patterns/4_behavioral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Behavioral DP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    GCP PCAC
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            GCP PCAC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcp/1.preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Automation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/benthos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Benthos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/grafana/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grafana
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Instana
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Instana
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/clis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CLIs, Namespaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/1.jargons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jargons
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent, Sensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/3.trace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Trace, Call, Span
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/4.event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event, Alert
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/5.api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration, SKD, API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/instana/theory/6.ui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    n8n
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            n8n
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/n8n/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    NodeRed
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            NodeRed
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/nodered/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/iCalBuddy.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    iCalBuddy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bash Script
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Bash Script
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash_script/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash_script/exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cloud
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/helm/helm-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Kubernetes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_1" id="__nav_6_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CKA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-1
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-9
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-11
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-12
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-13
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-14
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-16/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    cka-16
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3_2" id="__nav_6_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CKAD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            CKAD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Read before exam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1.核心概念介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2.配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3.多容器Pod
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4.容器状态监测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5.Pod设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6.服务与网络
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7.容器数据的可持久化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8.2021更新的考试内容
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    其他
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    OpenShift
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            OpenShift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    App Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_2" id="__nav_6_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Installation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/ipi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/upi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/mirror_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mirror Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/internal_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Internal Registry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pipeline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_6" id="__nav_6_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO288
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            DO288
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/01_deploy_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deploying and Managing Applications
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_7" id="__nav_6_4_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO280
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            DO280
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/01_manifest_kustimize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Manifest & Kustomize
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/02_template_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. OC Template & Helm Chart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/03_auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Authentication and Authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/04_network_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Network Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/05_expose_sni_app/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Expose SNI Application
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/06_developer_self_service/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Enable Developer Self-Service
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/07_kubernetes_operator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Kubernetes Operator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/08_application_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Application Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/09_oc_updates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Openshift Updates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_8" id="__nav_6_4_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DO322
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_8">
+            <span class="md-nav__icon md-icon"></span>
+            DO322
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Intro to OpenShift Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. IPI on Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. IPI & UPI on Virtual
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. UPI without Infrastructure Provider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Operations & Maintainance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data Scientist
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Data Scientist
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_scientist/embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Embedding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_scientist/elastic_search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ElasticSearch
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_thinking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Design Thinking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    DevOps
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            DevOps
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev_ops/observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ecommerce
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Ecommerce
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ecommerce/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Frontend
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Frontend
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CSS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_1">
+            <span class="md-nav__icon md-icon"></span>
+            CSS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/css/css-in-depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CSS In Depth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/css/shapes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shape
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/cra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CRA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/gsap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GSAP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/js/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JavaScript
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nginx
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_6" id="__nav_11_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    React
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_6">
+            <span class="md-nav__icon md-icon"></span>
+            React
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hooks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bugs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/web_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ffmpeg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ffmpeg
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    IDEs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            IDEs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ide/vscode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VSCode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/ip/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/loadbalancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoadBalancer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Mgmt
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Project Mgmt
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/agile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agile
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/ibm_internal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IBM PM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/grammars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grammars
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/fastapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FastAPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/oblivion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Oblivion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use dependencies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/build_dependency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build Own Dependency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/virtual_env/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtual environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Sketch
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Sketch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sketch/procreate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Procreate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Working Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Working Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../working_notes/01_2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    202501
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-course-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Course Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-is-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. What is Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. What is Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perspectives-to-be-consider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Perspectives to be consider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-architect-important" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why is Architect important?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architect-aspects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architect Aspects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architect-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architect Work
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Requirements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stakeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stakeholders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-system-context-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tool - System Context Diagram
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirement-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirement Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Requirement Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-functional-requirements-frs" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Functional Requirements (FRs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nonfunctional-requirements-nfrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Nonfunctional Requirements (NFRs)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-future-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Future Requirements
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-architectural-decisions-and-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Architectural Decisions and Principles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Architectural Decisions and Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documenting-the-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documenting the Decision
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#best-practise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practise
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Value Proposition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Value Proposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-check-value-proposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Check Value Proposition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simplification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-simplify-the-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Simplify the Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-breakthrough-the-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Breakthrough the Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-integrate-the-facilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 Integrate the Facilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-rightshape-the-platforms-processors" class="md-nav__link">
+    <span class="md-ellipsis">
+      5 Rightshape the Platforms &amp; Processors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-re-use-existing-assets" class="md-nav__link">
+    <span class="md-ellipsis">
+      6 Re-use Existing Assets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-recycle-existing-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      7 Recycle Existing Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-apply-frameworks-skeletons" class="md-nav__link">
+    <span class="md-ellipsis">
+      8 Apply Frameworks / Skeletons
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delievery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delievery
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Delievery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-optimize-the-application-development-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      9 Optimize the Application Development environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-optimize-the-delivery-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      10 Optimize the Delivery Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-rationalize-swhw-license-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. Rationalize SW/HW License Lifecycle
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Architecture Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Architecture Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practises
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anti-patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-component-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Component Model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Component Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-functional-aspect-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Functional Aspect Modeling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Functional Aspect Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-component-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Component Model
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Component">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-how-to-create-a-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-step: how to create a Component?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Classification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-operational-aspect-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 Operational Aspect Modeling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Operational Aspect Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-step
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step-by-step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-lom" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. LOM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-transform-lom-into-pom" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Transform LOM into POM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Elements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-validation-viability" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Validation &amp; Viability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Validation &amp; Viability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validation-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Assessment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viability-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Viability Assessment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approach-cvm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Approach - CVM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-agile" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Agile
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Agile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-in-agile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture in Agile
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture in Agile">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-agile-impact-architect" class="md-nav__link">
+    <span class="md-ellipsis">
+      how Agile impact Architect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agile-devops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agile &amp; DevOps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agile &amp; DevOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#devops-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      DevOps tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Architectural Thinking</h1>
+
+<p><img src="imgs/architecture_1.png" width=500 /></p>
+<p><img src="imgs/architecture_2.png" width=600 /></p>
+<h3 id="1-course-goals">1. Course Goals<a class="headerlink" href="#1-course-goals" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Learning a variety of architecture styles &amp; approaches</li>
+<li>Avoiding "golden hammer" anti-pattern</li>
+<li>Not rushing to a solution</li>
+<li>Understanding that fixing one problem often casuse another</li>
+<li>Looking for unconventional solutions</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Golden Hammer</p>
+<p>When you have a preferred solution style (a "golden hammer"), every problem begins to look the same, like a silver nail.</p>
+</div>
+<h3 id="2-what-is-architecture">2. What is Architecture<a class="headerlink" href="#2-what-is-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Architecture (as an artefact): The architecture of a system describes its overall <strong>static structure and dynamic behaviour</strong>. It models the <strong>system's elements</strong> (which for IT systems are software, hardware, and its human users), the <strong>externally manifested properties</strong> of those elements, and the static and dynamic relationships among them.</li>
+<li>Architecture (as a discipline): Architecture is an <strong>engineering discipline</strong> That studies methods of designing <strong>IT systems</strong> that provide <strong>a solution to a business problem</strong>.
+The solution must satisfy <strong>functional and non-functional requirements</strong> in a way that best balances <strong>competing stakeholders' concerns</strong> and must take constraints into account.</li>
+<li>Architecture can be at any scale:<ul>
+<li>'Above the scale': <strong>the requirements of the world</strong> in which the system sits</li>
+<li>'At the scale': the <strong>Architecture</strong> between the elements of the system</li>
+<li>'Below the scale': the <strong>design insides of the elements</strong> of the system</li>
+</ul>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Architecture vs Design</p>
+<p>Architecture: Creating the structure
+Design: Detailing the Content</p>
+</div>
+<h4 id="perspectives-to-be-consider">Perspectives to be consider<a class="headerlink" href="#perspectives-to-be-consider" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Solution blueprint</strong>(架构图) that can be reviewed and validated<ul>
+<li>show different level of blueprint to different stakeholders</li>
+</ul>
+</li>
+<li><strong>Communication tool</strong> for stakeholders and teams (business, IT delivery and BAU - IT
+Operations), future reference for maintenance and change, developing neighbouring systems and integration</li>
+<li><strong>Delivery Environments</strong>: Input into the delivery environments' design and specification, tools and platforms of choice for solution delivery</li>
+<li><strong>Delivery Planning</strong>: Starting point for developing the project plan (Traditional delivery), solution and feature backlog (Agile delivery), resource requirements and team structure</li>
+<li><strong>Estimates</strong>: Starting point for cost estimation (labour, licences, platform costs, etc)</li>
+<li><strong>Enable parallel development</strong>: by understanding how inter-component dependencies can and should be managed</li>
+<li><strong>Foundation for commercial agreements</strong> (i.e. "This is what you get for the price we have agreed on'")</li>
+<li><strong>Foundation for DOU</strong> and segregation of responsibilities between various parties - e.g.
+Client and Solution Provider, Solution Provider and Partner(s)/Subcontractors) (e.g.
+RACI matrices)</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Architecture guidance includes</p>
+<ul>
+<li>Good things<ul>
+<li>Tried and tested parts</li>
+<li>Tried and tested structures of parts (reference architectures)</li>
+</ul>
+</li>
+<li>Good ways of doing things<ul>
+<li>Principles and patterns that help ensure the architecture is created in a good</li>
+</ul>
+</li>
+</ul>
+</div>
+<h4 id="why-is-architect-important">Why is Architect important?<a class="headerlink" href="#why-is-architect-important" title="Permanent link">&para;</a></h4>
+<ul>
+<li>ppl can validate it in advance</li>
+<li>for documentation purpose</li>
+<li>the whole team take it as <strong>guidance</strong></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">How detail should the Documentation be?</p>
+<p>Take 80:20 Principle, try to document the things with high priorities:</p>
+<ul>
+<li>things that cover 80% requirements</li>
+<li>critical ones
+...</li>
+</ul>
+</div>
+<h4 id="architecture-types">Architecture Types<a class="headerlink" href="#architecture-types" title="Permanent link">&para;</a></h4>
+<p>As Architect, you need to be standing in different areas. </p>
+<ul>
+<li>Business Architecture(BA): understands the business intention and motivation</li>
+<li>IT Architecture(ITA): do ITA, at SA level. Includes the following perspectives:<ul>
+<li>Application level</li>
+<li>Technical level</li>
+<li>Physical perspective</li>
+<li>Logical perspective</li>
+<li>Functional aspect</li>
+<li>Operational aspect</li>
+</ul>
+</li>
+<li>Enterprise Architecture(EA): enterprise level, across BA and ITA, also offer guidance at SA level</li>
+<li>Solution Architect(SA): create solutions to business problems(BA), typically within ITA</li>
+</ul>
+<p><img src="imgs/architecture_types.png" width="400" /></p>
+<h4 id="architect-aspects">Architect Aspects<a class="headerlink" href="#architect-aspects" title="Permanent link">&para;</a></h4>
+<p><img src="imgs/aspects.png" width="500" /></p>
+<p>Architect takes <strong>Technology</strong>, <strong>Process</strong> and <strong>People</strong> into consideration and asks questions from different aspects</p>
+<h4 id="architect-work">Architect Work<a class="headerlink" href="#architect-work" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">At the front</th>
+<th style="text-align: left;">At the back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">- Listening to clients <br/>- Understanding business requirements <br/>- Negotiating feasible requirements and scope <br/>- Forming detailed definitions of solution structures</td>
+<td style="text-align: left;">- During construction <br/>- Serving as a customer advocate <br/>- Guiding the team <br/></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">IT Architect vs IT Specialist</p>
+<ul>
+<li>IT Architect: more high level, needs to understand the Business Problem</li>
+<li>IT Specialist: received detailed Task from <strong>IT Architect</strong>, is able to focus on its own speciality(e.g. DevOps)</li>
+</ul>
+</div>
+<h3 id="3-requirements">3. Requirements<a class="headerlink" href="#3-requirements" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">why requirements are important?</p>
+<ul>
+<li>only 39% projects are successful</li>
+<li>among the failed projects, 37% are mainly caused by <strong>inaccurate requirements</strong></li>
+<li>15%-20% Software development fee are wasted due to bad requirement </li>
+</ul>
+</div>
+<p>The requirements need to be <strong>SMART</strong>:</p>
+<ul>
+<li><strong>S</strong>pecific: Unambiguous, consistent, and at the appropriate level of detail</li>
+<li><strong>M</strong>easurable: Possible to verify that a requirement has been met, so include success criteria</li>
+<li><strong>A</strong>ttainable: Technically feasible and within the art of the possible</li>
+<li><strong>R</strong>ealizable: Realistic given all the constraints (e.g., resources, skills, time, infrastructure)</li>
+<li><strong>T</strong>raceable: Linked from conception through specification, design, implementation, and test</li>
+</ul>
+<p>As a group, requirements have to be <strong>non-conflicting</strong> and <strong>prioritzed</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">what makes a good requirement</p>
+<ol>
+<li>a complete sentence</li>
+<li>avoid abbreviation unless defined</li>
+<li>consistent in verbs: will/shall/must=mandatory, should/might=optional, could/would=desirable</li>
+<li>must contain the success criteria and be measurable and testable.</li>
+<li>has a unique reference ID</li>
+<li>Refer to supporting material without duplication</li>
+<li>avoid ambiguity, rambling and inrealistic thinking (e.g.: 100% up-time)</li>
+</ol>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li>Requirements must be <strong>prioritized</strong></li>
+<li>Requirements should be able to <strong>traced</strong> - to answer how far did it go?</li>
+</ul>
+</div>
+<h4 id="stakeholders">Stakeholders<a class="headerlink" href="#stakeholders" title="Permanent link">&para;</a></h4>
+<p>Definition: A stakeholder in a <strong>solution architecture</strong> is someone with interest in or concerns about the realization of the architecture. </p>
+<h4 id="tool-system-context-diagram">Tool - System Context Diagram<a class="headerlink" href="#tool-system-context-diagram" title="Permanent link">&para;</a></h4>
+<p>The <a href="https://zh.wikipedia.org/wiki/%E7%B3%BB%E7%BB%9F%E5%85%B3%E7%B3%BB%E5%9B%BE">System Context Diagram</a></p>
+<ul>
+<li>it carifies the <strong>environment</strong> on which the system operates</li>
+<li>captures <strong>boundary</strong> of the system</li>
+<li>identifies the <strong>external interfaces</strong></li>
+<li>clarifies the <strong>personal</strong> that will use the system</li>
+<li>define <strong>use cases</strong> &amp; <strong>data flows</strong></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Example</p>
+<p>The Diagram doesn't have a fixed form, but it has some conventions, you must have:</p>
+<ul>
+<li>the <strong>personal</strong></li>
+<li>the <strong>System under Construction</strong> - the one you are gonna build</li>
+<li>set of <strong>external systems</strong> that you will integrate with</li>
+</ul>
+<p><img src="imgs/system_context.png" width=400 /></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>One can use <strong>System Context Diagram</strong> to analyse an existing system too.</p>
+</div>
+<h4 id="requirement-types">Requirement Types<a class="headerlink" href="#requirement-types" title="Permanent link">&para;</a></h4>
+<p>There are usually LOOOOTS OF requirements, we start with categorizing them into the following 4 types:</p>
+<ol>
+<li><strong>Functional Requirements (FRs)</strong>: capabilities need to be delivered, answer the question "What does user need?"<ul>
+<li>Example: User is able to login</li>
+</ul>
+</li>
+<li><strong>Non-Functional Requirements (NFRs)</strong>: expectations and chracteristics the the IT system should have<ul>
+<li>Example of runtime expectations: performance, availability</li>
+<li>Example of non-runtime expectations: scalability, maintainability</li>
+</ul>
+</li>
+<li><strong>Constraints</strong>: immutable<ul>
+<li>Example: existing environments, available skills, budget, oprational limitations</li>
+</ul>
+</li>
+<li><strong>Future Requirements</strong>: how system might change in the future, could be functional or non-functional<ul>
+<li>Example: legislation</li>
+</ul>
+</li>
+</ol>
+<h5 id="1-functional-requirements-frs">1. Functional Requirements (FRs)<a class="headerlink" href="#1-functional-requirements-frs" title="Permanent link">&para;</a></h5>
+<p><strong>Functional requirements</strong> describe what the system will do from a number of perspectives. In the Agile world, the <strong>Functional requirements</strong> are hidden behind those concepts: <strong>Epics</strong>, <strong>User Stories</strong></p>
+<div class="admonition note">
+<p class="admonition-title">activities</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Activities from <strong>Business</strong> perspective:</th>
+<th style="text-align: left;">Activities from <strong>User</strong> perspective:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">- Business Process Model <br/>- Use Case Model <br/>- Use Case Specification: e.g. The user supplies the address and phone number</td>
+<td style="text-align: left;">- Design Thinking Methodology</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Use Cases vs User Stories</p>
+<p><strong>User Stories</strong> are a way to describe <strong>requirements</strong>. <strong>Use Cases</strong> can be used as a way to detail the <strong>User Stories</strong>.</p>
+</div>
+<h5 id="2-nonfunctional-requirements-nfrs">2. Nonfunctional Requirements (NFRs)<a class="headerlink" href="#2-nonfunctional-requirements-nfrs" title="Permanent link">&para;</a></h5>
+<p><strong>Non-Functional Requirements (NFRs)</strong> define “how good” the solution should be.</p>
+<div class="admonition note">
+<p class="admonition-title">NFR Types</p>
+<ol>
+<li>Runtime NFRs - value to the user<ul>
+<li>Performance</li>
+<li>Volumetrics</li>
+<li>Security</li>
+<li>Usability</li>
+<li>Availability</li>
+<li>Manageability</li>
+</ul>
+</li>
+<li>Non-runtime NFRs - value to the operator<ul>
+<li>Can it scale?</li>
+<li>Is it compliant?</li>
+<li>Can it be maintained?</li>
+<li>Can it be managed?</li>
+<li>Is it environmentally sound?</li>
+<li>Is it portable?</li>
+<li>Is it reliable?</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Runtime NFR - Performance</p>
+<p>You need to find a balance between:</p>
+<ul>
+<li>Cost &amp; Effort</li>
+<li>How accurate it needs to be
+<!-- <img src="imgs/nfr_balance.png" width=300 /> --></li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Runtime NFR - Availability</p>
+<p>Important concepts for <strong>Availability</strong>: </p>
+<ul>
+<li>High Availability (HA): System is always available whenever it’s expected to be.</li>
+<li>Continuous operations (CO): System is intended to be available all the time, no scheduled outages</li>
+<li>Continuous availability (= HA + CO): System is always available all the time.</li>
+</ul>
+<p>Important metrics for <strong>Availability</strong>: </p>
+<ul>
+<li>Mean time to repair (MTTR): The average time something is “down” (“1”)</li>
+<li>Mean time to failure (MTTF) – The average time something is “up” (“99”)</li>
+<li>Mean time between failures (MTBF) – The average time between “going down” (“100”)</li>
+</ul>
+<p>To measure the "unavailability", we use percentage to describe the Uptime. However, ONLY using percentage is a BAD IDEA:</p>
+<ul>
+<li>99 days “up,” 1 day “down”</li>
+<li>99 hours “up,” 1 hour “down”</li>
+<li>99 seconds “up,” 1 second “down” --&gt; almost no time for MTTR, which is impossible!</li>
+</ul>
+<p>⚠️ Consider both Percentage and Context</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Runtime NFR - Security</p>
+<p>The ability to protect an IT system against malicious use while at the same time allowing legitimate use. It has the following categories:</p>
+<ul>
+<li>Authentication</li>
+<li>Authorization</li>
+<li>Integrity: immutability of data</li>
+<li>Confidentiality</li>
+<li>Non-repudiation: certified sender</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Non-runtime NFR - Scalability</p>
+<p>A system’s ability to increase (or decrease) in size according to changing workloads, such as an increase in user numbers. There are 2 approaches:</p>
+<ul>
+<li>Vertical scaling (“scaling up”)</li>
+<li>Horizontal scaling (“scaling out”): Spreading the load across more machines</li>
+</ul>
+</div>
+<h5 id="3-constraints">3. Constraints<a class="headerlink" href="#3-constraints" title="Permanent link">&para;</a></h5>
+<p>Constraints are limitations imposed upon a solution. What we CANNOT change. Examples:</p>
+<ul>
+<li>Regulatory</li>
+<li>Organizational</li>
+<li>Geographic</li>
+<li>Risk taking willingness</li>
+<li>Project: time, resource, scope</li>
+<li>Development skills</li>
+<li>Existing infrastructure: hard- and software</li>
+<li>Technology leadership</li>
+<li>IT architectural standards</li>
+</ul>
+<h5 id="4-future-requirements">4. Future Requirements<a class="headerlink" href="#4-future-requirements" title="Permanent link">&para;</a></h5>
+<p>Describe how the system might change in the future, whether these are functional or nonfunctional enhancements. Aspects:</p>
+<ul>
+<li>New and modified business processes and goals</li>
+<li>Adaptation of the system to new technologies</li>
+<li>Changes in the profiles of the average user</li>
+<li>Changes in the integration needs with other systems</li>
+</ul>
+<h4 id="managing-requirements">Managing Requirements<a class="headerlink" href="#managing-requirements" title="Permanent link">&para;</a></h4>
+<p>Determine significant requirements that most likely affect the architecture. considering aspects:</p>
+<ul>
+<li>Early pre-project sizing?</li>
+<li>Proposal development?</li>
+<li>Outline solution architecture?</li>
+<li>Focused functional or operational design?</li>
+</ul>
+<h4 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h4>
+<p>Requirements are dynamic and require careful management throughout a project’s life cycle</p>
+<div class="admonition note">
+<p class="admonition-title">How to manage the changes?</p>
+<ul>
+<li>Iterative documentation</li>
+<li>well-defined change mgmg procedure - V model</li>
+<li>Ongoing evaluation</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Activity - Joint Application Design (JAD)</p>
+<p>JAD is similar to brainstorming sessions, can be short or long (several days). Results:</p>
+<ul>
+<li>Service portfolio candidates</li>
+<li>User “stories”</li>
+<li>Use cases</li>
+<li>Assumptions</li>
+</ul>
+</div>
+<h3 id="4-architectural-decisions-and-principles">4. Architectural Decisions and Principles<a class="headerlink" href="#4-architectural-decisions-and-principles" title="Permanent link">&para;</a></h3>
+<h4 id="documenting-the-decision">Documenting the Decision<a class="headerlink" href="#documenting-the-decision" title="Permanent link">&para;</a></h4>
+<p>Architectural decisions should be formally documented, each decision should include the following elements:</p>
+<div class="admonition note">
+<p class="admonition-title">Example</p>
+<p>2.2 AD02: Choice of Integration</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>An unique identifier</strong></td>
+<td style="text-align: left;">AD02</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Design decision</strong></td>
+<td style="text-align: left;">how to integrate into the exisiting systems?</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Issue/problem</strong></td>
+<td style="text-align: left;">there are existing systems...</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Assumption</strong></td>
+<td style="text-align: left;">with a interface</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Alternatives</strong></td>
+<td style="text-align: left;">(1) FIle trasfer <br> (2) Messaging</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Decision</strong></td>
+<td style="text-align: left;">Alternative (2) is better</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Justification</strong></td>
+<td style="text-align: left;">together with the client I made the decision, because (2) Messaging provides reliable, asynchronous program-to-program communication</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Implications</strong></td>
+<td style="text-align: left;">an integration server node will be required</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Parties Agreeing to the  Decision</strong></td>
+<td style="text-align: left;">Person 1 (Representing the solution architecture team) <br/>Person 2 (representing the client)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Difference</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Architectural Decisions</th>
+<th style="text-align: left;">Architectural Principles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">are made within the context of the development of the solution’s architecture.</td>
+<td style="text-align: left;">are imposed from outside the context of the solution architecture; they are often part of the enterprise’s Enterprise Architecture.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">other concepts</p>
+<p>| Policy | Lets protect the data|
+| Principle| use SSO to protect the data. <br/> Define Principle with <code>Name</code>, <code>Statement</code>, <code>Motivation</code> and <code>Implication</code> |
+| Guideline| ...|</p>
+</div>
+<h4 id="best-practise">Best Practise<a class="headerlink" href="#best-practise" title="Permanent link">&para;</a></h4>
+<p>How to get a good architectural decision? There are <strong>11 Solution Patterns</strong> that you can follow:</p>
+<h4 id="value-proposition">Value Proposition<a class="headerlink" href="#value-proposition" title="Permanent link">&para;</a></h4>
+<h5 id="1-check-value-proposition">1. Check Value Proposition<a class="headerlink" href="#1-check-value-proposition" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Confirming the customer wants and needs</li>
+<li>Identify your differentiators of your Design</li>
+</ul>
+<h4 id="simplification">Simplification<a class="headerlink" href="#simplification" title="Permanent link">&para;</a></h4>
+<h5 id="2-simplify-the-architecture">2. Simplify the Architecture<a class="headerlink" href="#2-simplify-the-architecture" title="Permanent link">&para;</a></h5>
+<p>Simplify complex architectures and excessive infrastructure layers.</p>
+<h5 id="3-breakthrough-the-design">3. Breakthrough the Design<a class="headerlink" href="#3-breakthrough-the-design" title="Permanent link">&para;</a></h5>
+<h5 id="4-integrate-the-facilities">4 Integrate the Facilities<a class="headerlink" href="#4-integrate-the-facilities" title="Permanent link">&para;</a></h5>
+<h5 id="5-rightshape-the-platforms-processors">5 Rightshape the Platforms &amp; Processors<a class="headerlink" href="#5-rightshape-the-platforms-processors" title="Permanent link">&para;</a></h5>
+<p>Dont sale Cloud just because you want to sale it, the Client's Requirements have the highest priority.</p>
+<h4 id="assets">Assets<a class="headerlink" href="#assets" title="Permanent link">&para;</a></h4>
+<h5 id="6-re-use-existing-assets">6 Re-use Existing Assets<a class="headerlink" href="#6-re-use-existing-assets" title="Permanent link">&para;</a></h5>
+<h5 id="7-recycle-existing-code">7 Recycle Existing Code<a class="headerlink" href="#7-recycle-existing-code" title="Permanent link">&para;</a></h5>
+<h5 id="8-apply-frameworks-skeletons">8 Apply Frameworks / Skeletons<a class="headerlink" href="#8-apply-frameworks-skeletons" title="Permanent link">&para;</a></h5>
+<h4 id="delievery">Delievery<a class="headerlink" href="#delievery" title="Permanent link">&para;</a></h4>
+<h5 id="9-optimize-the-application-development-environment">9 Optimize the Application Development environment<a class="headerlink" href="#9-optimize-the-application-development-environment" title="Permanent link">&para;</a></h5>
+<h5 id="10-optimize-the-delivery-model">10 Optimize the Delivery Model<a class="headerlink" href="#10-optimize-the-delivery-model" title="Permanent link">&para;</a></h5>
+<h5 id="11-rationalize-swhw-license-lifecycle">11. Rationalize SW/HW License Lifecycle<a class="headerlink" href="#11-rationalize-swhw-license-lifecycle" title="Permanent link">&para;</a></h5>
+<h3 id="5-architecture-overview">5. Architecture Overview<a class="headerlink" href="#5-architecture-overview" title="Permanent link">&para;</a></h3>
+<p>The <strong>Architecture Overview Diagram</strong> is a part of <strong>Architecture Overview</strong>. The goals:</p>
+<ul>
+<li>to communicate a conceptual understanding of the intended IT system with the stakeholders</li>
+<li>to explore and evaluate alternative architectural options</li>
+<li>to enable early recognition and validation of the implication</li>
+<li>to facilitate orientation for new people who join the project</li>
+</ul>
+<p>⚠️ Like a house floor plan!</p>
+<div class="admonition note">
+<p class="admonition-title">where does Architecture Overview sit?</p>
+<p>Requirements (NFRs + FRs) --&gt; <strong>Architecture Overview</strong> --&gt; Component Model + Operational Model</p>
+</div>
+<h4 id="best-practises">Best Practises<a class="headerlink" href="#best-practises" title="Permanent link">&para;</a></h4>
+<ol>
+<li>For who are you drawing this Diagram for? Considering drawing different Diagrams for different stakeholders</li>
+<li>No information overflow</li>
+<li>Use the language of your client</li>
+<li>Use colors - but be consistent</li>
+</ol>
+<h4 id="anti-patterns">Anti-patterns<a class="headerlink" href="#anti-patterns" title="Permanent link">&para;</a></h4>
+<p>Bad things to avoid:</p>
+<ul>
+<li>Information overload</li>
+<li>Information underload</li>
+<li>too many acronyms -&gt; solution: to annotate them</li>
+<li>Providing more <strong>technical</strong> details than required for a <strong>business</strong> audience</li>
+</ul>
+<h3 id="6-component-model">6. Component Model<a class="headerlink" href="#6-component-model" title="Permanent link">&para;</a></h3>
+<p>We use <strong>Component Model</strong> to describe theh Functional Aspect of a IT Achitecture.</p>
+<div class="admonition note">
+<p class="admonition-title">why Model?</p>
+<ul>
+<li><strong>Models</strong> break down complex system to smaller parts - the <strong>Components</strong></li>
+<li><strong>components</strong>, that have well understood functional responsibilities.</li>
+<li><strong>Models</strong> visualize the system</li>
+</ul>
+</div>
+<p><strong>Component Model</strong> is a formal representation of:</p>
+<ul>
+<li>the internal Structure of the solution - shows the relationships between the <strong>component</strong></li>
+<li>a next step from <strong>the System Context Diagram</strong> that aligns with the Black Box engineering principle to the White Box principle</li>
+<li>provides the necessary input for <strong>the Operational model</strong>:<ul>
+<li>where run the <strong>component</strong></li>
+<li>where should the <strong>component's</strong> data be</li>
+<li>Where should the <strong>component</strong> be installed?</li>
+<li>How will the <strong>components</strong> communicate with each other?</li>
+</ul>
+</li>
+</ul>
+<h4 id="61-functional-aspect-modeling">6.1 Functional Aspect Modeling<a class="headerlink" href="#61-functional-aspect-modeling" title="Permanent link">&para;</a></h4>
+<p>The Functional Aspect of an IT system has various Modelling Types:</p>
+<ul>
+<li><strong>Component(service) modeling</strong>: functionalities</li>
+<li><strong>Data modelling</strong>: data that make the functionality works</li>
+</ul>
+<h5 id="why-component-model">Why Component Model<a class="headerlink" href="#why-component-model" title="Permanent link">&para;</a></h5>
+<p>we use <strong>Component Model</strong> as <strong>input</strong> for the following:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">In application development</th>
+<th style="text-align: left;">In the operational aspect</th>
+<th style="text-align: left;">In operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">- Work allocation <br/>- Version control <br/>- Design strategy <br/>- Reuse <br/>- Testing <br/>- Project management <br/>- Product or Package selection</td>
+<td style="text-align: left;">- The <em>things</em> that have to be deployed</td>
+<td style="text-align: left;">- Systems management and so on</td>
+</tr>
+</tbody>
+</table>
+<h5 id="component">Component<a class="headerlink" href="#component" title="Permanent link">&para;</a></h5>
+<p>A <strong>Component</strong> is a modular unit of functionality. It makes its functionality and state available through one or more interfaces. </p>
+<p>A <strong>Component</strong> is not just a programming-level concept such as an Oracle
+EJB or .NET component. It can be at different <strong>Levels</strong>:
+- At Application Level: a component can be <ins>Account Manager component</ins>
+- At the technical level, a component can be <ins>security service</ins></p>
+<div class="admonition note">
+<p class="admonition-title">Black Box engineering principle</p>
+<p>Using a <strong>Black Box engineering principle</strong>, we focus on what the components’ interfaces (or APIs) offer - rather than how the requested function is realized</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Components &amp; Services</p>
+<p><strong>Components</strong> and <strong>Services</strong> are interrelated:</p>
+<ul>
+<li><strong>Components</strong> offer and request <strong>Services</strong> via their Service Interfaces or APIs</li>
+<li><strong>Services</strong> are satisfied by <strong>Components</strong>, which, if necessary, request <strong>Services</strong> from other <strong>Components</strong>.</li>
+</ul>
+<p><img src="imgs/component_and_svc.png" width="400" /></p>
+</div>
+<h6 id="step-by-step-how-to-create-a-component">Step-by-step: how to create a Component?<a class="headerlink" href="#step-by-step-how-to-create-a-component" title="Permanent link">&para;</a></h6>
+<p><strong>1. Component identification:</strong><br/> </p>
+<ul>
+<li>Partition the system into subsystems and components</li>
+<li>Use a reference architecture</li>
+<li>Ensure the components are: <ol>
+<li>Highly <strong>cohesive</strong>: high dependencies within a component</li>
+<li>Loosely <strong>coupled</strong>: low dependencies between components</li>
+<li>Well <strong>isolated</strong>: high isolation of prodcut/technology dependencies</li>
+<li>Of the right <strong>granularity</strong>: suitable functionality amount assigned to a component, not too many, not too little</li>
+<li><strong>Layered</strong> according to their generality --&gt; Layering provides a logical partitioning of components into a number of sets or layers.</li>
+</ol>
+</li>
+</ul>
+<p>Doc: <a href="https://insights.sei.cmu.edu/library/software-architecture-documentation-in-practice-documenting-architectural-layers/">Software Architecture Documentation in Practice: Documenting Architectural Layers</a></p>
+<p><strong>2. Component specification:</strong><br/> 
+For each interface, specifying:</p>
+<ul>
+<li>their <strong>operations</strong> = parameters passed</li>
+<li>their <strong>signatures</strong> = return values</li>
+<li>contract of behavior</li>
+<li>pre-/post-conditions</li>
+</ul>
+<p>Approaches: use <strong>Use Case Model</strong> or <strong>Data Model</strong></p>
+<p><strong>3. Component implementation:</strong><br/> 
+implementation approach.</p>
+<ul>
+<li>For <strong>commercial-off-the-shelf (COTS) products</strong>: map the <ins>specified-level</ins> components to the
+appropriate products or packages.</li>
+<li>For <strong>components to be built</strong>, identify the approach to implementation by defining the <ins>physical-level</ins> components. </li>
+</ul>
+<p>During component implementation, the <strong>logical-level model</strong> is transformed into 1 or more <strong>physical-level model</strong>. The transformation involves:
+    - Selecting products and packages
+    - Identifying frameworks and patterns
+    - Deciding what components have to be developed
+    - Making choices about what technology should be used to realize the components</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>[logical-level model] -&gt; Technology Selection -&gt; [Physical Level Model] -&gt; Development -&gt; Code</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Enterprise Architectures Guideline</p>
+<p>Reuse &gt; Customise &gt; Buy &gt; Build</p>
+</div>
+<p><img src="imgs/create_component_steps.png" width="400" /></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><strong>Components</strong> may be Grouped into <strong>Subsystems</strong></p>
+</div>
+<h5 id="notation">Notation<a class="headerlink" href="#notation" title="Permanent link">&para;</a></h5>
+<p><strong>Unified Modeling Language (UML)</strong> is one of the notations used. There are 2 types of UML:</p>
+<ol>
+<li>[STATIC] <strong>Structural Diagram</strong>: on the system’s internal structure</li>
+<li>[DYNAMIC] <strong>Behavior Diagram</strong>: as well as, its behavior</li>
+</ol>
+<p><img src="imgs/01-component-diagram-in-uml-diagram-hierarchy.png" width=600 /></p>
+<h5 id="component-classification">Component Classification<a class="headerlink" href="#component-classification" title="Permanent link">&para;</a></h5>
+<p><strong>Application</strong> vs <strong>Technical</strong>:</p>
+<ul>
+<li><strong>Application</strong> Components implement a specific business function, e.g. <code>Payment Component</code></li>
+<li><strong>Technical</strong> Components are NOT associated with a specific business function. They play a
+technical role that supports realization, e.g. <code>Hypervisor</code> or <code>Web Server</code></li>
+</ul>
+<p>Logical vs Physical:</p>
+<ul>
+<li><strong>Logical</strong>: focuses on the functional responsibility and purpose of the of the solution
+components without being concerned of their implementation</li>
+<li><strong>Physical</strong>: Represents actual concrete software or hardware technology, a
+product/package used for component implementation. These are decision usually made
+during the Component Implementation stage</li>
+</ul>
+<h4 id="62-operational-aspect-modeling">6.2 Operational Aspect Modeling<a class="headerlink" href="#62-operational-aspect-modeling" title="Permanent link">&para;</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Functional vs Operational</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Functional</th>
+<th style="text-align: left;">Operational</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Content:</strong></td>
+<td style="text-align: left;">- the structure of components (of all kinds) related to actual functionality <br/>- their dynamic behavior (collaboration) <br/>- their interfaces <br/>- Embodied in the Component Model work product</td>
+<td style="text-align: left;">- what runs where (component placement) <br/>- includes the network topology (hardware nodes, locations, etc.), <br/>- ensures the achievement of the solution's service level characteristics (performance, availability), <br/>- describes the management and operation of the IT system. <br/>- Embodied in the Operational Model work product</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>🏔️ The design of <strong>Operational Aspect</strong> might be challenging, because:</p>
+<ul>
+<li>Many competing concerns:<ul>
+<li><strong>NFR</strong>'s: for example, performance, availability, manageability, security</li>
+<li><strong>Constraints</strong>: for example, affordability, standards compliance, existing infrastructure</li>
+</ul>
+</li>
+<li>Many coordinating activities:<ul>
+<li>Detailed design: capacity planning, software and data distribution, network, hardware, service management</li>
+<li>Commercial: planning, pricing, procurement, service level agreement</li>
+</ul>
+</li>
+</ul>
+<h5 id="step-by-step">Step-by-step<a class="headerlink" href="#step-by-step" title="Permanent link">&para;</a></h5>
+<p>to create Operational Aspect Modeling, we can follow these steps:</p>
+<ol>
+<li>Understand <strong>NFRs</strong></li>
+<li>Conceptualize from an application perspective - Application Logical Operational Model (ALOM)<ul>
+<li>identify application level nodes and their placement</li>
+</ul>
+</li>
+<li>Conceptualize the Logical Operational Model (LOM)<ul>
+<li>determine the logical application 只是逻辑组件
+components </li>
+</ul>
+</li>
+<li>Transform into the Physical Operational Model (POM) <ul>
+<li>determine the technologies 真正的技术选择</li>
+</ul>
+</li>
+</ol>
+<h6 id="3-lom">3. LOM<a class="headerlink" href="#3-lom" title="Permanent link">&para;</a></h6>
+<ul>
+<li>Step 1: The overall structure of the LOM is largely based on the locations over which the solution will be deployed.</li>
+<li>Step 2: Then identify Candidate Logical Nodes</li>
+<li>Step 3: We have to understand what it is we need to deploy, via the DEPLOYMENT UNIT Model</li>
+<li>Step 4: Operational Modeling helps ensure the system’s non-functional requirements are delivered, within all constraints…</li>
+</ul>
+<h6 id="4-transform-lom-into-pom">4. Transform LOM into POM<a class="headerlink" href="#4-transform-lom-into-pom" title="Permanent link">&para;</a></h6>
+<p>(1) Identifying your role in the product selection process and the definition of the selection criteria
+(2) Performing the necessary product selections for the nodes and connections
+(3) Defining the solution details and describing how
+technologies will be put together to deliver the specific SLAs
+(4) Rationalizing the solution architecture to get to a sized POM</p>
+<div class="admonition info">
+<p class="admonition-title">what is captured in a POM?</p>
+<ul>
+<li><strong>Physical Nodes</strong>: <ul>
+<li>Hardware: processor speed, memory, disk configuration</li>
+<li>Software: WebSphere Application</li>
+</ul>
+</li>
+<li><strong>Physical Connections</strong>: Physical networks protocols, network bandwidth, latency</li>
+<li><strong>Cloud Services</strong>:<ul>
+<li>Deployment Model: Public, Private(Managed or Hosted), Hybrid</li>
+<li>Services Model: <ul>
+<li><code>IaaS</code>: provides raw infra</li>
+<li><code>PaaS</code>: provides a container/runtime env</li>
+<li><code>SaaS</code>: provides application functionality</li>
+<li><code>BPaaS</code>: provides Business Process to automate runtime</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Best Practise</p>
+<p>Its easier to first design <strong>Unsized POM</strong>, then a <strong>Sized POM</strong> with quantitative details</p>
+</div>
+<h5 id="elements">Elements<a class="headerlink" href="#elements" title="Permanent link">&para;</a></h5>
+<p>Elements in Operational Modeling</p>
+<p>Deployed System includes:</p>
+<ul>
+<li>Location/Border</li>
+<li>Node: in the <strong>Location</strong></li>
+<li>Deployment Unit: Deployment Units represent all the bits required to bring an application component to life within the operational model</li>
+<li>Connection: between Nodes</li>
+<li>Zones</li>
+</ul>
+<p>OM also documents:</p>
+<ul>
+<li>The overall physical configuration </li>
+<li>Sizing and other hardware specifications </li>
+</ul>
+<h5 id="notations">Notations<a class="headerlink" href="#notations" title="Permanent link">&para;</a></h5>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Notation</th>
+<th style="text-align: left;">Naming</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>=== ACTORS &amp; INFRAS ===</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Location</td>
+<td style="text-align: left;"><code>LL_xxx</code></td>
+<td style="text-align: left;"><code>LL_Office</code>, <code>LL_Cloud_0</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Node</td>
+<td style="text-align: left;"><code>LN_xxx</code></td>
+<td style="text-align: left;"><code>LN_Apple Laptop</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Human Actor <br/> System Actor</td>
+<td style="text-align: left;"><code>A_xxx</code></td>
+<td style="text-align: left;"><code>A_Staff</code><br/><code>A_Respondent PC</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>=== CLOUD ===</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Offering</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>On-premises</code><br/><code>IaaS</code> <br/><code>SaaSM</code> Software Managed<br/><code>SaaSH Hosted</code><br/><code>External/Web Resource</code><br/></td>
+</tr>
+<tr>
+<td style="text-align: left;">Support</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>SS</code>: Standard Service Level Agreement(s)<br/> <code>CS</code>: Custom Service Level Agreement(s)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data</td>
+<td style="text-align: left;"><code>_xxx</code></td>
+<td style="text-align: left;"><code>E</code>: Encrypted<br/><code>NE</code>: Non-Encrypted<br/><code>AU</code>: Audited<br/><code>AR</code>: Archiving Required</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>=== DEPLOYMENT UNITS (DU) ===</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">Presentation</td>
+<td style="text-align: left;"><code>U_xxx</code></td>
+<td style="text-align: left;"><code>U_CRM</code>: a CRM interface</td>
+</tr>
+<tr>
+<td style="text-align: left;">Execution</td>
+<td style="text-align: left;"><code>E_xxx</code></td>
+<td style="text-align: left;"><code>E_Update_CRM_ Data</code>, <code>E_Consult_CRM_ Data</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Installation</td>
+<td style="text-align: left;"><code>I_xxx</code></td>
+<td style="text-align: left;">``</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data</td>
+<td style="text-align: left;"><code>D_xxx</code></td>
+<td style="text-align: left;"><code>D_CRM_Data</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Technical</td>
+<td style="text-align: left;"><code>T_xxx</code></td>
+<td style="text-align: left;">``</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-validation-viability">7. Validation &amp; Viability<a class="headerlink" href="#7-validation-viability" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">motivatin</p>
+<p>to ensure the designed architecture:</p>
+<ul>
+<li>can be implemented and delivered - Validation</li>
+<li>satisfies the FR and NRFs - Viablity</li>
+</ul>
+<p>⚠️ The earlier the better &amp; cheaper &amp; easier!</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Common Causes of Troubled Projects</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Project Design</th>
+<th style="text-align: left;">Project Delivery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">- Fixed price for combined phases <br/>- Vague or misunderstood completion criteria <br/>- Customer responsibilities not clearly identified and documented <br/>- Assumptions not clearly identified and documented <br/>- Concessions during negotiations <br/>- Pricing concessions, “low-balling” <br/>- Poorly written proposals or SOWs <br/>- Inaccurate project estimates <br/>- Not performing QA reviews <br/>- Lack of transition, marketing to delivery</td>
+<td style="text-align: left;">- Project skills deficiencies <br/>- Lack of, or inadequate, project mgmt <br/>- Not performing QA reviews and action plans <br/>- Lack of line mgmt oversight and support <br/>- Not implementing or exercising change control <br/>- Starting a phase before completing the preceding phase <br/>- Unplanned turnover of key project team members</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="validation-assessment">Validation Assessment<a class="headerlink" href="#validation-assessment" title="Permanent link">&para;</a></h4>
+<p>to ensure that the proposed solution is acceptable to the various stakeholders - use <strong>Requirements Traceability and Verification Matrix (RTVM)</strong>. --&gt; RTVM is used throughout the whole project, not just at the end.</p>
+<div class="admonition note">
+<p class="admonition-title">RTVM</p>
+<ul>
+<li>ensure the completeness of FR and NFR</li>
+<li>Provides the basis for test</li>
+<li>Provides a framework for risk </li>
+<li>Provides the basis of clear and timely client communication with regard to schedule, risk, and financial impacts</li>
+</ul>
+</div>
+<h4 id="viability-assessment">Viability Assessment<a class="headerlink" href="#viability-assessment" title="Permanent link">&para;</a></h4>
+<ul>
+<li>assess: as-is to to-be</li>
+<li>confirm the solution is operable and maintainable</li>
+<li>context of the architecture are the key NFs &amp; NFRs</li>
+<li>enough resource to impolement the solution:<ul>
+<li>team availability</li>
+<li>infrastructure</li>
+</ul>
+</li>
+<li>identify the risks</li>
+</ul>
+<h4 id="approach-cvm">Approach - CVM<a class="headerlink" href="#approach-cvm" title="Permanent link">&para;</a></h4>
+<p>Client Value Method (CVM):</p>
+<ol>
+<li>UNDERSTAND the client’s business and needs  </li>
+<li>EXPLORE options and approach  </li>
+<li>DEVELOP and agree to client solution  </li>
+<li>IMPLEMENT client solution  </li>
+<li>CONFIRM client value and experience </li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Three Quality Checkpoints</p>
+<p>TDA and ITR (for complex, cross-LOB, and/or cross-IOT deals) are quality checkpoints:</p>
+<ol>
+<li>Technical and Delivery Assessment (TDA)</li>
+<li>Integrated Technical Review (ITR)</li>
+<li>Proposal Baseline Assessment (PBA)</li>
+</ol>
+</div>
+<div class="admonition note">
+<p class="admonition-title">RAID</p>
+<p><strong>Risks</strong>, <strong>Assumptions</strong>, <strong>Issues</strong>, and <strong>Dependencies</strong> (RAID) should also be addressed</p>
+</div>
+<h3 id="8-agile">8. Agile<a class="headerlink" href="#8-agile" title="Permanent link">&para;</a></h3>
+<h4 id="concepts">Concepts<a class="headerlink" href="#concepts" title="Permanent link">&para;</a></h4>
+<p>Key roles:</p>
+<p>▪ Product owner: voice of customers
+▪ Delivery team: multidisciplinary, self-organising, three to 9 members
+▪ Scrum master – facilitator and roadblock remover</p>
+<p>Workflow</p>
+<p>▪ Sprint– Time-boxed unit of development – one week to one month
+▪ Sprint planning – scrum team discuss and agree on the scope of work
+▪ Daily scrum (or stand-up) – What was done yesterday / plan for today / any roadblocks
+▪ Sprint review– playback to stakeholders
+▪ Sprint retrospective – reflection / lessons learnt / improvement plan</p>
+<p>Artefacts</p>
+<p>▪ Product backlog – ordered list of requirements in form of user stories, use cases or any other form the team decides to be useful
+▪ Sprint Backlog - list of work the development team must address during the next sprint
+▪ Scrum Board – means of tracking sprint status
+▪ Product Increment – potentially releasable increment is the sum of all the product backlog items completed during a sprint, integrated with the work of all previous sprints.</p>
+<h4 id="scaling">Scaling<a class="headerlink" href="#scaling" title="Permanent link">&para;</a></h4>
+<p>Challenges of scaling up Agile from MVP towards an Agile enterprise?</p>
+<ul>
+<li>Team size: Under 10 developers -&gt; 1000’s of developers</li>
+<li>Geographical distribution: Co-located -&gt; Global</li>
+<li>Enterprise discipline: Project focus -&gt; Enterprise focus</li>
+<li>Organisational complexity: Flexible -&gt; Rigid</li>
+<li>Compliance requirement: Low risk -&gt; Critical,Audited</li>
+<li>Domain Complexity: Straight-forward -&gt; Intricate/Emerging</li>
+<li>Organisation distribution (outsourcing, partnerships): Collaborative -&gt; Contractual</li>
+<li>Technical complexity: Homogenous -&gt; Heterogeneous, Legacy</li>
+</ul>
+<p>Solution: <strong>SAFe® 4.6 for Lean Enterprises</strong></p>
+<h4 id="architecture-in-agile">Architecture in Agile<a class="headerlink" href="#architecture-in-agile" title="Permanent link">&para;</a></h4>
+<p>Architecture in Agile is benefitial to the project. Create “fit for purpose” architecture - avoid gold plating --&gt; <strong>Initial Architecture</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Intentional Architecture</p>
+<p>Intentional Architecture involves creating a deliberate, strategic blueprint for a system's structure and components to guide development from the start.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Emerging Design</p>
+<p>Emerging Design is an <strong>iterative approach</strong> where a system's design evolves over time through continuous refactoring and adaptation to changing requirements</p>
+</div>
+<h5 id="initial-architecture">Initial Architecture<a class="headerlink" href="#initial-architecture" title="Permanent link">&para;</a></h5>
+<p>▪ Identify high-level scope
+▪ Identify initial requirements
+▪ Identify and architecture vision</p>
+<p>Activities:</p>
+<ol>
+<li><strong>Design Thinking / Scoping Workshops</strong>: 2-3 days
+    1.1 Initial Requirements: Capture key non-functional requirements: Capacity, Performance, Reliability &amp; Recovery, Security
+    1.2 Architecture-on-a-page with annotations
+        - (main) users
+        - components
+        - Integration
+        - Detail: logical and/or physical boundary</li>
+<li><strong>Project Initiation / Feasibility / Sprint 0</strong>: 1 – 2 weeks<ul>
+<li>Initial Architecture: <ul>
+<li>Component Model</li>
+<li>Environments</li>
+<li>Redundancy</li>
+<li>Connectivity</li>
+<li>Security Architecture: key steps for authentication and identity</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="how-agile-impact-architect">how Agile impact Architect<a class="headerlink" href="#how-agile-impact-architect" title="Permanent link">&para;</a></h4>
+<p>Architecture Styles based on Microservices and APIs lead to <strong>development</strong>, <strong>deployment</strong> and <strong>operations</strong>:</p>
+<ol>
+<li><strong>development</strong> agility: Decentralized Ownership</li>
+<li><strong>deployment</strong> agility: Fine grained deployment: better agility &amp; scalability &amp; resilience</li>
+<li><strong>operational</strong> agility: Cloud native infrastructure<ul>
+<li>Elastic scalability: horizontally or vertically</li>
+<li>Disposable and re-creatable</li>
+<li>Starts and stops in seconds</li>
+<li>Minimal Interdependencies</li>
+<li>Infrastructure as Code</li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Service Mesh (in Microservices application)</p>
+<p>A <strong>Service Mesh</strong> is an <strong>infrastructure layer</strong> in microservices applications that manages service-to-service communication, providing features like load balancing, service discovery, traffic management, security (e.g., mTLS), observability, and resilience (e.g., retries, circuit breaking) without requiring changes to the application code.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><strong>Service Granularity</strong>: monoliths &lt;--&gt; nano-services</p>
+<p>Its important to find the proper <strong>Granularity</strong>, not too mono, not too modular!!</p>
+</div>
+<h4 id="agile-devops">Agile &amp; DevOps<a class="headerlink" href="#agile-devops" title="Permanent link">&para;</a></h4>
+<p><strong>DevOps</strong> is the practice, culture of Development and Operations engineers participating together in the entire service lifecycle, from design through the development process to production support.</p>
+<h5 id="deployment-pipeline">Deployment pipeline<a class="headerlink" href="#deployment-pipeline" title="Permanent link">&para;</a></h5>
+<p>Continuous delivery is enabled through the <strong>deployment pipeline</strong> that provides:</p>
+<ul>
+<li>Visibility</li>
+<li>Feedback</li>
+<li>Continually deploy</li>
+</ul>
+<h5 id="devops-tools">DevOps tools<a class="headerlink" href="#devops-tools" title="Permanent link">&para;</a></h5>
+<p>Main categories of DevOps tools:</p>
+<ol>
+<li>Version control</li>
+<li>Build and deploy</li>
+<li>Functional and non-functional testing</li>
+<li>Platform provisioning and change management</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">Selecting DevOps tools is hard…</p>
+<p>How to choose?
+- tools that can be used by broad user types
+- tools with APIs
+- those can start small
+- Encourage learning: hold learning sessions among peers
+- Avoid special 'singleton' tools – for example avoid “production only” tool due to high licencing costs</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
