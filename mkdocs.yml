@@ -41,7 +41,8 @@ nav:
       - GCP PCAC:
           - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
-      - Benthos: automation/benthos.md
+      - ArgoCD: automation/argocd/index.md
+      - Benthos: automation/benthos/index.md
       - Grafana: automation/grafana.md
       - Instana:
           - Installation: automation/instana/installation.md

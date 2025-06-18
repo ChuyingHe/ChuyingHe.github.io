@@ -13,7 +13,7 @@ A streaming ETL service for **Data Engineering**:
 - payload agnostic: suitable for all format of data
 - logs, metrics, tracing
 
-<img src="../benthos_imgs/example.png" />
+<img src="./imgs/example.png" />
 
 
 # Start
@@ -33,7 +33,7 @@ One can also use `benthos` as a Docker container.
 
 # Architecture
 
-<img src="../benthos_imgs/architecture.png" />
+<img src="./imgs/architecture.png" />
 
 - Inputs: wrap message in a so called **Transaction**
 - Processors: one/multi **Threads**
@@ -52,7 +52,7 @@ One can also use `benthos` as a Docker container.
 - Unit Test: execute by `benthos test .`
 - Bloblang: Benthos' native mapping language
     - example
-        <img src="../benthos_imgs/bloblang.png" width=500 />
+        <img src="./imgs/bloblang.png" width=500 />
     - subcommand: 
         ```bash
         benthos blobl 'this.(article | comment | share).content'
