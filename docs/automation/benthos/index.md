@@ -40,7 +40,7 @@ One can also use `benthos` as a Docker container.
 - Outputs: to destinations
 
 !!! warning "Acknowledgement"
-    Only when the ALL tje Outputs successfully reached their goal, there will be a **Acknowledgement** send back to the data source - for instance Kafka
+    Only when the ALL the Outputs successfully reached their goal, there will be a **Acknowledgement** send back to the data source - for instance Kafka
 
 !!! note
     By default, nothing get dropped - if sth happens, the message will be send over and over again until its acknowledged.
@@ -51,7 +51,7 @@ One can also use `benthos` as a Docker container.
 
 - Unit Test: execute by `benthos test .`
 - Bloblang: Benthos' native mapping language
-    - example
+    - example: <br/>
         <img src="./imgs/bloblang.png" width=500 />
     - subcommand: 
         ```bash
