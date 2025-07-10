@@ -1,0 +1,4222 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../ansible/">
+      
+      
+        <link rel="next" href="../benthos/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
+    
+    
+      
+        <title>ArgoCD - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7a7fce14.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gitops" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ArgoCD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Administrator
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Administrator
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Hardware
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/hardware/disk/" class="md-nav__link">
+        Disk
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/linux/" class="md-nav__link">
+        Linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administrator/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Architect
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Architect
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/architectural_thinking/" class="md-nav__link">
+        Architectural Thinking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          AWS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          AWS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/aws/cp/" class="md-nav__link">
+        Cloud Practitioner
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/aws/saa/" class="md-nav__link">
+        Solution Architect Associate
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/aws/sap/" class="md-nav__link">
+        Solution Architect Professional
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          IBM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          IBM
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/ibm/security/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/ibm/storage/" class="md-nav__link">
+        Storage
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          Guide from MemiLavi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Guide from MemiLavi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-1/" class="md-nav__link">
+        1. Welcome
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-2/" class="md-nav__link">
+        2. What is a Software Architect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-3/" class="md-nav__link">
+        3. The Architect's Mindset
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-4/" class="md-nav__link">
+        4. The Architecture Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-5/" class="md-nav__link">
+        5. Working with System Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-6/" class="md-nav__link">
+        6. Types of Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-7/" class="md-nav__link">
+        7. Selecting Technology Stack
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-8/" class="md-nav__link">
+        8. Meet the *-ilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-9/" class="md-nav__link">
+        9. Components' Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-10/" class="md-nav__link">
+        10. Design Patterns
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-11/" class="md-nav__link">
+        11. System Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-12/" class="md-nav__link">
+        12. Additional Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-13/" class="md-nav__link">
+        13. Architecture Document
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-14/" class="md-nav__link">
+        14. Case Study
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-15/" class="md-nav__link">
+        15. Advanced Architecture Topics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/memi/memi-16/" class="md-nav__link">
+        16. Soft Skills
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+          Design Patterns (DP)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Design Patterns (DP)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/design_patterns/1_intro/" class="md-nav__link">
+        1. Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/design_patterns/2_creational/" class="md-nav__link">
+        2. Creational DP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/design_patterns/3_structural/" class="md-nav__link">
+        3. Structural DP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+        4. Behavioral DP
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+          GCP PCAC
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          GCP PCAC
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/gcp/1.preparation/" class="md-nav__link">
+        1. Preparation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Automation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Automation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ansible/" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          ArgoCD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        ArgoCD
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gitops" class="md-nav__link">
+    GitOps
+  </a>
+  
+    <nav class="md-nav" aria-label="GitOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-deployment-methods" class="md-nav__link">
+    Two Deployment Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    Advantages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argocd" class="md-nav__link">
+    ArgoCD
+  </a>
+  
+    <nav class="md-nav" aria-label="ArgoCD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#continual-deliverycd" class="md-nav__link">
+    Continual Delivery(CD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-argocd-help" class="md-nav__link">
+    How does ArgoCD help
+  </a>
+  
+    <nav class="md-nav" aria-label="How does ArgoCD help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    优点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-argocd-in-k8s-cluster" class="md-nav__link">
+    configure ArgoCD in k8s Cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-multiple-clusters" class="md-nav__link">
+    Working with multiple clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-multiple-environments" class="md-nav__link">
+    Working with multiple environments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding" class="md-nav__link">
+    Understanding
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    Demo
+  </a>
+  
+    <nav class="md-nav" aria-label="Demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#given-materials" class="md-nav__link">
+    Given materials
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-install-argocd-in-the-cluster" class="md-nav__link">
+    1. Install ArgoCD in the cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-argocd-application-resource" class="md-nav__link">
+    2. Configure ArgoCD Application resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-manifests" class="md-nav__link">
+    3. Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    UI
+  </a>
+  
+    <nav class="md-nav" aria-label="UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applications-view" class="md-nav__link">
+    Applications View
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronize-options-right-panel" class="md-nav__link">
+    Synchronize Options (right panel)
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronize Options (right panel)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 核心同步选项
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sync-options" class="md-nav__link">
+    2. SYNC OPTIONS（高级配置）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-synchronize-resources" class="md-nav__link">
+    3. SYNCHRONIZE RESOURCES（资源选择）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    CLI
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benthos/" class="md-nav__link">
+        Benthos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grafana/" class="md-nav__link">
+        Grafana
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+          Instana
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Instana
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/clis/" class="md-nav__link">
+        CLIs, Namespaces
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/1.jargons/" class="md-nav__link">
+        Jargons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/2.agent_sensor/" class="md-nav__link">
+        Agent, Sensor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/3.trace/" class="md-nav__link">
+        Trace, Call, Span
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/4.event/" class="md-nav__link">
+        Event, Alert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/5.api/" class="md-nav__link">
+        Integration, SKD, API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instana/theory/6.ui/" class="md-nav__link">
+        UI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../n8n/" class="md-nav__link">
+        n8n
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nodered/intro/" class="md-nav__link">
+        NodeRed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../icalBuddy/" class="md-nav__link">
+        iCalBuddy
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Bash Script
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Bash Script
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash_script/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash_script/exercises/" class="md-nav__link">
+        Exercises
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Cloud
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Cloud
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/helm/helm-1/" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_3">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_3_1" id="__nav_6_3_1_label" tabindex="0">
+          CKA
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          CKA
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-0/" class="md-nav__link">
+        Read before exam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-1/" class="md-nav__link">
+        cka-1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-3/" class="md-nav__link">
+        cka-3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-4/" class="md-nav__link">
+        cka-4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-5/" class="md-nav__link">
+        cka-5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-6/" class="md-nav__link">
+        cka-6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-7/" class="md-nav__link">
+        cka-7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-8/" class="md-nav__link">
+        8.Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-9/" class="md-nav__link">
+        cka-9
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-10/" class="md-nav__link">
+        cka-10
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-11/" class="md-nav__link">
+        cka-11
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-12/" class="md-nav__link">
+        cka-12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-13/" class="md-nav__link">
+        cka-13
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-14/" class="md-nav__link">
+        cka-14
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-15/" class="md-nav__link">
+        cka-15
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/cka/cka-16/" class="md-nav__link">
+        cka-16
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_3_2" id="__nav_6_3_2_label" tabindex="0">
+          CKAD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          CKAD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-0/" class="md-nav__link">
+        Read before exam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-1/" class="md-nav__link">
+        1.核心概念介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-2/" class="md-nav__link">
+        2.配置
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-3/" class="md-nav__link">
+        3.多容器Pod
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-4/" class="md-nav__link">
+        4.容器状态监测
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-5/" class="md-nav__link">
+        5.Pod设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-6/" class="md-nav__link">
+        6.服务与网络
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-7/" class="md-nav__link">
+        7.容器数据的可持久化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-8/" class="md-nav__link">
+        8.2021更新的考试内容
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/ckad/ckad-9/" class="md-nav__link">
+        其他
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+          OpenShift
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4">
+          <span class="md-nav__icon md-icon"></span>
+          OpenShift
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/deployment/" class="md-nav__link">
+        App Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_4_2" id="__nav_6_4_2_label" tabindex="0">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/ipi/" class="md-nav__link">
+        IPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/upi/" class="md-nav__link">
+        UPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/mirror_registry/" class="md-nav__link">
+        Mirror Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/installation/network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/internal_registry/" class="md-nav__link">
+        Internal Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/operator/" class="md-nav__link">
+        Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/pipeline/" class="md-nav__link">
+        Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_4_6" id="__nav_6_4_6_label" tabindex="0">
+          DO288
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          DO288
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/01_deploy_app/" class="md-nav__link">
+        Deploying and Managing Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/02/" class="md-nav__link">
+        2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/03/" class="md-nav__link">
+        3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/04/" class="md-nav__link">
+        4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/05/" class="md-nav__link">
+        5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/06/" class="md-nav__link">
+        6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/07/" class="md-nav__link">
+        7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do288/08/" class="md-nav__link">
+        8
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_4_7" id="__nav_6_4_7_label" tabindex="0">
+          DO280
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4_7">
+          <span class="md-nav__icon md-icon"></span>
+          DO280
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/01_manifest_kustimize/" class="md-nav__link">
+        1. Manifest & Kustomize
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/02_template_helm/" class="md-nav__link">
+        2. OC Template & Helm Chart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/03_auth/" class="md-nav__link">
+        3. Authentication and Authorization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/04_network_security/" class="md-nav__link">
+        4. Network Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/05_expose_sni_app/" class="md-nav__link">
+        5. Expose SNI Application
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/06_developer_self_service/" class="md-nav__link">
+        6. Enable Developer Self-Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/07_kubernetes_operator/" class="md-nav__link">
+        7. Kubernetes Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/08_application_security/" class="md-nav__link">
+        8. Application Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/09_oc_updates/" class="md-nav__link">
+        9. Openshift Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do280/10/" class="md-nav__link">
+        10
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_4_8" id="__nav_6_4_8_label" tabindex="0">
+          DO322
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4_8">
+          <span class="md-nav__icon md-icon"></span>
+          DO322
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/01/" class="md-nav__link">
+        1. Intro to OpenShift Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/02/" class="md-nav__link">
+        2. IPI on Cloud
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/03/" class="md-nav__link">
+        3. IPI & UPI on Virtual
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/04/" class="md-nav__link">
+        4. UPI without Infrastructure Provider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/openshift/do322/05/" class="md-nav__link">
+        5. Operations & Maintainance
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Data Scientist
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Data Scientist
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_scientist/embedding/" class="md-nav__link">
+        Embedding
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_scientist/elastic_search/" class="md-nav__link">
+        ElasticSearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design_thinking/" class="md-nav__link">
+        Design Thinking
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          DevOps
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          DevOps
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dev_ops/observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Ecommerce
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Ecommerce
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ecommerce/wordpress/" class="md-nav__link">
+        Wordpress
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Frontend
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Frontend
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+          CSS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11_1">
+          <span class="md-nav__icon md-icon"></span>
+          CSS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/css/css-in-depth/" class="md-nav__link">
+        CSS In Depth
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/css/shapes/" class="md-nav__link">
+        Shape
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/cra/" class="md-nav__link">
+        CRA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/gsap/" class="md-nav__link">
+        GSAP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/js/" class="md-nav__link">
+        JavaScript
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/nginx/" class="md-nav__link">
+        Nginx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11_6" id="__nav_11_6_label" tabindex="0">
+          React
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11_6">
+          <span class="md-nav__icon md-icon"></span>
+          React
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/hooks/" class="md-nav__link">
+        Hooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/basics/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/bugs/" class="md-nav__link">
+        Bugs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/oblivion/" class="md-nav__link">
+        Oblivion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/react/resources/" class="md-nav__link">
+        Resources
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../frontend/web_design/" class="md-nav__link">
+        Web Design
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ffmpeg/" class="md-nav__link">
+        ffmpeg
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          IDEs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          IDEs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ide/vscode/" class="md-nav__link">
+        VSCode
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+          Network
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          Network
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/ip/" class="md-nav__link">
+        IP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/loadbalancer/" class="md-nav__link">
+        LoadBalancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          Project Mgmt
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          Project Mgmt
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/agile/" class="md-nav__link">
+        Agile
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/git/" class="md-nav__link">
+        Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_mgmt/ibm_internal/" class="md-nav__link">
+        IBM PM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+          Python
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_16">
+          <span class="md-nav__icon md-icon"></span>
+          Python
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/grammars/" class="md-nav__link">
+        Grammars
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/fastapi/" class="md-nav__link">
+        FastAPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/oblivion/" class="md-nav__link">
+        Oblivion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/dependencies/" class="md-nav__link">
+        Use dependencies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/build_dependency/" class="md-nav__link">
+        Build Own Dependency
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/virtual_env/" class="md-nav__link">
+        Virtual environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../regex/" class="md-nav__link">
+        Regex
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          Sketch
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_18">
+          <span class="md-nav__icon md-icon"></span>
+          Sketch
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sketch/procreate/" class="md-nav__link">
+        Procreate
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          Working Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_19">
+          <span class="md-nav__icon md-icon"></span>
+          Working Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../working_notes/01_2025/" class="md-nav__link">
+        202501
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gitops" class="md-nav__link">
+    GitOps
+  </a>
+  
+    <nav class="md-nav" aria-label="GitOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-deployment-methods" class="md-nav__link">
+    Two Deployment Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    Advantages
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argocd" class="md-nav__link">
+    ArgoCD
+  </a>
+  
+    <nav class="md-nav" aria-label="ArgoCD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#continual-deliverycd" class="md-nav__link">
+    Continual Delivery(CD)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-argocd-help" class="md-nav__link">
+    How does ArgoCD help
+  </a>
+  
+    <nav class="md-nav" aria-label="How does ArgoCD help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    优点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-argocd-in-k8s-cluster" class="md-nav__link">
+    configure ArgoCD in k8s Cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#working-with-multiple-clusters" class="md-nav__link">
+    Working with multiple clusters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-multiple-environments" class="md-nav__link">
+    Working with multiple environments
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding" class="md-nav__link">
+    Understanding
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    Demo
+  </a>
+  
+    <nav class="md-nav" aria-label="Demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#given-materials" class="md-nav__link">
+    Given materials
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-install-argocd-in-the-cluster" class="md-nav__link">
+    1. Install ArgoCD in the cluster
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-argocd-application-resource" class="md-nav__link">
+    2. Configure ArgoCD Application resource
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-manifests" class="md-nav__link">
+    3. Manifests
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    UI
+  </a>
+  
+    <nav class="md-nav" aria-label="UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#applications-view" class="md-nav__link">
+    Applications View
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronize-options-right-panel" class="md-nav__link">
+    Synchronize Options (right panel)
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronize Options (right panel)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 核心同步选项
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sync-options" class="md-nav__link">
+    2. SYNC OPTIONS（高级配置）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-synchronize-resources" class="md-nav__link">
+    3. SYNCHRONIZE RESOURCES（资源选择）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    CLI
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>ArgoCD</h1>
+
+<h3 id="gitops">GitOps<a class="headerlink" href="#gitops" title="Permanent link">&para;</a></h3>
+<p><a href="https://www.youtube.com/watch?v=f5EpcWp0THw&amp;ab_channel=TechWorldwithNana">reference</a></p>
+<div class="admonition info">
+<p class="admonition-title">X as Code</p>
+<ul>
+<li>Infrastructure as Code</li>
+<li>Network as Code</li>
+<li>Policy as Code</li>
+<li>Configuration as Code</li>
+<li>Security as Code</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">How it works?</p>
+<ol>
+<li><strong>X as Code</strong> on Git repo</li>
+<li>Engineer create the <u>Pull Request</u></li>
+<li>Run <strong>CI Pipeline</strong>:<ul>
+<li>validates the manifest files</li>
+<li>run automated tests</li>
+</ul>
+</li>
+<li>Another Engineer review and approve <u>Pull Request</u></li>
+<li><strong>CD Pipeline</strong> deployes the changes to the Infrastructure --&gt; instead of running <code>kubectl apply -f xxx.yaml</code> on your local computer</li>
+</ol>
+</div>
+<h4 id="two-deployment-methods">Two Deployment Methods<a class="headerlink" href="#two-deployment-methods" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Push Deployment</strong>: tranditional, the Pipeline executes command and deploys the new version to the Infrastructure <ul>
+<li>Jenkins, Gitlab CICD</li>
+</ul>
+</li>
+<li><strong>Pull Deployment</strong>: an <strong>Agent</strong> installed in the Infrastructure(such as a K8S cluster), and it actively pulls changes from Git Repo. The <strong>Agent</strong> compares <u>desired state (in git repo)</u> and the <u>actual state(in Infrastructure)</u><ul>
+<li>FluxCD</li>
+<li>ArgoCD</li>
+</ul>
+</li>
+</ul>
+<p><img src="./imgs/gitops.png" width=600 /></p>
+<h4 id="advantages">Advantages<a class="headerlink" href="#advantages" title="Permanent link">&para;</a></h4>
+<ul>
+<li>easy rollback</li>
+<li>single source of truth</li>
+<li>increases security by limiting access: <ul>
+<li>CD Pipeline deploys the changes, NOT any team member</li>
+<li>team member only <u>propose</u> changes</li>
+</ul>
+</li>
+</ul>
+<h3 id="argocd">ArgoCD<a class="headerlink" href="#argocd" title="Permanent link">&para;</a></h3>
+<p><a href="https://www.youtube.com/watch?v=MeU5_k9ssrs&amp;pp=ygUGYXJnb2Nk">reference</a></p>
+<h4 id="continual-deliverycd">Continual Delivery(CD)<a class="headerlink" href="#continual-deliverycd" title="Permanent link">&para;</a></h4>
+<p>How does Continual Delivery(CD) Tool like <strong>Jenkins</strong> and <strong>GitlabCICD</strong> work?</p>
+<p><img src="./imgs/cicd_without_argo.png" width=600/></p>
+<p>Disadvantages:</p>
+<ol>
+<li>Extra tool: besides <strong>Jenkins</strong>, need to <u>install &amp; setup tools</u> like <code>kubectl</code></li>
+<li>Security challenge: <strong>Jenkins</strong> need access to k8s (and platform if the cluster is on cloud - such as AWS)</li>
+<li>once deployed, <strong>Jenkins</strong> doesn't know the deployment status</li>
+</ol>
+<p>--&gt; ArgoCD is targeting to improve the problematic CD process</p>
+<h4 id="how-does-argocd-help">How does ArgoCD help<a class="headerlink" href="#how-does-argocd-help" title="Permanent link">&para;</a></h4>
+<p>ArgoCD reverse the flow - use <strong>Pull Deployment</strong>.</p>
+<ol>
+<li>Deploy <strong>ArgoCD</strong> in K8s cluster</li>
+<li>Configure <strong>ArgoCD</strong> to track Git repository</li>
+<li><strong>ArgoCD</strong> monitors for any changes and applies automatically</li>
+</ol>
+<p><img src="./imgs/cicd_with_argo.png" width=600/></p>
+<div class="admonition info">
+<p class="admonition-title">Manifests</p>
+<p>ArgoCD supports different manifests:</p>
+<ul>
+<li>Kubernetes YAML file</li>
+<li>Helm Charts</li>
+<li>Kustomize</li>
+</ul>
+<p>... and other <u>template files</u> that generate K8s manifests</p>
+</div>
+<h5 id="_1">优点<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h5>
+<ol>
+<li>
+<p>Separate CI and CD:</p>
+<p><img src="./imgs/ci_cd.png" width=600/></p>
+</li>
+<li>
+<p>Separate git repository for:</p>
+<ul>
+<li>App source code </li>
+<li>App confguration (K8s manifest files) </li>
+<li>[Optional] system configurations</li>
+</ul>
+</li>
+<li>
+<p>Configuration as Code in git repo 
+    --&gt; <strong>Single Source of Truth</strong> 
+    --&gt; ONLY way to change is to update the git repo</p>
+</li>
+<li>Config Files are not manually <code>k8s apply -f xxx.yaml</code> from local laptops</li>
+<li>Better tea collaboration with <code>merge request</code></li>
+<li>Easier access control:<ul>
+<li>Configuration in repo:<ul>
+<li>all can make <u>pull request</u></li>
+<li>ONLY Senior can <u>approve &amp; merge</u></li>
+</ul>
+</li>
+<li>Access to K8s Cluster:<ul>
+<li>optional access for human</li>
+<li>no external access for tools such as Jenkins </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>easy rollback: <code>git revert</code></li>
+<li>easy Cluster Disaster Recovery</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">What happens if so updates the cluster manually?</p>
+<p>ArgoCD compares:</p>
+<ul>
+<li>desired configuration in Git repo</li>
+<li>actual state in Cluster</li>
+</ul>
+<p>--&gt; ArgoCD will overwrites the manual configuration!</p>
+</div>
+<h4 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h4>
+<p><img src="./imgs/summary.png" width=600/></p>
+<h4 id="configure-argocd-in-k8s-cluster">configure ArgoCD in k8s Cluster<a class="headerlink" href="#configure-argocd-in-k8s-cluster" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Deploy ArgoCD into K8s Cluster - it extends K8s API with CRD</li>
+<li>Define ArgoCD resources (in YAML):<ol>
+<li><code>Application</code>
+    <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/vlalphal</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"> </span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-argo-application</span>
+<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argocd</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://gitlab.com/nanuchi/argocd-app-config.git</span>
+<span class="w">        </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HEAD</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">destination</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://kubernetes.default.svc</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">    </span><span class="nt">syncPolicy</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">syncOptions</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CreateNamespace=true</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">automated</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">selfHeal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">prune</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div></li>
+<li><code>AppProject</code>: to group <code>Applications</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<h4 id="working-with-multiple-clusters">Working with multiple clusters<a class="headerlink" href="#working-with-multiple-clusters" title="Permanent link">&para;</a></h4>
+<p>To manager multiple cluster, we JUST need to configure and manger 1 ArgoCD - the same instance is able to sync among multiple K8s clusters</p>
+<h4 id="working-with-multiple-environments">Working with multiple environments<a class="headerlink" href="#working-with-multiple-environments" title="Permanent link">&para;</a></h4>
+<p>Background: there are <code>dev</code>, <code>staging</code> and <code>production</code> environments. I want to test the configuration in Git repo in this order: <code>dev</code> -&gt; <code>staging</code> -&gt; <code>production</code>. 两种方法来实现:</p>
+<ol>
+<li>Git branch for each environment
+    <img src="./imgs/multi_envs.png" width=600 /></li>
+<li>Use overlays with kustomize. such as:
+    <div class="highlight"><pre><span></span><code>./myapp-cluster
+<span class="w">    </span>├──base
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>deployment.yaml
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>kustomization.yaml
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>rbac.yaml
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>service.yaml
+<span class="w">    </span>└──<span class="w"> </span>overlays
+<span class="w">        </span>├──<span class="w"> </span>development
+<span class="w">        </span>│<span class="w">   </span>└──<span class="w"> </span>kustomization.yaml
+<span class="w">        </span>├──<span class="w"> </span>staging
+<span class="w">        </span>│<span class="w">   </span>└──<span class="w"> </span>kustomization.yaml
+<span class="w">        </span>└──<span class="w"> </span>production
+<span class="w">            </span>└──<span class="w"> </span>kustomization.yaml
+</code></pre></div></li>
+</ol>
+<h3 id="understanding">Understanding<a class="headerlink" href="#understanding" title="Permanent link">&para;</a></h3>
+<ul>
+<li>ArgoCD, as a CD tool, will not replace the CI tools such as Jenkins.</li>
+<li>ArgoCD is a CD tool for K8s, for other platform you need to find other tools</li>
+<li>ArgoCD is not the unique CD tools for K8s - fluxCD, JenkinsX are alternatives</li>
+</ul>
+<h3 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link">&para;</a></h3>
+<h4 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">&para;</a></h4>
+<p>to setup a fully automated CD pipeline.</p>
+<h4 id="given-materials">Given materials<a class="headerlink" href="#given-materials" title="Permanent link">&para;</a></h4>
+<ul>
+<li>built images with different versions: <a href="https://hub.docker.com/r/nanajanashia/argocd-app/tags">nanajanashia/argocd-app</a> --&gt; a CI Pipeline has already been run through</li>
+<li>minikube cluster on your local PC
+    <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>minikube
+
+<span class="c1"># verify</span>
+which<span class="w"> </span>minikube
+
+minikube<span class="w"> </span>start
+minikube<span class="w"> </span>status
+
+kubectl<span class="w"> </span>get<span class="w"> </span>po<span class="w"> </span>-A
+minikube<span class="w"> </span>dashboard
+</code></pre></div></li>
+</ul>
+<h4 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h4>
+<h5 id="1-install-argocd-in-the-cluster">1. Install ArgoCD in the cluster<a class="headerlink" href="#1-install-argocd-in-the-cluster" title="Permanent link">&para;</a></h5>
+<p><a href="https://argo-cd.readthedocs.io/en/stable/getting_started/">reference</a>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>argocd
+kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+<span class="c1"># Use the ARM-compatible manifest (v2.4+ has better ARM support)</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/argoproj/argo-cd/v2.10.0/manifests/install.yaml
+
+<span class="c1"># verify</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>argocd
+
+<span class="c1"># check service &quot;argocd-server&quot; to access the argoCD UI</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>argocd
+<span class="c1"># port-forwarding to 127.0.0.1:8080 -&gt; proceed anyway</span>
+kubectl<span class="w"> </span>port-forward<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>svc/argocd-server<span class="w"> </span><span class="m">8080</span>:443
+</code></pre></div></p>
+<p>use credential to login to ArgoCD UI:</p>
+<ul>
+<li>Username: <code>admin</code></li>
+<li>Password: get it from:
+    <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>argocd-initial-admin-secret<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>-o<span class="w"> </span>yaml
+<span class="c1"># decode password with base64</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">TkxxSSSXZ</span><span class="o">==</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
+</code></pre></div></li>
+</ul>
+<h5 id="2-configure-argocd-application-resource">2. Configure ArgoCD <code>Application</code> resource<a class="headerlink" href="#2-configure-argocd-application-resource" title="Permanent link">&para;</a></h5>
+<ol>
+<li>Create ArgoCD <code>Application</code> resource:
+    <div class="highlight"><pre><span></span><code>apiVersion:<span class="w"> </span>argoproj.io/v1alpha1
+kind:<span class="w"> </span>Application
+metadata:
+<span class="w">    </span>name:<span class="w"> </span>myapp-argo-application
+<span class="w">    </span>namespace:<span class="w"> </span>argocd
+spec:
+<span class="w">    </span>project:<span class="w"> </span>default
+<span class="w">    </span><span class="c1"># (1) Source: a git repository where the configurations are save</span>
+<span class="w">    </span>source:
+<span class="w">        </span>repoURL:<span class="w"> </span>https://gitlab.com/nanuchi/argocd-app-config.git
+<span class="w">        </span>targetRevision:<span class="w"> </span>HEAD<span class="w"> </span><span class="c1"># &lt;-- always the last commit</span>
+<span class="w">        </span>path:<span class="w"> </span>dev
+<span class="w">    </span><span class="c1"># (2) Target: a K8s cluster where the configurations will be apply to</span>
+<span class="w">    </span>destination:
+<span class="w">        </span><span class="c1"># since ArgoCD is running INSIDE k8s cluster, we can put the DNS - an internal svc named &quot;kubernetes&quot;</span>
+<span class="w">        </span>server:<span class="w"> </span>https://kubernetes.default.svc
+<span class="w">        </span><span class="c1"># where you want to deploy the current manifest - if not &quot;default&quot; then you need to specify</span>
+<span class="w">        </span>namespace:<span class="w"> </span>myapp
+
+<span class="w">    </span>syncPolicy:
+<span class="w">        </span>syncOptions:
+<span class="w">        </span>-<span class="w"> </span><span class="nv">CreateNamespace</span><span class="o">=</span><span class="nb">true</span><span class="w">  </span><span class="c1"># this auto-generates NS myapp if not exist</span>
+
+<span class="w">        </span><span class="c1"># 1. Enable sync</span>
+<span class="w">            </span><span class="c1"># 2. Enable auto self-healing: undo/overwrite all, by default its False</span>
+<span class="w">            </span><span class="c1"># 3. Enable auto pruning manual changes</span>
+<span class="w">        </span>automated:
+<span class="w">            </span>selfHeal:<span class="w"> </span><span class="nb">true</span><span class="w"> </span>
+<span class="w">            </span>prune:<span class="w"> </span><span class="nb">true</span>
+</code></pre></div></li>
+<li>Push the <code>application.yaml</code> to Git repo</li>
+<li><code>kubectl apply -f application.yaml</code> to generate resource</li>
+<li>Now you can see the deployed application in the UI:
+    <img src="./imgs/argocd_ui_application.png" width=600 /></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li>by default, ArgoCD pulls git repo <strong>every 3 mins</strong></li>
+<li>to get rid of the delay, you can configure a <strong>Git Webhook</strong></li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>Every <code>Application</code> belongs to a single project</li>
+</ul>
+</div>
+<p>这个Application会查看<a href="https://gitlab.com/nanuchi/argocd-app-config">git repo</a>中的configuration 代码 - 这里指的是<code>dev/deployment.yaml</code>和<code>dev/service.yaml</code> </p>
+<h5 id="3-manifests">3. Manifests<a class="headerlink" href="#3-manifests" title="Permanent link">&para;</a></h5>
+<p>如果要修改Manifests，则直接修改repo中的yaml文件，push到repo中，修改会被ArgoCD自动更新</p>
+<h3 id="ui">UI<a class="headerlink" href="#ui" title="Permanent link">&para;</a></h3>
+<h4 id="applications-view">Applications View<a class="headerlink" href="#applications-view" title="Permanent link">&para;</a></h4>
+<p><img src="./imgs/argocd_ui_app_list.png" width=600 /></p>
+<ul>
+<li><strong>Sync</strong> The process of making an application move to its target state. E.g. by applying changes to a Kubernetes cluster.</li>
+<li><strong>Refresh</strong> Compare the latest code in Git with the live state. Figure out what is different.</li>
+</ul>
+<h4 id="synchronize-options-right-panel">Synchronize Options (right panel)<a class="headerlink" href="#synchronize-options-right-panel" title="Permanent link">&para;</a></h4>
+<p><img src="./imgs/argocd_ui_sync.png" width=500 /></p>
+<h5 id="1">1. 核心同步选项<a class="headerlink" href="#1" title="Permanent link">&para;</a></h5>
+<ul>
+<li><strong>PRUNE</strong>: 删除 Git 中已移除但集群中仍存在的资源（垃圾回收）。<br/>
+    --&gt; ⚠️ 若误用可能导致意外删除关键资源（需谨慎启用）。</li>
+<li><strong>DRY RUN</strong>: 模拟同步过程，仅显示变更（如创建/更新/删除的资源），但不会实际执行。<br/>
+    --&gt; 适用场景：验证变更是否符合预期。</li>
+<li><strong>APPLY ONLY</strong>: 仅应用当前差异的资源，不执行同步其他操作（如不触发 Hook 或健康检查）。<br/>
+    --&gt; 适用场景：快速修复部分资源，跳过完整同步流程。</li>
+<li><strong>FORCE</strong>: 强制覆盖集群状态（即使存在冲突或保护机制）。<br/>
+    --&gt; ⚠️ 可能破坏一致性，仅用于解决特定冲突（如资源被手动修改过）。</li>
+</ul>
+<h5 id="2-sync-options">2. SYNC OPTIONS（高级配置）<a class="headerlink" href="#2-sync-options" title="Permanent link">&para;</a></h5>
+<ul>
+<li><strong>SKIP SCHEMA VALIDATION</strong>: 跳过 Kubernetes 资源 Schema 校验（如 CRD 未定义时）。<br/>
+    --&gt; 适用场景：部署自定义资源时遇到校验错误。</li>
+<li><strong>AUTO-CREATE NAMESPACE</strong>: 若资源指定的命名空间不存在，自动创建它。<br/>
+    --&gt; 注意：需确保 ArgoCD 有创建命名空间的权限。</li>
+<li><strong>PRUNE LAST</strong>: 在同步完成后才删除旧资源（而非过程中）。<br/>
+    --&gt; 优势：避免删除依赖项导致应用中断（如先创建新 Pod 再删除旧的）。</li>
+<li><strong>APPLY OUT OF SYNC ONLY</strong>: 仅同步与 Git 状态不一致的资源，跳过已同步的资源。<br/>
+    --&gt; 优势：减少不必要的 API 调用。</li>
+<li><strong>RESPECT IGNORE DIFFERENCES</strong>: 遵守 argocd.argoproj.io/ignore-differences 注解（如忽略特定字段的差异）。<br/>
+    --&gt; 适用场景：避免因动态字段（如镜像 SHA）触发同步。</li>
+<li><strong>SERVER-SIDE APPLY</strong>: 使用 Kubernetes 的 Server-Side Apply 机制（而非 <code>kubectl apply</code>）。<br/>
+    --&gt; 优势：更好地处理字段所有权冲突。</li>
+<li>
+<p><strong>PRUNE PROPAGATION POLICY</strong>: 控制删除资源的传播策略：</p>
+<ul>
+<li>foreground：等待依赖资源删除后再删除父资源（默认）。</li>
+<li>background：立即删除，后台清理依赖。</li>
+<li>orphan：保留依赖资源（不删除）。</li>
+<li><strong>REPLACE</strong>: 用 kubectl replace 而非 apply（强制替换资源）。<br/>
+--&gt; ⚠️ 可能丢失未被 Git 管理的字段。</li>
+<li><strong>RETRY</strong>: 自动重试失败的同步操作（需配置重试次数/间隔）。</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-synchronize-resources">3. SYNCHRONIZE RESOURCES（资源选择）<a class="headerlink" href="#3-synchronize-resources" title="Permanent link">&para;</a></h5>
+<ul>
+<li><strong>ALL</strong>：同步所有资源（无论是否差异）。</li>
+<li><strong>OUT OF SYNC</strong>：仅同步与 Git 有差异的资源（默认推荐）。</li>
+<li><strong>NONE</strong>：手动选择要同步的资源（需在下方勾选）。</li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>注意：若选择 NONE 但未勾选任何资源，同步按钮会失效。</p>
+</div>
+<h3 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>argocd<span class="w"> </span>app<span class="w"> </span>get<span class="w"> </span>myapp
+argocd<span class="w"> </span>app<span class="w"> </span>sync<span class="w"> </span>guestbook
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.407015b8.min.js"></script>
+      
+    
+  </body>
+</html>
