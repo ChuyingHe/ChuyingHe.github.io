@@ -214,6 +214,8 @@ to setup a fully automated CD pipeline.
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# Use the ARM-compatible manifest (v2.4+ has better ARM support)
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.10.0/manifests/install.yaml
 
 # verify
 kubectl get pods -n argocd
@@ -224,7 +226,7 @@ kubectl get svc -n argocd
 kubectl port-forward -n argocd svc/argocd-server 8080:443
 ```
 
-use credentail to login to ArgoCD UI:
+use credential to login to ArgoCD UI:
 
 - Username: `admin`
 - Password: get it from:
@@ -288,3 +290,67 @@ use credentail to login to ArgoCD UI:
 
 ### 3. Manifests
 如果要修改Manifests，则直接修改repo中的yaml文件，push到repo中，修改会被ArgoCD自动更新
+
+# UI
+
+
+
+## Applications View
+<img src="./imgs/argocd_ui_app_list.png" width=600 />
+
+- **Sync** The process of making an application move to its target state. E.g. by applying changes to a Kubernetes cluster.
+- **Refresh** Compare the latest code in Git with the live state. Figure out what is different.
+
+## Synchronize Options (right panel)
+<img src="./imgs/argocd_ui_sync.png" width=500 />
+
+### 1. 核心同步选项
+
+- **PRUNE**: 删除 Git 中已移除但集群中仍存在的资源（垃圾回收）。<br/>
+    --> ⚠️ 若误用可能导致意外删除关键资源（需谨慎启用）。
+- **DRY RUN**: 模拟同步过程，仅显示变更（如创建/更新/删除的资源），但不会实际执行。<br/>
+    --> 适用场景：验证变更是否符合预期。
+- **APPLY ONLY**: 仅应用当前差异的资源，不执行同步其他操作（如不触发 Hook 或健康检查）。<br/>
+    --> 适用场景：快速修复部分资源，跳过完整同步流程。
+- **FORCE**: 强制覆盖集群状态（即使存在冲突或保护机制）。<br/>
+    --> ⚠️ 可能破坏一致性，仅用于解决特定冲突（如资源被手动修改过）。
+
+### 2. SYNC OPTIONS（高级配置）
+
+
+- **SKIP SCHEMA VALIDATION**: 跳过 Kubernetes 资源 Schema 校验（如 CRD 未定义时）。<br/>
+    --> 适用场景：部署自定义资源时遇到校验错误。
+- **AUTO-CREATE NAMESPACE**: 若资源指定的命名空间不存在，自动创建它。<br/>
+    --> 注意：需确保 ArgoCD 有创建命名空间的权限。
+- **PRUNE LAST**: 在同步完成后才删除旧资源（而非过程中）。<br/>
+    --> 优势：避免删除依赖项导致应用中断（如先创建新 Pod 再删除旧的）。
+- **APPLY OUT OF SYNC ONLY**: 仅同步与 Git 状态不一致的资源，跳过已同步的资源。<br/>
+    --> 优势：减少不必要的 API 调用。
+- **RESPECT IGNORE DIFFERENCES**: 遵守 argocd.argoproj.io/ignore-differences 注解（如忽略特定字段的差异）。<br/>
+    --> 适用场景：避免因动态字段（如镜像 SHA）触发同步。
+- **SERVER-SIDE APPLY**: 使用 Kubernetes 的 Server-Side Apply 机制（而非 `kubectl apply`）。<br/>
+    --> 优势：更好地处理字段所有权冲突。
+- **PRUNE PROPAGATION POLICY**: 控制删除资源的传播策略：
+
+    - foreground：等待依赖资源删除后再删除父资源（默认）。
+    - background：立即删除，后台清理依赖。
+    - orphan：保留依赖资源（不删除）。
+- **REPLACE**: 用 kubectl replace 而非 apply（强制替换资源）。<br/>
+    --> ⚠️ 可能丢失未被 Git 管理的字段。
+- **RETRY**: 自动重试失败的同步操作（需配置重试次数/间隔）。
+
+### 3. SYNCHRONIZE RESOURCES（资源选择）
+
+- **ALL**：同步所有资源（无论是否差异）。
+- **OUT OF SYNC**：仅同步与 Git 有差异的资源（默认推荐）。
+- **NONE**：手动选择要同步的资源（需在下方勾选）。
+
+!!! danger 
+    注意：若选择 NONE 但未勾选任何资源，同步按钮会失效。
+
+# CLI
+```bash
+argocd app get myapp
+argocd app sync guestbook
+
+```

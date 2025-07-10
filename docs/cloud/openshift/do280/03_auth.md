@@ -9,6 +9,16 @@
 
 ## Users
 
+### Identity 是外部身份的表示
+
+`Identity` 代表的是 OpenShift 外部认证源（如 OAuth、LDAP、GitHub、Google 等）中某个用户的登录凭据。 一个 `Identity` 通常由以下两部分组成：
+
+- `providerName`（认证提供者名称，如 github、ldap）
+- `providerUserName`（在该提供者下的用户名）
+
+合起来构成一个唯一的 `Identity`，例如：`github:alice`
+
+
 !!! note "identity"
     ```bash
     > oc get identity
@@ -23,6 +33,17 @@
     - `IDP USER NAME`: 用户在 IDP 认证系统中的唯一标识。
     - `USER NAME`: 该 identity 在 OpenShift 中映射到的**user**名
     - `USER UID`: 该 identity 在 OpenShift 中映射到的用户的唯一标识符（UID）。
+
+
+### User 是 OpenShift 内部的用户对象
+User 是 OpenShift 中用于进行权限控制（RBAC）的实体，它代表一个登录用户，并与权限（如 RoleBinding）相关联。在 OpenShift 内部进行权限分配、资源访问等操作的基础单位。
+
+### User 与 Identity 的关系
+一个 User 可以对应 多个 Identity(1:n)，比如同一个人可以用 GitHub 登录、也可以用 LDAP 登录，系统可以将这两个 Identity 绑定到同一个 User。比如：
+```text
+User: johnDoe   --->  Identity: ldap:johnDoe
+User: johnDoe   --->  Identity: github:johnDoe
+```
 
 ### Types
 

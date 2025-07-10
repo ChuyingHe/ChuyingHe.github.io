@@ -41,6 +41,7 @@ nav:
       - GCP PCAC:
           - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
+      - Ansible: automation/ansible/index.md
       - ArgoCD: automation/argocd/index.md
       - Benthos: automation/benthos/index.md
       - Grafana: automation/grafana.md
@@ -53,11 +54,9 @@ nav:
           - Event, Alert: automation/instana/theory/4.event.md
           - Integration, SKD, API: automation/instana/theory/5.api.md
           - UI: automation/instana/theory/6.ui.md
-      - n8n:
-          - Introduction: automation/n8n/index.md
-      - NodeRed:
-          - Introduction: automation/nodered/intro.md
-      - iCalBuddy: automation/iCalBuddy.md
+      - n8n: automation/n8n/index.md
+      - NodeRed: automation/nodered/intro.md
+      - iCalBuddy: automation/icalBuddy.md
   - Bash Script:
       - Basics: bash_script/index.md
       - Exercises: bash_script/exercises.md
