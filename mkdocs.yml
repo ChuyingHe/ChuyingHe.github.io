@@ -44,7 +44,6 @@ nav:
       - Ansible: automation/ansible/index.md
       - ArgoCD: automation/argocd/index.md
       - Benthos: automation/benthos/index.md
-      - Grafana: automation/grafana.md
       - Instana:
           - Installation: automation/instana/installation.md
           - CLIs, Namespaces: automation/instana/clis.md
@@ -92,6 +91,7 @@ nav:
               - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
               - 其他: cloud/k8s/ckad/ckad-9.md
+      - Podman: cloud/podman/index.md
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
           - Installation:
@@ -155,6 +155,9 @@ nav:
   - ffmpeg: ffmpeg/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
+  - Monitoring:
+      - Grafana: monitoring/grafana.md
+      - Prometheus: monitoring/prometheus/index.md
   - Network:
       - IP: network/ip.md
       - LoadBalancer: network/loadbalancer.md
