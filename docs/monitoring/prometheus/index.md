@@ -92,13 +92,37 @@ Prometheus has the component **AlertManager**. It defines:
 
 <img src="./imgs/alert_manager.png" />
 
+
+The UI includes following menu:
+
+- Alerts
+    - 显示当前触发的所有告警，包括状态（如 firing、resolved）、标签、注解等信息。
+    - 可以查看告警的详细信息，并快速创建对应的 Silence。
+- Silences
+    - 管理静默规则，用于临时或永久抑制特定告警的通知。
+    - 可以创建、编辑、删除或查看静默规则的生效状态。
+- Status
+    - 显示 Alertmanager 的运行状态，包括配置版本、集群状态（如 HA 模式下的节点健康状态）等。
+    - 用于监控 Alertmanager 自身的健康状况。
+- Settings
+    - 配置全局设置，如通知模板、接收器（Receiver）的路由规则等。
+    - 通常需要权限才能修改。
+- Help
+    - 提供 Alertmanager 的文档链接或使用帮助信息。
+
+<img src="./imgs/alert_manager_ui.png" />
+
 ## Data Storage
 to collect and store the data
 
 <img src="./imgs/data_storage.png" />
 
 ### query data
-to query the data, we use **PromQL**
+to query the data, we use **PromQL**.
+
+for visialization there are 2 possibilities:
+- Prometheus UI
+- Grafana visualization
 
 <img src="./imgs/query_data.png" />
 
