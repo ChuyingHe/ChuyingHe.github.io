@@ -76,3 +76,94 @@ _helpers.tpl 是 Helm Chart 中的一个辅助模板文件，通常用来定义�
 ## 4. Go Template
 ## 5. Managing Chart Dependencies
 ## 6. Advanced Topics
+### Template Functions
+[](https://helm.sh/docs/chart_template_guide/function_list/#helm)
+
+!!! note "example: list"
+    different `myChart/templates/sandbox.yaml` and the results of `helm template .`
+
+    1
+    ```yaml
+    list: {{ list 1 2 3 }}
+    ```
+    
+    ```txt
+    # result:
+    list: [1 2 3]
+    ```
+
+    2
+    ```yaml
+    list: {{ list 1 2 3 | toYaml }}
+    ```
+    ```txt
+    # result:
+    Error: YAML parse error on templating-deep-dive/templates/sandbo x-yaml: error converting YAML to JSON: 
+    yaml: block sequence entries are not allowed in this context
+    
+    它不够不会自动换行！所以你得到的是：
+    list: - 1
+    - 2
+    - 3
+    ```
+
+    3
+    ```yaml
+    list: 
+    {{ list 1 2 3 | toYaml }}
+    ```
+
+    ```txt
+    # result:
+    list:
+    - 1
+    - 2
+    - 3
+    ```
+
+    4
+    ```yaml
+    list: {{ toYaml (list 1 2 3) | nindent 2 }}
+    # or
+    list: {{ list 1 2 3 | toYaml | nindent 2 }}
+    ```
+    ```txt
+    # result:
+    list:
+        - 1
+        - 2
+        - 3
+    ```
+    这里不用手动换行，因为 `nindent` 函数自动给结果前加上 newline
+
+### Named Template
+to avoid duplication by reuse pre-defined **Named Templates**.
+
+> all files under `templates/` and has `_` in the beginning will NOT be rendered as Kubernetes manifests --> they are the ** **template files**
+
+
+There are 3 **actions** (`define`, `template`, `block`) and 1 **function** (`include`):
+
+#### define
+to create a **Named Templates** inside of a template file. Usually the name of the Named Template starts with `[ChartName].`
+
+```tpl
+{{- define "MY.NAME" }}
+  # body of template here
+{{- end }}
+```
+
+
+#### template
+#### block
+#### include
+to use the **Named Templates**
+
+```yaml
+{{ include $str $ctx }}
+```
+
+- $str: identifier of the **Named Templates**
+- $ctx: context:
+    - `{{ include "MY.NAME" . }}` means all information in current context
+    - `{{ include "MY.NAME" .Values }}` means ONLY the value.yaml
