@@ -9,24 +9,24 @@
       
       
       
-        <link rel="prev" href="../../docker/">
+        <link rel="prev" href="../k8s/ckad/ckad-9/">
       
       
-        <link rel="next" href="../../k8s/cka/cka-0/">
+        <link rel="next" href="../podman/">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
     
     
       
-        <title>Helm - Chuying's notebook</title>
+        <title>Minikube - Chuying's notebook</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.7a7fce14.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7a7fce14.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -42,9 +42,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#create-check" class="md-skip">
+        <a href="#restart" class="md-skip">
           Skip to content
         </a>
       
@@ -85,7 +85,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Helm
+              Minikube
             
           </span>
         </div>
@@ -171,7 +171,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+    <a href="../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -190,7 +190,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -259,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../administrator/hardware/disk/" class="md-nav__link">
+      <a href="../../administrator/hardware/disk/" class="md-nav__link">
         Disk
       </a>
     </li>
@@ -280,7 +280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../administrator/linux/" class="md-nav__link">
+      <a href="../../administrator/linux/" class="md-nav__link">
         Linux
       </a>
     </li>
@@ -294,7 +294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../administrator/infrastructure/" class="md-nav__link">
+      <a href="../../administrator/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
     </li>
@@ -343,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/architectural_thinking/" class="md-nav__link">
+      <a href="../../architect/architectural_thinking/" class="md-nav__link">
         Architectural Thinking
       </a>
     </li>
@@ -384,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/aws/cp/" class="md-nav__link">
+      <a href="../../architect/aws/cp/" class="md-nav__link">
         Cloud Practitioner
       </a>
     </li>
@@ -398,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/aws/saa/" class="md-nav__link">
+      <a href="../../architect/aws/saa/" class="md-nav__link">
         Solution Architect Associate
       </a>
     </li>
@@ -412,7 +412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/aws/sap/" class="md-nav__link">
+      <a href="../../architect/aws/sap/" class="md-nav__link">
         Solution Architect Professional
       </a>
     </li>
@@ -460,7 +460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/ibm/security/" class="md-nav__link">
+      <a href="../../architect/ibm/security/" class="md-nav__link">
         Security
       </a>
     </li>
@@ -474,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/ibm/storage/" class="md-nav__link">
+      <a href="../../architect/ibm/storage/" class="md-nav__link">
         Storage
       </a>
     </li>
@@ -522,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-1/" class="md-nav__link">
+      <a href="../../architect/memi/memi-1/" class="md-nav__link">
         1. Welcome
       </a>
     </li>
@@ -536,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-2/" class="md-nav__link">
+      <a href="../../architect/memi/memi-2/" class="md-nav__link">
         2. What is a Software Architect
       </a>
     </li>
@@ -550,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-3/" class="md-nav__link">
+      <a href="../../architect/memi/memi-3/" class="md-nav__link">
         3. The Architect's Mindset
       </a>
     </li>
@@ -564,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-4/" class="md-nav__link">
+      <a href="../../architect/memi/memi-4/" class="md-nav__link">
         4. The Architecture Process
       </a>
     </li>
@@ -578,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-5/" class="md-nav__link">
+      <a href="../../architect/memi/memi-5/" class="md-nav__link">
         5. Working with System Requirements
       </a>
     </li>
@@ -592,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-6/" class="md-nav__link">
+      <a href="../../architect/memi/memi-6/" class="md-nav__link">
         6. Types of Applications
       </a>
     </li>
@@ -606,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-7/" class="md-nav__link">
+      <a href="../../architect/memi/memi-7/" class="md-nav__link">
         7. Selecting Technology Stack
       </a>
     </li>
@@ -620,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-8/" class="md-nav__link">
+      <a href="../../architect/memi/memi-8/" class="md-nav__link">
         8. Meet the *-ilities
       </a>
     </li>
@@ -634,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-9/" class="md-nav__link">
+      <a href="../../architect/memi/memi-9/" class="md-nav__link">
         9. Components' Architecture
       </a>
     </li>
@@ -648,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-10/" class="md-nav__link">
+      <a href="../../architect/memi/memi-10/" class="md-nav__link">
         10. Design Patterns
       </a>
     </li>
@@ -662,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-11/" class="md-nav__link">
+      <a href="../../architect/memi/memi-11/" class="md-nav__link">
         11. System Architecture
       </a>
     </li>
@@ -676,7 +676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-12/" class="md-nav__link">
+      <a href="../../architect/memi/memi-12/" class="md-nav__link">
         12. Additional Considerations
       </a>
     </li>
@@ -690,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-13/" class="md-nav__link">
+      <a href="../../architect/memi/memi-13/" class="md-nav__link">
         13. Architecture Document
       </a>
     </li>
@@ -704,7 +704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-14/" class="md-nav__link">
+      <a href="../../architect/memi/memi-14/" class="md-nav__link">
         14. Case Study
       </a>
     </li>
@@ -718,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-15/" class="md-nav__link">
+      <a href="../../architect/memi/memi-15/" class="md-nav__link">
         15. Advanced Architecture Topics
       </a>
     </li>
@@ -732,7 +732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/memi/memi-16/" class="md-nav__link">
+      <a href="../../architect/memi/memi-16/" class="md-nav__link">
         16. Soft Skills
       </a>
     </li>
@@ -780,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/design_patterns/1_intro/" class="md-nav__link">
+      <a href="../../architect/design_patterns/1_intro/" class="md-nav__link">
         1. Introduction
       </a>
     </li>
@@ -794,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/design_patterns/2_creational/" class="md-nav__link">
+      <a href="../../architect/design_patterns/2_creational/" class="md-nav__link">
         2. Creational DP
       </a>
     </li>
@@ -808,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/design_patterns/3_structural/" class="md-nav__link">
+      <a href="../../architect/design_patterns/3_structural/" class="md-nav__link">
         3. Structural DP
       </a>
     </li>
@@ -822,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+      <a href="../../architect/design_patterns/4_behavioral/" class="md-nav__link">
         4. Behavioral DP
       </a>
     </li>
@@ -870,7 +870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architect/gcp/1.preparation/" class="md-nav__link">
+      <a href="../../architect/gcp/1.preparation/" class="md-nav__link">
         1. Preparation
       </a>
     </li>
@@ -926,7 +926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/ansible/" class="md-nav__link">
+      <a href="../../automation/ansible/" class="md-nav__link">
         Ansible
       </a>
     </li>
@@ -940,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/argocd/" class="md-nav__link">
+      <a href="../../automation/argocd/" class="md-nav__link">
         ArgoCD
       </a>
     </li>
@@ -954,7 +954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/benthos/" class="md-nav__link">
+      <a href="../../automation/benthos/" class="md-nav__link">
         Benthos
       </a>
     </li>
@@ -968,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/helm/" class="md-nav__link">
+      <a href="../../automation/helm/" class="md-nav__link">
         Helm
       </a>
     </li>
@@ -1009,7 +1009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/installation/" class="md-nav__link">
+      <a href="../../automation/instana/installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -1023,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/clis/" class="md-nav__link">
+      <a href="../../automation/instana/clis/" class="md-nav__link">
         CLIs, Namespaces
       </a>
     </li>
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/1.jargons/" class="md-nav__link">
+      <a href="../../automation/instana/theory/1.jargons/" class="md-nav__link">
         Jargons
       </a>
     </li>
@@ -1051,7 +1051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
+      <a href="../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
         Agent, Sensor
       </a>
     </li>
@@ -1065,7 +1065,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/3.trace/" class="md-nav__link">
+      <a href="../../automation/instana/theory/3.trace/" class="md-nav__link">
         Trace, Call, Span
       </a>
     </li>
@@ -1079,7 +1079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/4.event/" class="md-nav__link">
+      <a href="../../automation/instana/theory/4.event/" class="md-nav__link">
         Event, Alert
       </a>
     </li>
@@ -1093,7 +1093,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/5.api/" class="md-nav__link">
+      <a href="../../automation/instana/theory/5.api/" class="md-nav__link">
         Integration, SKD, API
       </a>
     </li>
@@ -1107,7 +1107,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/instana/theory/6.ui/" class="md-nav__link">
+      <a href="../../automation/instana/theory/6.ui/" class="md-nav__link">
         UI
       </a>
     </li>
@@ -1128,7 +1128,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/n8n/" class="md-nav__link">
+      <a href="../../automation/n8n/" class="md-nav__link">
         n8n
       </a>
     </li>
@@ -1142,7 +1142,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/nodered/intro/" class="md-nav__link">
+      <a href="../../automation/nodered/intro/" class="md-nav__link">
         NodeRed
       </a>
     </li>
@@ -1156,7 +1156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../automation/icalBuddy/" class="md-nav__link">
+      <a href="../../automation/icalBuddy/" class="md-nav__link">
         iCalBuddy
       </a>
     </li>
@@ -1205,7 +1205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bash_script/" class="md-nav__link">
+      <a href="../../bash_script/" class="md-nav__link">
         Basics
       </a>
     </li>
@@ -1219,7 +1219,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../bash_script/exercises/" class="md-nav__link">
+      <a href="../../bash_script/exercises/" class="md-nav__link">
         Exercises
       </a>
     </li>
@@ -1270,7 +1270,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker/" class="md-nav__link">
+      <a href="../docker/" class="md-nav__link">
         Docker
       </a>
     </li>
@@ -1282,86 +1282,6 @@
               
   
   
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Helm
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        Helm
-      </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of Contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-check" class="md-nav__link">
-    create &amp; check
-  </a>
-  
-    <nav class="md-nav" aria-label="create &amp; check">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    依赖管理
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    Deployment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm-repository" class="md-nav__link">
-    Helm Repository
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
   
     
     <li class="md-nav__item md-nav__item--nested">
@@ -1369,17 +1289,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
           Kubernetes
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_3">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2">
           <span class="md-nav__icon md-icon"></span>
           Kubernetes
         </label>
@@ -1396,17 +1316,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_1" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_3_1" id="__nav_6_3_1_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_2_1" id="__nav_6_2_1_label" tabindex="0">
           CKA
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_1_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_3_1">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2_1">
           <span class="md-nav__icon md-icon"></span>
           CKA
         </label>
@@ -1418,7 +1338,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-0/" class="md-nav__link">
+      <a href="../k8s/cka/cka-0/" class="md-nav__link">
         Read before exam
       </a>
     </li>
@@ -1432,7 +1352,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-1/" class="md-nav__link">
+      <a href="../k8s/cka/cka-1/" class="md-nav__link">
         cka-1
       </a>
     </li>
@@ -1446,7 +1366,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-3/" class="md-nav__link">
+      <a href="../k8s/cka/cka-3/" class="md-nav__link">
         cka-3
       </a>
     </li>
@@ -1460,7 +1380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-4/" class="md-nav__link">
+      <a href="../k8s/cka/cka-4/" class="md-nav__link">
         cka-4
       </a>
     </li>
@@ -1474,7 +1394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-5/" class="md-nav__link">
+      <a href="../k8s/cka/cka-5/" class="md-nav__link">
         cka-5
       </a>
     </li>
@@ -1488,7 +1408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-6/" class="md-nav__link">
+      <a href="../k8s/cka/cka-6/" class="md-nav__link">
         cka-6
       </a>
     </li>
@@ -1502,7 +1422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-7/" class="md-nav__link">
+      <a href="../k8s/cka/cka-7/" class="md-nav__link">
         cka-7
       </a>
     </li>
@@ -1516,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-8/" class="md-nav__link">
+      <a href="../k8s/cka/cka-8/" class="md-nav__link">
         8.Storage
       </a>
     </li>
@@ -1530,7 +1450,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-9/" class="md-nav__link">
+      <a href="../k8s/cka/cka-9/" class="md-nav__link">
         cka-9
       </a>
     </li>
@@ -1544,7 +1464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-10/" class="md-nav__link">
+      <a href="../k8s/cka/cka-10/" class="md-nav__link">
         cka-10
       </a>
     </li>
@@ -1558,7 +1478,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-11/" class="md-nav__link">
+      <a href="../k8s/cka/cka-11/" class="md-nav__link">
         cka-11
       </a>
     </li>
@@ -1572,7 +1492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-12/" class="md-nav__link">
+      <a href="../k8s/cka/cka-12/" class="md-nav__link">
         cka-12
       </a>
     </li>
@@ -1586,7 +1506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-13/" class="md-nav__link">
+      <a href="../k8s/cka/cka-13/" class="md-nav__link">
         cka-13
       </a>
     </li>
@@ -1600,7 +1520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-14/" class="md-nav__link">
+      <a href="../k8s/cka/cka-14/" class="md-nav__link">
         cka-14
       </a>
     </li>
@@ -1614,7 +1534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-15/" class="md-nav__link">
+      <a href="../k8s/cka/cka-15/" class="md-nav__link">
         cka-15
       </a>
     </li>
@@ -1628,7 +1548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/cka/cka-16/" class="md-nav__link">
+      <a href="../k8s/cka/cka-16/" class="md-nav__link">
         cka-16
       </a>
     </li>
@@ -1654,17 +1574,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_3_2" id="__nav_6_3_2_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
           CKAD
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_3_2_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_3_2">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2_2">
           <span class="md-nav__icon md-icon"></span>
           CKAD
         </label>
@@ -1676,7 +1596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-0/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-0/" class="md-nav__link">
         Read before exam
       </a>
     </li>
@@ -1690,7 +1610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-1/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-1/" class="md-nav__link">
         1.核心概念介绍
       </a>
     </li>
@@ -1704,7 +1624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-2/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-2/" class="md-nav__link">
         2.配置
       </a>
     </li>
@@ -1718,7 +1638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-3/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-3/" class="md-nav__link">
         3.多容器Pod
       </a>
     </li>
@@ -1732,7 +1652,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-4/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-4/" class="md-nav__link">
         4.容器状态监测
       </a>
     </li>
@@ -1746,7 +1666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-5/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-5/" class="md-nav__link">
         5.Pod设计
       </a>
     </li>
@@ -1760,7 +1680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-6/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-6/" class="md-nav__link">
         6.服务与网络
       </a>
     </li>
@@ -1774,7 +1694,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-7/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-7/" class="md-nav__link">
         7.容器数据的可持久化
       </a>
     </li>
@@ -1788,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-8/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-8/" class="md-nav__link">
         8.2021更新的考试内容
       </a>
     </li>
@@ -1802,7 +1722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../k8s/ckad/ckad-9/" class="md-nav__link">
+      <a href="../k8s/ckad/ckad-9/" class="md-nav__link">
         其他
       </a>
     </li>
@@ -1828,9 +1748,62 @@
               
   
   
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Minikube
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Minikube
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#restart" class="md-nav__link">
+    restart
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
   
     <li class="md-nav__item">
-      <a href="../../podman/" class="md-nav__link">
+      <a href="../podman/" class="md-nav__link">
         Podman
       </a>
     </li>
@@ -1871,7 +1844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/deployment/" class="md-nav__link">
+      <a href="../openshift/deployment/" class="md-nav__link">
         App Deployment
       </a>
     </li>
@@ -1912,7 +1885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/installation/" class="md-nav__link">
+      <a href="../openshift/installation/" class="md-nav__link">
         Intro
       </a>
     </li>
@@ -1926,7 +1899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/installation/ipi/" class="md-nav__link">
+      <a href="../openshift/installation/ipi/" class="md-nav__link">
         IPI
       </a>
     </li>
@@ -1940,7 +1913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/installation/upi/" class="md-nav__link">
+      <a href="../openshift/installation/upi/" class="md-nav__link">
         UPI
       </a>
     </li>
@@ -1954,7 +1927,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/installation/mirror_registry/" class="md-nav__link">
+      <a href="../openshift/installation/mirror_registry/" class="md-nav__link">
         Mirror Registry
       </a>
     </li>
@@ -1968,7 +1941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/installation/network/" class="md-nav__link">
+      <a href="../openshift/installation/network/" class="md-nav__link">
         Network
       </a>
     </li>
@@ -1989,7 +1962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/internal_registry/" class="md-nav__link">
+      <a href="../openshift/internal_registry/" class="md-nav__link">
         Internal Registry
       </a>
     </li>
@@ -2003,7 +1976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/monitoring_stack/" class="md-nav__link">
+      <a href="../openshift/monitoring_stack/" class="md-nav__link">
         Monitoring Stack
       </a>
     </li>
@@ -2017,7 +1990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/operator/" class="md-nav__link">
+      <a href="../openshift/operator/" class="md-nav__link">
         Operator
       </a>
     </li>
@@ -2031,7 +2004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/pipeline/" class="md-nav__link">
+      <a href="../openshift/pipeline/" class="md-nav__link">
         Pipeline
       </a>
     </li>
@@ -2072,7 +2045,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/01_deploy_app/" class="md-nav__link">
+      <a href="../openshift/do288/01_deploy_app/" class="md-nav__link">
         Deploying and Managing Applications
       </a>
     </li>
@@ -2086,7 +2059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/02/" class="md-nav__link">
+      <a href="../openshift/do288/02/" class="md-nav__link">
         2
       </a>
     </li>
@@ -2100,7 +2073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/03/" class="md-nav__link">
+      <a href="../openshift/do288/03/" class="md-nav__link">
         3
       </a>
     </li>
@@ -2114,7 +2087,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/04/" class="md-nav__link">
+      <a href="../openshift/do288/04/" class="md-nav__link">
         4
       </a>
     </li>
@@ -2128,7 +2101,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/05/" class="md-nav__link">
+      <a href="../openshift/do288/05/" class="md-nav__link">
         5
       </a>
     </li>
@@ -2142,7 +2115,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/06/" class="md-nav__link">
+      <a href="../openshift/do288/06/" class="md-nav__link">
         6
       </a>
     </li>
@@ -2156,7 +2129,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/07/" class="md-nav__link">
+      <a href="../openshift/do288/07/" class="md-nav__link">
         7
       </a>
     </li>
@@ -2170,7 +2143,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do288/08/" class="md-nav__link">
+      <a href="../openshift/do288/08/" class="md-nav__link">
         8
       </a>
     </li>
@@ -2218,7 +2191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/01_manifest_kustimize/" class="md-nav__link">
+      <a href="../openshift/do280/01_manifest_kustimize/" class="md-nav__link">
         1. Manifest & Kustomize
       </a>
     </li>
@@ -2232,7 +2205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/02_template_helm/" class="md-nav__link">
+      <a href="../openshift/do280/02_template_helm/" class="md-nav__link">
         2. OC Template & Helm Chart
       </a>
     </li>
@@ -2246,7 +2219,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/03_auth/" class="md-nav__link">
+      <a href="../openshift/do280/03_auth/" class="md-nav__link">
         3. Authentication and Authorization
       </a>
     </li>
@@ -2260,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/04_network_security/" class="md-nav__link">
+      <a href="../openshift/do280/04_network_security/" class="md-nav__link">
         4. Network Security
       </a>
     </li>
@@ -2274,7 +2247,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/05_expose_sni_app/" class="md-nav__link">
+      <a href="../openshift/do280/05_expose_sni_app/" class="md-nav__link">
         5. Expose SNI Application
       </a>
     </li>
@@ -2288,7 +2261,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/06_developer_self_service/" class="md-nav__link">
+      <a href="../openshift/do280/06_developer_self_service/" class="md-nav__link">
         6. Enable Developer Self-Service
       </a>
     </li>
@@ -2302,7 +2275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/07_kubernetes_operator/" class="md-nav__link">
+      <a href="../openshift/do280/07_kubernetes_operator/" class="md-nav__link">
         7. Kubernetes Operator
       </a>
     </li>
@@ -2316,7 +2289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/08_application_security/" class="md-nav__link">
+      <a href="../openshift/do280/08_application_security/" class="md-nav__link">
         8. Application Security
       </a>
     </li>
@@ -2330,7 +2303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/09_oc_updates/" class="md-nav__link">
+      <a href="../openshift/do280/09_oc_updates/" class="md-nav__link">
         9. Openshift Updates
       </a>
     </li>
@@ -2344,7 +2317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do280/10/" class="md-nav__link">
+      <a href="../openshift/do280/10/" class="md-nav__link">
         10
       </a>
     </li>
@@ -2392,7 +2365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do322/01/" class="md-nav__link">
+      <a href="../openshift/do322/01/" class="md-nav__link">
         1. Intro to OpenShift Installation
       </a>
     </li>
@@ -2406,7 +2379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do322/02/" class="md-nav__link">
+      <a href="../openshift/do322/02/" class="md-nav__link">
         2. IPI on Cloud
       </a>
     </li>
@@ -2420,7 +2393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do322/03/" class="md-nav__link">
+      <a href="../openshift/do322/03/" class="md-nav__link">
         3. IPI & UPI on Virtual
       </a>
     </li>
@@ -2434,7 +2407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do322/04/" class="md-nav__link">
+      <a href="../openshift/do322/04/" class="md-nav__link">
         4. UPI without Infrastructure Provider
       </a>
     </li>
@@ -2448,7 +2421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../openshift/do322/05/" class="md-nav__link">
+      <a href="../openshift/do322/05/" class="md-nav__link">
         5. Operations & Maintainance
       </a>
     </li>
@@ -2511,7 +2484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data_scientist/embedding/" class="md-nav__link">
+      <a href="../../data_scientist/embedding/" class="md-nav__link">
         Embedding
       </a>
     </li>
@@ -2525,7 +2498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data_scientist/elastic_search/" class="md-nav__link">
+      <a href="../../data_scientist/elastic_search/" class="md-nav__link">
         ElasticSearch
       </a>
     </li>
@@ -2547,7 +2520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../design_thinking/" class="md-nav__link">
+      <a href="../../design_thinking/" class="md-nav__link">
         Design Thinking
       </a>
     </li>
@@ -2589,7 +2562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../dev_ops/observability/" class="md-nav__link">
+      <a href="../../dev_ops/observability/" class="md-nav__link">
         Observability
       </a>
     </li>
@@ -2638,7 +2611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ecommerce/wordpress/" class="md-nav__link">
+      <a href="../../ecommerce/wordpress/" class="md-nav__link">
         Wordpress
       </a>
     </li>
@@ -2714,7 +2687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/css/css-in-depth/" class="md-nav__link">
+      <a href="../../frontend/css/css-in-depth/" class="md-nav__link">
         CSS In Depth
       </a>
     </li>
@@ -2728,7 +2701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/css/shapes/" class="md-nav__link">
+      <a href="../../frontend/css/shapes/" class="md-nav__link">
         Shape
       </a>
     </li>
@@ -2749,7 +2722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/cra/" class="md-nav__link">
+      <a href="../../frontend/cra/" class="md-nav__link">
         CRA
       </a>
     </li>
@@ -2763,7 +2736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/gsap/" class="md-nav__link">
+      <a href="../../frontend/gsap/" class="md-nav__link">
         GSAP
       </a>
     </li>
@@ -2777,7 +2750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/js/" class="md-nav__link">
+      <a href="../../frontend/js/" class="md-nav__link">
         JavaScript
       </a>
     </li>
@@ -2791,7 +2764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/nginx/" class="md-nav__link">
+      <a href="../../frontend/nginx/" class="md-nav__link">
         Nginx
       </a>
     </li>
@@ -2832,7 +2805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/react/hooks/" class="md-nav__link">
+      <a href="../../frontend/react/hooks/" class="md-nav__link">
         Hooks
       </a>
     </li>
@@ -2846,7 +2819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/react/basics/" class="md-nav__link">
+      <a href="../../frontend/react/basics/" class="md-nav__link">
         Basics
       </a>
     </li>
@@ -2860,7 +2833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/react/bugs/" class="md-nav__link">
+      <a href="../../frontend/react/bugs/" class="md-nav__link">
         Bugs
       </a>
     </li>
@@ -2874,7 +2847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/react/oblivion/" class="md-nav__link">
+      <a href="../../frontend/react/oblivion/" class="md-nav__link">
         Oblivion
       </a>
     </li>
@@ -2888,7 +2861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/react/resources/" class="md-nav__link">
+      <a href="../../frontend/react/resources/" class="md-nav__link">
         Resources
       </a>
     </li>
@@ -2909,7 +2882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../frontend/web_design/" class="md-nav__link">
+      <a href="../../frontend/web_design/" class="md-nav__link">
         Web Design
       </a>
     </li>
@@ -2931,7 +2904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ffmpeg/" class="md-nav__link">
+      <a href="../../ffmpeg/" class="md-nav__link">
         ffmpeg
       </a>
     </li>
@@ -2973,7 +2946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ide/vscode/" class="md-nav__link">
+      <a href="../../ide/vscode/" class="md-nav__link">
         VSCode
       </a>
     </li>
@@ -3022,7 +2995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../monitoring/grafana/" class="md-nav__link">
+      <a href="../../monitoring/grafana/" class="md-nav__link">
         Grafana
       </a>
     </li>
@@ -3036,7 +3009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../monitoring/prometheus/" class="md-nav__link">
+      <a href="../../monitoring/prometheus/" class="md-nav__link">
         Prometheus
       </a>
     </li>
@@ -3085,7 +3058,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../network/ip/" class="md-nav__link">
+      <a href="../../network/ip/" class="md-nav__link">
         IP
       </a>
     </li>
@@ -3099,7 +3072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../network/loadbalancer/" class="md-nav__link">
+      <a href="../../network/loadbalancer/" class="md-nav__link">
         LoadBalancer
       </a>
     </li>
@@ -3113,7 +3086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../network/protocols/" class="md-nav__link">
+      <a href="../../network/protocols/" class="md-nav__link">
         Protocols
       </a>
     </li>
@@ -3162,7 +3135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project_mgmt/agile/" class="md-nav__link">
+      <a href="../../project_mgmt/agile/" class="md-nav__link">
         Agile
       </a>
     </li>
@@ -3176,7 +3149,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project_mgmt/git/" class="md-nav__link">
+      <a href="../../project_mgmt/git/" class="md-nav__link">
         Git
       </a>
     </li>
@@ -3190,7 +3163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project_mgmt/ibm_internal/" class="md-nav__link">
+      <a href="../../project_mgmt/ibm_internal/" class="md-nav__link">
         IBM PM
       </a>
     </li>
@@ -3239,7 +3212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/grammars/" class="md-nav__link">
+      <a href="../../python/grammars/" class="md-nav__link">
         Grammars
       </a>
     </li>
@@ -3253,7 +3226,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/fastapi/" class="md-nav__link">
+      <a href="../../python/fastapi/" class="md-nav__link">
         FastAPI
       </a>
     </li>
@@ -3267,7 +3240,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/oblivion/" class="md-nav__link">
+      <a href="../../python/oblivion/" class="md-nav__link">
         Oblivion
       </a>
     </li>
@@ -3281,7 +3254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/dependencies/" class="md-nav__link">
+      <a href="../../python/dependencies/" class="md-nav__link">
         Use dependencies
       </a>
     </li>
@@ -3295,7 +3268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/build_dependency/" class="md-nav__link">
+      <a href="../../python/build_dependency/" class="md-nav__link">
         Build Own Dependency
       </a>
     </li>
@@ -3309,7 +3282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../python/virtual_env/" class="md-nav__link">
+      <a href="../../python/virtual_env/" class="md-nav__link">
         Virtual environment
       </a>
     </li>
@@ -3331,7 +3304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../regex/" class="md-nav__link">
+      <a href="../../regex/" class="md-nav__link">
         Regex
       </a>
     </li>
@@ -3373,7 +3346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../sketch/procreate/" class="md-nav__link">
+      <a href="../../sketch/procreate/" class="md-nav__link">
         Procreate
       </a>
     </li>
@@ -3422,7 +3395,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../working_notes/01_2025/" class="md-nav__link">
+      <a href="../../working_notes/01_2025/" class="md-nav__link">
         202501
       </a>
     </li>
@@ -3463,35 +3436,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-check" class="md-nav__link">
-    create &amp; check
-  </a>
-  
-    <nav class="md-nav" aria-label="create &amp; check">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    依赖管理
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deployment" class="md-nav__link">
-    Deployment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#helm-repository" class="md-nav__link">
-    Helm Repository
+  <a href="#restart" class="md-nav__link">
+    restart
   </a>
   
 </li>
@@ -3511,202 +3457,35 @@
                   
 
 
-  <h1>Helm</h1>
+  <h1>Minikube</h1>
 
-<p>👍 <a href="https://helm.sh/docs/helm/">Helm 命令文档</a></p>
-<p>Helm is a command-line application. It introduces the concept of <strong>charts</strong>. A <strong>chart</strong> is a package that describes a set of <strong>Kubernetes resources</strong> that you can deploy.</p>
-<p>The following diagram shows the structure of a minimal Helm chart:</p>
-<div class="highlight"><pre><span></span><code>sample/
-├──<span class="w"> </span>Chart.yaml
-├──<span class="w"> </span>templates
-<span class="p">|</span><span class="w">   </span><span class="p">|</span>──<span class="w"> </span>example.yaml
-└──<span class="w"> </span>values.yaml
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>minikube version</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>minikube status</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>minikube status</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="restart">restart<a class="headerlink" href="#restart" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>minikube<span class="w"> </span>stop
+minikube<span class="w"> </span>delete
+minikube<span class="w"> </span>start<span class="w"> </span>--driver<span class="o">=</span>docker<span class="w">   </span><span class="c1"># Or hyperkit, depending on your setup</span>
 </code></pre></div>
-<ul>
-<li>The <code>Chart.yaml</code> contains chart <code>metadata</code>, such as <strong>name</strong> and <strong>version</strong></li>
-<li>The <code>templates/</code> directory contains files that define <strong>application resources</strong> such as <code>deployments</code></li>
-<li>The <code>values.yaml</code> file contains default <code>values</code> for the chart</li>
-</ul>
-<h3 id="create-check">create &amp; check<a class="headerlink" href="#create-check" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>helm create myChart</code></td>
-<td align="left">to create a new chart</td>
-</tr>
-<tr>
-<td align="left"><code>helm pull xxx</code></td>
-<td align="left">download a chart from a <strong>repository</strong>（即charts的数据库）</td>
-</tr>
-<tr>
-<td align="left"><code>helm show chart myChart</code></td>
-<td align="left">show info of a chart <br/> <img src='../helm_show_chart.png' width="500" /></td>
-</tr>
-<tr>
-<td align="left"><code>helm show values myChart</code></td>
-<td align="left">show default values of a chart <br/> <img src='../helm_show_values.png' width="400" /></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">use <code>--version</code> to choose a specific version</td>
-</tr>
-</tbody>
-</table>
-<h4 id="_1">依赖管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>helm dependency update</code></td>
-<td align="left">根据 Chart.yaml 中的依赖关系，下载或更新依赖的 Chart 到 charts/ 目录。</td>
-</tr>
-<tr>
-<td align="left"><code>helm dependency build</code></td>
-<td align="left">使用 Chart.lock 文件中的版本信息，重新下载依赖的 Chart。</td>
-</tr>
-<tr>
-<td align="left"><code>helm dependency list</code></td>
-<td align="left">列出当前 Chart 的所有依赖项及其状态。</td>
-</tr>
-<tr>
-<td align="left"><code>helm dependency prune</code></td>
-<td align="left">删除不再需要的依赖 Chart。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>[RELEASE]</code>: release/app</li>
-<li><code>[CHART]</code>: chart name</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>helm install [RELEASE] .</code></td>
-<td align="left">deploy the app from <b>current directory</b></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left"><code>helm install myChartApp do280-repo/etherpad -f values.yaml --version 0.0.6</code></td>
-</tr>
-<tr>
-<td align="left"><code>helm uninstall [RELEASE]</code></td>
-<td align="left">delete deployment/release</td>
-</tr>
-<tr>
-<td align="left"><code>helm list</code></td>
-<td align="left">list all deployment</td>
-</tr>
-<tr>
-<td align="left"><code>helm status [RELEASE]</code></td>
-<td align="left">check status of named release</td>
-</tr>
-<tr>
-<td align="left"><code>helm history [RELEASE]</code></td>
-<td align="left">check release history</td>
-</tr>
-<tr>
-<td align="left"><code>helm rollback [RELEASE]</code></td>
-<td align="left">roll back to the previous release</td>
-</tr>
-<tr>
-<td align="left"><code>helm upgrade [RELEASE] [CHART] [flags]</code></td>
-<td align="left"><code>helm upgrade myChartApp do280-repo/etherpad --version 0.0.7</code>  upgrade version to 0.0.7 <br/><code>helm upgrade myChartApp do280-repo/etherpad -f values2.yaml</code>  upgrade values <br/></td>
-</tr>
-<tr>
-<td align="left"></td>
-<td align="left">Flags 比如 <code>-f values.yaml</code></td>
-</tr>
-<tr>
-<td align="left"><code>helm template [RELEASE] helm-directory &gt; base/deployment.yaml</code></td>
-<td align="left">extract the object definition from <b>Helm Chart</b> into Kustomize's <code>/base/deployment.yaml</code></td>
-</tr>
-</tbody>
-</table>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>to use <code>values.yaml</code> you can use either <code>--values</code> or <code>-f</code> </p>
-</div>
-<h3 id="helm-repository">Helm Repository<a class="headerlink" href="#helm-repository" title="Permanent link">&para;</a></h3>
-<p>The distributed community Helm chart repository is located at <a href="https://artifacthub.io/packages/search?kind=0">Artifact Hub</a> and welcomes participation.</p>
-<p>The following commands change only local configuration:</p>
-<table>
-<thead>
-<tr>
-<th align="left">命令</th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><code>helm repo add openshift-helm-charts https://charts.openshift.io/</code></td>
-<td align="left">add a new Helm chart repository(named <code>openshift-helm-charts</code>) to your local Helm configuration.</td>
-</tr>
-<tr>
-<td align="left"><code>helm repo list</code></td>
-<td align="left">List Helm chart repositories.</td>
-</tr>
-<tr>
-<td align="left"><code>helm repo update</code></td>
-<td align="left">Update Helm chart repository.</td>
-</tr>
-<tr>
-<td align="left"><code>helm search repo</code></td>
-<td align="left">List ALL available charts in the ALL repos<br/>- Add <code>--versions</code> flag to list all versions even though its the same chart</td>
-</tr>
-<tr>
-<td align="left"><code>helm search repo openshift-helm-charts</code></td>
-<td align="left">search for available charts in the <code>openshift-helm-charts</code> repository</td>
-</tr>
-<tr>
-<td align="left"><code>helm repo remove REPOSITORY1_NAME REPOSITORY2_NAME …​</code></td>
-<td align="left">Remove repositories</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Example</p>
-<p>result of <code>helm search repo openshift-helm-charts</code>:</p>
-<p><img src='../helm_search.png' width="800" /></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>某个chart中有这些values：
-<div class="highlight"><pre><span></span><code><span class="o">[</span>student@workstation<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>helm<span class="w"> </span>show<span class="w"> </span>values<span class="w"> </span>do280-repo/etherpad<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.0.6
-
-replicaCount:<span class="w"> </span><span class="m">1</span>
-defaultTitle:<span class="w"> </span><span class="s2">&quot;Labs Etherpad&quot;</span>
-defaultText:<span class="w"> </span><span class="s2">&quot;Assign yourself a user and share your ideas!&quot;</span>
-
-image:
-<span class="w">    </span>repository:<span class="w"> </span>etherpad
-<span class="w">    </span>name:
-<span class="w">    </span>tag:
-</code></pre></div></p>
-<p>自定义值 <code>values.yaml</code>：
-<div class="highlight"><pre><span></span><code>image:
-    repository: registry.ocp4.example.com:8443/etherpad
-    name: etherpad
-    tag: 1.8.18
-</code></pre></div></p>
-</div>
 
 
 
@@ -3746,10 +3525,10 @@ image:
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.407015b8.min.js"></script>
+      <script src="../../assets/javascripts/bundle.407015b8.min.js"></script>
       
     
   </body>
