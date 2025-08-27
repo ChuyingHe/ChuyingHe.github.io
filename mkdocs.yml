@@ -62,7 +62,6 @@ nav:
       - Exercises: bash_script/exercises.md
   - Cloud:
       - Docker: cloud/docker/index.md
-      - Helm: cloud/helm/helm-1.md
       - Kubernetes:
           - CKA:
               - Read before exam: cloud/k8s/cka/cka-0.md
@@ -92,6 +91,7 @@ nav:
               - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
               - 其他: cloud/k8s/ckad/ckad-9.md
+      - Minikube: cloud/minikube/index.md
       - Podman: cloud/podman/index.md
       - OpenShift:
           - App Deployment: cloud/openshift/deployment.md
