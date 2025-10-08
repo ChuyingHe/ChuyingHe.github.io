@@ -186,6 +186,11 @@ Background: there are `dev`, `staging` and `production` environments. I want to 
 - ArgoCD is a CD tool for K8s, for other platform you need to find other tools
 - ArgoCD is not the unique CD tools for K8s - fluxCD, JenkinsX are alternatives
 
+# Grammar
+## `ref`
+to use Helm value files from external Git repository([doc](https://argo-cd.readthedocs.io/en/latest/user-guide/multiple_sources/#helm-value-files-from-external-git-repository)).
+
+
 
 # Demo
 ## Goal

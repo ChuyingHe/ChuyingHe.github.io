@@ -11,7 +11,9 @@ nav:
       - Architectural Thinking: architect/architectural_thinking/index.md
       - AWS:
           - Cloud Practitioner: architect/aws/cp/index.md
-          - Solution Architect Associate: architect/aws/saa/index.md
+          - Solution Architect Associate: 
+                - Intro: architect/aws/saa/index.md
+                - 4. Security: architect/aws/saa/4.security.md
           - Solution Architect Professional: architect/aws/sap/index.md
       - IBM:
           - Security: architect/ibm/security.md
@@ -91,6 +93,7 @@ nav:
               - 7.容器数据的可持久化: cloud/k8s/ckad/ckad-7.md
               - 8.2021更新的考试内容: cloud/k8s/ckad/ckad-8.md
               - 其他: cloud/k8s/ckad/ckad-9.md
+          - Others: cloud/k8s/others.md
       - Minikube: cloud/minikube/index.md
       - Podman: cloud/podman/index.md
       - OpenShift:
