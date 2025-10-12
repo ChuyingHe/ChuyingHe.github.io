@@ -1,0 +1,4511 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../../../network/ip/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
+    
+    
+      
+        <title>HandsOn - Chuying's notebook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7a7fce14.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hands-on-prometheus-on-ubuntu" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Chuying&#39;s notebook" class="md-header__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chuying's notebook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HandsOn
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Chuying&#39;s notebook" class="md-nav__button md-logo" aria-label="Chuying's notebook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Chuying's notebook
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Administrator
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Administrator
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Hardware
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../administrator/hardware/disk/" class="md-nav__link">
+        Disk
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../administrator/linux/" class="md-nav__link">
+        Linux
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../administrator/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Architect
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Architect
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/architectural_thinking/" class="md-nav__link">
+        Architectural Thinking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          AWS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          AWS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/aws/cp/" class="md-nav__link">
+        Cloud Practitioner
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+          Solution Architect Associate
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Solution Architect Associate
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/aws/saa/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/aws/saa/4.security/" class="md-nav__link">
+        4. Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/aws/sap/" class="md-nav__link">
+        Solution Architect Professional
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          IBM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          IBM
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/ibm/security/" class="md-nav__link">
+        Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/ibm/storage/" class="md-nav__link">
+        Storage
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          Guide from MemiLavi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Guide from MemiLavi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-1/" class="md-nav__link">
+        1. Welcome
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-2/" class="md-nav__link">
+        2. What is a Software Architect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-3/" class="md-nav__link">
+        3. The Architect's Mindset
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-4/" class="md-nav__link">
+        4. The Architecture Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-5/" class="md-nav__link">
+        5. Working with System Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-6/" class="md-nav__link">
+        6. Types of Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-7/" class="md-nav__link">
+        7. Selecting Technology Stack
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-8/" class="md-nav__link">
+        8. Meet the *-ilities
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-9/" class="md-nav__link">
+        9. Components' Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-10/" class="md-nav__link">
+        10. Design Patterns
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-11/" class="md-nav__link">
+        11. System Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-12/" class="md-nav__link">
+        12. Additional Considerations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-13/" class="md-nav__link">
+        13. Architecture Document
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-14/" class="md-nav__link">
+        14. Case Study
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-15/" class="md-nav__link">
+        15. Advanced Architecture Topics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/memi/memi-16/" class="md-nav__link">
+        16. Soft Skills
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+          Design Patterns (DP)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Design Patterns (DP)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/design_patterns/1_intro/" class="md-nav__link">
+        1. Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/design_patterns/2_creational/" class="md-nav__link">
+        2. Creational DP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/design_patterns/3_structural/" class="md-nav__link">
+        3. Structural DP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/design_patterns/4_behavioral/" class="md-nav__link">
+        4. Behavioral DP
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+          GCP PCAC
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          GCP PCAC
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architect/gcp/1.preparation/" class="md-nav__link">
+        1. Preparation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Automation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Automation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/ansible/" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/argocd/" class="md-nav__link">
+        ArgoCD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/benthos/" class="md-nav__link">
+        Benthos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/helm/" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+          Instana
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Instana
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/clis/" class="md-nav__link">
+        CLIs, Namespaces
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/1.jargons/" class="md-nav__link">
+        Jargons
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/2.agent_sensor/" class="md-nav__link">
+        Agent, Sensor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/3.trace/" class="md-nav__link">
+        Trace, Call, Span
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/4.event/" class="md-nav__link">
+        Event, Alert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/5.api/" class="md-nav__link">
+        Integration, SKD, API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/instana/theory/6.ui/" class="md-nav__link">
+        UI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/n8n/" class="md-nav__link">
+        n8n
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/nodered/intro/" class="md-nav__link">
+        NodeRed
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/icalBuddy/" class="md-nav__link">
+        iCalBuddy
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Bash Script
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Bash Script
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bash_script/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../bash_script/exercises/" class="md-nav__link">
+        Exercises
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Cloud
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Cloud
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2_1" id="__nav_6_2_1_label" tabindex="0">
+          CKA
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          CKA
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-0/" class="md-nav__link">
+        Read before exam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-1/" class="md-nav__link">
+        cka-1
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-3/" class="md-nav__link">
+        cka-3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-4/" class="md-nav__link">
+        cka-4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-5/" class="md-nav__link">
+        cka-5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-6/" class="md-nav__link">
+        cka-6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-7/" class="md-nav__link">
+        cka-7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-8/" class="md-nav__link">
+        8.Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-9/" class="md-nav__link">
+        cka-9
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-10/" class="md-nav__link">
+        cka-10
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-11/" class="md-nav__link">
+        cka-11
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-12/" class="md-nav__link">
+        cka-12
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-13/" class="md-nav__link">
+        cka-13
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-14/" class="md-nav__link">
+        cka-14
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-15/" class="md-nav__link">
+        cka-15
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/cka/cka-16/" class="md-nav__link">
+        cka-16
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+          CKAD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          CKAD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-0/" class="md-nav__link">
+        Read before exam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-1/" class="md-nav__link">
+        1.核心概念介绍
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-2/" class="md-nav__link">
+        2.配置
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-3/" class="md-nav__link">
+        3.多容器Pod
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-4/" class="md-nav__link">
+        4.容器状态监测
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-5/" class="md-nav__link">
+        5.Pod设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-6/" class="md-nav__link">
+        6.服务与网络
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-7/" class="md-nav__link">
+        7.容器数据的可持久化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-8/" class="md-nav__link">
+        8.2021更新的考试内容
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/ckad/ckad-9/" class="md-nav__link">
+        其他
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/k8s/others/" class="md-nav__link">
+        Others
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/minikube/" class="md-nav__link">
+        Minikube
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/podman/" class="md-nav__link">
+        Podman
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+          OpenShift
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5">
+          <span class="md-nav__icon md-icon"></span>
+          OpenShift
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/deployment/" class="md-nav__link">
+        App Deployment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_5_2" id="__nav_6_5_2_label" tabindex="0">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/installation/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/installation/ipi/" class="md-nav__link">
+        IPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/installation/upi/" class="md-nav__link">
+        UPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/installation/mirror_registry/" class="md-nav__link">
+        Mirror Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/installation/network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/internal_registry/" class="md-nav__link">
+        Internal Registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/monitoring_stack/" class="md-nav__link">
+        Monitoring Stack
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/operator/" class="md-nav__link">
+        Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/pipeline/" class="md-nav__link">
+        Pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_5_7" id="__nav_6_5_7_label" tabindex="0">
+          DO288
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5_7">
+          <span class="md-nav__icon md-icon"></span>
+          DO288
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/01_deploy_app/" class="md-nav__link">
+        Deploying and Managing Applications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/02/" class="md-nav__link">
+        2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/03/" class="md-nav__link">
+        3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/04/" class="md-nav__link">
+        4
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/05/" class="md-nav__link">
+        5
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/06/" class="md-nav__link">
+        6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/07/" class="md-nav__link">
+        7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do288/08/" class="md-nav__link">
+        8
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_5_8" id="__nav_6_5_8_label" tabindex="0">
+          DO280
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5_8">
+          <span class="md-nav__icon md-icon"></span>
+          DO280
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/01_manifest_kustimize/" class="md-nav__link">
+        1. Manifest & Kustomize
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/02_template_helm/" class="md-nav__link">
+        2. OC Template & Helm Chart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/03_auth/" class="md-nav__link">
+        3. Authentication and Authorization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/04_network_security/" class="md-nav__link">
+        4. Network Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/05_expose_sni_app/" class="md-nav__link">
+        5. Expose SNI Application
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/06_developer_self_service/" class="md-nav__link">
+        6. Enable Developer Self-Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/07_kubernetes_operator/" class="md-nav__link">
+        7. Kubernetes Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/08_application_security/" class="md-nav__link">
+        8. Application Security
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/09_oc_updates/" class="md-nav__link">
+        9. Openshift Updates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do280/10/" class="md-nav__link">
+        10
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_5_9" id="__nav_6_5_9_label" tabindex="0">
+          DO322
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5_9">
+          <span class="md-nav__icon md-icon"></span>
+          DO322
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do322/01/" class="md-nav__link">
+        1. Intro to OpenShift Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do322/02/" class="md-nav__link">
+        2. IPI on Cloud
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do322/03/" class="md-nav__link">
+        3. IPI & UPI on Virtual
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do322/04/" class="md-nav__link">
+        4. UPI without Infrastructure Provider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/openshift/do322/05/" class="md-nav__link">
+        5. Operations & Maintainance
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Data Scientist
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Data Scientist
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../data_scientist/embedding/" class="md-nav__link">
+        Embedding
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../data_scientist/elastic_search/" class="md-nav__link">
+        ElasticSearch
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_thinking/" class="md-nav__link">
+        Design Thinking
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          DevOps
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          DevOps
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../dev_ops/observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Ecommerce
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Ecommerce
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ecommerce/wordpress/" class="md-nav__link">
+        Wordpress
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          Frontend
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          Frontend
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11_1" id="__nav_11_1_label" tabindex="0">
+          CSS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11_1">
+          <span class="md-nav__icon md-icon"></span>
+          CSS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/css/css-in-depth/" class="md-nav__link">
+        CSS In Depth
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/css/shapes/" class="md-nav__link">
+        Shape
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/cra/" class="md-nav__link">
+        CRA
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/gsap/" class="md-nav__link">
+        GSAP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/js/" class="md-nav__link">
+        JavaScript
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/nginx/" class="md-nav__link">
+        Nginx
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11_6" id="__nav_11_6_label" tabindex="0">
+          React
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11_6">
+          <span class="md-nav__icon md-icon"></span>
+          React
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/react/hooks/" class="md-nav__link">
+        Hooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/react/basics/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/react/bugs/" class="md-nav__link">
+        Bugs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/react/oblivion/" class="md-nav__link">
+        Oblivion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/react/resources/" class="md-nav__link">
+        Resources
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../frontend/web_design/" class="md-nav__link">
+        Web Design
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ffmpeg/" class="md-nav__link">
+        ffmpeg
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          IDEs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          IDEs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ide/vscode/" class="md-nav__link">
+        VSCode
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+          Monitoring
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          Monitoring
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../grafana/" class="md-nav__link">
+        Grafana
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14_2" id="__nav_14_2_label" tabindex="0">
+          Prometheus
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_14_2">
+          <span class="md-nav__icon md-icon"></span>
+          Prometheus
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          HandsOn
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        HandsOn
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hands-on-prometheus-on-ubuntu" class="md-nav__link">
+    Hands-on: Prometheus on Ubuntu
+  </a>
+  
+    <nav class="md-nav" aria-label="Hands-on: Prometheus on Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-schedule-virtual-server" class="md-nav__link">
+    0. schedule virtual server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-install-prometheus" class="md-nav__link">
+    1. install Prometheus
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-domain" class="md-nav__link">
+    2. configure domain
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-add-reverse-proxy" class="md-nav__link">
+    3. add reverse proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-add-ssl" class="md-nav__link">
+    4. add SSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-add-basic-authentication" class="md-nav__link">
+    5. add basic authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-targets" class="md-nav__link">
+    6. targets
+  </a>
+  
+    <nav class="md-nav" aria-label="6. targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prometheusyml" class="md-nav__link">
+    prometheus.yml
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-install-node-exporter-on-second-server" class="md-nav__link">
+    7. install node-exporter on second server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-deleting-a-time-serie" class="md-nav__link">
+    8. deleting a time serie
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-query" class="md-nav__link">
+    9. query
+  </a>
+  
+    <nav class="md-nav" aria-label="9. query">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    data types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-recording-rule" class="md-nav__link">
+    10. recording rule
+  </a>
+  
+    <nav class="md-nav" aria-label="10. recording rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    operator
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-alerting-rule" class="md-nav__link">
+    11. alerting rule
+  </a>
+  
+    <nav class="md-nav" aria-label="11. alerting rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-alert-manager" class="md-nav__link">
+    12. alert manager
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-setup-mail-service" class="md-nav__link">
+    13. setup mail service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-grafana" class="md-nav__link">
+    14. grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="14. grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#take-prometheus-as-data-source" class="md-nav__link">
+    take prometheus as data source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    dashboard
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          Network
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          Network
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/ip/" class="md-nav__link">
+        IP
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/loadbalancer/" class="md-nav__link">
+        LoadBalancer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network/protocols/" class="md-nav__link">
+        Protocols
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+          Project Mgmt
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_16">
+          <span class="md-nav__icon md-icon"></span>
+          Project Mgmt
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_mgmt/agile/" class="md-nav__link">
+        Agile
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_mgmt/git/" class="md-nav__link">
+        Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project_mgmt/ibm_internal/" class="md-nav__link">
+        IBM PM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+          Python
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_17">
+          <span class="md-nav__icon md-icon"></span>
+          Python
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/grammars/" class="md-nav__link">
+        Grammars
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/fastapi/" class="md-nav__link">
+        FastAPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/oblivion/" class="md-nav__link">
+        Oblivion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/dependencies/" class="md-nav__link">
+        Use dependencies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/build_dependency/" class="md-nav__link">
+        Build Own Dependency
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/virtual_env/" class="md-nav__link">
+        Virtual environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../regex/" class="md-nav__link">
+        Regex
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          Sketch
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_19">
+          <span class="md-nav__icon md-icon"></span>
+          Sketch
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sketch/procreate/" class="md-nav__link">
+        Procreate
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          Working Notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_20">
+          <span class="md-nav__icon md-icon"></span>
+          Working Notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../working_notes/01_2025/" class="md-nav__link">
+        202501
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hands-on-prometheus-on-ubuntu" class="md-nav__link">
+    Hands-on: Prometheus on Ubuntu
+  </a>
+  
+    <nav class="md-nav" aria-label="Hands-on: Prometheus on Ubuntu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0-schedule-virtual-server" class="md-nav__link">
+    0. schedule virtual server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-install-prometheus" class="md-nav__link">
+    1. install Prometheus
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configure-domain" class="md-nav__link">
+    2. configure domain
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-add-reverse-proxy" class="md-nav__link">
+    3. add reverse proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-add-ssl" class="md-nav__link">
+    4. add SSL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-add-basic-authentication" class="md-nav__link">
+    5. add basic authentication
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-targets" class="md-nav__link">
+    6. targets
+  </a>
+  
+    <nav class="md-nav" aria-label="6. targets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prometheusyml" class="md-nav__link">
+    prometheus.yml
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-install-node-exporter-on-second-server" class="md-nav__link">
+    7. install node-exporter on second server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-deleting-a-time-serie" class="md-nav__link">
+    8. deleting a time serie
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-query" class="md-nav__link">
+    9. query
+  </a>
+  
+    <nav class="md-nav" aria-label="9. query">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-types" class="md-nav__link">
+    data types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-recording-rule" class="md-nav__link">
+    10. recording rule
+  </a>
+  
+    <nav class="md-nav" aria-label="10. recording rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    operator
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-alerting-rule" class="md-nav__link">
+    11. alerting rule
+  </a>
+  
+    <nav class="md-nav" aria-label="11. alerting rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-alert-manager" class="md-nav__link">
+    12. alert manager
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-setup-mail-service" class="md-nav__link">
+    13. setup mail service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-grafana" class="md-nav__link">
+    14. grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="14. grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#take-prometheus-as-data-source" class="md-nav__link">
+    take prometheus as data source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard" class="md-nav__link">
+    dashboard
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>HandsOn</h1>
+
+<h3 id="hands-on-prometheus-on-ubuntu">Hands-on: Prometheus on Ubuntu<a class="headerlink" href="#hands-on-prometheus-on-ubuntu" title="Permanent link">&para;</a></h3>
+<h4 id="0-schedule-virtual-server">0. schedule virtual server<a class="headerlink" href="#0-schedule-virtual-server" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://ibm-learning.udemy.com/course/prometheus/learn/lecture/16871790#overview">Udemy Course</a></li>
+<li><a href="https://sbcode.net/prometheus/">Tutorial</a></li>
+<li>Cloud Server Platform: DigitialOcean</li>
+<li>Machine: Ubuntu 24 LTS, 1GB RAM, 25GB SSD, Frankkurt</li>
+<li>access with its public IP, root and pw</li>
+</ul>
+<h4 id="1-install-prometheus">1. install Prometheus<a class="headerlink" href="#1-install-prometheus" title="Permanent link">&para;</a></h4>
+<p>with Linux apt install 2 stuffs:</p>
+<ul>
+<li>prometheus process (on port 9090)</li>
+<li>node exporter process (on port 9100)</li>
+<li>a user called <code>prometheus</code></li>
+</ul>
+<p><img src="../imgs/server_1.png" /></p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>prometheus
+
+<span class="c1"># checking status</span>
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-node-exporter<span class="w"> </span>status
+ps<span class="w"> </span>-u<span class="w"> </span>prometheus<span class="w">    </span><span class="c1"># checking user named &quot;prometheus&quot;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>you can visit:</p>
+<ul>
+<li>prometheus UI (in browser) <code>&lt;PublicIP&gt;:9090</code></li>
+<li>prometheus node exporter (in browser) <code>&lt;PublicIP&gt;:9100</code></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>❓ prometheus will be reading data from both metrics??</p>
+<ul>
+<li><code>&lt;PublicIP&gt;:9090/metrics</code></li>
+<li><code>&lt;PublicIP&gt;:9100/metrics</code></li>
+</ul>
+</div>
+<h4 id="2-configure-domain">2. configure domain<a class="headerlink" href="#2-configure-domain" title="Permanent link">&para;</a></h4>
+<p>add DNS record to my Domain:</p>
+<ul>
+<li>type: A</li>
+<li>name: prometheus</li>
+<li>point to: <PublicIP></li>
+<li>ttl: default</li>
+</ul>
+<p>the UI is then available at <code>http://prometheus.&lt;Domain&gt;:9090/classic/graph</code></p>
+<h4 id="3-add-reverse-proxy">3. add reverse proxy<a class="headerlink" href="#3-add-reverse-proxy" title="Permanent link">&para;</a></h4>
+<p>to be able to get rid of the port. In ubuntu server, do</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nginx
+sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>status
+
+<span class="c1"># setup</span>
+<span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled/
+ls
+</code></pre></div>
+<p>the file <code>default</code> indicates the nginx default configuration -&gt; the <code>&lt;PublicIP&gt;</code> now points to a "welcome to nginx" page</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># use text editor &quot;vi&quot; to create and modify file `prometheus`</span>
+sudo<span class="w"> </span>vi<span class="w"> </span>prometheus
+</code></pre></div>
+<p>this configuration means, now when I vist <code>prometheus.&lt;Domain&gt;</code> it will auto-forward to <code>prometheus.&lt;Domain&gt;:9090</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">listen</span><span class="w"> </span><span class="s">[::]:80</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">server_name</span><span class="w">  </span><span class="s">prometheus.&lt;Domain&gt;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w">           </span><span class="s">http://localhost:9090/</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># test nginx</span>
+nginx<span class="w"> </span>-t
+
+<span class="c1"># restart nginx</span>
+sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>status
+</code></pre></div>
+<blockquote>
+<p>as result, we can visit prometheus UI with <code>prometheus.&lt;Domain&gt;</code> </p>
+</blockquote>
+<h4 id="4-add-ssl">4. add SSL<a class="headerlink" href="#4-add-ssl" title="Permanent link">&para;</a></h4>
+<p>request free certificate for <code>prometheus.&lt;Domain&gt;</code> </p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>snap<span class="w"> </span>install<span class="w"> </span>--classic<span class="w"> </span>certbot
+sudo<span class="w"> </span>certbot<span class="w"> </span>--nginx
+</code></pre></div>
+<blockquote>
+<p>as result, <code>https://prometheus.&lt;Domain&gt;</code> will work</p>
+<p>certificate is also added to <code>/etc/nginx/sites-enabled/prometheus</code></p>
+</blockquote>
+<h4 id="5-add-basic-authentication">5. add basic authentication<a class="headerlink" href="#5-add-basic-authentication" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/etc/nginx
+
+<span class="c1"># install apachae2-utils</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>apache2-utils
+
+<span class="c1"># create pw</span>
+htpasswd<span class="w"> </span>-c<span class="w"> </span>/etc/nginx/.htpasswd<span class="w"> </span>admin
+
+<span class="c1"># inspect</span>
+cat<span class="w"> </span>.htpasswd
+
+<span class="c1"># add nginx config</span>
+sudo<span class="w"> </span>vi<span class="w"> </span>/etc/nginx/sites-enabled/prometheus
+</code></pre></div>
+<p>example:
+<div class="highlight"><pre><span></span><code><span class="k">server</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kn">...</span>
+
+<span class="w">    </span><span class="c1">#additional authentication properties</span>
+<span class="w">    </span><span class="s">auth_basic</span><span class="w">  </span><span class="s">&quot;Protected</span><span class="w"> </span><span class="s">Area&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kn">auth_basic_user_file</span><span class="w"> </span><span class="s">/etc/nginx/.htpasswd</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kn">location</span><span class="w"> </span><span class="s">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kn">proxy_pass</span><span class="w">           </span><span class="s">http://localhost:9090/</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kn">...</span>
+<span class="err">}</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>nginx<span class="w"> </span>-t
+
+sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w"> </span>status
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since port 9090 and 9100 are still open, we should block them for external connections.
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span>localhost<span class="w"> </span>--dport<span class="w"> </span><span class="m">9090</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">9090</span><span class="w"> </span>-j<span class="w"> </span>DROP
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span>localhost<span class="w"> </span>--dport<span class="w"> </span><span class="m">9100</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">9100</span><span class="w"> </span>-j<span class="w"> </span>DROP
+iptables<span class="w"> </span>-L
+</code></pre></div></p>
+<p>iptables settings will be lost in case of system reboot. You will need to reapply them manually,</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>iptables-persistent
+iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/etc/iptables/rules.v4
+
+<span class="c1"># you can see the rules are saved here</span>
+cat<span class="w"> </span>/etc/iptables/rules.v4
+</code></pre></div>
+</div>
+<h4 id="6-targets">6. targets<a class="headerlink" href="#6-targets" title="Permanent link">&para;</a></h4>
+<p>when do <code>curl http://localhost:9090/metrics</code> on the Prometheus server cli, you can see a list of metrics</p>
+<p><img src="../imgs/cli.png" /></p>
+<p>you can access the same metrics in the UI:</p>
+<p><img src="../imgs/ui_query.png.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Status &gt; Targets</p>
+<p>Prometheus is aware of the 2 targets because they are <u>automatically configured</u> during the apt installation (in file <code>/etc/prometheus/prometheus.yml</code>).</p>
+<p><img src="../imgs/targets.png" /></p>
+</div>
+<h5 id="prometheusyml">prometheus.yml<a class="headerlink" href="#prometheusyml" title="Permanent link">&para;</a></h5>
+<p><code>/etc/prometheus/prometheus.yml</code> is the Prometheus config file, you can also find it on the UI &gt; <strong>Status</strong> &gt; <strong>Configuration</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">global</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+<span class="w">    </span><span class="nt">evaluation_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+<span class="w">    </span><span class="nt">external_labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">monitor</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;example&#39;</span>
+
+<span class="c1"># Alertmanager configuration</span>
+<span class="nt">alerting</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">alertmanagers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:9093&#39;</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># Load rules once and periodically evaluate them according to the global &#39;evaluation_interval&#39;.</span>
+<span class="nt">rule_files</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># - &quot;first_rules.yml&quot;</span>
+<span class="w">    </span><span class="c1"># - &quot;second_rules.yml&quot;</span>
+
+<span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;prometheus&#39;</span>
+<span class="w">        </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">        </span><span class="nt">scrape_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
+<span class="w">        </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:9090&#39;</span><span class="p p-Indicator">]</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">static_configs</span><span class="p p-Indicator">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:9100&#39;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>you can modify the config file and restart the Prometheus:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+</code></pre></div></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<ul>
+<li><strong>Node Exporter Metrics</strong> shows computer performance, such as CPU disk IO network, IO memory</li>
+<li><strong>Prometheus Metrics</strong> tells the time series database(<code>prometheus_tsdb_xxx</code>) plus a few other Prometheus server metrics</li>
+</ul>
+</div>
+<h4 id="7-install-node-exporter-on-second-server">7. install node-exporter on second server<a class="headerlink" href="#7-install-node-exporter-on-second-server" title="Permanent link">&para;</a></h4>
+<p><img src="../imgs/server_2.png" /></p>
+<p>on another server, I call this machine <code>openshift</code>, install node-exporter:
+<div class="highlight"><pre><span></span><code><span class="c1"># In server openshift:</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>prometheus-node-exporter
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-node-exporter<span class="w"> </span>status
+</code></pre></div></p>
+<p>you can visit the metrics by <code>&lt;Server2_PublicIP&gt;:9100/metrics</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># In server prometheus:</span>
+sudo<span class="w"> </span>vi<span class="w"> </span>/etc/prometheus/prometheus.yml
+</code></pre></div>
+<p>add:
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:9100&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;&lt;Server2_PublicIP&gt;:9100&#39;</span><span class="p p-Indicator">]</span><span class="w">    </span><span class="c1"># add this</span>
+</code></pre></div></p>
+<p>restart prometheus:
+<div class="highlight"><pre><span></span><code><span class="c1"># check grammar</span>
+promtool<span class="w"> </span>check<span class="w"> </span>config<span class="w"> </span>/etc/prometheus/prometheus.yml
+
+<span class="c1"># restart</span>
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div></p>
+<p><img src="../imgs/external_node_exporter.png" /></p>
+<h4 id="8-deleting-a-time-serie">8. deleting a time serie<a class="headerlink" href="#8-deleting-a-time-serie" title="Permanent link">&para;</a></h4>
+<p>to delete data from the Prometheus TSDB database.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># enable admin API</span>
+sudo<span class="w"> </span>vi<span class="w"> </span>/etc/default/prometheus
+</code></pre></div>
+<p>add:
+<div class="highlight"><pre><span></span><code>ARGS=&quot;--web.enable-admin-api&quot;
+</code></pre></div></p>
+<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div>
+you will see:</p>
+<p><img src="../imgs/ui_enabled_admin_api.png" /></p>
+<p>delete a time serie in <code>prometheus</code> server CLI:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-g<span class="w"> </span><span class="s1">&#39;http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]={instance=&quot;sbcode.net:9100&quot;}&#39;</span>
+</code></pre></div></p>
+<h4 id="9-query">9. query<a class="headerlink" href="#9-query" title="Permanent link">&para;</a></h4>
+<p>here are some example of queries:</p>
+<div class="highlight"><pre><span></span><code>scrape_duration_seconds{job=&quot;node&quot;}
+
+# use regex
+node_cpu_seconds_total{mode=~&quot;.*irq&quot;}
+</code></pre></div>
+<blockquote>
+<p><a href="https://github.com/google/re2/wiki/Syntax">RE2</a> is used</p>
+</blockquote>
+<h5 id="data-types">data types<a class="headerlink" href="#data-types" title="Permanent link">&para;</a></h5>
+<ol>
+<li><strong>Scalar</strong>: A numeric floating point value. such as: <code>-1</code>, <code>12.34</code> and 12345678.9</li>
+<li><strong>Instant vector</strong>: A set of time series containing a single sample for each time series, all sharing the same timestamp <code>scrape_duration_seconds{instance="localhost:9100"}</code></li>
+<li><strong>Range Vector</strong>: A set of time series containing <u>a range of data points</u> over time for each time series. Examples:<ul>
+<li><code>scrape_duration_seconds{instance="localhost:9100"}[1m]</code></li>
+<li><code>scrape_duration_seconds{instance="localhost:9100"}[1m:15s]</code></li>
+</ul>
+</li>
+</ol>
+<h5 id="functions">functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h5>
+<p><a href="https://prometheus.io/docs/prometheus/latest/querying/functions/">PromQL Function Examples</a></p>
+<ul>
+<li><code>rate(scrape_duration_seconds{instance="localhost:9100"}[1m:20s])</code> -&gt; this is a <strong>Instant vector</strong> again</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>the same Query you can use it in <strong>Grafana</strong> to get the same graph</p>
+</div>
+<h4 id="10-recording-rule">10. recording rule<a class="headerlink" href="#10-recording-rule" title="Permanent link">&para;</a></h4>
+<p><strong>Rule</strong> or <strong>Recording Rule</strong> is a custom expression which can appear in the UI like all other metrics (such as <code>scrape_duration_seconds</code>)</p>
+<h5 id="operator">operator<a class="headerlink" href="#operator" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>+</code> (addition)</li>
+<li><code>-</code> (subtraction)</li>
+<li><code>*</code> (multiplication)</li>
+<li><code>/</code> (division)</li>
+<li><code>%</code> (modulo)</li>
+<li><code>^</code> (power/exponentiation)</li>
+</ul>
+<p>in folder <code>/etc/prometheus</code> create a new file and write the <strong>rule</strong> there:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>vi<span class="w"> </span>prometheus_rules.yml
+</code></pre></div></p>
+<p>add rule:
+<div class="highlight"><pre><span></span><code><span class="nt">groups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom_rules</span>
+<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">record</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node_memory_MemFree_percent</span><span class="w">     </span><span class="c1"># &lt;-- this is the Metric Name appears in the dropdown</span>
+<span class="w">        </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100 - (100 * node_memory_MemFree_bytes / node_memory_MemTotal_bytes)</span>
+</code></pre></div></p>
+<p>check grammar:
+<div class="highlight"><pre><span></span><code>promtool<span class="w"> </span>check<span class="w"> </span>rules<span class="w"> </span>/etc/prometheus/prometheus_rules.yml
+</code></pre></div></p>
+<p>add rule file in the configuration file <code>prometheus.yml</code>:
+<div class="highlight"><pre><span></span><code><span class="nt">rule_files</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;prometheus_rules.yml&quot;</span>
+</code></pre></div></p>
+<p>now restart prometheus:
+<div class="highlight"><pre><span></span><code>promtool<span class="w"> </span>check<span class="w"> </span>config<span class="w"> </span>/etc/prometheus/prometheus.yml
+
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>everytime you add new rule or new rule file, do:</p>
+<ol>
+<li>promtool check rules xxx.yml</li>
+<li>promtool check config xxx.yml</li>
+<li>sudo service prometheus restart</li>
+</ol>
+</div>
+<p>the custom rules can be found under <strong>Status</strong> &gt; <strong>Rules</strong> 
+<img src="../imgs/custom_rules.png" /></p>
+<h4 id="11-alerting-rule">11. alerting rule<a class="headerlink" href="#11-alerting-rule" title="Permanent link">&para;</a></h4>
+<p><strong>alerting rule</strong>, similar to <strong>recording rule</strong> but extended. Create a new group in the <code>prometheus_rules.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alert_rules</span>
+<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InstanceDown</span>
+<span class="w">        </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">up == 0</span><span class="w">   </span><span class="c1"># a.k.a &quot;up==false&quot;</span>
+<span class="w">        </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m</span><span class="w">         </span><span class="c1"># how long it stays in &quot;Pending&quot;</span>
+<span class="w">        </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span><span class="w">  </span><span class="c1"># self-defined</span>
+<span class="w">        </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Instance</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">down&#39;</span>
+<span class="w">            </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">job</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.job</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">has</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">down</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">more</span><span class="nv"> </span><span class="s">than</span><span class="nv"> </span><span class="s">1</span><span class="nv"> </span><span class="s">minute.&#39;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>the expression <code>expr</code> in the <strong>alerting rule</strong> should be evaluated as <code>false</code> or <code>true</code>!</p>
+</div>
+<p>now restart prometheus:
+<div class="highlight"><pre><span></span><code>promtool<span class="w"> </span>check<span class="w"> </span>config<span class="w"> </span>/etc/prometheus/prometheus.yml
+
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div></p>
+<h5 id="test">test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h5>
+<p>on the second server (I called the machine <code>openshift</code>), i temporarily stopped the node exporter:
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>service<span class="w"> </span>prometheus-node-exporter<span class="w"> </span>stop
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-node-exporter<span class="w"> </span>status
+</code></pre></div></p>
+<p>after some seconds, refresh the <strong>Alerts</strong> page and you will see: 
+<img src="../imgs/alert.png" /></p>
+<h4 id="12-alert-manager">12. alert manager<a class="headerlink" href="#12-alert-manager" title="Permanent link">&para;</a></h4>
+<p>the <strong>Alerts</strong> page doesnt refresh itself automatically, which is not very convenient, I'd like to receive <strong>alerts</strong> per Slack or Telegram - I need another service <strong>AlertManager</strong>.</p>
+<p><img src="../imgs/service_alert_manager.png" /></p>
+<p>It handles <strong>Grouping</strong>, <strong>Silences</strong>, <strong>Client Behavior</strong> and <strong>High Availability</strong>. </p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>prometheus-alertmanager
+
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-alertmanager<span class="w"> </span>status
+
+<span class="c1"># service &quot;alert manager&quot; is also managed by user &quot;prometheus&quot;</span>
+ps<span class="w"> </span>-u<span class="w"> </span>prometheus
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>the insatllation of <strong>AlertManager</strong> automatically creates files under directory <code>/etc/prometheus/</code>:
+<div class="highlight"><pre><span></span><code>alertmanager.yml
+alertmanager_templates/
+</code></pre></div></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>you can also visit th <strong>AlertManager</strong> under <code>&lt;PublicIP&gt;:9093</code> - but we dont want that</p>
+<p>we block external traffic:
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span>localhost<span class="w"> </span>--dport<span class="w"> </span><span class="m">9093</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">9093</span><span class="w"> </span>-j<span class="w"> </span>DROP
+iptables<span class="w"> </span>-L
+
+iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/etc/iptables/rules.v4
+cat<span class="w"> </span>/etc/iptables/rules.v4
+
+<span class="c1"># double check it internal traffic still works</span>
+curl<span class="w"> </span>localhost:9093<span class="w"> </span>
+</code></pre></div></p>
+</div>
+<p>add another <strong>scraping target</strong> in <code>prometheus.yml</code> -  so that <strong>AlertManager</strong>'s endpoint <code>/metrics</code> is scraped by Prometheus as well!
+<div class="highlight"><pre><span></span><code><span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- job_name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alertmanager</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">static_configs</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;localhost:9093&#39;</span><span class="p p-Indicator">]</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>promtool<span class="w"> </span>check<span class="w"> </span>config<span class="w"> </span>/etc/prometheus/prometheus.yml
+
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div>
+<p><img src="../imgs/service_alert_manager_in_targets.png" /></p>
+<h4 id="13-setup-mail-service">13. setup mail service<a class="headerlink" href="#13-setup-mail-service" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># make a backup</span>
+cp<span class="w"> </span>alertmanager.yml<span class="w"> </span>alertmanager_orig.yml
+
+sudo<span class="w"> </span>vi<span class="w"> </span>alertmanager.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># alertmanager.yml</span>
+<span class="nt">route</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smtp</span>
+<span class="nt">receivers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">smtp</span>
+<span class="w">      </span><span class="nt">email_configs</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">smarthost</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mail.your-email-service-domain:port</span>
+<span class="w">            </span><span class="nt">hello</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-email-service-domain</span>
+<span class="w">            </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;to@example.com&#39;</span>
+<span class="w">            </span><span class="nt">from</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;from@example.com&#39;</span>
+<span class="w">            </span><span class="nt">auth_username</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;from@example.com&#39;</span>
+<span class="w">            </span><span class="nt">auth_password</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;your-password&#39;</span>
+<span class="w">            </span><span class="nt">send_resolved</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">require_tls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># grammar check</span>
+amtool<span class="w"> </span>check-config<span class="w"> </span>alertmanager.yml
+
+<span class="c1"># restart alert manager</span>
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-alertmanager<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus-alertmanager<span class="w"> </span>status
+
+<span class="c1"># debug config if necessary</span>
+amtool<span class="w"> </span>config
+journalctl<span class="w"> </span>-u<span class="w"> </span>prometheus-alertmanager.service<span class="w"> </span>-f
+
+<span class="c1"># customize external URL to</span>
+sudo<span class="w"> </span>vi<span class="w"> </span>/etc/default/prometheus
+</code></pre></div>
+<p>change <code>/etc/default/prometheus</code> file:
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">ARGS=&quot;--web.external-url=&lt;Domain&gt;&quot;</span>
+</code></pre></div></p>
+<blockquote>
+<p>If you have existing settings in the ARGS parameter, then separate them using a space. E.g.: <code>ARGS="--web.enable-admin-api --web.external-url=https://example.com"</code></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>promtool<span class="w"> </span>check<span class="w"> </span>config<span class="w"> </span>/etc/prometheus/prometheus.yml
+
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>restart
+sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class="w"> </span>status
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Changing the Email Template</p>
+<p>You may want to change the email template used by the alert manager. You can modify <code>/usr/share/prometheus/alertmanager/default.tmpl</code> -&gt; The grammar is HTML-like.</p>
+<p>* <a href="https://raw.githubusercontent.com/prometheus/alertmanager/master/template/default.tmpl">the original default.tmpl</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>more configurations refer to <a href="https://prometheus.io/docs/alerting/latest/configuration/">alertmanager configuration</a></p>
+</div>
+<h4 id="14-grafana">14. grafana<a class="headerlink" href="#14-grafana" title="Permanent link">&para;</a></h4>
+<p>install <strong>grafana</strong> and connect it to <strong>prometheus</strong>. On a third ubuntu server, do:</p>
+<h5 id="install">install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="c1"># install dependencies</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>adduser<span class="w"> </span>libfontconfig1
+
+<span class="c1"># download grafana binary</span>
+wget<span class="w"> </span>https://dl.grafana.com/oss/release/grafana_9.3.2_amd64.deb
+sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>grafana_9.3.2_amd64.deb
+
+<span class="c1"># start grafana</span>
+sudo<span class="w"> </span>service<span class="w"> </span>grafana-server<span class="w"> </span>start
+sudo<span class="w"> </span>service<span class="w"> </span>grafana-server<span class="w"> </span>status
+</code></pre></div>
+<p>its accessible on <code>http://&lt;PublicIP&gt;:3000</code>, the default credential is:</p>
+<ul>
+<li>Username : <code>admin</code></li>
+<li>Password : <code>admin</code></li>
+</ul>
+<h5 id="take-prometheus-as-data-source">take prometheus as data source<a class="headerlink" href="#take-prometheus-as-data-source" title="Permanent link">&para;</a></h5>
+<p><strong>grafana</strong> needs to know <strong>prometheus</strong> as a data source.</p>
+<p><img src="../imgs/grafana_add_data_source.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">prometheus endpoint setup</p>
+<ul>
+<li>URL: <code>&lt;Domain&gt;</code></li>
+<li>Access: <code>Server(default)</code></li>
+<li>Basic auth: <code>On</code></li>
+<li>User: <code>admin</code></li>
+<li>Password: <code>&lt;Password&gt;</code></li>
+<li>HTTP Method: <code>POST</code></li>
+</ul>
+</div>
+<p><img src="../imgs/grafana_ui.png" /></p>
+<blockquote>
+<p><strong>Grafana</strong> is nothing more than a more user-friendly visualisation </p>
+</blockquote>
+<h5 id="dashboard">dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h5>
+<p>you can import prometheus-provided-dashboard:</p>
+<p><img src="../imgs/grafana_import_dashboard.png" /></p>
+<p>import community-provided-dashboard: </p>
+<ol>
+<li><strong>Configuration</strong> &gt; <strong>Data Sources</strong> &gt; <strong>Plugins</strong> &gt; <strong>Find more plugins on Grafana.com</strong> &gt; <strong>Dashboards</strong></li>
+<li>Filter <code>Data source: Prometheus</code></li>
+<li>Find the dashboard "Node Exporter for Prometheus Dashboard EN"</li>
+<li>Copy the <strong>Dashboard ID</strong></li>
+<li><strong>Dashboards</strong> &gt; <strong>Manage</strong> &gt; <strong>Import</strong> &gt; paste the <strong>Dashboard ID</strong>, select "Prometheus" as data source</li>
+<li><strong>Import</strong></li>
+</ol>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link", "navigation.prunes"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.407015b8.min.js"></script>
+      
+    
+  </body>
+</html>

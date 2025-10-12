@@ -12,14 +12,14 @@
         <link rel="prev" href="../grafana/">
       
       
-        <link rel="next" href="../../network/ip/">
+        <link rel="next" href="hands_on/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
     
     
       
-        <title>Prometheus - Chuying's notebook</title>
+        <title>Intro - Chuying's notebook</title>
       
     
     
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Prometheus
+              Intro
             
           </span>
         </div>
@@ -397,10 +397,58 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2_2" id="__nav_3_2_2_label" tabindex="0">
+          Solution Architect Associate
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Solution Architect Associate
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../architect/aws/saa/" class="md-nav__link">
-        Solution Architect Associate
+        Intro
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architect/aws/saa/4.security/" class="md-nav__link">
+        4. Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -1735,6 +1783,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/k8s/others/" class="md-nav__link">
+        Others
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -2971,6 +3033,35 @@
     
   
   
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14_2" id="__nav_14_2_label" tabindex="0">
+          Prometheus
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_14_2">
+          <span class="md-nav__icon md-icon"></span>
+          Prometheus
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -2978,12 +3069,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Prometheus
+          Intro
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Prometheus
+        Intro
       </a>
       
         
@@ -3140,6 +3231,27 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hands_on/" class="md-nav__link">
+        HandsOn
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -3713,7 +3825,7 @@
                   
 
 
-  <h1>Prometheus</h1>
+  <h1>Intro</h1>
 
 <p><a href="https://www.youtube.com/watch?v=h4Sl21AKiDg&amp;t=141s&amp;ab_channel=TechWorldwithNana">Doc</a></p>
 <h3 id="what-is-prometheus">What is Prometheus<a class="headerlink" href="#what-is-prometheus" title="Permanent link">&para;</a></h3>
@@ -3732,7 +3844,7 @@
 </ul>
 <h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
 <h4 id="prometheus-server">Prometheus Server<a class="headerlink" href="#prometheus-server" title="Permanent link">&para;</a></h4>
-<p><img src="./imgs/prometheus_server.png" /></p>
+<p><img src="../imgs/prometheus_server.png" /></p>
 <h5 id="what-does-prometheus-server-monitor">what does <strong>Prometheus Server</strong> monitor?<a class="headerlink" href="#what-does-prometheus-server-monitor" title="Permanent link">&para;</a></h5>
 <table>
 <thead>
@@ -3760,12 +3872,14 @@
 </tr>
 </tbody>
 </table>
-<p>All the <strong>metrics</strong> will be saved in <strong>Prometheus Server &gt; Storage</strong>. <strong>Metrics</strong> are human-readable text-based, each <strong>metric</strong> has:
-- <code>help</code>: description of what the metric is
-- <code>type</code>: metric type
-- <code>counter</code>: how many times did it happen
-- <code>gauge</code>: whats the current value
-- <code>histogram</code>: how long or how big</p>
+<p>All the <strong>metrics</strong> will be saved in <strong>Prometheus Server &gt; Storage</strong>. <strong>Metrics</strong> are human-readable text-based, each <strong>metric</strong> has:</p>
+<ul>
+<li><code>help</code>: description of what the metric is</li>
+<li><code>type</code>: metric type</li>
+<li><code>counter</code>: how many times did it happen</li>
+<li><code>gauge</code>: whats the current value</li>
+<li><code>histogram</code>: how long or how big</li>
+</ul>
 <h5 id="how-does-prometheus-server-monitor-its-target">How does <strong>Prometheus Server</strong> monitor its <strong>target</strong>?<a class="headerlink" href="#how-does-prometheus-server-monitor-its-target" title="Permanent link">&para;</a></h5>
 <p><strong>Prometheus Server &gt; Retrival</strong> pulls <strong>metrics</strong> over HTTP, doesn't matter what type of <strong>target</strong> it is, this <strong>target</strong> should provides Endpoint <code>hostaddress/metrics</code> in a Premetheus-understand-format.</p>
 <div class="admonition note">
@@ -3822,7 +3936,7 @@
 <p>Prometheus has the component <strong>AlertManager</strong>. It defines:
 - what triggers alerts
 - who recives the alerts</p>
-<p><img src="./imgs/alert_manager.png" /></p>
+<p><img src="../imgs/alert_manager.png" /></p>
 <p>The UI includes following menu:</p>
 <ul>
 <li>Alerts<ul>
@@ -3850,16 +3964,16 @@
 </ul>
 </li>
 </ul>
-<p><img src="./imgs/alert_manager_ui.png" /></p>
+<p><img src="../imgs/alert_manager_ui.png" /></p>
 <h4 id="data-storage">Data Storage<a class="headerlink" href="#data-storage" title="Permanent link">&para;</a></h4>
 <p>to collect and store the data</p>
-<p><img src="./imgs/data_storage.png" /></p>
+<p><img src="../imgs/data_storage.png" /></p>
 <h5 id="query-data">query data<a class="headerlink" href="#query-data" title="Permanent link">&para;</a></h5>
 <p>to query the data, we use <strong>PromQL</strong>.</p>
 <p>for visialization there are 2 possibilities:
 - Prometheus UI
 - Grafana visualization</p>
-<p><img src="./imgs/query_data.png" /></p>
+<p><img src="../imgs/query_data.png" /></p>
 <div class="admonition example">
 <p class="admonition-title">PromQL</p>
 <p>to query all HTTP status codes except 4xx ones
