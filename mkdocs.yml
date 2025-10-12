@@ -162,7 +162,9 @@ nav:
       - VSCode: ide/vscode/index.md
   - Monitoring:
       - Grafana: monitoring/grafana.md
-      - Prometheus: monitoring/prometheus/index.md
+      - Prometheus: 
+            - Intro: monitoring/prometheus/index.md
+            - HandsOn: monitoring/prometheus/hands_on.md
   - Network:
       - IP: network/ip.md
       - LoadBalancer: network/loadbalancer.md
