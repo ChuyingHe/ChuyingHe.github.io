@@ -3,6 +3,7 @@
 ## 0. schedule virtual server
 - [Udemy Course](https://ibm-learning.udemy.com/course/prometheus/learn/lecture/16871790#overview)
 - [Tutorial](https://sbcode.net/prometheus/)
+- [Prometheus Git repo](https://github.com/prometheus/prometheus/wiki/Default-port-allocations)
 - Cloud Server Platform: DigitialOcean
 - Machine: Ubuntu 24 LTS, 1GB RAM, 25GB SSD, Frankkurt
 - access with its public IP, root and pw
