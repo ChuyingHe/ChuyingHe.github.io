@@ -3995,16 +3995,16 @@ ps<span class="w"> </span>-u<span class="w"> </span>prometheus<span class="w">  
 <p class="admonition-title">Info</p>
 <p>you can visit:</p>
 <ul>
-<li>prometheus UI (in browser) <code>&lt;PublicIP&gt;:9090</code></li>
-<li>prometheus node exporter (in browser) <code>&lt;PublicIP&gt;:9100</code></li>
+<li>prometheus UI (in browser) <code>&lt;Server1_PublicIP&gt;:9090</code></li>
+<li>prometheus node exporter (in browser) <code>&lt;Server1_PublicIP&gt;:9100</code></li>
 </ul>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>❓ prometheus will be reading data from both metrics??</p>
 <ul>
-<li><code>&lt;PublicIP&gt;:9090/metrics</code></li>
-<li><code>&lt;PublicIP&gt;:9100/metrics</code></li>
+<li><code>&lt;Server1_PublicIP&gt;:9090/metrics</code></li>
+<li><code>&lt;Server1_PublicIP&gt;:9100/metrics</code></li>
 </ul>
 </div>
 <h4 id="2-configure-domain">2. configure domain<a class="headerlink" href="#2-configure-domain" title="Permanent link">&para;</a></h4>
@@ -4012,7 +4012,7 @@ ps<span class="w"> </span>-u<span class="w"> </span>prometheus<span class="w">  
 <ul>
 <li>type: A</li>
 <li>name: prometheus</li>
-<li>point to: <PublicIP></li>
+<li>point to: <Server1_PublicIP></li>
 <li>ttl: default</li>
 </ul>
 <p>the UI is then available at <code>http://prometheus.&lt;Domain&gt;:9090/classic/graph</code></p>
@@ -4025,7 +4025,7 @@ sudo<span class="w"> </span>service<span class="w"> </span>nginx<span class="w">
 <span class="nb">cd</span><span class="w"> </span>/etc/nginx/sites-enabled/
 ls
 </code></pre></div>
-<p>the file <code>default</code> indicates the nginx default configuration -&gt; the <code>&lt;PublicIP&gt;</code> now points to a "welcome to nginx" page</p>
+<p>the file <code>default</code> indicates the nginx default configuration -&gt; the <code>&lt;Server1_PublicIP&gt;</code> now points to a "welcome to nginx" page</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># use text editor &quot;vi&quot; to create and modify file `prometheus`</span>
 sudo<span class="w"> </span>vi<span class="w"> </span>prometheus
 </code></pre></div>
@@ -4115,7 +4115,7 @@ cat<span class="w"> </span>/etc/iptables/rules.v4
 <p>when do <code>curl http://localhost:9090/metrics</code> on the Prometheus server cli, you can see a list of metrics</p>
 <p><img src="../imgs/cli.png" /></p>
 <p>you can access the same metrics in the UI:</p>
-<p><img src="../imgs/ui_query.png.png" /></p>
+<p><img src="../imgs/ui_query.png" /></p>
 <div class="admonition info">
 <p class="admonition-title">Status &gt; Targets</p>
 <p>Prometheus is aware of the 2 targets because they are <u>automatically configured</u> during the apt installation (in file <code>/etc/prometheus/prometheus.yml</code>).</p>
@@ -4331,7 +4331,7 @@ alertmanager_templates/
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>you can also visit th <strong>AlertManager</strong> under <code>&lt;PublicIP&gt;:9093</code> - but we dont want that</p>
+<p>you can also visit th <strong>AlertManager</strong> under <code>&lt;Server1_PublicIP&gt;:9093</code> - but we dont want that</p>
 <p>we block external traffic:
 <div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-s<span class="w"> </span>localhost<span class="w"> </span>--dport<span class="w"> </span><span class="m">9093</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
 iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--dport<span class="w"> </span><span class="m">9093</span><span class="w"> </span>-j<span class="w"> </span>DROP
@@ -4414,7 +4414,7 @@ sudo<span class="w"> </span>service<span class="w"> </span>prometheus<span class
 <p>more configurations refer to <a href="https://prometheus.io/docs/alerting/latest/configuration/">alertmanager configuration</a></p>
 </div>
 <h4 id="14-grafana">14. grafana<a class="headerlink" href="#14-grafana" title="Permanent link">&para;</a></h4>
-<p>install <strong>grafana</strong> and connect it to <strong>prometheus</strong>. On a third ubuntu server, do:</p>
+<p>install <strong>grafana</strong> and connect it to <strong>prometheus</strong>. On a third ubuntu server(<code>Server3</code>), do:</p>
 <h5 id="install">install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="c1"># install dependencies</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
@@ -4428,7 +4428,7 @@ sudo<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </spa
 sudo<span class="w"> </span>service<span class="w"> </span>grafana-server<span class="w"> </span>start
 sudo<span class="w"> </span>service<span class="w"> </span>grafana-server<span class="w"> </span>status
 </code></pre></div>
-<p>its accessible on <code>http://&lt;PublicIP&gt;:3000</code>, the default credential is:</p>
+<p>its accessible on <code>http://&lt;Server3_PublicIP&gt;:3000</code>, the default credential is:</p>
 <ul>
 <li>Username : <code>admin</code></li>
 <li>Password : <code>admin</code></li>
