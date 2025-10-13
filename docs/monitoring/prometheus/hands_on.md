@@ -33,21 +33,21 @@ ps -u prometheus    # checking user named "prometheus"
 !!! info
     you can visit:
     
-    - prometheus UI (in browser) `<PublicIP>:9090`
-    - prometheus node exporter (in browser) `<PublicIP>:9100`
+    - prometheus UI (in browser) `<Server1_PublicIP>:9090`
+    - prometheus node exporter (in browser) `<Server1_PublicIP>:9100`
 
 !!! warning
     ❓ prometheus will be reading data from both metrics??
 
-    - `<PublicIP>:9090/metrics`
-    - `<PublicIP>:9100/metrics`
+    - `<Server1_PublicIP>:9090/metrics`
+    - `<Server1_PublicIP>:9100/metrics`
 
 ## 2. configure domain
 add DNS record to my Domain:
 
 - type: A
 - name: prometheus
-- point to: <PublicIP>
+- point to: <Server1_PublicIP>
 - ttl: default
 
 
@@ -66,7 +66,7 @@ cd /etc/nginx/sites-enabled/
 ls
 ```
 
-the file `default` indicates the nginx default configuration -> the `<PublicIP>` now points to a "welcome to nginx" page
+the file `default` indicates the nginx default configuration -> the `<Server1_PublicIP>` now points to a "welcome to nginx" page
 
 ```bash
 # use text editor "vi" to create and modify file `prometheus`
@@ -181,7 +181,7 @@ when do `curl http://localhost:9090/metrics` on the Prometheus server cli, you c
 
 you can access the same metrics in the UI:
 
-<img src="../imgs/ui_query.png.png" />
+<img src="../imgs/ui_query.png" />
 
 
 !!! info "Status > Targets"
@@ -446,7 +446,7 @@ ps -u prometheus
     ```
 
 !!! info
-    you can also visit th **AlertManager** under `<PublicIP>:9093` - but we dont want that
+    you can also visit th **AlertManager** under `<Server1_PublicIP>:9093` - but we dont want that
 
     we block external traffic:
     ```bash
@@ -545,7 +545,7 @@ sudo service prometheus status
     more configurations refer to [alertmanager configuration](https://prometheus.io/docs/alerting/latest/configuration/)
 
 ## 14. grafana
-install **grafana** and connect it to **prometheus**. On a third ubuntu server, do:
+install **grafana** and connect it to **prometheus**. On a third ubuntu server(`Server3`), do:
 
 ### install
 
@@ -563,7 +563,7 @@ sudo service grafana-server start
 sudo service grafana-server status
 ```
 
-its accessible on `http://<PublicIP>:3000`, the default credential is:
+its accessible on `http://<Server3_PublicIP>:3000`, the default credential is:
 
 - Username : `admin`
 - Password : `admin`
