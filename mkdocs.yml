@@ -63,6 +63,7 @@ nav:
       - Basics: bash_script/index.md
       - Exercises: bash_script/exercises.md
   - Cloud:
+      - YAML: cloud/yaml/index.md
       - Docker: cloud/docker/index.md
       - Kubernetes:
           - CKA:

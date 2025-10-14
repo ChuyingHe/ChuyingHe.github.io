@@ -505,6 +505,12 @@ receivers:
             require_tls: false
 ```
 
+!!! info "route"
+
+    Alertmanager 的 Route（路由） 是告警分发的核心枢纽，它决定了收到的告警应该发送给谁、如何分组、何时发送。
+
+    \* [Alertmanager's configuration - route](https://prometheus.io/docs/alerting/latest/configuration/#route)
+
 ```bash
 # grammar check
 amtool check-config alertmanager.yml
@@ -598,3 +604,10 @@ import community-provided-dashboard:
 1. Copy the **Dashboard ID**
 1. **Dashboards** > **Manage** > **Import** > paste the **Dashboard ID**, select "Prometheus" as data source
 1. **Import**
+
+
+## 15. thanos
+to deduplicate, store and receive metrics, evaluate rules
+
+## 16. loki
+to receive, store and analyse logs
