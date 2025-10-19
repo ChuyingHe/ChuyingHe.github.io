@@ -388,6 +388,11 @@ kind: StatefulSet
 metadata:
   name: mysql
 spec:
+  replicas: 3   # Pod 数量
+  serviceName: mysql  # 声明要使用的 Headless服务
+  selector:
+    matchLabels:
+      app: mysql
   template:
     metadata:
       labels:
@@ -395,22 +400,28 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql
-  replicas: 3
-  selector:
-    matchLabels:
-      app: mysql
-  
-  serviceName: mysql  # 声明要使用的 Headless服务
+        image: mysql   
 ```
 生成StatefulSet：
 
 ```bash
 kubectl create -f my-ss.yaml
 ```
+结果会生成 3 个 Pod × 1 个Containers/Pod = 3 个 Containers：
+```txt
+mysql-0 Pod:
+  └── mysql 容器
 
-!!! info
-    StatefulSet被删除时从后往前删
+mysql-1 Pod:
+  └── mysql 容器
+
+mysql-2 Pod:
+  └── mysql 容器
+```
+
+!!! info "顺序操作"
+    - 创建: 0→1→2 
+    - 删除: 2→1→0
 
 # Headless Service
 不做loading balance，只提供DNS的服务。与StatefulSet一起使用时，为每一个Pod都提供一个DNS，格式为：`<pod-name>.<headless-service-name>.<namespace>.<cluster-domain>`比如：

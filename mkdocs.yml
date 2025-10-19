@@ -43,19 +43,12 @@ nav:
       - GCP PCAC:
           - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
-      - Ansible: automation/ansible/index.md
+      - Ansible: 
+            - Intro: automation/ansible/index.md
+            - HandsOn: automation/ansible/hands_on.md
       - ArgoCD: automation/argocd/index.md
       - Benthos: automation/benthos/index.md
       - Helm: automation/helm/index.md
-      - Instana:
-          - Installation: automation/instana/installation.md
-          - CLIs, Namespaces: automation/instana/clis.md
-          - Jargons: automation/instana/theory/1.jargons.md
-          - Agent, Sensor: automation/instana/theory/2.agent_sensor.md
-          - Trace, Call, Span: automation/instana/theory/3.trace.md
-          - Event, Alert: automation/instana/theory/4.event.md
-          - Integration, SKD, API: automation/instana/theory/5.api.md
-          - UI: automation/instana/theory/6.ui.md
       - n8n: automation/n8n/index.md
       - NodeRed: automation/nodered/intro.md
       - iCalBuddy: automation/icalBuddy.md
@@ -161,7 +154,17 @@ nav:
   - ffmpeg: ffmpeg/index.md
   - IDEs:
       - VSCode: ide/vscode/index.md
-  - Monitoring:
+  - Monitoring: 
+      - Basic: monitoring/basic.md
+      - Instana:
+          - Installation: monitoring/instana/installation.md
+          - CLIs, Namespaces: monitoring/instana/clis.md
+          - Jargons: monitoring/instana/theory/1.jargons.md
+          - Agent, Sensor: monitoring/instana/theory/2.agent_sensor.md
+          - Trace, Call, Span: monitoring/instana/theory/3.trace.md
+          - Event, Alert: monitoring/instana/theory/4.event.md
+          - Integration, SKD, API: monitoring/instana/theory/5.api.md
+          - UI: monitoring/instana/theory/6.ui.md
       - Grafana: monitoring/grafana.md
       - Prometheus: 
             - Intro: monitoring/prometheus/index.md
