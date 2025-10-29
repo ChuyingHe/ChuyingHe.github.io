@@ -15,7 +15,7 @@ nowaday, the infrastructure is becoming more and more complex, Prometheus helps 
 
 # Architecture
 ## Prometheus Server
-<img src="../imgs/prometheus_server.png" />
+<img src="./imgs/prometheus_server.png" />
 
 ### what does **Prometheus Server** monitor?
 |Target|Metrics|
@@ -86,12 +86,12 @@ scrape_configs:
 
 > prometheus has its own `/metrics` endpoint!
 
-## AlertManager component
-Prometheus has the component **AlertManager**. It defines:
+## Alertmanager component
+Prometheus has the component **Alertmanager**. It defines:
 - what triggers alerts
 - who recives the alerts
 
-<img src="../imgs/alert_manager.png" />
+<img src="./imgs/alert_manager.png" />
 
 
 The UI includes following menu:
@@ -111,21 +111,22 @@ The UI includes following menu:
 - Help
     - 提供 Alertmanager 的文档链接或使用帮助信息。
 
-<img src="../imgs/alert_manager_ui.png" />
+<img src="./imgs/alert_manager_ui.png" />
 
 ## Data Storage
 to collect and store the data
 
-<img src="../imgs/data_storage.png" />
+<img src="./imgs/data_storage.png" />
 
 ### query data
 to query the data, we use **PromQL**.
 
 for visialization there are 2 possibilities:
+
 - Prometheus UI
 - Grafana visualization
 
-<img src="../imgs/query_data.png" />
+<img src="./imgs/query_data.png" />
 
 !!! Example "PromQL"
     to query all HTTP status codes except 4xx ones

@@ -44,8 +44,10 @@ nav:
           - 1. Preparation: architect/gcp/1.preparation.md
   - Automation:
       - Ansible: 
+            - Certificate: automation/ansible/certificate.md
             - Intro: automation/ansible/index.md
             - HandsOn: automation/ansible/hands_on.md
+            - Jinja2: automation/ansible/jinja2.md
       - ArgoCD: automation/argocd/index.md
       - Benthos: automation/benthos/index.md
       - Helm: automation/helm/index.md
@@ -167,6 +169,7 @@ nav:
           - UI: monitoring/instana/theory/6.ui.md
       - Grafana: monitoring/grafana.md
       - Prometheus: 
+            - "- Alertmanager": monitoring/prometheus/alertmanager.md
             - Intro: monitoring/prometheus/index.md
             - HandsOn: monitoring/prometheus/hands_on.md
   - Network:

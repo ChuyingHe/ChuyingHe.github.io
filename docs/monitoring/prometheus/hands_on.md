@@ -420,13 +420,11 @@ after some seconds, refresh the **Alerts** page and you will see:
 <img src="../imgs/alert.png" />
 
 
-## 12. alert manager
-the **Alerts** page doesnt refresh itself automatically, which is not very convenient, I'd like to receive **alerts** per Slack or Telegram - I need another service **AlertManager**.
+## 12. Alertmanager 🔔
+the **Alerts** page doesnt refresh itself automatically, which is not very convenient, if I'd like to receive **alerts** per Slack or Telegram - I need another service **Alertmanager** (more about **Alertmanager** find it [here](./alertmanager.md) )
 
 <img src="../imgs/service_alert_manager.png" />
 
-
-It handles **Grouping**, **Silences**, **Client Behavior** and **High Availability**. 
 
 ```bash
 sudo apt install prometheus-alertmanager
@@ -439,14 +437,14 @@ ps -u prometheus
 
 
 !!! info
-    the insatllation of **AlertManager** automatically creates files under directory `/etc/prometheus/`:
+    the insatllation of **Alertmanager** automatically creates files under directory `/etc/prometheus/`:
     ```bash
     alertmanager.yml
     alertmanager_templates/
     ```
 
 !!! info
-    you can also visit th **AlertManager** under `<Server1_PublicIP>:9093` - but we dont want that
+    you can also visit th **Alertmanager** under `<Server1_PublicIP>:9093` - but we dont want that
 
     we block external traffic:
     ```bash
@@ -461,7 +459,7 @@ ps -u prometheus
     curl localhost:9093 
     ```
 
-add another **scraping target** in `prometheus.yml` -  so that **AlertManager**'s endpoint `/metrics` is scraped by Prometheus as well!
+add another **scraping target** in `prometheus.yml` -  so that **Alertmanager**'s endpoint `/metrics` is scraped by Prometheus as well!
 ```yaml
 scrape_configs:
   ...
