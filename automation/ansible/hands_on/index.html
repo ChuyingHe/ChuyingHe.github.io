@@ -12,7 +12,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../argocd/">
+        <link rel="next" href="../jinja2/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
@@ -1005,6 +1005,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../certificate/" class="md-nav__link">
+        Certificate
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../" class="md-nav__link">
         Intro
       </a>
@@ -1077,8 +1091,7 @@
     alias
   </a>
   
-    <nav class="md-nav" aria-label="alias">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#inventory-parameters" class="md-nav__link">
@@ -1087,22 +1100,23 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#groups" class="md-nav__link">
     groups
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="groups">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#inventory-format" class="md-nav__link">
-    Inventory Format
+  <a href="#group-of-groups" class="md-nav__link">
+    group of groups
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1154,23 +1168,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#scope" class="md-nav__link">
-    Scope
+  <a href="#variable-scope" class="md-nav__link">
+    Variable Scope
   </a>
   
-    <nav class="md-nav" aria-label="Scope">
+    <nav class="md-nav" aria-label="Variable Scope">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#in-inventory" class="md-nav__link">
-    in inventory
+  <a href="#-host-scope" class="md-nav__link">
+    - Host scope
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#in-playbook" class="md-nav__link">
-    in playbook
+  <a href="#-play-scope" class="md-nav__link">
+    - Play scope
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-global-scope" class="md-nav__link">
+    - Global scope
   </a>
   
 </li>
@@ -1192,26 +1213,6 @@
   <a href="#hostvars" class="md-nav__link">
     hostvars
   </a>
-  
-    <nav class="md-nav" aria-label="hostvars">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#variables-defined-in-other-hosts" class="md-nav__link">
-    variables defined in other hosts
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#info-about-other-hosts" class="md-nav__link">
-    info about other hosts
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1282,8 +1283,158 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#conditionals" class="md-nav__link">
+    Conditionals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loop" class="md-nav__link">
+    Loop
+  </a>
+  
+    <nav class="md-nav" aria-label="Loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loop_1" class="md-nav__link">
+    loop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with_" class="md-nav__link">
+    with_*
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-module" class="md-nav__link">
+    7. Module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-plugin" class="md-nav__link">
+    8. Plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types_1" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modules-and-plugins-index" class="md-nav__link">
+    Modules and Plugins Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-handlers" class="md-nav__link">
+    9. Handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-roles" class="md-nav__link">
+    10. Roles
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-role" class="md-nav__link">
+    create a role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-a-role" class="md-nav__link">
+    use a role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ansible-galaxy" class="md-nav__link">
+    Ansible Galaxy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-collections" class="md-nav__link">
+    11. Collections
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Collections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    use
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#x-ansible-cli-summary" class="md-nav__link">
+    x. Ansible CLI Summary
+  </a>
   
 </li>
       
@@ -1291,6 +1442,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jinja2/" class="md-nav__link">
+        Jinja2
+      </a>
     </li>
   
 
@@ -3406,6 +3571,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../monitoring/prometheus/alertmanager/" class="md-nav__link">
+        - Alertmanager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../monitoring/prometheus/" class="md-nav__link">
         Intro
       </a>
@@ -3880,8 +4059,7 @@
     alias
   </a>
   
-    <nav class="md-nav" aria-label="alias">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#inventory-parameters" class="md-nav__link">
@@ -3890,22 +4068,23 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#groups" class="md-nav__link">
     groups
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="groups">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#inventory-format" class="md-nav__link">
-    Inventory Format
+  <a href="#group-of-groups" class="md-nav__link">
+    group of groups
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3957,23 +4136,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#scope" class="md-nav__link">
-    Scope
+  <a href="#variable-scope" class="md-nav__link">
+    Variable Scope
   </a>
   
-    <nav class="md-nav" aria-label="Scope">
+    <nav class="md-nav" aria-label="Variable Scope">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#in-inventory" class="md-nav__link">
-    in inventory
+  <a href="#-host-scope" class="md-nav__link">
+    - Host scope
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#in-playbook" class="md-nav__link">
-    in playbook
+  <a href="#-play-scope" class="md-nav__link">
+    - Play scope
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-global-scope" class="md-nav__link">
+    - Global scope
   </a>
   
 </li>
@@ -3995,26 +4181,6 @@
   <a href="#hostvars" class="md-nav__link">
     hostvars
   </a>
-  
-    <nav class="md-nav" aria-label="hostvars">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#variables-defined-in-other-hosts" class="md-nav__link">
-    variables defined in other hosts
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#info-about-other-hosts" class="md-nav__link">
-    info about other hosts
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -4085,8 +4251,158 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#conditionals" class="md-nav__link">
+    Conditionals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loop" class="md-nav__link">
+    Loop
+  </a>
+  
+    <nav class="md-nav" aria-label="Loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loop_1" class="md-nav__link">
+    loop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with_" class="md-nav__link">
+    with_*
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-module" class="md-nav__link">
+    7. Module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-plugin" class="md-nav__link">
+    8. Plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#types_1" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modules-and-plugins-index" class="md-nav__link">
+    Modules and Plugins Index
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-handlers" class="md-nav__link">
+    9. Handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-roles" class="md-nav__link">
+    10. Roles
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-role" class="md-nav__link">
+    create a role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-a-role" class="md-nav__link">
+    use a role
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ansible-galaxy" class="md-nav__link">
+    Ansible Galaxy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-collections" class="md-nav__link">
+    11. Collections
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Collections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    use
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#x-ansible-cli-summary" class="md-nav__link">
+    x. Ansible CLI Summary
+  </a>
   
 </li>
       
@@ -4114,8 +4430,8 @@
 <h3 id="1-install">1. Install<a class="headerlink" href="#1-install" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>ansible
 </code></pre></div>
-<div class="admonition error">
-<p class="admonition-title">Error</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p>Ansible is VERY STRICT about identation</p>
 </div>
 <h3 id="2-config">2. Config<a class="headerlink" href="#2-config" title="Permanent link">&para;</a></h3>
@@ -4167,21 +4483,9 @@ ansible<span class="w"> </span><span class="o">[</span>core<span class="w"> </sp
 </ul>
 </div>
 <div class="admonition note">
-<p class="admonition-title">Overwriting config file</p>
-<p>you can overwrite the default config in different way:</p>
+<p class="admonition-title">Multiple Configuration Possiblities with priority</p>
 <ol>
-<li>define another in Playbook Directory: <code>/db-playbooks/ansible.cfg</code></li>
-<li>use ENV <code>$ANSIBLE_CONFIG</code>:
-  <div class="highlight"><pre><span></span><code><span class="nv">ANSIBLE_CONFIG</span><span class="o">=</span>/opt/ansible-common.cfg<span class="w"> </span>ansible-playbook<span class="w"> </span>playbook.yml
-</code></pre></div></li>
-<li>overwriting <u>single parameter</u>:
-  |in *.cfg|as ENV|
-  |:-|:-|
-  |<code>gathering=implicit</code>|<code>ANSIBLE_GATHERING=explicit</code>|</li>
-</ol>
-<p><strong>Priority Chain</strong>:</p>
-<ol>
-<li>single parameter as ENV: <ul>
+<li><strong>[CLI]</strong> single parameter as ENV: <ul>
 <li>temporary oneliner:
   <div class="highlight"><pre><span></span><code><span class="nv">ANSIBLE_GATHERING</span><span class="o">=</span>explicit<span class="w"> </span>ansible-playbook<span class="w"> </span>playbook.yml
 </code></pre></div></li>
@@ -4191,12 +4495,12 @@ ansible-playbook<span class="w"> </span>playbook.yml
 </code></pre></div></li>
 </ul>
 </li>
-<li><code>*.cfg</code> pass in ENV: 
+<li><strong>[CLI]</strong> <code>ANSIBLE_CONFIG=*.cfg</code> file pass as ENV: 
   <div class="highlight"><pre><span></span><code><span class="nv">ANSIBLE_CONFIG</span><span class="o">=</span>/opt/ansible-common.cfg<span class="w"> </span>ansible-playbook<span class="w"> </span>playbook.yml
 </code></pre></div></li>
-<li><code>*.cfg</code> in Playbook's directory </li>
-<li><code>~/.ansible.cfg</code> (HOME directory) </li>
-<li>default <code>ansible.cfg</code> (<code>/Users/&lt;User&gt;/ansible.cfg</code>)</li>
+<li><strong>[FILE]</strong> <code>*.cfg</code> in the Playbook's directory </li>
+<li><strong>[FILE]</strong> <code>~/.ansible.cfg</code> in HOME directory</li>
+<li><strong>[FILE]</strong> default <code>ansible.cfg</code> (in MacOS, mostly in <code>/Users/&lt;User&gt;/ansible.cfg</code>)</li>
 </ol>
 </div>
 <div class="admonition info">
@@ -4212,20 +4516,41 @@ ansible-config<span class="w"> </span>dump
 </code></pre></div>
 </div>
 <h3 id="3-inventory">3. Inventory<a class="headerlink" href="#3-inventory" title="Permanent link">&para;</a></h3>
-<p><strong>inventory</strong> is a list of all machines that involved in task executions. The inventory file is in an <u>INI like format</u>. Example:</p>
-<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">10.24.0.100</span>
-
-<span class="l l-Scalar l-Scalar-Plain">[webservers]</span>
-<span class="l l-Scalar l-Scalar-Plain">web1.myserver.com</span>
-<span class="l l-Scalar l-Scalar-Plain">web2.myserver.com</span>
-
-<span class="l l-Scalar l-Scalar-Plain">[databases]</span>
-<span class="l l-Scalar l-Scalar-Plain">10.24.0.7</span>
-<span class="l l-Scalar l-Scalar-Plain">10.24.0.8</span>
-</code></pre></div>
+<p><strong>inventory</strong> is a list of all machines that involved in task executions. the <strong>Inventory</strong> can be written in INI or YAML formats, here are examples:</p>
 <ul>
-<li>you can use either <u>IP address</u> or <u>hostnames</u></li>
-<li>the IP could be from Cloud servers, virtual or bare metal servers</li>
+<li>INI
+  <div class="highlight"><pre><span></span><code><span class="na">10.24.0.100</span>
+
+<span class="k">[webservers]</span>
+<span class="na">webl.example.com</span>
+<span class="na">Web2.example.com</span>
+
+<span class="k">[dbservers]</span>
+<span class="na">10.24.0.7</span>
+<span class="na">10.24.0.8</span>
+
+<span class="k">[allservers:children]</span>
+<span class="na">webservers</span>
+<span class="na">dbservers</span>
+</code></pre></div></li>
+<li>
+<p>YAML: suitable for more complex organisation
+  <div class="highlight"><pre><span></span><code><span class="nt">allservers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">children</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">webservers</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">webl.example.com</span><span class="p">:</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">web2.example.com</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dbservers</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">db1.example.com</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">db2.example.com</span><span class="p">:</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>you can use either <u>IP address</u> or <u>hostnames</u></p>
+</li>
+<li>the IP could be from Cloud Servers, Virtual Machine or Bare Metal Servers</li>
 <li>default inventory file: <code>/etc/ansible/hosts</code></li>
 </ul>
 <h4 id="alias">alias<a class="headerlink" href="#alias" title="Permanent link">&para;</a></h4>
@@ -4235,24 +4560,25 @@ db<span class="w">    </span><span class="nv">ansible_host</span><span class="o"
 mail<span class="w">  </span><span class="nv">ansible_host</span><span class="o">=</span>server3.company.com
 web2<span class="w">  </span><span class="nv">ansible_host</span><span class="o">=</span>server4.company.com
 </code></pre></div></p>
-<h5 id="inventory-parameters">inventory parameters<a class="headerlink" href="#inventory-parameters" title="Permanent link">&para;</a></h5>
+<h4 id="inventory-parameters">inventory parameters<a class="headerlink" href="#inventory-parameters" title="Permanent link">&para;</a></h4>
 <p>common <strong>inventory parameters</strong>:</p>
 <ul>
 <li><code>ansible_host</code>: the FQDN or IP address of a server</li>
 <li><code>ansible_connection</code>: how to connect to the server</li>
 <li><code>ansible_port</code>: the connection port --&gt; by default <code>22</code>for ssh</li>
 <li><code>ansible_user</code>: the user used to make remote connections --&gt; by default is <code>root</code> for linux</li>
-<li><code>ansible_ssh_pass</code> defines the SSH password for Linux.</li>
-<li>NOT ideal -&gt; PW will be plain text</li>
+<li><code>ansible_ssh_pass</code> defines the SSH password for Linux. --&gt; NOT best practise -&gt; because the password will be plain text</li>
 </ul>
 <p>Example:
 <div class="highlight"><pre><span></span><code>web<span class="w">   </span><span class="nv">ansible_host</span><span class="o">=</span>server1.company.com<span class="w">  </span><span class="nv">ansible_connection</span><span class="o">=</span>ssh<span class="w">    </span><span class="nv">ansible_user</span><span class="o">=</span>root
 db<span class="w">    </span><span class="nv">ansible_host</span><span class="o">=</span>server2.company.com<span class="w">  </span><span class="nv">ansible_connection</span><span class="o">=</span>winrm<span class="w">  </span><span class="nv">ansible_user</span><span class="o">=</span>admin
-mail<span class="w">  </span><span class="nv">ansible_host</span><span class="o">=</span>server3.company.com<span class="w">  </span><span class="nv">ansible_connection</span><span class="o">=</span>ssh<span class="w">    </span><span class="nv">ansible_ssh_pass</span><span class="o">=</span>p@#
+mail<span class="w">  </span><span class="nv">ansible_host</span><span class="o">=</span>server3.company.com<span class="w">  </span><span class="nv">ansible_connection</span><span class="o">=</span>ssh<span class="w">    </span><span class="nv">ansible_ssh_pass</span><span class="o">=</span>p@ssw0rd
 web2<span class="w">  </span><span class="nv">ansible_host</span><span class="o">=</span>server4.company.com<span class="w">  </span><span class="nv">ansible_connection</span><span class="o">=</span>winrm
 
-<span class="c1"># 有一个名为 &quot;localhost&quot; 的目标主机</span>
-<span class="c1"># 使用 localhost 连接插件（即不在远程服务器上执行，而是在当前控制机本地执行任务）</span>
+<span class="c1"># localhost: </span>
+<span class="c1">#     有一个名为 &quot;localhost&quot; （alias=localhost） 的目标主机</span>
+<span class="c1"># ansible_connection=localhost:</span>
+<span class="c1">#     使用 localhost 连接插件（即不在远程服务器上执行，而是在当前控制机本地执行任务）</span>
 localhost<span class="w"> </span><span class="nv">ansible_connection</span><span class="o">=</span>localhost
 </code></pre></div></p>
 <div class="admonition note">
@@ -4283,7 +4609,7 @@ localhost<span class="w"> </span><span class="nv">ansible_connection</span><span
 web1.myserver.com
 web2.myserver.com
 </code></pre></div>
-<p><strong>group of groups</strong>:
+<h5 id="group-of-groups">group of groups<a class="headerlink" href="#group-of-groups" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="o">[</span>web_servers<span class="o">]</span>
 web1
 web2
@@ -4294,7 +4620,7 @@ db1
 <span class="o">[</span>all_servers:children<span class="o">]</span><span class="w">    </span><span class="c1"># &lt;-- 注意这里要加 :children</span>
 web_servers
 db_servers
-</code></pre></div></p>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">常见的应用场景</p>
 <p>make groups out of different perspectives:<br />
@@ -4317,44 +4643,9 @@ web_node2
 web_node3
 </code></pre></div></p>
 </div>
-<h4 id="inventory-format">Inventory Format<a class="headerlink" href="#inventory-format" title="Permanent link">&para;</a></h4>
-<p>the <strong>Inventory</strong> can be written in INI or YAML formats, here are examples:</p>
-<ul>
-<li>INI
-  <div class="highlight"><pre><span></span><code><span class="k">[webservers]</span>
-<span class="na">webl.example.com</span>
-<span class="na">Web2.example.com</span>
-
-<span class="k">[dbservers]</span>
-<span class="na">db1.example.com</span>
-<span class="na">db2.example.com</span>
-
-<span class="k">[allservers:children]</span>
-<span class="na">webservers</span>
-<span class="na">dbservers</span>
-</code></pre></div></li>
-<li>YAML: suitable for more complex organisation
-  <div class="highlight"><pre><span></span><code><span class="nt">allservers</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">children</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">webservers</span><span class="p">:</span><span class="w"> </span>
-<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">webl.example.com</span><span class="p">:</span><span class="w"> </span>
-<span class="w">        </span><span class="nt">web2.example.com</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dbservers</span><span class="p">:</span><span class="w"> </span>
-<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">db1.example.com</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">db2.example.com</span><span class="p">:</span>
-</code></pre></div></li>
-</ul>
 <h3 id="4-variables">4. Variables<a class="headerlink" href="#4-variables" title="Permanent link">&para;</a></h3>
-<p><strong>Variables</strong> store information that varies with each host using <u>Jinja2 Tempating</u>(<a href="https://learn.kodekloud.com/user/courses/jinja2-basics-mini-course">Mini-course</a>). <strong>Inventory Parameter</strong> is also <strong>variables</strong>. </p>
-<div class="admonition note">
-<p class="admonition-title">how to define</p>
-<ul>
-<li>in <strong>playbook</strong></li>
-<li>in dedicate variable file</li>
-</ul>
-</div>
+<p><strong>Variables</strong> store information that varies with each host using <a href="../jinja2/">Jinja2 Tempating</a>. The <strong>Common Inventory Parameters</strong> are pre-defined <strong>variables</strong>. </p>
+<p>Example:
 <div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add DNS server to resolv.conf</span>
 <span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
 <span class="nt">vars</span><span class="p">:</span>
@@ -4363,9 +4654,9 @@ web_node3
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lineinfile</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/resolv.conf</span><span class="w"> </span>
 <span class="w">      </span><span class="nt">line</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;nameserver</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">dns_server</span><span class="nv"> </span><span class="s">}}&#39;</span><span class="w"> </span><span class="c1"># variable usage</span>
-</code></pre></div>
+</code></pre></div></p>
 <div class="admonition note">
-<p class="admonition-title">variable usage</p>
+<p class="admonition-title">how to use</p>
 <ul>
 <li>pure variable: <code>source: '{{ dns_server }}'</code> --&gt; WITH quotes!</li>
 <li>variable concatenated in text: <code>source: blabla{{ dns_server }}blabla</code> --&gt; WITHOUT quotes!</li>
@@ -4373,14 +4664,14 @@ web_node3
 </div>
 <h4 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>string</strong></li>
-<li><strong>number</strong>: integer or float</li>
-<li><strong>boolean</strong>: <ul>
+<li><strong>String</strong></li>
+<li><strong>Number</strong>: integer or float</li>
+<li><strong>Boolean</strong>: <ul>
 <li><code>true</code> = <code>True</code>, <code>'true'</code>, <code>'t'</code>, <code>'yes'</code>, <code>'y'</code>, <code>'on'</code>, <code>'1'</code>, <code>1</code>, <code>1.0</code></li>
 <li><code>false</code> = <code>False</code>, <code>'false'</code>, <code>'f'</code>, <code>'no'</code>, <code>'n'</code>, <code>'off'</code>, <code>'0'</code>, <code>0</code>, <code>0.0</code></li>
 </ul>
 </li>
-<li><strong>list</strong>: list of value(of any type):<ul>
+<li><strong>List</strong>: list of value(of any type):<ul>
 <li>example:
   <div class="highlight"><pre><span></span><code><span class="nt">packages</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
@@ -4396,7 +4687,7 @@ web_node3
 </code></pre></div></li>
 </ul>
 </li>
-<li><strong>dictionary</strong>: key and value can be any type<ul>
+<li><strong>Dictionary</strong>: key and value can be any type<ul>
 <li>example:
   <div class="highlight"><pre><span></span><code><span class="nt">user</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;admin&quot;</span>
@@ -4412,17 +4703,24 @@ web_node3
 </ul>
 </li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li><code>dict</code> has no order</li>
+<li><code>list</code> has order, therefore <strong>tasks</strong>(<strong>plays</strong>) could be depending on other <strong>tasks</strong>(<strong>plays</strong>)</li>
+</ul>
+</div>
 <h4 id="variable-precedence">Variable Precedence<a class="headerlink" href="#variable-precedence" title="Permanent link">&para;</a></h4>
-<p>you can define <strong>variable</strong> in <strong>group</strong>, a <strong>host</strong>, a <strong>play</strong> or as extra CLI variable:</p>
+<p>you can define <strong>variable</strong> in different ways (with prioritized order), here are some examples:</p>
 <ol>
-<li>in <strong>group</strong>
+<li>in inventory's <strong>group</strong>
     <div class="highlight"><pre><span></span><code><span class="p p-Indicator">[</span><span class="nv">web_servers</span><span class="p p-Indicator">:</span><span class="nv">vars</span><span class="p p-Indicator">]</span>
 <span class="l l-Scalar l-Scalar-Plain">dns_server=10.5.5.3</span>
 </code></pre></div></li>
-<li>in <strong>host</strong>
+<li>in inventory's <strong>host</strong>
     <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">web2 ansible_host=172.20.1.101  dns_server=10.5.5.4</span>
 </code></pre></div></li>
-<li>in <strong>play</strong>
+<li>in <strong>play</strong>/<strong>playbook</strong>
     <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure DNS Server</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
 <span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
@@ -4436,28 +4734,24 @@ web_node3
 </code></pre></div></li>
 </ol>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
+<p class="admonition-title">Full Variable Precedence List</p>
 <p><a href="https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence">variable precedence</a></p>
 </div>
 <h4 id="registering-variables">Registering Variables<a class="headerlink" href="#registering-variables" title="Permanent link">&para;</a></h4>
-<p>in a <strong>play</strong>, you can pass result of a <strong>task</strong> to the upcoming <strong>task</strong>:
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check filesystem mount</span>
-<span class="w">  </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">df -h /opt/instana</span>
-<span class="w">  </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
+<p>in a <strong>play</strong>, you can use a special variable - <strong>Registering Variables</strong> to pass result of a <strong>task</strong> to the upcoming <strong>task</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check /etc/hosts file</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat /etc/hosts</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w">      </span><span class="c1"># to create a Registering Variables `result`</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Fail if mount point doesn&#39;t exist</span>
-<span class="w">  </span><span class="nt">fail</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/opt/instana</span><span class="nv"> </span><span class="s">mount</span><span class="nv"> </span><span class="s">point</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">found&quot;</span>
-<span class="w">  </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result.rc != 0</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate available space</span>
-<span class="w">  </span><span class="nt">fail</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Insufficient</span><span class="nv"> </span><span class="s">disk</span><span class="nv"> </span><span class="s">space</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">/opt/instana&quot;</span>
-<span class="w">  </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result.stdout | regex_search(&#39;([0-9]+)%&#39;) | int &gt;= 90</span>
-</code></pre></div></p>
+<span class="w">  </span><span class="nt">debug</span><span class="p">:</span><span class="w">  </span>
+<span class="w">    </span><span class="nt">var</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title"><code>result</code></p>
-<p>a example of how variable <code>result</code> could looks like</p>
+<p>a example of <code>result</code> content</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;changed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;cmd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cat /etc/hosts&quot;</span><span class="p">,</span>
@@ -4517,52 +4811,64 @@ web_node3
 <p class="admonition-title">scope</p>
 <p><strong>registering variable</strong> is associated to its <strong>host</strong> and is available for the rest of the <strong>playbook</strong> execution.</p>
 </div>
-<h4 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h4>
-<p><strong>variables</strong> has scope depends on where they are declared:</p>
-<h5 id="in-inventory">in inventory<a class="headerlink" href="#in-inventory" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># accessible in all hosts</span>
+<h4 id="variable-scope">Variable Scope<a class="headerlink" href="#variable-scope" title="Permanent link">&para;</a></h4>
+<p><strong>Variables</strong> has scope depends on where they are declared:</p>
+<h5 id="-host-scope">- Host scope<a class="headerlink" href="#-host-scope" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="c1"># accessible in ALL hosts</span>
 <span class="k">[all:vars]</span><span class="w"> </span>
 <span class="na">app_list</span><span class="o">=</span><span class="s">[&#39;vim&#39;, &#39;sqlite&#39;, &#39;jq&#39;]</span>
 
-<span class="c1"># accessible in current host</span>
+<span class="c1"># accessible in CURRENT host</span>
 <span class="na">localhost ansible_connection</span><span class="o">=</span><span class="s">local nameserver_ip=8.8.8.8 snmp_port=160-161</span><span class="w">  </span><span class="c1"># snmp_port is ONLY accessible for &quot;localhost&quot;</span>
 <span class="na">node01 ansible_host</span><span class="o">=</span><span class="s">node01 ansible_ssh_pass=caleston123</span>
 </code></pre></div>
-<h5 id="in-playbook">in playbook<a class="headerlink" href="#in-playbook" title="Permanent link">&para;</a></h5>
+<h5 id="-play-scope">- Play scope<a class="headerlink" href="#-play-scope" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Play1</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web1</span><span class="w"> </span>
 <span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">car_model</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;BMW</span><span class="nv"> </span><span class="s">M3&#39;</span>
-<span class="w">    </span><span class="nt">country_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">USA</span>
-<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Systems</span><span class="nv"> </span><span class="s">Engineer&#39;</span>
+<span class="w">    </span><span class="nt">ntp_server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.1.1.1</span>
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;My</span><span class="nv"> </span><span class="s">car</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">car_model</span><span class="nv"> </span><span class="s">}}&quot;&#39;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;I</span><span class="nv"> </span><span class="s">live</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">country_name</span><span class="nv"> </span><span class="s">}}&quot;&#39;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;I</span><span class="nv"> </span><span class="s">work</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">title</span><span class="nv"> </span><span class="s">}}&quot;&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">debug</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">var</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ntp_server</span><span class="w">     </span><span class="c1"># ntp_server is ONLY availble in current Play</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Play2</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web1</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">debug</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">var</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ntp_server</span><span class="w">       </span><span class="c1"># ntp_server cannot be found</span>
 </code></pre></div>
+<h5 id="-global-scope">- Global scope<a class="headerlink" href="#-global-scope" title="Permanent link">&para;</a></h5>
+<p>the <strong>variable</strong> defined as ENV in CLI will be accessible everywhere
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>playbook.yml<span class="w"> </span>--extra-vars<span class="w"> </span><span class="s2">&quot;ntp_server=10.1.1.1&quot;</span>
+</code></pre></div></p>
 <h4 id="magic-variables">Magic Variables<a class="headerlink" href="#magic-variables" title="Permanent link">&para;</a></h4>
 <h5 id="hostvars"><code>hostvars</code><a class="headerlink" href="#hostvars" title="Permanent link">&para;</a></h5>
-<h6 id="variables-defined-in-other-hosts">variables defined in other <strong>hosts</strong><a class="headerlink" href="#variables-defined-in-other-hosts" title="Permanent link">&para;</a></h6>
-<p><strong>Question</strong>: is it possible for <code>web1</code> and <code>web3</code> to get the <code>dns_server</code> variable defined in <code>web2</code> scope?
+<ol>
+<li>
+<p>to access variables defined in other <strong>hosts</strong>. Example:</p>
 <div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">web1 ansible_host=172.20.1.100</span>
 <span class="l l-Scalar l-Scalar-Plain">web2 ansible_host=172.20.1.101 dns_server=10.5.5.4</span>
 <span class="l l-Scalar l-Scalar-Plain">web3 ansible_host=172.20.1.102</span>
 </code></pre></div>
-Answer: yes if using <strong>magic variable</strong> <code>hostvars</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print dns server</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web3</span><span class="w">                                   </span><span class="c1"># in web3</span>
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">debug</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].dns_server }}&#39;</span><span class="w">    </span><span class="c1"># get the variable defined in web2</span>
+<span class="w">    </span><span class="c1"># use **magic variable** `hostvars` to get the variable defined in web2</span>
+<span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].dns_server }}&#39;</span><span class="w">    </span>
 </code></pre></div>
-<h6 id="info-about-other-hosts">info about other <strong>hosts</strong><a class="headerlink" href="#info-about-other-hosts" title="Permanent link">&para;</a></h6>
-<p><strong>magic variable</strong> can be used to get information about other <strong>hosts</strong> too:</p>
+</li>
+<li>
+<p>to get info about other <strong>hosts</strong>: <code>hostvars</code> can be used to get information about other <strong>hosts</strong> too:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].ansible_host }}&#39;</span>
 <span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].ansible_facts.architecture }}&#39;</span>
 <span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].ansible_facts.devices }}&#39;</span>
 <span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].ansible_facts.mounts }}&#39;</span>
 <span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">hostvars[&#39;</span><span class="l l-Scalar l-Scalar-Plain">web2&#39;].ansible_facts.processor }}</span><span class="w">  </span><span class="c1"># 也可以这样写： msg: &#39;{{ hostvars[&#39;web2&#39;][&#39;ansible_facts&#39;][&#39;processor&#39;] }}&#39;</span>
 </code></pre></div>
+</li>
+</ol>
 <h5 id="groupsboston_nodes"><code>groups['boston_nodes']</code><a class="headerlink" href="#groupsboston_nodes" title="Permanent link">&para;</a></h5>
 <p>it return all <strong>hosts</strong> under it:
 <div class="highlight"><pre><span></span><code><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;{{</span><span class="nv"> </span><span class="s">groups[&#39;</span><span class="l l-Scalar l-Scalar-Plain">boston_nodes&#39;] }}&#39;</span>
@@ -4581,45 +4887,54 @@ Answer: yes if using <strong>magic variable</strong> <code>hostvars</code>:</p>
 <span class="l l-Scalar l-Scalar-Plain">webservers</span>
 </code></pre></div></p>
 <h3 id="5-facts">5. Facts<a class="headerlink" href="#5-facts" title="Permanent link">&para;</a></h3>
-<p>When you run a playbook and when Ansible connects to a target machine, a <code>setup</code> module runs automatically, and collects <strong>facts</strong> and saves in variable <code>ansible_facts</code>:</p>
+<p>When you run a <strong>playbook</strong> and when Ansible connects to a target machine, a <code>setup</code> module runs automatically, and collects <strong>facts</strong> and saves in variable <code>ansible_facts</code>:</p>
 <ol>
-<li>basic system information: system architecture, operating system version, processor details, memory details, serial numbers etc</li>
-<li>host's network connectivity: interfaces, IP addresses, FQDN, MAC address etc</li>
-<li>device information: volumes, mounts, available space etc</li>
-<li>date and time</li>
+<li><strong>Basic system information</strong>: system architecture, operating system version, processor details, memory details, serial numbers etc</li>
+<li><strong>Host's network connectivity</strong>: interfaces, IP addresses, FQDN, MAC address etc</li>
+<li><strong>Device information</strong>: volumes, mounts, available space etc</li>
+<li><strong>Date and time</strong></li>
 </ol>
 <div class="admonition note">
-<p class="admonition-title">automatic fact gathering module</p>
+<p class="admonition-title">automatic Facts gathering</p>
+<p>Whichever <strong>module</strong>/<strong>task</strong> you ran
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print hello message</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">debug</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Hello from Ansible!</span>
-</code></pre></div>
-<p>if you run the above playbook you will see 2 tasks:</p>
+</code></pre></div></p>
+<p>if you run the above <strong>playbook</strong> you will see 2 tasks:</p>
 <p><img src="../imgs/setup_module.png" width=600 /></p>
 </div>
 <div class="admonition info">
-<p class="admonition-title">disable <strong>facts</strong></p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print hello message</span>
+<p class="admonition-title">disable facts gathering</p>
+<p>There are 2 ways to disable the <strong>facts</strong> gathering:</p>
+<ol>
+<li>
+<p>disable in <strong>play</strong>
+    <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print hello message</span>
 <span class="w">  </span><span class="nt">gather_facts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">no</span><span class="w">  </span><span class="c1"># disable fact gathering</span>
 <span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">debug</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Hello from Ansible!</span>
+</code></pre></div></p>
 <p>only one task will be executed:</p>
 <p><img src="../imgs/setup_module_disabled.png" /></p>
+</li>
+<li>
 <p>in <code>ansible.cfg</code> there is also a config to enable the fact gathering
 <div class="highlight"><pre><span></span><code><span class="na">gathering</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">implicit</span><span class="w">  </span><span class="c1"># change it to explicit if you want to disable it</span>
 </code></pre></div></p>
-<p>⚠️ the <code>gather_facts</code> in <strong>playbook</strong> &gt; <code>gathering</code> in ansible.cfg</p>
+</li>
+</ol>
+<p>⚠️ Priority: 1. <code>gather_facts</code> in <strong>playbook</strong> &gt; 2. <code>gathering</code> in ansible.cfg</p>
 </div>
 <h3 id="6-playbook">6. Playbook<a class="headerlink" href="#6-playbook" title="Permanent link">&para;</a></h3>
 <p>A <strong>Playbook</strong> is a single YAML file containing a set of <strong>plays</strong>. A <strong>Play</strong> defines set of <strong>tasks</strong> to be run on host. A <strong>task</strong> is a single action </p>
-<div class="admonition note">
-<p class="admonition-title">Example: Playbook contains 1 Play</p>
-</div>
+<p>Example - Playbook contains 1 Play:
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Play 1</span><span class="w">      </span><span class="c1"># &lt;-- name of the play</span>
-<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span><span class="w">  </span><span class="c1"># &lt;-- the host you want to run is ALWAYS on &quot;play&quot; level</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span><span class="w">  </span><span class="c1"># &lt;-- 💗 the host you want to run is ALWAYS on &quot;play&quot; level</span>
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span><span class="w">            </span><span class="c1"># &lt;-- tasks to excute</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Execute command ‘date’</span>
 <span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">date</span>
@@ -4633,20 +4948,13 @@ Answer: yes if using <strong>magic variable</strong> <code>hostvars</code>:</p>
 <span class="w">      </span><span class="nt">service</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">httpd</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">started</span>
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<ul>
-<li><code>dict</code> has no order</li>
-<li><code>list</code> has order, therefore <strong>tasks</strong>(<strong>plays</strong>) could be depending on other <strong>tasks</strong>(<strong>plays</strong>)</li>
-</ul>
-</div>
+</code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>hosts</code> is defined in <strong>inventory</strong></p>
 </div>
 <h4 id="task">Task<a class="headerlink" href="#task" title="Permanent link">&para;</a></h4>
-<p>is an action that accomplished by <strong>module</strong>. For example, the highlighted parts are all <strong>modules</strong>:</p>
+<p>is an action that accomplished by a <strong>module</strong>. For example, the highlighted parts are all <strong>modules</strong>:</p>
 <p><img src="../imgs/module.png" width=400 /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4673,8 +4981,181 @@ ansible-playbook<span class="w"> </span>--help
 </code></pre></div></li>
 </ol>
 <h4 id="to-lint">to lint<a class="headerlink" href="#to-lint" title="Permanent link">&para;</a></h4>
+<p>make sure the <strong>Playbook</strong> adheres to best practices and doesn't have any style-related issues.
 <div class="highlight"><pre><span></span><code>ansible-lint<span class="w"> </span>playbook.yml
+</code></pre></div></p>
+<h4 id="conditionals">Conditionals<a class="headerlink" href="#conditionals" title="Permanent link">&para;</a></h4>
+<p>with <strong>conditionals</strong>, you can aggregate code from:
+<div class="highlight"><pre><span></span><code><span class="c1"># install NGINX on Debian</span>
+<span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debian_hosts</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX on Debian</span>
+<span class="w">      </span><span class="nt">apt</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+
+<span class="c1"># install NGINX on Redhat</span>
+<span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redhat_hosts</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX on Redhat</span>
+<span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">yum</span><span class="p p-Indicator">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div></p>
+<p>aggregated version:
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">all</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX on Redhat</span>
+<span class="w">      </span><span class="nt">yum</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible_os_family == &quot;Redhat&quot;</span><span class="w">   </span><span class="c1"># with condition</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install NGINX on Debian</span>
+<span class="w">      </span><span class="nt">apt</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">          </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">present</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansible_os_family == &quot;Debian&quot;</span><span class="w">   </span><span class="c1"># with condition</span>
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Operator</p>
+<ul>
+<li><code>and</code></li>
+<li><code>or</code>    </li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Example: Condition with Registering Variable</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check status of a service and email if its down</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service httpd status</span>
+<span class="w">      </span><span class="nt">register</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result</span><span class="w">            </span><span class="c1"># define Registering Variable</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mail</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin@company.com</span>
+<span class="w">      </span><span class="nt">subject</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service Alert</span>
+<span class="w">      </span><span class="nt">body</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Httpd Service is down</span>
+<span class="w">      </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">result.stdout.find(&#39;down&#39;) != -1</span><span class="w">  </span><span class="c1"># use Condition</span>
 </code></pre></div>
+</div>
+<h4 id="loop">Loop<a class="headerlink" href="#loop" title="Permanent link">&para;</a></h4>
+<h5 id="loop_1"><code>loop</code><a class="headerlink" href="#loop_1" title="Permanent link">&para;</a></h5>
+<p><strong>Item</strong> is saved in a variable named <code>{{ item }}</code></p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Print</span><span class="nv"> </span><span class="s">list</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">fruits&#39;</span>
+<span class="w">    </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">    </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">fruits</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apple</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Banana</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Grapes</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Orange</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;&#39;</span>
+<span class="w">        </span><span class="nt">loop</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">fruits</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w">        </span><span class="c1"># loop</span>
+</code></pre></div>
+<h5 id="with_"><code>with_*</code><a class="headerlink" href="#with_" title="Permanent link">&para;</a></h5>
+<p>this is the OLD grammar, there are lots of <strong>lookup directives</strong>:</p>
+<ul>
+<li><code>with_items</code></li>
+<li><code>with_file</code></li>
+<li><code>with_url</code></li>
+<li><code>with_mongodb</code>
+...</li>
+</ul>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Print</span><span class="nv"> </span><span class="s">list</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">fruits&#39;</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">vars</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">fruits</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apple</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Banana</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Grapes</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Orange</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;echo</span><span class="nv"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;&#39;</span>
+<span class="w">      </span><span class="nt">with_items</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">fruits</span><span class="nv"> </span><span class="s">}}&quot;</span><span class="w">   </span><span class="c1"># with_*                    </span>
+</code></pre></div></p>
+<h3 id="7-module">7. Module<a class="headerlink" href="#7-module" title="Permanent link">&para;</a></h3>
+<p>Ansible <strong>modules</strong> are categorized into various groups based on their functionality, such as:</p>
+<ul>
+<li>System</li>
+<li>Commands</li>
+<li>Files</li>
+<li>Database</li>
+<li>Cloud</li>
+<li>Windows</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title"><code>command</code></p>
+<p><code>command</code> excutes a command on a remote note (<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/command_module.html">doc</a>)</p>
+<p>The <strong>parameters</strong> should be used in the <code>command</code> module. For example:
+<img src="../imgs/module_command_parameters.png" width=600 /></p>
+<div class="highlight"><pre><span></span><code><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># task 1: simply use BASH</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Display resolv.conf contents</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat /etc/resolv.conf</span>
+
+<span class="w">  </span><span class="c1"># task 2: use parameter `chdir`</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Display resolv.conf contents</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat resolv.conf chdir=/etc</span>
+</code></pre></div>
+<p>⚠️ both <strong>task 1</strong> and <strong>task 2</strong> did the same thing. But in <strong>task 2</strong>, the <code>chdir</code> <strong>parameter</strong> performs a check first to make sure the <code>/etc/</code> directory exits</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>script</code></p>
+<p><code>script</code> transfers a local script to <strong>Remote Nodes</strong> and executes it.</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Play 1</span>
+<span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="nt">tasks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run a script on remote server</span>
+<span class="w">    </span><span class="nt">script</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/some/local/script.sh -arg1 -arg2</span>
+</code></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>service</code></p>
+<p>to manage Services – Start, Stop, Restart</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start Services in order</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start the database service</span>
+<span class="w">      </span><span class="nt">service</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgresql</span><span class="w">   </span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">started</span><span class="w">    </span><span class="c1"># [Idempotency] to ENSURE the postgresql&#39;s state is &quot;started&quot;</span>
+<span class="w">        </span><span class="c1"># or write it in oneline: service: name=postgresql state=started</span>
+</code></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Idempotency / 幂等性</p>
+<p>幂等性 指的是：一个操作执行一次与执行多次，对系统状态产生的影响是完全相同的。</p>
+<p>换句话说，你可以在任何时候（包括第一次、第二次、第N次）安全地运行同一个 Ansible 任务或剧本，而不会因为重复执行导致意外的结果或错误。</p>
+<p>举例：（1）用Ansible Playbook不会导致结果重复 （2）用CLI有可能会导致重复的结果！
+<img src="../imgs/idempotency.png" width=600 /></p>
+</div>
+<h3 id="8-plugin">8. Plugin<a class="headerlink" href="#8-plugin" title="Permanent link">&para;</a></h3>
+<p>Even through Ansible provides a rich set of built-in <strong>modules</strong> and features, you soon realize that you need additional functionality --&gt; thats when we need <strong>Plugin</strong>. </p>
+<h4 id="types_1">Types<a class="headerlink" href="#types_1" title="Permanent link">&para;</a></h4>
+<p>there are different types of plugins:</p>
+<ul>
+<li><strong>inventory plugin</strong>: 告诉 Ansible “我有哪些主机”和“如何连接它们”。可以从文件、云服务、数据库、API <u>动态生成 <strong>inventory</strong></u></li>
+<li><strong>module plugin</strong>: 用于自定义 <strong>module</strong></li>
+<li><strong>action plugin</strong>: 负责任务在执行 <strong>module</strong> 前后的逻辑，比如：动态决定是否调用模块，修改模块输出</li>
+<li><strong>callback plugin</strong>: 定义 Ansible 执行任务时的输出格式、日志记录、或外部通知行为。</li>
+<li><strong>lookup plugin</strong>: Retrieves data from external sources for use in playbooks (e.g., read secrets, configs). <code>lookup('file', 'myconfig.txt')</code> - 读取本地文件内容</li>
+</ul>
+<h4 id="modules-and-plugins-index">Modules and Plugins Index<a class="headerlink" href="#modules-and-plugins-index" title="Permanent link">&para;</a></h4>
+<p>the <strong>Modules and Plugins Index</strong> is <u>a centralized and organized list</u> that provides detailed information about the available <strong>modules</strong> and <strong>plugins</strong> in Ansible.</p>
+<p>👉 <a href="https://docs.ansible.com/ansible/latest/collections/all_plugins.html">Indexes of all modules and plugins</a></p>
+<p><code>ansible-inventory --list -i aws_inventory.py</code> | to list all hosts in our AWS inventory using this script.</p>
 <!--
 
 ## remote_user
@@ -4693,6 +5174,284 @@ ansible-playbook<span class="w"> </span>--help
 <span class="w">        </span><span class="nt">rename</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar</span>
 </code></pre></div>
 -->
+
+<h3 id="9-handlers">9. Handlers<a class="headerlink" href="#9-handlers" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">background</p>
+<p>imagine you want to change some system settings on a Web server, to get the changes alive, you usually need to restart the server.</p>
+<p>--&gt; this is error-prone and time-consuming</p>
+</div>
+<p>With <strong>Ansible Handlers</strong>, you can define an <strong>action</strong> to <u>restart the web server service</u> and <u>associate it with the <strong>task</strong></u> that modifies the configuration file. 
+<pre class="mermaid"><code>flowchart LR
+    A((Handlers))--&gt;|text|B[Task]</code></pre></p>
+<div class="admonition info">
+<p class="admonition-title">Benefits</p>
+<ul>
+<li>prevents manual intervention</li>
+<li>reduces human error</li>
+<li>improves automation efficiency</li>
+</ul>
+</div>
+<p>Example:
+<div class="highlight"><pre><span></span><code><span class="c1"># playbook.yml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy Application</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application_servers</span>
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Copy Application Code</span>
+<span class="w">      </span><span class="nt">copy</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app_code/</span>
+<span class="w">        </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/application/</span>
+<span class="w">      </span><span class="nt">notify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Restart Application Service</span><span class="w">   </span><span class="c1"># 🔔 notify the Handler named &quot;Restart Application Service&quot;</span>
+
+<span class="w">  </span><span class="nt">handlers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Restart Application Service</span><span class="w">     </span><span class="c1"># the triggered Handler</span>
+<span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w">                              </span><span class="c1"># module</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application_service</span><span class="w">           </span><span class="c1"># the service to restart</span>
+<span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restarted</span><span class="w">                    </span><span class="c1"># desired state</span>
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li><strong>handlers</strong> are defined in <strong>Playbook</strong></li>
+<li><strong>handlers</strong> are triggerd by <strong>task</strong>'s notification</li>
+<li>⚠️ Both <strong>handlers</strong> and <strong>tasks</strong> use <strong>Ansible Modules</strong>!</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>🚨 <strong>Handlers</strong> in Ansible are only triggered <u>once per play</u>, even if multiple <strong>tasks</strong> notify them.</p>
+<p>--&gt; this is because of Ansible's Idempotency <br/>
+--&gt; If two configuration files change that <u>both require a service restart</u>, you don’t need two restarts — just one, at the end.</p>
+</div>
+<h3 id="10-roles">10. Roles<a class="headerlink" href="#10-roles" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">Reality</th>
+<th align="left">Ansible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>Roles</strong></td>
+<td align="left">doctors, engineers, astronauts, policemen, chef</td>
+<td align="left">database server, web server, Redis messaging server, backup server</td>
+</tr>
+<tr>
+<td align="left"><strong>Assigning a Role</strong></td>
+<td align="left"><u>to become engineer</u>:<br>- Go to medical school <br>- Earn medical degree <br>- Complete Residency Program <br>- Obtain License</td>
+<td align="left"><u>to become database server, Ansible needs to run <strong>tasks</strong></u>:<br>- Installing Pre-requisites <br>- Installing mysql packages <br>- Configuring mysql service <br>- Configuring database and users</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">--&gt; Ansible uses <strong>Roles</strong> to package the <u>necessary tasks</u> to be able to reuse them!</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Benefits</p>
+<ul>
+<li>reusability</li>
+<li>to organize Ansible code by introducing <u>best practises</u>. For instance the <strong>role</strong> <code>MySQL-Role</code>:
+      <img src="../imgs/role_mysql.png" width=600 /></li>
+<li>to share code in community, e.g. <a href="https://galaxy.ansible.com/ui/">Ansible Galaxy</a></li>
+</ul>
+</div>
+<h4 id="create-a-role">create a role<a class="headerlink" href="#create-a-role" title="Permanent link">&para;</a></h4>
+<ol>
+<li>[optional] create skeleton using community tool <code>ansible-galaxy</code>
+    <div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>init<span class="w"> </span>mysql
+</code></pre></div>
+    you might see:
+    <div class="highlight"><pre><span></span><code>mysql
+<span class="w">  </span>├──<span class="w"> </span>defaults
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>main.yml
+<span class="w">  </span>├──<span class="w"> </span>files
+<span class="w">  </span>├──<span class="w"> </span>handlers
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>main.yml
+<span class="w">  </span>├──<span class="w"> </span>meta
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>main.yml
+<span class="w">  </span>├──<span class="w"> </span>README.md
+<span class="w">  </span>├──<span class="w"> </span>tasks
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>main.yml
+<span class="w">  </span>├──<span class="w"> </span>templates
+<span class="w">  </span>├──<span class="w"> </span>tests
+<span class="w">  </span>│<span class="w">   </span>├──<span class="w"> </span>inventory
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>test.yml
+<span class="w">  </span>└──<span class="w"> </span>vars
+<span class="w">      </span>└──<span class="w"> </span>main.yml
+</code></pre></div></li>
+<li>put the resources in the corresponding directories</li>
+</ol>
+<h4 id="use-a-role">use a role<a class="headerlink" href="#use-a-role" title="Permanent link">&para;</a></h4>
+<p>there are different ways to use a role:</p>
+<ol>
+<li>put the <strong>role</strong> in the default role location: <code>/etc/ansible/roles</code><ul>
+<li>the default role file is defined in the <code>*.cfg</code> file</li>
+</ul>
+</li>
+<li>put the <strong>role</strong> folder directly under the <strong>playbook</strong>:
+    <div class="highlight"><pre><span></span><code>my-playbook
+<span class="w">  </span>├──<span class="w"> </span>playbook.yml
+<span class="w">  </span>└──<span class="w"> </span>roles
+<span class="w">      </span>└──<span class="w"> </span>mysql<span class="w">   </span><span class="c1"># the &quot;mysql&quot; role folder</span>
+</code></pre></div></li>
+</ol>
+<h4 id="ansible-galaxy">Ansible Galaxy<a class="headerlink" href="#ansible-galaxy" title="Permanent link">&para;</a></h4>
+<p>to <strong>find</strong> a role, use the Ansible Galaxy UI or:
+<div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>search<span class="w"> </span>mysql
+</code></pre></div></p>
+<p>to <strong>use</strong> a role:
+1. install it
+    <div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>install<span class="w"> </span>geerlingguy.mysql
+
+<span class="c1"># specify the directory</span>
+ansible-galaxy<span class="w"> </span>install<span class="w"> </span>geerlingguy.mysql<span class="w"> </span>-p<span class="w"> </span>./roles
+</code></pre></div>
+2. use in playbook:
+    <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install and Configure MySQL</span>
+<span class="w">  </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-server</span>
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">geerlingguy.mysql</span>
+<span class="w">      </span><span class="nt">become</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">yes</span><span class="w">   </span><span class="c1"># execute the role by escalating privileges</span>
+<span class="w">      </span><span class="nt">vars</span><span class="p">:</span><span class="w">         </span><span class="c1"># pass Aditional Parameters!</span>
+<span class="w">        </span><span class="nt">mysql_user_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-user</span>
+</code></pre></div></p>
+<p>to <strong>view</strong> currently installed roles:
+<div class="highlight"><pre><span></span><code>ansible-config<span class="w"> </span>list
+ansible-config<span class="w"> </span>dump<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ROLE
+</code></pre></div></p>
+<h3 id="11-collections">11. Collections<a class="headerlink" href="#11-collections" title="Permanent link">&para;</a></h3>
+<p>as Network Engineer, you need to <u>config &amp; manage large network infrastructure</u> from different venders, such as Cisco, Juniper, Arista. Ansible provides <strong>built-in network modules</strong>, but you still need vender-specifc modules, they are available as <strong>Collections</strong>:</p>
+<ul>
+<li><code>network.cisco</code></li>
+<li><code>network.juniper</code></li>
+<li><code>network.arista</code></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">naming</p>
+<p>Naming of the <strong>Collection</strong> consists of:
+  - Namespace
+  - Collection</p>
+</div>
+<h4 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h4>
+<p><strong>Ansible Collection</strong> packages and distributes <strong>modules</strong>, <strong>roles</strong>, <strong>plugins</strong> etc. It can be created by Community or Vendor.</p>
+<p>you can create your own <strong>collection</strong>:
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">collections</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_namespace.my_collection</span><span class="w">  </span><span class="c1"># format: [Namespace].[Collection]</span>
+
+<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_custom_role</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Use custom module</span>
+<span class="w">      </span><span class="nt">my_custom_module</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">param</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value</span>
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">collection's skeleton</p>
+<div class="highlight"><pre><span></span><code>my_collection/
+<span class="w">  </span>├──<span class="w"> </span>docs/
+<span class="w">  </span>├──<span class="w"> </span>galaxy.yml
+<span class="w">  </span>├──<span class="w"> </span>plugins/
+<span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>modules/
+<span class="w">  </span>│<span class="w">       </span>└──<span class="w"> </span>my_custom_module.py
+<span class="w">  </span>├──<span class="w"> </span>README.md
+<span class="w">  </span>└──<span class="w"> </span>roles/
+<span class="w">      </span>└──<span class="w"> </span>my_custom_role/
+<span class="w">          </span>└──<span class="w"> </span>tasks/
+<span class="w">              </span>└──<span class="w"> </span>main.yml
+</code></pre></div>
+</div>
+<h4 id="install">install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h4>
+<p>install single <strong>collection</strong>:
+<div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>collection<span class="w"> </span>install<span class="w"> </span>network.cisco
+</code></pre></div></p>
+<p>install multiple <strong>collections</strong> use <code>requirement.yml</code> file:
+<div class="highlight"><pre><span></span><code><span class="c1"># requirement.yml</span>
+<span class="nn">---</span>
+<span class="nt">collections</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amazon.aws</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.5.0&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">community.mysql</span>
+<span class="w">    </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/ansible-collections/community.mysql</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.2.1&quot;</span>
+</code></pre></div>
+install the dependencies file:
+<div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>collection<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.yml
+</code></pre></div></p>
+<h4 id="use">use<a class="headerlink" href="#use" title="Permanent link">&para;</a></h4>
+<p>after installing collection <code>amazon.aws</code>, you can use it:</p>
+<div class="highlight"><pre><span></span><code>ansible-galaxy<span class="w"> </span>collection<span class="w"> </span>install<span class="w"> </span>amazon.aws
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">  </span><span class="nt">collections</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">amazon.aws</span><span class="w">      </span><span class="c1"># specify the collection</span>
+
+<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create an S3 bucket</span>
+<span class="w">      </span><span class="nt">aws_s3_bucket</span><span class="p">:</span><span class="w">  </span><span class="c1"># use the collection</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-bucket</span>
+<span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-west-1</span>
+</code></pre></div>
+<h3 id="x-ansible-cli-summary">x. Ansible CLI Summary<a class="headerlink" href="#x-ansible-cli-summary" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>ansible</code></td>
+<td align="left">Runs a single ad-hoc command or module on one or more hosts <strong>without a playbook</strong></td>
+</tr>
+<tr>
+<td align="left"><code>ansible-config</code></td>
+<td align="left">Displays, validates, or manages <strong>Ansible configuration</strong> settings (e.g., the <code>*.cfg</code>).</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-console</code></td>
+<td align="left">Provides <strong>an interactive REPL shell</strong> for running Ansible ad-hoc tasks in real time.</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-doc</code></td>
+<td align="left">Shows documentation and examples</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-galaxy</code></td>
+<td align="left">Manages <strong>Ansible roles</strong> and collections—download, install, create, or publish them to Galaxy or private repos.</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-inventory</code></td>
+<td align="left">Displays or manipulates inventory data, showing which <strong>target hosts and groups</strong></td>
+</tr>
+<tr>
+<td align="left"><code>ansible-playbook</code></td>
+<td align="left">Executes playbooks (YAML files)</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-pull</code></td>
+<td align="left">Runs playbooks by pulling them from a remote Git repo</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-vault</code></td>
+<td align="left">Encrypts, decrypts, or edits sensitive data files (e.g., passwords) used in playbooks securely.</td>
+</tr>
+<tr>
+<td align="left"><code>ansible-lint</code></td>
+<td align="left">Finds potential errors before execution<br/> ⚠️ Not part of Ansible Core — it’s <u>a community-maintained tool</u></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>/etc/ansible/hosts</li>
+</ul>
 
 
 

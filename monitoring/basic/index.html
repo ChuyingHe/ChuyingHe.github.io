@@ -68,6 +68,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#pillars-of-monitoringobservability" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -996,6 +1001,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../automation/ansible/certificate/" class="md-nav__link">
+        Certificate
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../automation/ansible/" class="md-nav__link">
         Intro
       </a>
@@ -1012,6 +1031,20 @@
     <li class="md-nav__item">
       <a href="../../automation/ansible/hands_on/" class="md-nav__link">
         HandsOn
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/ansible/jinja2/" class="md-nav__link">
+        Jinja2
       </a>
     </li>
   
@@ -2936,9 +2969,47 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Basic
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Basic
       </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pillars-of-monitoringobservability" class="md-nav__link">
+    Pillars of Monitoring/Observability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alert" class="md-nav__link">
+    Alert
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3131,6 +3202,20 @@
           Prometheus
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prometheus/alertmanager/" class="md-nav__link">
+        - Alertmanager
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -3579,6 +3664,28 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pillars-of-monitoringobservability" class="md-nav__link">
+    Pillars of Monitoring/Observability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alert" class="md-nav__link">
+    Alert
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3594,7 +3701,33 @@
 
   <h1>Basic</h1>
 
-
+<h3 id="pillars-of-monitoringobservability">Pillars of Monitoring/Observability<a class="headerlink" href="#pillars-of-monitoringobservability" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Logging（日志）</strong>：就像病人的病历本。它记录了在特定时间点发生的事件，它是离散的、文本性的记录。比如:<ul>
+<li><code>某年某月某日，病人主诉头痛</code></li>
+<li><code>体温38.5°C</code></li>
+</ul>
+</li>
+<li><strong>Tracing（追踪）</strong>：就像详细追踪病人一天内的全部活动路径。它关注的是一个请求（或事务）在分布式系统中流经的完整路径。比如:<ul>
+<li><code>早上8点去门诊 -&gt; 9点去放射科拍片 -&gt; 10点去药房取药</code></li>
+</ul>
+</li>
+<li><strong>Metrics（指标）</strong>：就像病人的生命体征仪表盘。它持续地、以固定频率测量和展示关键数据，它是数值型的、随时间变化的。比如:<ul>
+<li><code>心率：75次/分</code></li>
+<li><code>血压：120/80 mmHg</code></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Four Golden Signals of Metrics</p>
+<ul>
+<li><strong>latency</strong>: time to service a request </li>
+<li><strong>traffic</strong>: requests/second </li>
+<li><strong>error</strong>: error rate of requests </li>
+<li><strong>saturation</strong>: fullness of a service</li>
+</ul>
+</div>
+<h3 id="alert">Alert<a class="headerlink" href="#alert" title="Permanent link">&para;</a></h3>
 
 
 
