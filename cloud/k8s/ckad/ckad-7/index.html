@@ -3215,10 +3215,58 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14_2_1" id="__nav_14_2_1_label" tabindex="0">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_14_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../../../monitoring/instana/installation/" class="md-nav__link">
-        Installation
+      <a href="../../../../monitoring/instana/custom_edition/" class="md-nav__link">
+        Custom Edition
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../monitoring/instana/standard_edition/" class="md-nav__link">
+        Standard Edition
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -4057,14 +4105,14 @@
 
 <span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">              </span><span class="c1"># (2) 创建卷：这里申明了一个在Node上的文件夹，也可以使用其他存储方式，比如引用（PVC）</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-volume</span><span class="w">     </span><span class="c1"># Volume的名字</span>
-<span class="w">    </span><span class="nt">hostPath</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data</span>
-<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Directory</span>
+<span class="w">    </span><span class="nt">hostPath</span><span class="p">:</span><span class="w">             </span><span class="c1"># 使用节点本地存储 ‼️绑定Node！慎用！</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data</span><span class="w">           </span><span class="c1"># 节点上的绝对路径</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Directory</span><span class="w">       </span><span class="c1"># 路径类型，还可以是DirectoryOrCreate，File，FileOrCreate etc</span>
 </code></pre></div>
 卷的使用确保了<strong>Pod</strong>被删除后，该<strong>Pod</strong>所产生的数据还被保留在所在的<strong>Node</strong>上，如图：
-<img src="../ckad-7/volume.png" width=550 /></p>
+<img src="../ckad-7/volume.png" width=700 /></p>
 <p>上面图中的的挂载方法只适用于单Node的集群。如果是多个<strong>Node</strong>，每个Node上的数据都是不一样的：
-<img src="../ckad-7/multi_node.png" width=800 /></p>
+<img src="../ckad-7/multi_node.png" width=900 /></p>
 <div class="admonition warning">
 <p class="admonition-title">Volume的缺点</p>
 <ul>
@@ -4117,7 +4165,11 @@
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>persistentvolume
 </code></pre></div></p>
 <h4 id="_1">持久卷的类型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
-<p>当我们在<code>pod.yaml</code>中定义<code>volumes</code>属性时，有很多不同选择。比如：NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO 或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。比如：</p>
+<p>当我们在<code>pod.yaml</code>中定义<code>volumes</code>属性时，除了<code>hostPath</code>还有很多不同选择。比如：</p>
+<ul>
+<li>NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO </li>
+<li>或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。比如：</li>
+</ul>
 <p><div class="highlight"><pre><span></span><code><span class="nt">volumes</span><span class="p">:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-volume</span>
 <span class="w">  </span><span class="nt">awsElasticBlockStore</span><span class="p">:</span>
@@ -4134,7 +4186,7 @@
 <li><code>fc</code>：Fibre Channel (FC) storage</li>
 <li><code>gcePersistentDisk</code>：GCE Persistent Disk</li>
 <li><code>glusterfs</code>：Glusterfs volume</li>
-<li><code>hostPath</code>：HostPath volume (for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead)</li>
+<li><code>hostPath</code>：HostPath volume --&gt; ⚠️ for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead</li>
 <li><code>iscsi</code>：iSCSI (SCSI over IP) storage</li>
 <li><code>local</code>：local storage devices mounted on nodes.</li>
 <li><code>nfs</code>：Network File System (NFS) storage</li>
@@ -4190,7 +4242,14 @@ PVC在Pod中的使用：
 ⚠️ 在Pod中添加PVC之后，ReplicaSets 和 Deployments中也会自动添加相对应的PVC定义！</p>
 <h4 id="pvcpv-binding">PVC如何选择PV (Binding)<a class="headerlink" href="#pvcpv-binding" title="Permanent link">&para;</a></h4>
 <h5 id="1">1. 根据属性自动绑定<a class="headerlink" href="#1" title="Permanent link">&para;</a></h5>
-<p>Kubernetes 尝试根据<strong>PVC的要求</strong>找到具有足够容量的PV。<strong>PVC</strong>可以定义存储容量（<code>sufficient capacity</code>），访问模式（<code>access modes</code>）、卷模式（<code>volume modes</code>）、存储类（<code>StorageClass</code>）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。</p>
+<p>Kubernetes 尝试根据<strong>PVC的要求</strong>找到具有足够容量的PV。<strong>PVC</strong>可以定义:</p>
+<ul>
+<li>存储容量（<code>sufficient capacity</code>）</li>
+<li>访问模式（<code>access modes</code>）</li>
+<li>卷模式（<code>volume modes</code>）</li>
+<li>存储类（<code>StorageClass</code>）等属性</li>
+</ul>
+<p>* 如果有多个PV符合PVC的要求，则随机选择一个PV。</p>
 <table>
 <thead>
 <tr>
@@ -4221,36 +4280,35 @@ PVC在Pod中的使用：
 <p>如果你想指定 PVC 使用哪个 PV, 也可以利用 PVC 的<code>labels</code>和<code>selectors</code>来定位到正确的PV。比如：</p>
 <ol>
 <li>PVC中添加<code>selectors</code>属性
-<div class="highlight"><pre><span></span><code><span class="c1"># pvc.yaml</span>
+  <div class="highlight"><pre><span></span><code><span class="c1"># pvc.yaml</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pv</span>
 </code></pre></div></li>
-<li>在PV中添加<code>labels</code>属性</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="c1"># pv.yaml</span>
+<li>在PV中添加<code>labels</code>属性
+  <div class="highlight"><pre><span></span><code><span class="c1"># pv.yaml</span>
 <span class="nt">labels</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pv</span>
-</code></pre></div>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pv</span>
+</code></pre></div></li>
+</ol>
 <h5 id="3-pvc-volumename">3. pvc 的 volumeName<a class="headerlink" href="#3-pvc-volumename" title="Permanent link">&para;</a></h5>
 <p>如果你想指定 PVC 使用哪个 PV，可以提前给它设置 <code>volumeName</code>。 <code>volumeName</code> 是最直接的方式，但必须确保 PVC 的所有参数（如 <code>accessModes</code>、<code>storageClassName</code> 和 <code>size</code>）与该 PV 完全兼容。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># pvc.yaml</span>
-apiVersion:<span class="w"> </span>v1
-kind:<span class="w"> </span>PersistentVolumeClaim
-metadata:
-<span class="w">  </span>name:<span class="w"> </span>my-pvc
-spec:
-<span class="w">  </span>volumeName:<span class="w"> </span>my-pv<span class="w">  </span><span class="c1"># 手动指定绑定到名为 &quot;my-pv&quot; 的 PV</span>
-<span class="w">  </span>accessModes:
-<span class="w">    </span>-<span class="w"> </span>ReadWriteOnce
-<span class="w">  </span>resources:
-<span class="w">    </span>requests:
-<span class="w">      </span>storage:<span class="w"> </span>10Gi
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pvc</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">volumeName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-pv</span><span class="w">  </span><span class="c1"># 手动指定绑定到名为 &quot;my-pv&quot; 的 PV</span>
+<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
 </code></pre></div>
 <h5 id="_2">特例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h5>
-<p>最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。<br/>
-<strong> 这可能导致PV的浪费！</strong></p>
+<p>最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。-&gt; <strong> 这可能导致PV的浪费！</strong></p>
 <p>假设我们有一个PVC和一个PV。PVC要求的存储空间是<code>500Mi</code>，而现在可用的PV只有一个，那么PVC只能绑定到剩下的PV。用<code>k get pvc</code>可用看到：
 <div class="highlight"><pre><span></span><code>NAME<span class="w">     </span>STATUS<span class="w">    </span>VOLUME<span class="w">       </span>CAPACITY<span class="w">   </span>ACCESS<span class="w"> </span>MODES<span class="w">   </span>STORAGECLASS<span class="w">    </span>AGE
 my-claim<span class="w"> </span>Bound<span class="w">     </span>my-volume<span class="w">    </span>1Gi<span class="w">        </span>RWO<span class="w">            </span>aws-xxx<span class="w">         </span>40m
@@ -4344,11 +4402,12 @@ my-claim<span class="w"> </span>Pending<span class="w">                         
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pd-standard</span>
 <span class="w">  </span><span class="nt">replication-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">none</span>
 </code></pre></div>
-<p><strong>provisioner</strong> <br/>
-- k8s为每个云供应商都提供了不同的provisioner：比如<code>kubernetes.io/gce-pd</code>就是给 GoogleCloudEngine 的provisioner
-- 是如果provisioner是<code>kubernetes.io/no-provisioner</code>，那么意味着该StorageClass不支持 dynamic provisioning</p>
-<p><strong>VolumeBindingMode/绑定模式</strong> <br/>
-可能的值有：<br/></p>
+<p><strong>provisioner</strong>: <br/></p>
+<ul>
+<li>k8s为每个云供应商都提供了不同的provisioner：比如<code>kubernetes.io/gce-pd</code>就是给 GoogleCloudEngine 的provisioner</li>
+<li>⚠️ 如果provisioner是<code>kubernetes.io/no-provisioner</code>，那么意味着该StorageClass不支持 dynamic provisioning</li>
+</ul>
+<p><strong>VolumeBindingMode/绑定模式</strong> 可能的值有：<br/></p>
 <ul>
 <li><code>WaitForFirstConsumer</code>: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/></li>
 <li><code>Immediate</code></li>
@@ -4364,7 +4423,7 @@ my-claim<span class="w"> </span>Pending<span class="w">                         
 <p>比如集群中根本没有安装这个 CSI 插件。那么 StorageClass 就失去了它存在的意义，直接用 Static Provisioning，即PV + PVC更合理</p>
 </div>
 <h4 id="_3">区别<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
-<p>Static和Dynamic Provisioning的区别如图：</p>
+<p>Static和Dynamic Provisioning的区别如图(以GCE为例)：</p>
 <table>
 <thead>
 <tr>
@@ -4375,11 +4434,10 @@ my-claim<span class="w"> </span>Pending<span class="w">                         
 <tbody>
 <tr>
 <td align="left"><pre><code>Pod -&gt; PVC -&gt; PV -&gt; GCE</code></pre></td>
-<td align="left"><pre><code>Pod -&gt; PVC -&gt; SC(PV)</code></pre></td>
+<td align="left"><pre><code>Pod -&gt; PVC -&gt; SC(auto-generated PV)</code></pre></td>
 </tr>
 </tbody>
 </table>
-<p><img src="../ckad-7/provisioning.png" width=500></p>
 <h3 id="6-statefulset">6. StatefulSet<a class="headerlink" href="#6-statefulset" title="Permanent link">&para;</a></h3>
 <p><strong>StatefulSet</strong> 类似于 <strong>Deployment</strong>，因为它们基于模板创建 Pod。 他们可以增加和减少Pod的数量。 也可以执行滚动更新和回滚，但存在差异：<br/></p>
 <ul>
