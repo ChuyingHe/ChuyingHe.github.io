@@ -27,15 +27,15 @@ spec:
   
   volumes:              # (2) 创建卷：这里申明了一个在Node上的文件夹，也可以使用其他存储方式，比如引用（PVC）
   - name: data-volume     # Volume的名字
-    hostPath:
-      path: /data
-      type: Directory
+    hostPath:             # 使用节点本地存储 ‼️绑定Node！慎用！
+      path: /data           # 节点上的绝对路径
+      type: Directory       # 路径类型，还可以是DirectoryOrCreate，File，FileOrCreate etc
 ```
 卷的使用确保了**Pod**被删除后，该**Pod**所产生的数据还被保留在所在的**Node**上，如图：
-<img src="../ckad-7/volume.png" width=550 />
+<img src="../ckad-7/volume.png" width=700 />
 
 上面图中的的挂载方法只适用于单Node的集群。如果是多个**Node**，每个Node上的数据都是不一样的：
-<img src="../ckad-7/multi_node.png" width=800 />
+<img src="../ckad-7/multi_node.png" width=900 />
 
 !!! warning "Volume的缺点"
     - **卷**与**Pod**相连 -> 每次新建一个需要存储空间的**Pod**，都需要手动配置卷
@@ -94,7 +94,10 @@ kubectl get persistentvolume
 ```
 
 ## 持久卷的类型
-当我们在`pod.yaml`中定义`volumes`属性时，有很多不同选择。比如：NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO 或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。比如：
+当我们在`pod.yaml`中定义`volumes`属性时，除了`hostPath`还有很多不同选择。比如：
+
+- NFS、ClusterFS、Flocker、FibreChannel、CephFS、ScaleIO 
+- 或公共云解决方案，如AWS EBS， Azure， Google Persistent Disk，或者AWS Elastic Block Store。比如：
 
 ```yaml
 volumes:
@@ -113,7 +116,7 @@ volumes:
 - `fc`：Fibre Channel (FC) storage
 - `gcePersistentDisk`：GCE Persistent Disk
 - `glusterfs`：Glusterfs volume
-- `hostPath`：HostPath volume (for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead)
+- `hostPath`：HostPath volume --> ⚠️ for single node testing only; WILL NOT WORK in a multi-node cluster; consider using local volume instead
 - `iscsi`：iSCSI (SCSI over IP) storage
 - `local`：local storage devices mounted on nodes.
 - `nfs`：Network File System (NFS) storage
@@ -175,7 +178,14 @@ spec:
 
 ## PVC如何选择PV (Binding)
 ### 1. 根据属性自动绑定
-Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义存储容量（`sufficient capacity`），访问模式（`access modes`）、卷模式（`volume modes`）、存储类（`StorageClass`）等属性。如果有多个PV符合PVC的要求，则随机选择一个PV。
+Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**可以定义:
+
+  - 存储容量（`sufficient capacity`）
+  - 访问模式（`access modes`）
+  - 卷模式（`volume modes`）
+  - 存储类（`StorageClass`）等属性
+  
+\* 如果有多个PV符合PVC的要求，则随机选择一个PV。
 
 |条件|PVC 和 PV 必须一致|
 |:-|:-|
@@ -188,25 +198,24 @@ Kubernetes 尝试根据**PVC的要求**找到具有足够容量的PV。**PVC**�
 如果你想指定 PVC 使用哪个 PV, 也可以利用 PVC 的`labels`和`selectors`来定位到正确的PV。比如：
 
 1. PVC中添加`selectors`属性
-```yaml
-# pvc.yaml
-spec:
-  selector:
-    matchLabels:
-      name: my-pv
-```
+  ```yaml
+  # pvc.yaml
+  spec:
+    selector:
+      matchLabels:
+        name: my-pv
+  ```
 2. 在PV中添加`labels`属性
-
-```yaml
-# pv.yaml
-labels:
-	name: my-pv
-``` 
+  ```yaml
+  # pv.yaml
+  labels:
+    name: my-pv
+  ``` 
 
 ### 3. pvc 的 volumeName
 如果你想指定 PVC 使用哪个 PV，可以提前给它设置 `volumeName`。 `volumeName` 是最直接的方式，但必须确保 PVC 的所有参数（如 `accessModes`、`storageClassName` 和 `size`）与该 PV 完全兼容。
 
-```bash
+```yaml
 # pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -222,8 +231,7 @@ spec:
 ```
 
 ### 特例
-最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。<br/>
-** 这可能导致PV的浪费！**
+最后，如果所有所有属性都匹配，且没有更好的选择，则较小的PVC最终可能会绑定比它要求更大的PV。-> ** 这可能导致PV的浪费！**
 
 假设我们有一个PVC和一个PV。PVC要求的存储空间是`500Mi`，而现在可用的PV只有一个，那么PVC只能绑定到剩下的PV。用`k get pvc`可用看到：
 ```bash
@@ -338,13 +346,13 @@ flowchart TD
       replication-type: none
     ```
 
-    **provisioner** <br/>
+    **provisioner**: <br/>
+
     - k8s为每个云供应商都提供了不同的provisioner：比如`kubernetes.io/gce-pd`就是给 GoogleCloudEngine 的provisioner
-    - 是如果provisioner是`kubernetes.io/no-provisioner`，那么意味着该StorageClass不支持 dynamic provisioning
+    - ⚠️ 如果provisioner是`kubernetes.io/no-provisioner`，那么意味着该StorageClass不支持 dynamic provisioning
 
 
-    **VolumeBindingMode/绑定模式** <br/>
-    可能的值有：<br/>
+    **VolumeBindingMode/绑定模式** 可能的值有：<br/>
     
     - `WaitForFirstConsumer`: 将延迟 PV 的绑定和配置，直到创建使用了对应 PVC 的 Pod <br/>
     - `Immediate`
@@ -361,13 +369,11 @@ flowchart TD
 
 
 ## 区别
-Static和Dynamic Provisioning的区别如图：
+Static和Dynamic Provisioning的区别如图(以GCE为例)：
 
 |<div style="width: 220px">Static Provisioning</div>|<div style="width: 220px">Dynamic Provisioning</div>|
 |:-|:-|
-|<pre><code>Pod -> PVC -> PV -> GCE</code></pre>|<pre><code>Pod -> PVC -> SC(PV)</code></pre>|
-
-<img src="../ckad-7/provisioning.png" width=500>
+|<pre><code>Pod -> PVC -> PV -> GCE</code></pre>|<pre><code>Pod -> PVC -> SC(auto-generated PV)</code></pre>|
 
 
 # 6. StatefulSet
