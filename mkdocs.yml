@@ -163,7 +163,8 @@ nav:
             - Custom Edition: monitoring/instana/installation/custom_edition.md
             - Standard Edition: 
                 - Tutorial: monitoring/instana/installation/standard_edition.md
-                - .stanctl/: monitoring/instana/stanctl_file.md
+                - airgapped/: monitoring/instana/installation/file_airgapped.md
+                - .stanctl/: monitoring/instana/installation/file_stanctl.md
           - CLI Cheatsheet: monitoring/instana/clis.md
           - Jargons: monitoring/instana/theory/1.jargons.md
           - Agent, Sensor: monitoring/instana/theory/2.agent_sensor.md

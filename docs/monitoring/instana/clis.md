@@ -1,4 +1,4 @@
-# helm
+# Helm
 
 for Custom Edition
 
@@ -31,9 +31,9 @@ helm install synthetic-pop -n syn
 
 
 
+# Kubectl
 
-
-# Unit + Core
+## Unit + Core
 - **Core** and **Units** must be installed in different namespaces. 
 - Each **Core** needs its own namespace. 
 - Multiple **Units** that belong to the same Core can be installed in the same namespace.
@@ -53,7 +53,7 @@ kubectl create secret docker-registry instana-registry \
 
 To see the specification for both Core and Unit resource, check the [API Reference](https://www.ibm.com/docs/en/instana-observability/current?topic=edition-api-reference#core).
 
-# Namespaces
+## Namespaces
 
 namespace neutral CLIs:
 
@@ -75,7 +75,7 @@ kubectl get all -n [Namespace]
 
 kubectl CLIs sorted by namespaces:
 
-## instana-agent
+### instana-agent
 
 ```bash
 kubectl edit agents.instana.io instana-agent -n instana-agent|
@@ -84,20 +84,20 @@ kubectl logs -l app.kubernetes.io/component=k8sensor  -n instana-agent --max-log
 ```
 
 
-## instana-beeinstana
+### instana-beeinstana
 
 ```bash
 
 kubectl edit instana-beeinstana instance -n instana-beeinstana
 ```
 
-## instana-cassandra
+### instana-cassandra
 
 ```bash
 
 ```
 
-## instana-clickhouse
+### instana-clickhouse
 
 
 ```bash
@@ -107,7 +107,7 @@ kubectl edit ClickHouseInstallation instana -n instana-clickhouse|
 kubectl get ClickHouseInstallation instana -n instana-clickhouse
 ```
 
-## ⛰️ instana-core 
+### ⛰️ instana-core 
 A **Core** represents shared components and is responsible for configuring data store access. As a result, most configurations are going to happen here. - This is created using **Core** Images from the `artifact-public.instana.io`.
 
 A Core resource's YAML might look like this:
@@ -140,7 +140,7 @@ kubectl instana action reconcile --core instana-core -n instana-core
 
 
 
-## instana-elasticsearch
+### instana-elasticsearch
 ```bash
 kubectl edit elasticsearches instana -n instana-elasticsearch
 
@@ -148,7 +148,7 @@ kubectl edit elasticsearches instana -n instana-elasticsearch
 
 
 
-## instana-kafka
+### instana-kafka
 ```bash
 kubectl edit kafka/instana -n instana-kafka
 
@@ -157,7 +157,7 @@ kubectl -n instana-kafka logs -l strimzi.io/cluster=instana,strimzi.io/component
 
 
 
-## instana-operator
+### instana-operator
 
 
 ```bash
@@ -166,7 +166,7 @@ kubectl -n instana-operator scale deployment instana-operator --replicas 2
 ```
 
 
-## instana-postgres
+### instana-postgres
 ```bash
 
 ```
@@ -174,7 +174,7 @@ kubectl -n instana-operator scale deployment instana-operator --replicas 2
 
 
 
-## ⛰️ instana-unit
+### ⛰️ instana-unit
 web & tenant. 
 
 ```bash
@@ -186,7 +186,7 @@ kubectl describe unit tenant0-unit0 -n instana-unit
 kubectl get unit tenant0-unit0 -n instana-unit
 ```
 
-### Login credential
+#### Login credential
 The `username` & `pw` to login to the Instana UI are stored in a secret `instana-unit` in this NS. Decode the secret to get the credential:
 
 ```bash
@@ -194,18 +194,30 @@ echo xxx | base64 -d
 ```
 
 
-## instana-zookeeper
+### instana-zookeeper
 ```bash
 ```
 
 
-## instana-gitops
+### instana-gitops
 
 ```bash
 ```
 
+# ctr
+In K3s, `containerd` is the default container runtime. **ctr** is a CLI tool to interact with **containerd**. 底层调试工具，是 containerd 的“原装”但对用户不友好的螺丝刀。
 
 
+This fix the bug of image from `enterprise-operator` is not imported correctly!
+```bash
+# 将镜像导入到 containerd 存储中
+ctr images import op-161.tar
+```
 
+# crictl
+In K3s, `containerd` is the default container runtime. **crictl** is a CLI tool to interact with **containerd**. 
 
-
+```bash
+# 列出或查看当前节点上已有镜像
+crictl image list
+```

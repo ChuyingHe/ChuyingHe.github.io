@@ -1,7 +1,13 @@
-if we do `stanctl air-gapped package` we will get an air-gapped zip file `instana-airgapped.tar.gz`. Lets have a look into this compressed file:
+if we do `stanctl air-gapped package` we will get an air-gapped zip file `instana-airgapped.tar.gz`. After we install it with the following CLIs:
 
 ```bash
-.
+stanctl air-gapped import --file instana-airgapped.tar.gz
+stanctl up --air-gapped
+```
+
+There will be a `.stanctl` folder(around 140MB) after the installation:
+```bash
+.stanctl
 ├──charts/      # Helm Charts for necessary Resources
 ├──instana.yaml # Core Configuration File
 ├──k3s/         # k3s related 
