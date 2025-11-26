@@ -71,7 +71,6 @@ kubectl exec -it pod/[PodName] -n [Namespace]
 
 # Get ALL resources
 kubectl get all -n [Namespace]
-
 ```
 
 kubectl CLIs sorted by namespaces:

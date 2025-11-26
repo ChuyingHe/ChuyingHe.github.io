@@ -290,6 +290,15 @@ spec:
 !!! info
     `storageClassName: ""` 表示静态绑定
 
+!!! note
+    无论是 <u>通过 PersistentVolume 的 Static Provision</u> 还是 <u>通过 StorageClass 的 Dynamic Provision</u>, 他们的最终目的都是分配 **底层物理存储空间 / Physical Storage**，比如:
+
+    - Bluemix的File Storage
+    - Amazon的EBS，EFS
+    - Google的PD
+    - NFS的path，serverDNS
+    
+
 ## Static Provisioning
 
 假设我现在想使用GCE的存储空间，那么需要4个步骤：

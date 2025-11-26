@@ -20,6 +20,11 @@ a tool to automate IT tasks, such as:
 !!! info
     Ansible supports ALL infrastructures: from <u>local operating systems</u> to <u>Cloud Providers</u>
 
+
+## Distribution
+
+- **Ansible Core**: This is a minimalist component that consists of the core runtime that can interpret Ansible content and a set of commonly used Ansible modules (included as the ansible.builtin Ansible Content Collection).
+
 ## Agentless
 
 agentless: in the example above, there is no need to install Ansible on the 10 remote servers

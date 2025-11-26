@@ -160,9 +160,11 @@ nav:
       - Basic: monitoring/basic.md
       - Instana:
           - Installation: 
-            - Custom Edition: monitoring/instana/custom_edition.md
-            - Standard Edition: monitoring/instana/standard_edition.md
-          - CLIs, Namespaces: monitoring/instana/clis.md
+            - Custom Edition: monitoring/instana/installation/custom_edition.md
+            - Standard Edition: 
+                - Tutorial: monitoring/instana/installation/standard_edition.md
+                - .stanctl/: monitoring/instana/stanctl_file.md
+          - CLI Cheatsheet: monitoring/instana/clis.md
           - Jargons: monitoring/instana/theory/1.jargons.md
           - Agent, Sensor: monitoring/instana/theory/2.agent_sensor.md
           - Trace, Call, Span: monitoring/instana/theory/3.trace.md
