@@ -3243,7 +3243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../monitoring/instana/custom_edition/" class="md-nav__link">
+      <a href="../../../../monitoring/instana/installation/custom_edition/" class="md-nav__link">
         Custom Edition
       </a>
     </li>
@@ -3256,10 +3256,58 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14_2_1_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14_2_1_2" id="__nav_14_2_1_2_label" tabindex="0">
+          Standard Edition
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_14_2_1_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14_2_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Standard Edition
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../../../monitoring/instana/standard_edition/" class="md-nav__link">
-        Standard Edition
+      <a href="../../../../monitoring/instana/installation/standard_edition/" class="md-nav__link">
+        Tutorial
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../monitoring/instana/stanctl_file/" class="md-nav__link">
+        .stanctl/
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -3279,7 +3327,7 @@
   
     <li class="md-nav__item">
       <a href="../../../../monitoring/instana/clis/" class="md-nav__link">
-        CLIs, Namespaces
+        CLI Cheatsheet
       </a>
     </li>
   
@@ -4358,6 +4406,16 @@ my-claim<span class="w"> </span>Pending<span class="w">                         
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p><code>storageClassName: ""</code> 表示静态绑定</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>无论是 <u>通过 PersistentVolume 的 Static Provision</u> 还是 <u>通过 StorageClass 的 Dynamic Provision</u>, 他们的最终目的都是分配 <strong>底层物理存储空间 / Physical Storage</strong>，比如:</p>
+<ul>
+<li>Bluemix的File Storage</li>
+<li>Amazon的EBS，EFS</li>
+<li>Google的PD</li>
+<li>NFS的path，serverDNS</li>
+</ul>
 </div>
 <h4 id="static-provisioning">Static Provisioning<a class="headerlink" href="#static-provisioning" title="Permanent link">&para;</a></h4>
 <p>假设我现在想使用GCE的存储空间，那么需要4个步骤：</p>

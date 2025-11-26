@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../custom_edition/">
+        <link rel="prev" href="../installation/standard_edition/">
       
       
         <link rel="next" href="../clis/">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Standard Edition - Chuying's notebook</title>
+        <title>.stanctl/ - Chuying's notebook</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#custom-edition" class="md-skip">
+        <a href="#charts" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Standard Edition
+              .stanctl/
             
           </span>
         </div>
@@ -3034,8 +3034,51 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom_edition/" class="md-nav__link">
+      <a href="../installation/custom_edition/" class="md-nav__link">
         Custom Edition
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14_2_1_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14_2_1_2" id="__nav_14_2_1_2_label" tabindex="0">
+          Standard Edition
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_14_2_1_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_14_2_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Standard Edition
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/standard_edition/" class="md-nav__link">
+        Tutorial
       </a>
     </li>
   
@@ -3056,12 +3099,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Standard Edition
+          .stanctl/
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Standard Edition
+        .stanctl/
       </a>
       
         
@@ -3080,30 +3123,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#custom-edition" class="md-nav__link">
-    Custom Edition
+  <a href="#charts" class="md-nav__link">
+    charts/
   </a>
   
-    <nav class="md-nav" aria-label="Custom Edition">
+    <nav class="md-nav" aria-label="charts/">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#what-you-need" class="md-nav__link">
-    What you need
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#beeinstana-operator" class="md-nav__link">
-    BeeInstana Operator
+    beeinstana-operator/
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    Install
+  <a href="#instana-beeinstana" class="md-nav__link">
+    instana-beeinstana/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instana-core" class="md-nav__link">
+    instana-core/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instana-unit" class="md-nav__link">
+    instana-unit/
   </a>
   
 </li>
@@ -3114,205 +3164,57 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#standard-edition" class="md-nav__link">
-    Standard Edition
-  </a>
-  
-    <nav class="md-nav" aria-label="Standard Edition">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-node" class="md-nav__link">
-    Single Node
-  </a>
-  
-    <nav class="md-nav" aria-label="Single Node">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-create-a-vm-on-fyre" class="md-nav__link">
-    1. Create a VM on fyre
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-preparing-for-a-single-node-deployment" class="md-nav__link">
-    2. Preparing for a single-node deployment
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-installing" class="md-nav__link">
-    3. Installing
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#namespaces" class="md-nav__link">
-    Namespaces
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-instana-agent" class="md-nav__link">
-    Install Instana Agent
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deinstallation" class="md-nav__link">
-    Deinstallation
+  <a href="#instanayaml" class="md-nav__link">
+    instana.yaml
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#instana-standard-installation-multi-nodes-airgap" class="md-nav__link">
-    Instana Standard Installation - Multi Nodes - Airgap
+  <a href="#k3s" class="md-nav__link">
+    k3s/
   </a>
-  
-    <nav class="md-nav" aria-label="Instana Standard Installation - Multi Nodes - Airgap">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#bastion-host" class="md-nav__link">
-    Bastion host
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node0" class="md-nav__link">
-    node0
-  </a>
-  
-    <nav class="md-nav" aria-label="node0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#0-make-node-offline" class="md-nav__link">
-    0. Make Node offline
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-stanctl" class="md-nav__link">
-    3. stanctl
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-agent" class="md-nav__link">
-    Install agent
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node1" class="md-nav__link">
-    node1
-  </a>
-  
-    <nav class="md-nav" aria-label="node1">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration_1" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration_1" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node3" class="md-nav__link">
-    node3
-  </a>
-  
-    <nav class="md-nav" aria-label="node3">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration_2" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration_2" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#result" class="md-nav__link">
-    result
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bug-documentation" class="md-nav__link">
-    Bug Documentation
+  <a href="#licensejson" class="md-nav__link">
+    license.json
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    logs/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releases" class="md-nav__link">
+    releases/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    state/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tmp" class="md-nav__link">
+    tmp/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+    values/
   </a>
   
 </li>
@@ -3333,6 +3235,13 @@
 
             
           
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
             
               
   
@@ -3340,7 +3249,7 @@
   
     <li class="md-nav__item">
       <a href="../clis/" class="md-nav__link">
-        CLIs, Namespaces
+        CLI Cheatsheet
       </a>
     </li>
   
@@ -3947,30 +3856,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#custom-edition" class="md-nav__link">
-    Custom Edition
+  <a href="#charts" class="md-nav__link">
+    charts/
   </a>
   
-    <nav class="md-nav" aria-label="Custom Edition">
+    <nav class="md-nav" aria-label="charts/">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#what-you-need" class="md-nav__link">
-    What you need
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#beeinstana-operator" class="md-nav__link">
-    BeeInstana Operator
+    beeinstana-operator/
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    Install
+  <a href="#instana-beeinstana" class="md-nav__link">
+    instana-beeinstana/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instana-core" class="md-nav__link">
+    instana-core/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instana-unit" class="md-nav__link">
+    instana-unit/
   </a>
   
 </li>
@@ -3981,205 +3897,57 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#standard-edition" class="md-nav__link">
-    Standard Edition
-  </a>
-  
-    <nav class="md-nav" aria-label="Standard Edition">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-node" class="md-nav__link">
-    Single Node
-  </a>
-  
-    <nav class="md-nav" aria-label="Single Node">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-create-a-vm-on-fyre" class="md-nav__link">
-    1. Create a VM on fyre
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-preparing-for-a-single-node-deployment" class="md-nav__link">
-    2. Preparing for a single-node deployment
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-installing" class="md-nav__link">
-    3. Installing
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#namespaces" class="md-nav__link">
-    Namespaces
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-instana-agent" class="md-nav__link">
-    Install Instana Agent
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deinstallation" class="md-nav__link">
-    Deinstallation
+  <a href="#instanayaml" class="md-nav__link">
+    instana.yaml
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#instana-standard-installation-multi-nodes-airgap" class="md-nav__link">
-    Instana Standard Installation - Multi Nodes - Airgap
+  <a href="#k3s" class="md-nav__link">
+    k3s/
   </a>
-  
-    <nav class="md-nav" aria-label="Instana Standard Installation - Multi Nodes - Airgap">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#bastion-host" class="md-nav__link">
-    Bastion host
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node0" class="md-nav__link">
-    node0
-  </a>
-  
-    <nav class="md-nav" aria-label="node0">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#0-make-node-offline" class="md-nav__link">
-    0. Make Node offline
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-stanctl" class="md-nav__link">
-    3. stanctl
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#install-agent" class="md-nav__link">
-    Install agent
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node1" class="md-nav__link">
-    node1
-  </a>
-  
-    <nav class="md-nav" aria-label="node1">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration_1" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration_1" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node3" class="md-nav__link">
-    node3
-  </a>
-  
-    <nav class="md-nav" aria-label="node3">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-configuration_2" class="md-nav__link">
-    1. Configuration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-ssh-configuration_2" class="md-nav__link">
-    2. SSH configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#result" class="md-nav__link">
-    result
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bug-documentation" class="md-nav__link">
-    Bug Documentation
+  <a href="#licensejson" class="md-nav__link">
+    license.json
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    logs/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releases" class="md-nav__link">
+    releases/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    state/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tmp" class="md-nav__link">
+    tmp/
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+    values/
   </a>
   
 </li>
@@ -4199,510 +3967,210 @@
                   
 
 
-  <h1>Standard Edition</h1>
+  <h1>.stanctl/</h1>
 
-<h3 id="custom-edition">Custom Edition<a class="headerlink" href="#custom-edition" title="Permanent link">&para;</a></h3>
+<p>if we do <code>stanctl air-gapped package</code> we will get an air-gapped zip file <code>instana-airgapped.tar.gz</code>. Lets have a look into this compressed file:</p>
+<div class="highlight"><pre><span></span><code>.
+├──charts/<span class="w">      </span><span class="c1"># Helm Charts for necessary Resources</span>
+├──instana.yaml<span class="w"> </span><span class="c1"># Core Configuration File</span>
+├──k3s/<span class="w">         </span><span class="c1"># k3s related </span>
+├──license.json<span class="w"> </span><span class="c1"># License</span>
+├──logs/<span class="w">        </span>
+├──releases/<span class="w">    </span><span class="c1"># Release info until now</span>
+├──state/<span class="w">       </span><span class="c1"># CLI history</span>
+├──tmp/
+└──values/<span class="w">      </span><span class="c1"># Value Configuration for Resources</span>
+</code></pre></div>
+<h4 id="charts"><code>charts/</code><a class="headerlink" href="#charts" title="Permanent link">&para;</a></h4>
+<p>This folder includes <code>*.zip</code> files of <strong>Helm Charts</strong> for necessary Resources:
+<div class="highlight"><pre><span></span><code>charts
+├──<span class="w"> </span>beeinstana-operator-v1.81.0.tgz
+├──<span class="w"> </span>cass-operator-0.53.6.tgz
+├──<span class="w"> </span>cert-manager-v1.17.2.tgz
+├──<span class="w"> </span>cloudnative-pg-0.21.1.tgz
+├──<span class="w"> </span>eck-operator-2.16.1.tgz
+├──<span class="w"> </span>ibm-clickhouse-operator-v1.2.0.tgz
+├──<span class="w"> </span>instana-agent-2.0.19.tgz
+├──<span class="w"> </span>instana-beeinstana-1.2.0.tgz
+├──<span class="w"> </span>instana-cassandra-1.2.0.tgz
+├──<span class="w"> </span>instana-clickhouse-1.8.0.tgz
+├──<span class="w"> </span>instana-core-1.8.1.tgz
+├──<span class="w"> </span>instana-elasticsearch-1.2.0.tgz
+├──<span class="w"> </span>instana-enterprise-operator-1.3.0.tgz
+├──<span class="w"> </span>instana-kafka-1.2.0.tgz
+├──<span class="w"> </span>instana-local-path-provisioner-1.1.0.tgz
+├──<span class="w"> </span>instana-postgres-1.3.0.tgz
+├──<span class="w"> </span>instana-unit-1.0.0.tgz
+└──<span class="w"> </span>strimzi-kafka-operator-helm-3-chart-0.45.0.tgz
+</code></pre></div></p>
+<p>unzip some of them as examples:</p>
+<h5 id="beeinstana-operator">beeinstana-operator/<a class="headerlink" href="#beeinstana-operator" title="Permanent link">&para;</a></h5>
+<p>This chart will install the beeinstana operator into a namespace. It includes <code>Deployment</code>, <code>ClusterRole</code>, <code>ClusterRoleBinding</code>, <code>ServiceAccount</code></p>
+<div class="highlight"><pre><span></span><code>beeinstana-operator
+├──<span class="w"> </span>Chart.yaml
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>templates
+│<span class="w">   </span>├──<span class="w"> </span>_helpers.tpl
+│<span class="w">   </span>├──<span class="w"> </span>crds
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>beeinstana.instana.com_beeinstanas.yaml
+│<span class="w">   </span>├──<span class="w"> </span>deployment-operator.yaml
+│<span class="w">   </span>├──<span class="w"> </span>role-operator.yaml
+│<span class="w">   </span>├──<span class="w"> </span>rolebinding-operator.yaml
+│<span class="w">   </span>└──<span class="w"> </span>serviceaccount-operator.yaml
+└──<span class="w"> </span>values.yaml
+</code></pre></div>
+<h5 id="instana-beeinstana">instana-beeinstana/<a class="headerlink" href="#instana-beeinstana" title="Permanent link">&para;</a></h5>
+<p>A Helm chart for Beeinstana. It includes <code>BeeInstana</code>, 2 <code>Secret</code></p>
+<div class="highlight"><pre><span></span><code>instana-beeinstana
+├──<span class="w"> </span>Chart.yaml
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>templates
+│<span class="w">   </span>├──<span class="w"> </span>_helpers.tpl
+│<span class="w">   </span>├──<span class="w"> </span>beeinstana-kafka-secret.yaml
+│<span class="w">   </span>├──<span class="w"> </span>beeinstana-secret.yaml
+│<span class="w">   </span>└──<span class="w"> </span>beeinstana.yaml
+└──<span class="w"> </span>values.yaml
+</code></pre></div>
+<h5 id="instana-core">instana-core/<a class="headerlink" href="#instana-core" title="Permanent link">&para;</a></h5>
+<p>A Helm chart for setting up an Instana core. It includes <code>Core</code>, 3 <code>Secret</code>, <code>Certificate</code>, <code>Service</code>, <code>Issuer</code></p>
+<div class="highlight"><pre><span></span><code>instana-core
+├──<span class="w"> </span>Chart.yaml
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>templates
+│<span class="w">   </span>├──<span class="w"> </span>_helpers.tpl
+│<span class="w">   </span>├──<span class="w"> </span>core.yaml
+│<span class="w">   </span>├──<span class="w"> </span>instana-internal-secret.yaml
+│<span class="w">   </span>├──<span class="w"> </span>issuer.yaml
+│<span class="w">   </span>├──<span class="w"> </span>secret.yaml
+│<span class="w">   </span>├──<span class="w"> </span>self-signed-ca-secret.yaml
+│<span class="w">   </span>├──<span class="w"> </span>services.yaml
+│<span class="w">   </span>└──<span class="w"> </span>tls-secret.yaml
+└──<span class="w"> </span>values.yaml
+</code></pre></div>
+<h5 id="instana-unit">instana-unit/<a class="headerlink" href="#instana-unit" title="Permanent link">&para;</a></h5>
+<p>A Helm chart for setting up an Instana unit. It includes <code>Unit</code>, <code>Secret</code>
+<div class="highlight"><pre><span></span><code>instana-unit
+├──<span class="w"> </span>Chart.yaml
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>templates
+│<span class="w">   </span>├──<span class="w"> </span>_helpers.tpl
+│<span class="w">   </span>├──<span class="w"> </span>secret.yaml
+│<span class="w">   </span>└──<span class="w"> </span>unit.yaml
+└──<span class="w"> </span>values.yaml
+</code></pre></div></p>
+<h4 id="instanayaml"><code>instana.yaml</code><a class="headerlink" href="#instanayaml" title="Permanent link">&para;</a></h4>
+<p>This is the <u>Core Configuration File</u> that includes configs for:</p>
 <ul>
-<li><a href="https://pages.github.ibm.com/DACH-TECH-AUTOMATION/dach-automation-waiops-tech-mini-jam/chapters/instana_cpwaiops_onocp/instana/">Instana Installation on OCP</a></li>
-<li><a href="https://github.ibm.com/Lai-Mee-Lok/OCP-step-by-step-Instana-Backend/tree/power">step-by-step</a></li>
+<li><strong>Meta info</strong>: Instana version, type(demo or production), download key, sales key, Agent version</li>
+<li><strong>Datastore credentials</strong>: <code>kafka</code>, <code>postgres</code>, <code>clickhouse</code>, <code>elasticsearch</code>, <code>cassandra</code>, <code>beeinstana</code></li>
+<li><strong>Storage config</strong>: directories for 4 essential volumnes: <code>volume-data</code>, <code>volume-metrics</code>, <code>volume-analytics</code>, <code>volume-objects</code></li>
+<li><strong>Instana Artifactory</strong>: <code>https://artifact-public.instana.io</code><ul>
+<li>k3s image: <code>https://artifact-public.instana.io/artifactory/rel-generic-instana-virtual/k3s-io/k3s/releases/download</code></li>
+<li><code>charts/</code>中的 Resources Helm Charts: <code>https://artifact-public.instana.io/artifactory/rel-helm-customer-virtual</code></li>
 </ul>
-<h4 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">&para;</a></h4>
-<ul>
-<li><code>&lt;agent key&gt;</code></li>
-<li><code>&lt;sales key&gt;</code></li>
+</li>
 </ul>
-<h4 id="beeinstana-operator">BeeInstana Operator<a class="headerlink" href="#beeinstana-operator" title="Permanent link">&para;</a></h4>
-<p>BeeInstana can be installed as an OC Operator.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Installation of BeeInstana is optional at installation time and it can be added later to an existing installation. However, adding BeeInstana to an existing Instana installation will result in a database migration to BeeInstana. The duration of this migration is dependent on the amount of already existing data.</p>
-</div>
-<h4 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h4>
-<p>One needs <code>agent_key</code> to be able to access Helm repo. To install Instana properly, these are the steps you need to do:</p>
-<ol>
-<li>install <code>instana-kubectl</code> plugin</li>
-<li>using the plugin that installed in step 1, install Instana Operator</li>
-<li>create Instana License File</li>
-<li>create <code>secret</code> and collect them</li>
-<li>create <strong>CORE</strong> config file and create <code>secret</code> out of it</li>
-<li>create <strong>UNIT</strong> config file and create <code>secret</code> out of it</li>
-<li>create routes for both <strong>core</strong> and <strong>unit</strong></li>
-</ol>
-<h3 id="standard-edition">Standard Edition<a class="headerlink" href="#standard-edition" title="Permanent link">&para;</a></h3>
-<h4 id="single-node">Single Node<a class="headerlink" href="#single-node" title="Permanent link">&para;</a></h4>
-<p><img src="../imgs/instana_editions.png" width="500" /></p>
-<h5 id="1-create-a-vm-on-fyre">1. Create a VM on fyre<a class="headerlink" href="#1-create-a-vm-on-fyre" title="Permanent link">&para;</a></h5>
-<p>Create a machine on fyre with at least 16Core, 64 Memory CoreOS. </p>
-<p>Using the <username>:<api_key> and the <a href="https://fyre.ibm.com/help#fyre-api">fyre API</a> request to create the machine. Use <code>ssh</code> to access the VM's console</p>
-<h5 id="2-preparing-for-a-single-node-deployment">2. Preparing for a single-node deployment<a class="headerlink" href="#2-preparing-for-a-single-node-deployment" title="Permanent link">&para;</a></h5>
-<blockquote>
-<p>Doc: https://www.ibm.com/docs/en/instana-observability/current?topic=cluster-preparing</p>
-</blockquote>
-<ul>
-<li>Follow the instructions until th "<strong>Create the directories</strong>"</li>
-<li>Step <strong>Add mount paths</strong> ensures the device names remain the same after reboot. Skipping it for now</li>
-<li><code>&lt;base_domain&gt;</code> is set to the fyre VM's public URL --&gt; this can be changed in the CRD also</li>
-</ul>
-<p>TO CHECK:
-- Firewall rules
-- Configuring an HTTP proxy</p>
-<h5 id="3-installing">3. Installing<a class="headerlink" href="#3-installing" title="Permanent link">&para;</a></h5>
-<blockquote>
-<p>Doc: https://www.ibm.com/docs/en/instana-observability/current?topic=edition-installing</p>
-</blockquote>
-<p>In this step, we basically use the command <code>stanctl up</code> to automatically set up everything. Required parameters:</p>
-<ul>
-<li>download key or an official agent key: from Instana</li>
-<li>sales key: from instana</li>
-<li>domain: fyre VM's public URL</li>
-<li>tenant: tenant0</li>
-<li>unit: unit0</li>
-<li>admin password: setup yourself</li>
-<li>TLS: auto generate</li>
-</ul>
-<blockquote>
-<p>Tipp: </p>
-<ul>
-<li>use <code>stanctl --help</code></li>
-<li>all configs are in the local directory <code>.stanctl/</code></li>
-</ul>
-</blockquote>
-<h5 id="namespaces">Namespaces<a class="headerlink" href="#namespaces" title="Permanent link">&para;</a></h5>
-<h4 id="install-instana-agent">Install Instana Agent<a class="headerlink" href="#install-instana-agent" title="Permanent link">&para;</a></h4>
-<p>One Agent for one Node!</p>
-<p><img src="../imgs/agent.png" /></p>
-<h3 id="deinstallation">Deinstallation<a class="headerlink" href="#deinstallation" title="Permanent link">&para;</a></h3>
-<p>https://www.ibm.com/docs/de/instana-observability/287?topic=edition-uninstalling</p>
-<h3 id="instana-standard-installation-multi-nodes-airgap">Instana Standard Installation - Multi Nodes - Airgap<a class="headerlink" href="#instana-standard-installation-multi-nodes-airgap" title="Permanent link">&para;</a></h3>
-<p><a href="https://www.ibm.com/docs/en/instana-observability/287?topic=mnc-system-requirements">Doc</a></p>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th align="left">instana0</th>
-<th align="left">instana1</th>
-<th align="left">instana2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left"><strong>Role</strong></td>
-<td align="left">backend</td>
-<td align="left">datastore</td>
-<td align="left">other</td>
-</tr>
-<tr>
-<td align="left"><strong>Function</strong></td>
-<td align="left">- running backend workloads that require persistent volumes.<br/>- runs gateways, acceptors and UI backend</td>
-<td align="left">- running data stores</td>
-<td align="left">- running the rest of Instana workloads.</td>
-</tr>
-<tr>
-<td align="left"><strong>Storage requirements</strong></td>
-<td align="left">Disks for directory <code>/objects</code></td>
-<td align="left">Disks for directory <code>/data</code>(500GB), <code>/metrics</code>(1000GB), <code>/analytics</code>(1200GB)</td>
-<td align="left">-</td>
-</tr>
-<tr>
-<td align="left"><strong>Private IP in LAN</strong></td>
-<td align="left"><code>10.0.0.0</code></td>
-<td align="left"><code>10.0.0.1</code></td>
-<td align="left"><code>10.0.0.2</code></td>
-</tr>
-</tbody>
-</table>
 <div class="admonition note">
-<p class="admonition-title">Tools</p>
+<p class="admonition-title">Instana Artifactory</p>
+<p>to check whats inside in <strong>Instana Artifactory</strong>:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-u<span class="w"> </span><span class="o">[</span>user<span class="o">]</span>:<span class="o">[</span>password<span class="o">]</span><span class="w"> </span>https://artifact-public.instana.io/v2/_catalog
+</code></pre></div>
+</div>
+<h4 id="k3s"><code>k3s/</code><a class="headerlink" href="#k3s" title="Permanent link">&para;</a></h4>
+<p>This includes k3s rancher stuffs:
+<div class="highlight"><pre><span></span><code>k3s
+├──<span class="w"> </span>k3s<span class="w">                     </span><span class="c1"># binary</span>
+├──<span class="w"> </span>k3s-install.sh<span class="w">          </span><span class="c1"># script to install k3s</span>
+├──<span class="w"> </span>k3s-pre-install.sh<span class="w">      </span><span class="c1"># script to prepare k3s installation</span>
+├──<span class="w"> </span>kubelet-config.yaml<span class="w">     </span><span class="c1"># KubeletConfiguration</span>
+└──<span class="w"> </span>registries.yaml
+</code></pre></div></p>
+<h4 id="licensejson"><code>license.json</code><a class="headerlink" href="#licensejson" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>logs
+└──<span class="w"> </span>console.log
+</code></pre></div>
+<h4 id="logs"><code>logs/</code><a class="headerlink" href="#logs" title="Permanent link">&para;</a></h4>
+<h4 id="releases"><code>releases/</code><a class="headerlink" href="#releases" title="Permanent link">&para;</a></h4>
+<p>it contains all the releases until now
+<div class="highlight"><pre><span></span><code>releases
+├──<span class="w"> </span>custom-edition-releases.yaml
+└──<span class="w"> </span>standard-edition-releases.yaml
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">standard-edition-releases.yaml</p>
+<div class="highlight"><pre><span></span><code><span class="nt">releases</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.6.0</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">minSupported</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">maxSupported</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.1.1</span>
+</code></pre></div>
+</div>
+<h4 id="state"><code>state/</code><a class="headerlink" href="#state" title="Permanent link">&para;</a></h4>
+<p>it contains CLI history</p>
+<div class="highlight"><pre><span></span><code>state
+└──<span class="w"> </span>.state.yaml
+</code></pre></div>
+<h4 id="tmp"><code>tmp/</code><a class="headerlink" href="#tmp" title="Permanent link">&para;</a></h4>
+<h4 id="values"><code>values/</code><a class="headerlink" href="#values" title="Permanent link">&para;</a></h4>
+<p>it contains value configuration for all resources: </p>
 <ul>
-<li>check cpu: <code>lscpu | grep 'CPU(s)'</code></li>
-<li>check disk <code>lsblk</code></li>
+<li>operator version</li>
+<li>images version</li>
+<li>container resource: cpu, memory
+<div class="highlight"><pre><span></span><code>values
+├──<span class="w"> </span>beeinstana
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>beeinstana-operator
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>cass-operator
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>cassandra
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>cert-manager
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>clickhouse
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>cloudnative-pg
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>contour
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>eck-operator
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>elasticsearch
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>ibm-clickhouse-operator
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-beeinstana
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-cassandra
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-clickhouse
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-core
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-elasticsearch
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-enterprise-operator
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-kafka
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-local-path-provisioner
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-postgres
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-registry
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>instana-unit
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>kafka
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>local-path-provisioner
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+├──<span class="w"> </span>postgres
+│<span class="w">   </span>└──<span class="w"> </span>instana-values.yaml
+└──<span class="w"> </span>strimzi-kafka-operator
+<span class="w">    </span>└──<span class="w"> </span>instana-values.yaml
+</code></pre></div></li>
 </ul>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Airgap Modes</p>
-<ol>
-<li>Airgap without mirror repo: then download all the images that related to instana</li>
-<li>Airgap with docker repo</li>
-</ol>
-</div>
-<h4 id="bastion-host">Bastion host<a class="headerlink" href="#bastion-host" title="Permanent link">&para;</a></h4>
-<p>This bastion host should have internet connection and is responsible for downloading the stanctl and the related packages.
-<div class="highlight"><pre><span></span><code><span class="c1"># download stanctl rpm</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DOWNLOAD_KEY</span><span class="o">=</span>&lt;instana-download-key&gt;
-<span class="nb">export</span><span class="w"> </span><span class="nv">INSTANA_VERSION</span><span class="o">=</span><span class="m">1</span>.8.1-1
-wget<span class="w"> </span>https://_:<span class="nv">$DOWNLOAD_KEY</span>@artifact-public.instana.io/artifactory/rel-rpm-public-virtual/stanctl-<span class="nv">$INSTANA_VERSION</span>.x86_64.rpm
-sudo<span class="w"> </span>rpm<span class="w"> </span>-Uvh<span class="w"> </span>stanctl-<span class="nv">$INSTANA_VERSION</span>.x86_64.rpm
-
-<span class="c1"># Verify the stanctl version</span>
-stanctl<span class="w"> </span>--version
-
-<span class="c1"># Check the available Instana version using the downloaded stanctl tool</span>
-stanctl<span class="w"> </span>versions<span class="w"> </span>identify
-
-<span class="c1"># Packing stanctl for air-gap environment, this might take a while</span>
-stanctl<span class="w"> </span>air-gapped<span class="w"> </span>package
-</code></pre></div>
-Now I got a <code>instana-airgapped.tar.gz</code>, I copy it to <code>node0</code> using ssh:
-<div class="highlight"><pre><span></span><code>scp<span class="w"> </span>instana-airgapped.tar.gz<span class="w"> </span>root@node0:/root/instana-airgapped.tar.gz
-</code></pre></div></p>
-<h4 id="node0">node0<a class="headerlink" href="#node0" title="Permanent link">&para;</a></h4>
-<div class="admonition danger">
-<p class="admonition-title">storage requirement</p>
-<table>
-<thead>
-<tr>
-<th align="left">Description</th>
-<th align="left">Default directory</th>
-<th align="left">Min size</th>
-<th align="left">Disk I use here</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Object directory</td>
-<td align="left"><code>/mnt/instana/stanctl/objects</code></td>
-<td align="left">1000</td>
-<td align="left"><code>sdb</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="0-make-node-offline">0. Make Node offline<a class="headerlink" href="#0-make-node-offline" title="Permanent link">&para;</a></h5>
-<p>to simulate airgap environment, I simply sabotage the gateway IP by
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. check the gateway IP</span>
-ip<span class="w"> </span>route<span class="w"> </span>show
-<span class="c1"># default via 10.0.0.254 # &lt;-- this is the gateway IP</span>
-
-<span class="c1"># 2. Change the Gateway</span>
-sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>replace<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span>&lt;new-gateway-ip&gt;
-sudo<span class="w"> </span>ip<span class="w"> </span>route<span class="w"> </span>replace<span class="w"> </span>default<span class="w"> </span>via<span class="w"> </span><span class="m">10</span>.0.0.250
-</code></pre></div></p>
-<h5 id="1-configuration">1. Configuration<a class="headerlink" href="#1-configuration" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Make file system</span>
-<span class="k">for</span><span class="w"> </span>disk<span class="w"> </span><span class="k">in</span><span class="w"> </span>sdb<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;make filesystem for </span><span class="nv">$disk</span><span class="s2">&quot;</span>
-<span class="w">    </span>mkfs.xfs<span class="w"> </span>-f<span class="w"> </span>-i<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">1024</span><span class="w"> </span>-L<span class="w"> </span><span class="nv">$disk</span><span class="w"> </span>/dev/<span class="nv">$disk</span>
-<span class="k">done</span>
-
-
-<span class="c1"># 2. Create the directories</span>
-mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/instana/stanctl/objects
-
-
-<span class="c1"># 3. Add mount path</span>
-<span class="c1"># Backup fstab file</span>
-cp<span class="w"> </span>/etc/fstab<span class="w"> </span>/etc/fstab.backup
-<span class="c1"># Find out disk uuid</span>
-blkid
-<span class="c1"># Append changes to `fstab`</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=&lt;UUID-DISK-sdb&gt;  /mnt/instana/stanctl/objects    xfs   discard,defaults,nofail    0 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/fstab
-mount<span class="w"> </span>-a
-systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># Check result</span>
-lsblk
-
-
-<span class="c1"># 4. Configure kernel parameters</span>
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo vm.swappiness=0 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo fs.inotify.max_user_instances=8192 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-grubby<span class="w"> </span>--args<span class="o">=</span><span class="s2">&quot;transparent_hugepage=never&quot;</span><span class="w"> </span>--update-kernel<span class="w"> </span>ALL
-<span class="c1"># A system reboot is required for these changes to take effect.</span>
-reboot
-<span class="c1"># verfiy the change, you should see: always madvise [never]</span>
-cat<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
-
-
-<span class="c1"># 5. Edit $PATH</span>
-<span class="c1"># echo &#39;export PATH=$PATH:/usr/local/bin&#39; &gt;&gt; ~/.bashrc</span>
-<span class="c1"># source ~/.bashrc</span>
-<span class="c1"># echo $PATH</span>
-
-
-
-<span class="c1"># 6. Open ports with rules for Firewall</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>firewalld
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">80</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8443</span>/tcp
-firewall-cmd<span class="w"> </span>--new-zone<span class="o">=</span>internal-access<span class="w"> </span>--permanent
-<span class="c1"># ⚠️⚠️⚠️ Replace the node IPs here!</span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node0-IP&gt;<span class="w"> </span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node1-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node2-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">6443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">10250</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2379</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2380</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">5001</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8472</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">9443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.42.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.43.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-interface<span class="o">=</span>lo
-firewall-cmd<span class="w"> </span>--reload
-</code></pre></div>
-<h5 id="2-ssh-configuration">2. SSH configuration<a class="headerlink" href="#2-ssh-configuration" title="Permanent link">&para;</a></h5>
-<p><strong>SSH configuration</strong> is required only in a multi-node cluster. The <code>node0</code> must be able to access <code>node1</code> and <code>node2</code> by using SSH.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># generate ssh key pairs</span>
-ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa
-
-<span class="c1"># output the Public Key </span>
-<span class="c1"># copy the output to node1 and node2</span>
-<span class="c1"># cat /root/.ssh/id_rsa.pub</span>
-
-<span class="c1"># Copies your public SSH key to a remote host&#39;s authorized_keys file (/root/.ssh/authorized_keys)</span>
-ssh-copy-id<span class="w"> </span>-i<span class="w"> </span>/root/.ssh/id_rsa<span class="w"> </span>root@instana-1
-ssh-copy-id<span class="w"> </span>-i<span class="w"> </span>/root/.ssh/id_rsa<span class="w"> </span>root@instana-2
-<span class="c1"># Prompt will remind you to type in the ssh password to both hosts (instana-1 and instana-2)</span>
-</code></pre></div>
-<h5 id="3-stanctl">3. stanctl<a class="headerlink" href="#3-stanctl" title="Permanent link">&para;</a></h5>
-<p>In a multi-node cluster, you must install stanctl on <code>node0</code>. I got <code>instana-airgapped.tar.gz</code> from a connected environment - in our case the <code>student</code> machine.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Extracting archives to the target directory &#39;/usr/local/bin&#39;</span>
-tar<span class="w"> </span>-xzf<span class="w"> </span>instana-airgapped.tar.gz<span class="w"> </span>-C<span class="w"> </span>/usr/local/bin<span class="w"> </span>--strip-components<span class="w"> </span><span class="m">1</span><span class="w"> </span>airgapped/stanctl
-
-
-<span class="c1"># 2. Extract air-gapped instana files: no mirror-repositories</span>
-stanctl<span class="w"> </span>air-gapped<span class="w"> </span>import<span class="w"> </span>--file<span class="w">  </span>instana-airgapped.tar.gz
-
-<span class="c1"># 3. creating instana</span>
-stanctl<span class="w"> </span>up<span class="w"> </span>--air-gapped<span class="w"> </span>--multi-node-enable
-<span class="c1"># ? Select installation type for multi-node cluster installation: production</span>
-<span class="c1"># ? Enter the IP addresses for all three nodes, separated by commas. The first IP is for the backend, the second is for the datastore (e.g., 10.8.1.10,10.8.1.11,10.8.1.12): 10.0.0.30,10.0.0.31,10.0.0.32</span>
-<span class="c1"># ? Enter the download key or an official agent key: **********************</span>
-<span class="c1"># ? Enter the sales key: **********************</span>
-<span class="c1"># ? Enter the domain under which Instana will be reachable: prod.instana.training</span>
-<span class="c1"># ? Enter your tenant name: labs</span>
-<span class="c1"># ? Enter your unit name: student</span>
-<span class="c1"># ? Enter Instana admin password: ********</span>
-<span class="c1"># ? Confirm Instana admin password: ********</span>
-<span class="c1"># ? Enter TLS certificate file (hit ENTER to auto-generate):</span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">domain</p>
-<p>the domain can be found in in the file <code>/etc/hosts</code>. The document contains content in the following format:
-<div class="highlight"><pre><span></span><code>&lt;IP<span class="w"> </span>Address&gt;<span class="w"> </span>&lt;Hostname&gt;<span class="w"> </span><span class="o">[</span>Alias...<span class="o">]</span>
-</code></pre></div>
-I saw:
-<div class="highlight"><pre><span></span><code><span class="m">127</span>.0.0.1<span class="w">   </span>localhost<span class="w"> </span>localhost.localdomain<span class="w"> </span>localhost4<span class="w"> </span>localhost4.localdomain4
-<span class="m">10</span>.0.0.30<span class="w">   </span>instana-0<span class="w"> </span>...<span class="w"> </span>student-labs.prod.instana.training<span class="w"> </span>...
-</code></pre></div></p>
-<p>Seeing <code>student-labs.prod.instana.training</code>, we make:</p>
-<ul>
-<li>base domain: <code>prod.instana.training</code></li>
-<li>unit: <code>student</code></li>
-<li>tenent: <code>labs</code></li>
-</ul>
-</div>
-<div class="admonition note">
-<p class="admonition-title">UI URL of Instana Platform</p>
-<p>In this case the Instana URL is <code>student-labs.prod.instana.training</code></p>
-</div>
-<h5 id="install-agent">Install agent<a class="headerlink" href="#install-agent" title="Permanent link">&para;</a></h5>
-<p>install agent, it will create pods for each nodes.</p>
-<div class="highlight"><pre><span></span><code>stanctl<span class="w"> </span>agent<span class="w"> </span>apply
-</code></pre></div>
-<h4 id="node1">node1<a class="headerlink" href="#node1" title="Permanent link">&para;</a></h4>
-<div class="admonition danger">
-<p class="admonition-title">storage requirement</p>
-<table>
-<thead>
-<tr>
-<th align="left">Description</th>
-<th align="left">Default directory</th>
-<th align="left">Min size</th>
-<th align="left">Disk I use here</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Data directory</td>
-<td align="left"><code>/mnt/instana/stanctl/data</code></td>
-<td align="left">500</td>
-<td align="left"><code>sdb</code></td>
-</tr>
-<tr>
-<td align="left">Metrics directory</td>
-<td align="left"><code>/mnt/instana/stanctl/metrics</code></td>
-<td align="left">1000</td>
-<td align="left"><code>sdc</code></td>
-</tr>
-<tr>
-<td align="left">Analytics directory</td>
-<td align="left"><code>/mnt/instana/stanctl/analytics</code></td>
-<td align="left">1200</td>
-<td align="left"><code>sdd</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="1-configuration_1">1. Configuration<a class="headerlink" href="#1-configuration_1" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Make file system</span>
-<span class="k">for</span><span class="w"> </span>disk<span class="w"> </span><span class="k">in</span><span class="w"> </span>sdb<span class="w"> </span>sdc<span class="w"> </span>sdd<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;make filesystem for </span><span class="nv">$disk</span><span class="s2">&quot;</span>
-<span class="w">    </span>mkfs.xfs<span class="w"> </span>-f<span class="w"> </span>-i<span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="m">1024</span><span class="w"> </span>-L<span class="w"> </span><span class="nv">$disk</span><span class="w"> </span>/dev/<span class="nv">$disk</span>
-<span class="k">done</span>
-
-
-<span class="c1"># 2. Create the directories</span>
-mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/instana/stanctl/data
-mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/instana/stanctl/metrics
-mkdir<span class="w"> </span>-p<span class="w"> </span>/mnt/instana/stanctl/analytics
-
-
-<span class="c1"># 3. Add mount path</span>
-<span class="c1"># Backup fstab file</span>
-cp<span class="w"> </span>/etc/fstab<span class="w"> </span>/etc/fstab.backup
-<span class="c1"># Find out disk uuid</span>
-blkid
-<span class="c1"># Append changes to `fstab`</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=&lt;UUID-DISK-500GB&gt;   /mnt/instana/stanctl/data       xfs   discard,defaults,nofail    0 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/fstab
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=&lt;UUID-DISK-1000GB&gt;  /mnt/instana/stanctl/metrics    xfs   discard,defaults,nofail    0 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/fstab
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;UUID=&lt;UUID-DISK-1200GB&gt;  /mnt/instana/stanctl/analytics  xfs   discard,defaults,nofail    0 0&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/fstab
-mount<span class="w"> </span>-a
-systemctl<span class="w"> </span>daemon-reload
-<span class="c1"># Check result</span>
-lsblk
-
-
-<span class="c1"># 4. Configure kernel parameters</span>
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo vm.swappiness=0 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo fs.inotify.max_user_instances=8192 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-grubby<span class="w"> </span>--args<span class="o">=</span><span class="s2">&quot;transparent_hugepage=never&quot;</span><span class="w"> </span>--update-kernel<span class="w"> </span>ALL
-<span class="c1"># A system reboot is required for these changes to take effect.</span>
-reboot
-<span class="c1"># verfiy the change, you should see: always madvise [never]</span>
-cat<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
-
-<span class="c1"># 5. Edit $PATH</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=$PATH:/usr/local/bin&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">source</span><span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span>
-
-
-<span class="c1"># 6. Open ports with rules for Firewall</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>firewalld
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">80</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8443</span>/tcp
-firewall-cmd<span class="w"> </span>--new-zone<span class="o">=</span>internal-access<span class="w"> </span>--permanent
-<span class="c1"># ⚠️⚠️⚠️ Replace the node IPs here!</span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node0-IP&gt;<span class="w"> </span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node1-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node2-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">6443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">10250</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2379</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2380</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">5001</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8472</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">9443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.42.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.43.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-interface<span class="o">=</span>lo
-firewall-cmd<span class="w"> </span>--reload
-</code></pre></div>
-<h5 id="2-ssh-configuration_1">2. SSH configuration<a class="headerlink" href="#2-ssh-configuration_1" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># Copy the public key content to the $HOME/.ssh/authorized_keys</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&lt;Public-key&gt;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/root/.ssh/authorized_keys
-</code></pre></div>
-<h4 id="node3">node3<a class="headerlink" href="#node3" title="Permanent link">&para;</a></h4>
-<h5 id="1-configuration_2">1. Configuration<a class="headerlink" href="#1-configuration_2" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Configure kernel parameters</span>
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo vm.swappiness=0 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;echo fs.inotify.max_user_instances=8192 &gt;&gt; /etc/sysctl.d/99-stanctl.conf&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sysctl<span class="w"> </span>-p<span class="w"> </span>/etc/sysctl.d/99-stanctl.conf
-grubby<span class="w"> </span>--args<span class="o">=</span><span class="s2">&quot;transparent_hugepage=never&quot;</span><span class="w"> </span>--update-kernel<span class="w"> </span>ALL
-<span class="c1"># A system reboot is required for these changes to take effect.</span>
-reboot
-<span class="c1"># verfiy the change, you should see: always madvise [never]</span>
-cat<span class="w"> </span>/sys/kernel/mm/transparent_hugepage/enabled
-
-
-<span class="c1"># 2. Edit $PATH</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=$PATH:/usr/local/bin&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">source</span><span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$PATH</span>
-
-
-<span class="c1"># 3. Open ports with rules for Firewall</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>firewalld
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">80</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8443</span>/tcp
-firewall-cmd<span class="w"> </span>--new-zone<span class="o">=</span>internal-access<span class="w"> </span>--permanent
-<span class="c1"># ⚠️⚠️⚠️ Replace the node IPs here!</span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node0-IP&gt;<span class="w"> </span>
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node1-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node2-IP&gt;
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">22</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">6443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">10250</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2379</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">2380</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">5001</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8472</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">9443</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/udp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-port<span class="o">=</span><span class="m">53</span>/tcp
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.42.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-source<span class="o">=</span><span class="m">10</span>.43.0.0/16
-firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>trusted<span class="w"> </span>--add-interface<span class="o">=</span>lo
-firewall-cmd<span class="w"> </span>--reload
-</code></pre></div>
-<h5 id="2-ssh-configuration_2">2. SSH configuration<a class="headerlink" href="#2-ssh-configuration_2" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="c1"># Copy the public key content to the $HOME/.ssh/authorized_keys</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&lt;Public-key&gt;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/root/.ssh/authorized_keys
-</code></pre></div>
-<h4 id="result">result<a class="headerlink" href="#result" title="Permanent link">&para;</a></h4>
-<p>you can access the UI from Bastion workstation.</p>
-<h3 id="bug-documentation">Bug Documentation<a class="headerlink" href="#bug-documentation" title="Permanent link">&para;</a></h3>
-<div class="admonition danger">
-<p class="admonition-title">error</p>
-<p><strong>Error</strong>: </p>
-<div class="highlight"><pre><span></span><code>running<span class="w"> </span><span class="s2">&quot;ssh [-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o NumberOfPasswordPrompts=0 -o LogLevel=ERROR root@10.0.0.31 systemctl start k3s]&quot;</span><span class="w"> </span>failed<span class="w"> </span>with<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>code<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Job<span class="w"> </span><span class="k">for</span><span class="w"> </span>k3s.service<span class="w"> </span>failed<span class="w"> </span>because<span class="w"> </span>the<span class="w"> </span>control<span class="w"> </span>process<span class="w"> </span>exited<span class="w"> </span>with<span class="w"> </span>error<span class="w"> </span>code.
-See<span class="w"> </span><span class="s2">&quot;systemctl status k3s.service&quot;</span><span class="w"> </span>and<span class="w"> </span><span class="s2">&quot;journalctl -xeu k3s.service&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
-</code></pre></div>
-<p><strong>Reason</strong>: firewall setting is wrong, you might forgot to add the followings, check the firewall setting in this page:</p>
-<p><strong>Solution</strong>:
-<div class="highlight"><pre><span></span><code>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>internal-access<span class="w"> </span>--add-source<span class="o">=</span>&lt;node0-IP&gt;<span class="w"> </span>...
-firewall-cmd<span class="w"> </span>--reload
-</code></pre></div></p>
-</div>
-<div class="admonition danger">
-<p class="admonition-title">error</p>
-<p><strong>Error</strong>: </p>
-<div class="highlight"><pre><span></span><code>Executable<span class="w"> </span>k3s<span class="w"> </span>binary<span class="w"> </span>not<span class="w"> </span>found<span class="w"> </span>at<span class="w"> </span>/usr/local/bin/k3s
-
-<span class="c1"># or</span>
-Error:<span class="w"> </span>stat<span class="w"> </span>/root/.stanctl/k3s/k3s:<span class="w"> </span>no<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
-</code></pre></div>
-<p><strong>Reason</strong>: k3s installation went wrong</p>
-<p><strong>Solution</strong>: delete the cluster, clean up the installed stanctl and redo the
-<div class="highlight"><pre><span></span><code><span class="c1"># remove k3s</span>
-<span class="nb">source</span><span class="w"> </span>/usr/local/bin/k3s-uninstall.sh
-rm<span class="w"> </span>-rf<span class="w"> </span>/etc/rancher/k3s
-rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/rancher/k3s
-rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/kubelet
-rm<span class="w"> </span>-rf<span class="w"> </span>/etc/cni
-rm<span class="w"> </span>-rf<span class="w"> </span>/opt/cni
-rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/cni
-rm<span class="w"> </span>-rf<span class="w"> </span>~/.kube<span class="w"> </span>
-
-
-<span class="c1"># remove stanctl</span>
-rm<span class="w"> </span>-rf<span class="w"> </span>/root/.stanctl
-rm<span class="w"> </span>-f<span class="w"> </span>/usr/local/bin/stanctl
-</code></pre></div></p>
-<p>then re-do the <a href="#3-stanctl">STANCTL</a> step</p>
-</div>
 
 
 
