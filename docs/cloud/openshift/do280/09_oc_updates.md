@@ -39,12 +39,18 @@ OTA:
 !!! note "版本号"
     版本号格式：
 
-    - Major version (x)：主版本号，例如 4。
-    - Minor version (y)：次版本号，例如 14。
-    - Patch version (z)：补丁版本号，例如 1、2、3 等。
+    - Major version (X-stream)：主版本号，例如 4。
+    - Minor version (Y-stream)：次版本号，例如 14。
+    - Patch version (Z-stream)：补丁版本号，例如 1、2、3 等。
 
-!!! note "z-stream updates"
-    **z-stream updates** 是指小版本更新或补丁更新，通常用于修复漏洞、安全补丁、稳定性增强和其他小改进。这种更新只涉及软件版本号中的最后一位（即 z 位）。例如，从版本 4.14.0 更新到 4.14.1 或 4.14.2，这些都属于 z-stream updates。
+!!! info "z-stream updates"
+    **z-stream updates** 是指小版本更新或补丁更新。这种更新只涉及软件版本号中的最后一位（即 z 位）。例如，从版本 4.14.0 更新到 4.14.1 或 4.14.2，这些都属于 z-stream updates。Z-stream 的特点:
+
+    - 仅包含修复（没有新功能）：CVE, bug fixes, regression fix
+    - 向后兼容：API 完全兼容，配置无需更改
+    - 低风险更新
+
+    \* regression: 这里指 “性能回归/倒退”
 
 ### Candidate Channel
 The **candidate channel** delivers updates for testing feature acceptance
