@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#on-vsphere" class="md-skip">
+        <a href="#prerequisites" class="md-skip">
           Skip to content
         </a>
       
@@ -1916,37 +1916,104 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#on-vsphere" class="md-nav__link">
-    on vSphere
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
-    <nav class="md-nav" aria-label="on vSphere">
+    <nav class="md-nav" aria-label="Prerequisites">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bastion-host" class="md-nav__link">
-    Bastion Host
+  <a href="#server-specification" class="md-nav__link">
+    server specification
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#boostrap-node" class="md-nav__link">
-    Boostrap Node
+  <a href="#network" class="md-nav__link">
+    network
+  </a>
+  
+    <nav class="md-nav" aria-label="network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    dns
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#master-nodes-0-2" class="md-nav__link">
-    Master Nodes 0-2
+  <a href="#load-balancers" class="md-nav__link">
+    load balancers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-download-resources" class="md-nav__link">
+    1. Download resources
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#worker-nodes-0-2" class="md-nav__link">
-    Worker Nodes 0-2
+  <a href="#2-create-online-bastion" class="md-nav__link">
+    2. Create Online Bastion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-offline-bastion" class="md-nav__link">
+    3. Create Offline Bastion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-in-online-bastion" class="md-nav__link">
+    4. in Online Bastion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#imageset-configyaml" class="md-nav__link">
+    imageset-config.yaml
+  </a>
+  
+    <nav class="md-nav" aria-label="imageset-config.yaml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-in-offline-bastion" class="md-nav__link">
+    5. in Offline Bastion
   </a>
   
 </li>
@@ -1995,6 +2062,20 @@
           
         </ul>
       </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../do280/09_oc_updates/" class="md-nav__link">
+        Update
+      </a>
     </li>
   
 
@@ -2067,17 +2148,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_7" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_8" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_6_7" id="__nav_6_6_7_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_6_8" id="__nav_6_6_8_label" tabindex="0">
           DO288
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_7_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_6_7">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_6_8">
           <span class="md-nav__icon md-icon"></span>
           DO288
         </label>
@@ -2213,17 +2294,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_8" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_9" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_6_8" id="__nav_6_6_8_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_6_9" id="__nav_6_6_9_label" tabindex="0">
           DO280
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_8_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_6_8">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_6_9">
           <span class="md-nav__icon md-icon"></span>
           DO280
         </label>
@@ -2387,17 +2468,17 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_9" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6_10" >
       
       
       
-        <label class="md-nav__link" for="__nav_6_6_9" id="__nav_6_6_9_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_6_6_10" id="__nav_6_6_10_label" tabindex="0">
           DO322
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_9_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6_6_9">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_6_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_6_10">
           <span class="md-nav__icon md-icon"></span>
           DO322
         </label>
@@ -3736,55 +3817,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
-          Working Notes
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_20">
-          <span class="md-nav__icon md-icon"></span>
-          Working Notes
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../working_notes/01_2025/" class="md-nav__link">
-        202501
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -3812,37 +3844,104 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#on-vsphere" class="md-nav__link">
-    on vSphere
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
-    <nav class="md-nav" aria-label="on vSphere">
+    <nav class="md-nav" aria-label="Prerequisites">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bastion-host" class="md-nav__link">
-    Bastion Host
+  <a href="#server-specification" class="md-nav__link">
+    server specification
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#boostrap-node" class="md-nav__link">
-    Boostrap Node
+  <a href="#network" class="md-nav__link">
+    network
+  </a>
+  
+    <nav class="md-nav" aria-label="network">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    dns
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#master-nodes-0-2" class="md-nav__link">
-    Master Nodes 0-2
+  <a href="#load-balancers" class="md-nav__link">
+    load balancers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-download-resources" class="md-nav__link">
+    1. Download resources
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#worker-nodes-0-2" class="md-nav__link">
-    Worker Nodes 0-2
+  <a href="#2-create-online-bastion" class="md-nav__link">
+    2. Create Online Bastion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-offline-bastion" class="md-nav__link">
+    3. Create Offline Bastion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-in-online-bastion" class="md-nav__link">
+    4. in Online Bastion
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#imageset-configyaml" class="md-nav__link">
+    imageset-config.yaml
+  </a>
+  
+    <nav class="md-nav" aria-label="imageset-config.yaml">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-in-offline-bastion" class="md-nav__link">
+    5. in Offline Bastion
   </a>
   
 </li>
@@ -3869,82 +3968,477 @@
 
   <h1>UPI</h1>
 
-<h3 id="on-vsphere">on vSphere<a class="headerlink" href="#on-vsphere" title="Permanent link">&para;</a></h3>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=9__hpUWK5vw&amp;ab_channel=OCPdude">Amazing walk-through video</a></li>
-<li><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/installing_on_vsphere/index#upi-vsphere-installation-reqs">OC official doc</a></li>
-</ul>
-<h4 id="bastion-host">Bastion Host<a class="headerlink" href="#bastion-host" title="Permanent link">&para;</a></h4>
-<ol>
-<li>download <code>openshift-install-linux.tar</code> and <code>openshift-client-linux.tar</code> </li>
-<li>configure DNS/Ingress?, so that:<ul>
-<li><code>api.openshift.mycluster</code>: IP1 pointing to <strong>Master Node</strong> and <strong>Bootstrap Node</strong></li>
-<li><code>apps.openshift.mycluster</code>: IP2 pointing to <strong>Worker Node</strong></li>
-<li>note: you can also use the same IP and do port-forwarding</li>
-</ul>
-</li>
-<li>generate/write &amp; modify <code>install-config.yaml</code></li>
-<li>generate <strong>manifests</strong></li>
-<li>generate <strong>ignition files</strong> for the VMs</li>
-<li>encode <strong>ignition files</strong> with base64 - results: <code>master.64</code>, <code>worker.64</code></li>
-<li>run a HTTP server</li>
-<li>copy the <strong>ignition files</strong> to the HTTP server location (<code>var/www/html</code>)</li>
-<li>create an <strong>append file</strong> that points to the base64-encoded <strong>ignition file</strong> in the HTTP server<ul>
-<li>the reason behind this: while creating a VM machine, you can configure it with ignition file</li>
-<li>however the <strong>ignition file</strong> that generated in step 5 is too big </li>
-<li>the maximal <strong>ignition file</strong> you can directly upload while creating is 300kb</li>
-<li>so we need the <strong>the base64 encoded append file</strong>(<code>append-bootstrap.64</code>) - which is in fact a small <strong>ignition file</strong> - to provide the source of a REAL ignition file</li>
-</ul>
-</li>
-</ol>
-<p>-- Now we take a break from the Bastion Host and go to create the Boostrap, Master and Worker Node --</p>
-<ol>
-<li>export kubeconfig <code>expoert KUBECONFIG=~/openshift/mycluster/auth/kubeconfig</code></li>
-<li>now we can see the nodes: <code>oc get nodes</code></li>
-<li>list all pending Certificate Signing Requests (CSRs) for both Master and Worker Nodes: <code>oc get csr | grep Pending</code></li>
-<li>approve pending CSRs: <code>oc adm certificate approve &lt;CSR-Name-1&gt; &lt;CSR-Name-2&gt; ...</code></li>
-<li>check status of the Cluster Operator: <code>oc get co</code> --&gt; we need the <code>console</code> CO to be able to access the UI</li>
-<li>login to UI with credential:<ul>
-<li>username: `kubeadmin</li>
-<li>you get the password from <code>cat mycluster/auth/kubeadmin-password</code></li>
-</ul>
-</li>
-</ol>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<h4 id="server-specification">server specification<a class="headerlink" href="#server-specification" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">Number of servers</th>
+<th align="left">vCPU</th>
+<th align="left">RAM Memory</th>
+<th align="left">Storage (system)</th>
+<th align="left">Storage (data)</th>
+<th align="left">IAS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Bastion</td>
+<td align="left">2</td>
+<td align="left">8 vCPU</td>
+<td align="left">32 GB</td>
+<td align="left">700 GB</td>
+<td align="left">0 GB</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">Master</td>
+<td align="left">3</td>
+<td align="left">8 vCPU</td>
+<td align="left">32 GB</td>
+<td align="left">120 GB</td>
+<td align="left">0 GB</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">Workers</td>
+<td align="left">3</td>
+<td align="left">16 vCPU</td>
+<td align="left">64 GB</td>
+<td align="left">300 GB</td>
+<td align="left">0 GB</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">Infra</td>
+<td align="left">3</td>
+<td align="left">16 vCPU</td>
+<td align="left">64 GB</td>
+<td align="left">120 GB</td>
+<td align="left">0 GB</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">Bootstrap</td>
+<td align="left">1</td>
+<td align="left">8 vCPU</td>
+<td align="left">32 GB</td>
+<td align="left">120 GB</td>
+<td align="left">0 GB</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Guacamole VM to download <code>RHEL 8.7 OS</code></p>
+</blockquote>
 <div class="admonition note">
-<p class="admonition-title">when do I need to approve a CSR?</p>
-<ol>
-<li><strong>NEW (Master/Workder) Node joins OpenShift cluster</strong><br/>When a new worker node starts, it sends a CSR to request a client certificate.</li>
-<li><strong>Cluster certificate rotation</strong> <br/>OpenShift automatically rotates node certificates when they expire, generating new CSRs.</li>
-</ol>
+<p class="admonition-title">Bastion Hosts</p>
+<p>There are 2 Bastion Hosts:</p>
+<ul>
+<li><strong>Online Bastion</strong> (<code>RHEL 8.7 OS</code>): to download necessary resources(Images, Executables, Installation programs)</li>
+<li><strong>Offline Bastion</strong>:<ul>
+<li>located in the <strong>internal network</strong></li>
+<li><strong>Online Bastion</strong> transfer downloaded Resources to this <strong>Offline Bastion</strong></li>
+<li>⚠️ this is where the OpenShift Installation happens!</li>
+</ul>
+</li>
+</ul>
 </div>
-<h4 id="boostrap-node">Boostrap Node<a class="headerlink" href="#boostrap-node" title="Permanent link">&para;</a></h4>
-<p>create VM machine for the Boostrap Node with the following configuration parameters:
-    - <code>disk_EnableUUID=TRUE</code>
-    - <code>guestinfo.ignition.config.data.encoding=base64</code>
-    - <code>guestinfo.ignition.config.data=append-bootstrap.64</code> &lt;- <strong>the base64 encoded append file</strong>
-    - <code>guestinfo.afterburn.initrd.network-kargs=&lt;Network Parameters&gt;</code>, example:
-        - <code>ip=172.16.1.13::172.16.1.1:255.255.255.192:bootstrap.mycluster.land:ens192:none nameserver=172.16.1.1</code>
-        - the example has the format of <code>ip=&lt;Boostrap Node's IP&gt;::&lt;Default Gateway&gt;:&lt;Subnet&gt;...</code></p>
-<h4 id="master-nodes-0-2">Master Nodes 0-2<a class="headerlink" href="#master-nodes-0-2" title="Permanent link">&para;</a></h4>
-<p>create VM machine for the Master Nodes 0-2 with the following configuration parameters:
-    - <code>disk_EnableUUID=TRUE</code>
-    - <code>guestinfo.ignition.config.data.encoding=base64</code>
-    - <code>guestinfo.ignition.config.data=master.64</code> &lt;- <strong>the base64 ignition file for master node</strong>
-    - <code>guestinfo.afterburn.initrd.network-kargs=&lt;Network Parameters&gt;</code>, example:
-        - <code>ip=172.16.1.10::172.16.1.1:255.255.255.192:bootstrap.mycluster.land:ens192:none nameserver=172.16.1.1</code>
-        - the example has the format of <code>ip=&lt;Master Node's IP&gt;::&lt;Default Gateway&gt;:&lt;Subnet&gt;...</code></p>
-<h4 id="worker-nodes-0-2">Worker Nodes 0-2<a class="headerlink" href="#worker-nodes-0-2" title="Permanent link">&para;</a></h4>
-<p>create VM machine for the Master Nodes 0-2 with the following configuration parameters:
-    - <code>disk_EnableUUID=TRUE</code>
-    - <code>guestinfo.ignition.config.data.encoding=base64</code>
-    - <code>guestinfo.ignition.config.data=workder.64</code> &lt;- <strong>the base64 ignition file for worker node</strong>
-    - <code>guestinfo.afterburn.initrd.network-kargs=&lt;Network Parameters&gt;</code>, example:
-        - <code>ip=172.16.1.20::172.16.1.1:255.255.255.192:bootstrap.mycluster.land:ens192:none nameserver=172.16.1.1</code>
-        - the example has the format of <code>ip=&lt;Worker Node's IP&gt;::&lt;Default Gateway&gt;:&lt;Subnet&gt;...</code></p>
-<p>Worker Node's IP depends on the current machine. Our 3 nodes have:
-- <code>172.16.1.20</code>
-- <code>172.16.1.21</code>
-- <code>172.16.1.22</code></p>
+<!-- 
+        - HTTP server
+        - load balancer
+        - image registry
+        - DNS
+        - OCP deployment utilities  -->
+
+<h4 id="network">network<a class="headerlink" href="#network" title="Permanent link">&para;</a></h4>
+<p>we use <strong>static IPs</strong> instead of <strong>DHCP</strong>, so for each machine, we need to define:</p>
+<ul>
+<li>IP</li>
+<li>DNS</li>
+<li>hostname</li>
+</ul>
+<p>Network: External   </p>
+<ul>
+<li>Virtual IP address space</li>
+<li>Virtual IP address range</li>
+<li>Number of available IP addresses</li>
+</ul>
+<p>Network: Cluster    </p>
+<ul>
+<li>IP address space: <code>192.168.252.0/24</code></li>
+<li>IP address range</li>
+<li>Subnet prefix</li>
+<li>Number of available IP addresses</li>
+<li>Number of IP addresses per node</li>
+<li>Maximum number of nodes</li>
+</ul>
+<p>Network: Service    </p>
+<ul>
+<li>IP address space</li>
+<li>IP address range</li>
+<li>Number of available IP addresses</li>
+</ul>
+<h5 id="dns">dns<a class="headerlink" href="#dns" title="Permanent link">&para;</a></h5>
+<ul>
+<li>
+<p>servers:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">FQDN hostname</th>
+<th align="left">IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Bastion<br/> - offline</td>
+<td align="left"><code>bastion.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">- online</td>
+<td align="left"><code>bastiononline.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">Bootstrap</td>
+<td align="left"><code>bootstrap.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">Master</td>
+<td align="left"><code>master01.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>master02.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>master03.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">Infra</td>
+<td align="left"><code>infra01.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>infra02.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>infra03.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">Worker</td>
+<td align="left"><code>worker01.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>worker02.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>worker03.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">- services:</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">FQDN hostname</th>
+<th align="left">IP Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">VIP Apps</td>
+<td align="left"><code>*.apps.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">VIP API</td>
+<td align="left"><code>api.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+<tr>
+<td align="left">VIP API-INT</td>
+<td align="left"><code>api-int.ocp4.xxx.com</code></td>
+<td align="left"><code>192.168.252.X</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h5 id="load-balancers">load balancers<a class="headerlink" href="#load-balancers" title="Permanent link">&para;</a></h5>
+<p>configure the HAProxy load balancer within the "offline" Bastion node. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>services 的 endpoints -&gt; servers 的 endpoints</p>
+</div>
+<ul>
+<li>subnet name: <code>ocp4.xxx.com</code></li>
+<li>subnet name: <code>ocp4.xxx.com</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Frontend</th>
+<th align="left">Targets</th>
+<th align="left">Port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">VIP Apps<br/><code>*.apps.ocp4.xxx.com</code></td>
+<td align="left">- Infra nodes' FQDN hostname<br>- Worker nodes' FQDN hostname</td>
+<td align="left">80</td>
+</tr>
+<tr>
+<td align="left">VIP Apps<br/><code>*.apps.ocp4.xxx.com</code></td>
+<td align="left">- Infra nodes' FQDN hostname<br>- Worker nodes' FQDN hostname</td>
+<td align="left">443</td>
+</tr>
+<tr>
+<td align="left">VIP API<br/><code>api.ocp4.xxx.com</code></td>
+<td align="left">- Bootstrap node' FQDN hostname<br>- Master nodes' FQDN hostname</td>
+<td align="left">6443</td>
+</tr>
+<tr>
+<td align="left">VIP API-INT<br/><code>api-int.ocp4.xxx.com</code></td>
+<td align="left">- Bootstrap node' FQDN hostname<br>- Master nodes' FQDN hostname</td>
+<td align="left">22623</td>
+</tr>
+</tbody>
+</table>
+<h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
+<h4 id="1-download-resources">1. Download resources<a class="headerlink" href="#1-download-resources" title="Permanent link">&para;</a></h4>
+<p>Enter <strong>VMware vSphere vCenter</strong>. Download <u>RHEL 8.7 DVD</u> and upload to the <strong>VMware vSphere vCenter</strong></p>
+<h4 id="2-create-online-bastion">2. Create Online Bastion<a class="headerlink" href="#2-create-online-bastion" title="Permanent link">&para;</a></h4>
+<p>the *<em>online bastion</em>+ will be a VM <code>RHEL 8.7</code> with internet connection</p>
+<ul>
+<li>name: <code>bastiononline.ocp4.xxx.com</code> &lt;- this is the <strong>FQDN hostname</strong></li>
+<li>localhost login:<ul>
+<li>User: <code>root</code></li>
+<li>PW: <code>Passw0rd</code></li>
+</ul>
+</li>
+<li>open <strong>Network Manager Tool UI</strong>: 
+    <div class="highlight"><pre><span></span><code>nmtui
+</code></pre></div></li>
+<li>IPv4:<ul>
+<li>Addresses: 192.168.252.22/24</li>
+<li>Gateway: 192.168.252.1</li>
+<li>DNS servers: 192.168.252.1</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-create-offline-bastion">3. Create Offline Bastion<a class="headerlink" href="#3-create-offline-bastion" title="Permanent link">&para;</a></h4>
+<p>the *<em>offline bastion</em>+ will be a VM <code>RHEL 8.7</code> <u>without</u> internet connection</p>
+<ul>
+<li>IPv4:<ul>
+<li>Addresses: 192.168.252.23/24</li>
+<li>DNS servers: 192.168.252.23</li>
+<li>Routing:<ul>
+<li>Destination/Prefix: 192.168.0.0/16</li>
+<li>Next Hop: 192.168.252.1</li>
+<li>Metric: 90</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Verification</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span><span class="m">192</span>.168.252.1
+<span class="c1"># this should work</span>
+
+ping<span class="w"> </span><span class="m">8</span>.8.8.8
+<span class="c1"># this should NOT work</span>
+</code></pre></div>
+</div>
+<h4 id="4-in-online-bastion">4. in Online Bastion<a class="headerlink" href="#4-in-online-bastion" title="Permanent link">&para;</a></h4>
+<ul>
+<li>disable SELINUX</li>
+<li>disable firewall
+    <div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>stop<span class="w"> </span>firewalld
+systemctl<span class="w"> </span>disable<span class="w"> </span>firewalld
+</code></pre></div></li>
+<li>configure the hostname</li>
+<li>install required RedHat packages
+    <div class="highlight"><pre><span></span><code><span class="c1"># 在文件中配置 “RHEL的本地 DVD 仓库”</span>
+vi<span class="w"> </span>/etc/yum.repos.d/rhel87dvd.repo
+
+<span class="c1"># 列出启用的仓库</span>
+yum<span class="w"> </span>repolist<span class="w"> </span>enabled
+</code></pre></div></li>
+<li>安装依赖包
+    <div class="highlight"><pre><span></span><code>yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w">  </span>podman<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>jq<span class="w"> </span>openssl<span class="w"> </span>httpd-tools<span class="w"> </span>curl<span class="w"> </span>wget<span class="w"> </span>telnet<span class="w"> </span>nfs-utils<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>httpd.x86_64<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">bind</span><span class="w"> </span>bind-utils<span class="w"> </span>rsync<span class="w"> </span>mkisofs
+</code></pre></div></li>
+<li>安装 ansible
+    <div class="highlight"><pre><span></span><code>scp<span class="w"> </span>ansible-2.9.27-1.el8ap.noarch.rpm<span class="w"> </span>root@192.168.252.22:/root
+yum<span class="w"> </span>localinstall<span class="w"> </span>-y<span class="w"> </span>ansible-2.9.27-1.el8ap.noarch.rpm
+</code></pre></div></li>
+<li>创建空文件结构
+    <div class="highlight"><pre><span></span><code>/root
+|-- registry
+    |-- auth
+    |-- certs
+    |-- data
+    `-- downloads
+        |-- images
+        |-- secrets
+        `-- tools
+</code></pre></div></li>
+<li>安装 OpenShift utilities 
+    <div class="highlight"><pre><span></span><code><span class="c1"># 下载安装 OC client (oc, kubectl)</span>
+wget<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.9/openshift-client-linux-amd64-rhel8-4.16.9.tar.gz
+tar<span class="w"> </span>-xvf<span class="w"> </span>openshift-client-linux-amd64-rhel8-4.16.9.tar.gz
+cp<span class="w"> </span>/root/registry/downloads/tools/oc<span class="w"> </span>/usr/bin/oc
+
+<span class="c1"># 下载安装 OC installer </span>
+wget<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.9/openshift-install-linux-4.16.9.tar.gz
+tar<span class="w"> </span>-xvf<span class="w"> </span>openshift-install-linux-4.16.9.tar.gz
+cp<span class="w"> </span>/root/registry/downloads/tools/openshift-install<span class="w"> </span>/usr/bin/openshift-install
+
+<span class="c1"># 下载安装 mirror-registry</span>
+wget<span class="w"> </span>https://mirror.openshift.com/pub/cgw/mirror-registry/latest/mirror-registry-amd64.tar.gz
+tar<span class="w"> </span>-xvf<span class="w"> </span>mirror-registry-amd64.tar.gz
+
+<span class="c1"># 下载安装 oc-mirror </span>
+wget<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.16.19/oc-mirror.tar.gz
+tar<span class="w"> </span>xvfz<span class="w"> </span>oc-mirror.tar.gz
+chmod<span class="w"> </span>+x<span class="w"> </span>/root/registry/downloads/tools/oc-mirror
+cp<span class="w"> </span>/root/registry/downloads/tools/oc-mirror<span class="w"> </span>/usr/local/bin/
+oc-mirror<span class="w"> </span><span class="nb">help</span>
+
+<span class="c1"># 下载安装 butane （Ignition 配置文件生成器）</span>
+curl<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/clients/butane/latest/butane-amd64<span class="w"> </span>--output<span class="w"> </span>butane
+
+<span class="c1"># 下载安装 ISO Maker</span>
+<span class="nb">cd</span><span class="w"> </span>/root/
+mkdir<span class="w"> </span>Coreos-iso-maker
+<span class="nb">cd</span><span class="w"> </span>Coreos-iso-maker/
+yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/chuckersjp/coreos-iso-maker
+</code></pre></div></li>
+<li>
+<p>disk partition
+    <div class="highlight"><pre><span></span><code>fdisk<span class="w"> </span>/dev/sda
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): n
+Partition number (4-128, default 4): 
+First sector (1468004352-2147483614, default 1468004352): 
+Last sector, +sectors or +size{K,M,G,T,P} (1468004352-2147483614, default 2147483614): 
+
+Created a new partition 4 of type &#39;Linux filesystem&#39; and of size 324 GiB.
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+</code></pre></div>
+<p>Expand the logical volume that has the operating system boot:
+<div class="highlight"><pre><span></span><code>pvcreate<span class="w"> </span>/dev/sda4
+vgs
+
+vgextend<span class="w"> </span>rhel<span class="w"> </span>/dev/sda4
+lvs
+
+lvextend<span class="w"> </span>-l<span class="w"> </span>+100%FREE<span class="w"> </span>/dev/rhel/root
+lsblk<span class="w"> </span>-f
+
+xfs_growfs<span class="w"> </span>/dev/rhel/root
+df<span class="w"> </span>-h
+</code></pre></div>
+- download CoreOS image
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/root/registry/downloads/images/
+
+wget<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/rhcos-4.16.3-x86_64-metal.x86_64.raw.gz
+wget<span class="w"> </span>https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/rhcos-4.16.3-x86_64-live.x86_64.iso
+</code></pre></div>
+- Mirror images
+<div class="highlight"><pre><span></span><code><span class="c1"># Prepare pull secret from https://cloud.redhat.com/openshift/install/pull-secret</span>
+
+<span class="nb">cd</span><span class="w"> </span>/root/registry/downloads/secrets/
+vi<span class="w"> </span>pull-secret.txt
+cat<span class="w"> </span>./pull-secret.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.<span class="w"> </span>&gt;<span class="w"> </span>./pull-secret.json
+
+mkdir<span class="w"> </span>/run/user/0/containers
+cp<span class="w"> </span>/root/registry/downloads/secrets/pull-secret.json<span class="w"> </span>/run/user/0/containers/auth.json
+ls<span class="w"> </span>-lart<span class="w"> </span>/run/user/0/containers/auth.json
+
+<span class="c1"># Mirror images</span>
+<span class="nb">cd</span><span class="w"> </span>/root/registry/
+oc<span class="w"> </span>mirror<span class="w"> </span>init<span class="w">  </span>&gt;<span class="w"> </span>imageset-config.yaml
+
+<span class="c1"># Add configurations</span>
+vi<span class="w"> </span>imageset-config.yaml
+</code></pre></div></p>
+<p>```yaml</p>
+<h3 id="imageset-configyaml">imageset-config.yaml<a class="headerlink" href="#imageset-configyaml" title="Permanent link">&para;</a></h3>
+<p>kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+archiveSize: 4
+storageConfig:
+local:
+    path: /root/registry/data
+mirror:
+platform:
+    architectures:
+    - "amd64"
+    channels:
+    - name: stable-4.16
+    type: ocp
+    minVersion: 4.16.9
+    maxVersion: 4.16.9
+    shortestPath: true
+operators:
+- catalog: registry.redhat.io/redhat/redhat-operator-index:v4.16
+    packages:
+    - name: openshift-pipelines-operator-rh
+    defaultChannel: latest
+    channels:
+    - name: latest
+additionalImages:
+- name: registry.redhat.io/ubi8/ubi:latest
+helm: {}
+  ```</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use the defined config file &quot;imageset-config.yaml&quot;</span>
+oc<span class="w"> </span>mirror<span class="w"> </span>--config<span class="o">=</span>./imageset-config.yaml<span class="w"> </span>file:///root/registry/data
+
+<span class="c1"># Test</span>
+oc-mirror<span class="w"> </span>list<span class="w"> </span>operators<span class="w"> </span>--catalog<span class="w"> </span>registry.redhat.io/redhat/redhat-operator-index:v4.16
+</code></pre></div>
+<h4 id="5-in-offline-bastion">5. in Offline Bastion<a class="headerlink" href="#5-in-offline-bastion" title="Permanent link">&para;</a></h4>
 
 
 
