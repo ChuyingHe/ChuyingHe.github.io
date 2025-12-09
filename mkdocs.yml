@@ -100,7 +100,6 @@ nav:
               - UPI: cloud/openshift/installation/upi.md
               - Mirror Registry: cloud/openshift/installation/mirror_registry.md
               - Network: cloud/openshift/installation/network.md
-              - tbd: cloud/openshift/installation/01_2025.md
           - Update: cloud/openshift/do280/09_oc_updates.md
           - Internal Registry: cloud/openshift/internal_registry.md
           - Monitoring Stack: cloud/openshift/monitoring_stack.md

@@ -1,4 +1,7 @@
-# 概念
+# Dual Stack
+
+
+# 网络类型
 ## 节点（Node）网络
 > 主机=Machine=VM=Host
 
