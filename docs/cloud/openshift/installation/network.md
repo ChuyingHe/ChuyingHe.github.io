@@ -1,4 +1,8 @@
 # Dual Stack
+**OpenShift Dual-Stack/双栈** 指 OpenShift 集群同时支持 IPv4 和 IPv6 协议栈。 It allows Kubernetes Pods, Nodes, and Services to use both IPv4 and IPv6 simultaneously.
+
+!!! note
+    现代微服务 IPv6 优先。即使使用 IPv6 优先，某些组件（如镜像拉取）仍可能依赖 IPv4
 
 
 # 网络类型
